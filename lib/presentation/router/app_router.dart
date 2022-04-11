@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_toeic_quiz2/core/exceptions/route_exception.dart';
 import 'package:flutter_toeic_quiz2/presentation/screens/home_screen/home_screen.dart';
-import 'package:flutter_toeic_quiz2/presentation/screens/screen_arguments.dart';
+import 'package:flutter_toeic_quiz2/presentation/router/screen_arguments.dart';
 import 'package:flutter_toeic_quiz2/presentation/screens/test_screen/test_screen.dart';
 
 class AppRouter {
@@ -14,7 +14,7 @@ class AppRouter {
     switch (settings.name) {
       case home:
         return MaterialPageRoute(
-          builder: (_) => HomeScreen(),
+          builder: (_) => const HomeScreen(),
         );
       case testing:
         final args = settings.arguments as ScreenArguments;

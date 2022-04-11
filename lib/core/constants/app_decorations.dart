@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 
-class Decorations {
+class AppDecorations {
   static const kTextFieldInputDecoration = InputDecoration(
     filled: true,
     fillColor: Colors.white,
@@ -16,5 +16,14 @@ class Decorations {
       borderRadius: BorderRadius.all(Radius.circular(10.0)),
       borderSide: BorderSide.none,
     ),
+  );
+
+  static const kCardDecoration = BoxDecoration(
+    boxShadow: [
+      BoxShadow(
+        color: Color(0xFFD0D0D0FF),
+        blurRadius: 3.0,
+      ),
+    ],
   );
 }

@@ -3,7 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_toeic_quiz2/core/constants/dimensions.dart';
 import 'package:flutter_toeic_quiz2/data/models/book_infor.dart';
 import 'package:flutter_toeic_quiz2/presentation/router/app_router.dart';
-import 'package:flutter_toeic_quiz2/presentation/screens/screen_arguments.dart';
+import 'package:flutter_toeic_quiz2/presentation/router/screen_arguments.dart';
 import 'package:flutter_toeic_quiz2/presentation/screens/test_screen/test_screen.dart';
 
 class BookItem extends StatelessWidget {
