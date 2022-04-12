@@ -1,6 +1,10 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_toeic_quiz2/core/constants/app_colors.dart';
-import 'package:flutter_toeic_quiz2/presentation/screens/book_screen/BookScreen.dart';
+import 'package:flutter_toeic_quiz2/core/constants/app_light_colors.dart';
+import 'package:flutter_toeic_quiz2/presentation/screens/home_screen/favorite_screen/favorite_screen.dart';
+import 'package:flutter_toeic_quiz2/presentation/screens/home_screen/more_screen/more_screen.dart';
+import 'package:flutter_toeic_quiz2/presentation/screens/home_screen/store_screen/store_screen.dart';
+
+import 'book_screen/BookScreen.dart';
 
 class HomeScreen extends StatefulWidget {
   const HomeScreen({Key? key}) : super(key: key);
@@ -10,12 +14,22 @@ class HomeScreen extends StatefulWidget {
 }
 
 class _HomeScreenState extends State<HomeScreen> {
+  late Widget _bookScreen;
+  late Widget _storeScreen;
+  late Widget _favoriteScreen;
+  late Widget _moreScreen;
   int _currentIndex = 0;
   late PageController _pageController;
 
   @override
   void initState() {
     super.initState();
+    // init screen
+    _bookScreen = const BookScreen();
+    _storeScreen = const StoreScreen();
+    _favoriteScreen = const FavoriteScreen();
+    _moreScreen = const MoreScreen();
+
     _pageController = PageController();
   }
 
@@ -26,6 +40,8 @@ class _HomeScreenState extends State<HomeScreen> {
 
   @override
   Widget build(BuildContext context) {
+    double height = MediaQuery.of(context).size.height;
+    double width = MediaQuery.of(context).size.width;
     return Scaffold(
       body: SizedBox.expand(
         child: PageView(
@@ -35,11 +51,11 @@ class _HomeScreenState extends State<HomeScreen> {
             setState(() => _currentIndex = index);
             _pageController.jumpToPage(index);
           },
-          children: const <Widget>[
-            BookScreen(),
-            BookScreen(),
-            BookScreen(),
-            BookScreen(),
+          children: <Widget>[
+            _bookScreen,
+            _storeScreen,
+            _favoriteScreen,
+            _moreScreen,
           ],
         ),
       ),

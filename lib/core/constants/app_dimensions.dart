@@ -1,4 +1,4 @@
-class Dimensions {
+class AppDimensions {
   static const kCardElevationDefaut = 5.0;
 
   static const kCardRadiusDefault = 8.0;

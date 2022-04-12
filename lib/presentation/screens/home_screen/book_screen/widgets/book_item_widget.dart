@@ -1,6 +1,6 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_toeic_quiz2/core/constants/dimensions.dart';
+import 'package:flutter_toeic_quiz2/core/constants/app_dimensions.dart';
 import 'package:flutter_toeic_quiz2/data/models/book_infor.dart';
 import 'package:flutter_toeic_quiz2/presentation/router/app_router.dart';
 import 'package:flutter_toeic_quiz2/presentation/router/screen_arguments.dart';
@@ -32,15 +32,14 @@ class BookItem extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    double height, width;
-    height = MediaQuery.of(context).size.height;
-    width = MediaQuery.of(context).size.width;
+    double height = MediaQuery.of(context).size.height;
+    double width = MediaQuery.of(context).size.width;
     //print("BookItem widget rebuild $height, $width");
     return GestureDetector(
       onTap: () {
         Navigator.pushNamed(
           context,
-          AppRouter.testing,
+          AppRouter.test,
           arguments: ScreenArguments(
             title: toeicBook.title,
             id: toeicBook.id,
@@ -63,9 +62,9 @@ class BookItem extends StatelessWidget {
               Card(
                 shape: RoundedRectangleBorder(
                   borderRadius:
-                      BorderRadius.circular(Dimensions.kCardRadiusDefault),
+                      BorderRadius.circular(AppDimensions.kCardRadiusDefault),
                 ),
-                elevation: Dimensions.kCardElevationDefaut,
+                elevation: AppDimensions.kCardElevationDefaut,
                 child: Container(
                   color: Colors.transparent,
                   child: Padding(
@@ -102,15 +101,15 @@ class BookItem extends StatelessWidget {
                                         Text('${toeicBook.title}',
                                             style: Theme.of(context)
                                                 .textTheme
-                                                .bodyText1),
+                                                .headline3),
                                         Text('${toeicBook.des}',
                                             style: Theme.of(context)
                                                 .textTheme
-                                                .bodyText2),
+                                                .headline5),
                                         Text('5% 887 B',
                                             style: Theme.of(context)
                                                 .textTheme
-                                                .bodyText2),
+                                                .headline4),
                                       ],
                                     ),
                                     Container(
@@ -144,7 +143,7 @@ class BookItem extends StatelessWidget {
                 left: 16.0,
                 child: ClipRRect(
                   borderRadius: BorderRadius.all(
-                      Radius.circular(Dimensions.kCardRadiusDefault)),
+                      Radius.circular(AppDimensions.kCardRadiusDefault)),
                   child: Image.asset(
                     'assets/images/ets_book_cover.png',
                     fit: BoxFit.cover,

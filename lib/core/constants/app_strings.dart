@@ -1,4 +1,4 @@
-class Strings {
+class AppStrings {
   // App
   static final appTitle = 'Wheather Bloc';
 

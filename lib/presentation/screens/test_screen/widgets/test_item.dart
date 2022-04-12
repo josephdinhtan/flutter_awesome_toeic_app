@@ -1,9 +1,10 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_toeic_quiz2/core/constants/app_colors.dart';
-import 'package:flutter_toeic_quiz2/core/constants/app_decorations.dart';
-import 'package:flutter_toeic_quiz2/core/constants/dimensions.dart';
+import 'package:flutter_toeic_quiz2/core/constants/app_light_colors.dart';
+import 'package:flutter_toeic_quiz2/core/constants/app_dimensions.dart';
+import 'package:flutter_toeic_quiz2/presentation/router/app_router.dart';
+import 'package:flutter_toeic_quiz2/presentation/router/screen_arguments.dart';
 import 'package:flutter_toeic_quiz2/presentation/screens/test_screen/widgets/download_button.dart';
-
+import 'package:flutter/foundation.dart' show kIsWeb;
 
 const int maxScore = 990;
 
@@ -39,24 +40,26 @@ class _TestItemState extends State<TestItem> {
   @override
   void initState() {
     super.initState();
-    _downloadController = DataBaseDownloadController(
-      resourceUrl: widget.resourceUrl,
-      onOpenDownload: () => _openDownload(),
-      downloadStatus: widget.dowloaded
-          ? DownloadStatus.downloaded
-          : DownloadStatus.notDownloaded,
-      testBoxId: widget.testBoxId,
-    );
+    if (kIsWeb)
+      _downloadController = SimulatedDownloadController(
+          onOpenDownload: () => _openDownload(),
+          downloadStatus: DownloadStatus.downloaded);
+    else
+      _downloadController =
+          SimulatedDownloadController(onOpenDownload: () => _openDownload());
+    // _downloadController = DataBaseDownloadController(
+    //   resourceUrl: widget.resourceUrl,
+    //   onOpenDownload: () => _openDownload(),
+    //   downloadStatus: widget.dowloaded
+    //       ? DownloadStatus.downloaded
+    //       : DownloadStatus.notDownloaded,
+    //   testBoxId: widget.testBoxId,
+    // );
   }
 
   void _openDownload() {
-    // Navigator.push(
-    //     context,
-    //     CupertinoPageRoute(
-    //       builder: (context) => TestScreen(
-    //         testBoxId: widget.testBoxId,
-    //       ),
-    //     ));
+    Navigator.pushNamed(context, AppRouter.part,
+        arguments: ScreenArguments(title: "Test title pust here", id: 1));
   }
 
   @override
@@ -70,15 +73,16 @@ class _TestItemState extends State<TestItem> {
         child: Card(
           margin: EdgeInsets.symmetric(horizontal: 8.0, vertical: 4.0),
           shape: RoundedRectangleBorder(
-            borderRadius: BorderRadius.circular(Dimensions.kCardRadiusDefault),
+            borderRadius:
+                BorderRadius.circular(AppDimensions.kCardRadiusDefault),
           ),
-          elevation: Dimensions.kCardElevationDefaut,
+          elevation: AppDimensions.kCardElevationDefaut,
           child: Padding(
             padding: const EdgeInsets.only(
-                left: Dimensions.kPaddingDefaultDouble,
-                right: Dimensions.kPaddingDefaultDouble,
-                top: Dimensions.kPaddingDefaultDouble,
-                bottom: Dimensions.kPaddingDefaultDouble),
+                left: AppDimensions.kPaddingDefaultDouble,
+                right: AppDimensions.kPaddingDefaultDouble,
+                top: AppDimensions.kPaddingDefaultDouble,
+                bottom: AppDimensions.kPaddingDefaultDouble),
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
@@ -89,13 +93,15 @@ class _TestItemState extends State<TestItem> {
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
                         Text(
-                          '${widget.questionNumber} QUESTIONS - ${widget.size}',
-                          style: Theme.of(context).textTheme.bodyText2,
+                          widget.size != ''
+                              ? '${widget.questionNumber} QUESTIONS - ${widget.size}'
+                              : '${widget.questionNumber} QUESTIONS',
+                          style: Theme.of(context).textTheme.headline5,
                         ),
-                        SizedBox(height: Dimensions.kPaddingDefault),
+                        SizedBox(height: AppDimensions.kPaddingDefault),
                         Text(
                           '${widget.title}',
-                          style: Theme.of(context).textTheme.bodyText1,
+                          style: Theme.of(context).textTheme.headline3,
                         ),
                       ],
                     ),
@@ -116,13 +122,14 @@ class _TestItemState extends State<TestItem> {
                     )
                   ],
                 ),
-                const SizedBox(height: Dimensions.kPaddingDefault),
+                const SizedBox(height: AppDimensions.kPaddingDefault),
                 if (widget.dowloaded && widget.onProgress)
                   Row(
                     children: [
                       Container(
                         decoration: const BoxDecoration(
-                            borderRadius: BorderRadius.all(Radius.circular(8.0)),
+                            borderRadius:
+                                BorderRadius.all(Radius.circular(8.0)),
                             color: Colors.green),
                         child: Padding(
                           padding: const EdgeInsets.all(8.0),
@@ -132,13 +139,14 @@ class _TestItemState extends State<TestItem> {
                           ),
                         ),
                       ),
-                      const SizedBox(width: Dimensions.kPaddingDefault),
+                      const SizedBox(width: AppDimensions.kPaddingDefault),
                       Expanded(
                         child: Padding(
-                          padding: const EdgeInsets.only(left: Dimensions.kPaddingDefault),
+                          padding: const EdgeInsets.only(
+                              left: AppDimensions.kPaddingDefault),
                           child: LinearProgressIndicator(
                             value: widget.actualScore / maxScore,
-                            color: AppColors.kCircularProgressColor,
+                            color: AppLightColors.kCircularProgressColor,
                             backgroundColor: Color(0xffb7e4c7),
                           ),
                         ),
@@ -148,13 +156,14 @@ class _TestItemState extends State<TestItem> {
                 else
                   Row(
                     children: [
-                      Icon(Icons.help_outline_outlined, color: AppColors.kIconColor),
-                      SizedBox(width: Dimensions.kPaddingDefault),
+                      Icon(Icons.help_outline_outlined,
+                          color: AppLightColors.kIconColor),
+                      SizedBox(width: AppDimensions.kPaddingDefault),
                       Text(
                         'You have not studied this test',
-                        style: Theme.of(context).textTheme.bodyText2,
+                        style: Theme.of(context).textTheme.headline4,
                       ),
-                      SizedBox(width: Dimensions.kPaddingDefault),
+                      SizedBox(width: AppDimensions.kPaddingDefault),
                     ],
                   )
               ],

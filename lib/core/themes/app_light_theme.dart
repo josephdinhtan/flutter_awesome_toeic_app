@@ -1,44 +1,40 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_toeic_quiz2/core/constants/app_colors.dart';
+import 'package:flutter_toeic_quiz2/core/constants/app_light_colors.dart';
+import 'package:flutter_toeic_quiz2/core/constants/app_text_styles.dart';
 
 class AppLightTheme {
   const AppLightTheme._();
+
   static final themeData = ThemeData(
-    scaffoldBackgroundColor: AppColors.kBackgroundLightColor,
+    scaffoldBackgroundColor: AppLightColors.kBackground,
     primarySwatch: Colors.blue,
     visualDensity: VisualDensity.adaptivePlatformDensity,
-
+    floatingActionButtonTheme: const FloatingActionButtonThemeData(
+      backgroundColor: AppLightColors.kButtonPrimary,
+      foregroundColor: AppLightColors.kButtonTextPrimary,
+    ),
     bottomNavigationBarTheme: const BottomNavigationBarThemeData(
       type: BottomNavigationBarType.fixed,
-      backgroundColor: AppColors.kSurfaceNavigatorLightColor,
-      unselectedItemColor: AppColors.kUnSelectedLightColor,
-      selectedItemColor: AppColors.kSelectedLightColor,
+      backgroundColor: AppLightColors.kPrimary,
+      unselectedItemColor: AppLightColors.kIconUnSelectedColor,
+      selectedItemColor: AppLightColors.kIconSelectedColor,
     ),
     appBarTheme: const AppBarTheme(
-      backgroundColor: AppColors.kSurfaceNavigatorLightColor,
-      foregroundColor: Color(0xFF414B5A),
+      centerTitle: true,
+      backgroundColor: AppLightColors.kPrimary,
+      foregroundColor: AppLightColors.kTextPrimary,
     ),
     textTheme: const TextTheme(
-      bodyText1: TextStyle(
-          color: AppColors.kOnSurfaceLightColorText,
-          fontWeight: FontWeight.bold,
-          fontSize: 20.0),
-      bodyText2: TextStyle(color: AppColors.kOnSurfaceLightColorText2, fontSize: 15.0),
       button: TextStyle(
-        color: AppColors.kOnPrimaryLightColor,
+        color: AppLightColors.kButtonTextPrimary,
         fontSize: 15.0,
         fontWeight: FontWeight.bold,
       ),
-      headline3: TextStyle(
-          color: AppColors.kOnSurfaceLightColorText,
-          fontWeight: FontWeight.bold,
-          fontSize: 15.0),
-      headline4: TextStyle(
-          color: AppColors.kOnSurfaceDarkColorText2,
-          fontWeight: FontWeight.bold,
-          fontSize: 15.0),
+      headline3: AppTextStyles.kTextPrimary,
+      headline4: AppTextStyles.kTextSecondary,
+      headline5: AppTextStyles.kTextSecondaryThin,
       headline6: TextStyle(
-        color: AppColors.kOnSurfaceLightColorText,
+        color: AppLightColors.kTextPrimary,
       ),
     ),
   );

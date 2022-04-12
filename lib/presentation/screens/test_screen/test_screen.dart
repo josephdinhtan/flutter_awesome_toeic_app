@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_toeic_quiz2/presentation/router/app_router.dart';
 import 'package:flutter_toeic_quiz2/presentation/screens/test_screen/widgets/test_item.dart';
 
 class TestScreen extends StatelessWidget {
@@ -13,8 +12,8 @@ class TestScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     final List<TestItem> testItems = [];
     testItems.add(TestItem(testBoxId: '1', title: "Practice Test 1", resourceUrl: 'demo', questionNumber: 200, ));
-    testItems.add(TestItem(testBoxId: '1', title: "Practice Test 2", resourceUrl: 'demo', questionNumber: 200, dowloaded: true, onProgress: true,));
-    testItems.add(TestItem(testBoxId: '1', title: "title", resourceUrl: 'demo', questionNumber: 5, ));
+    testItems.add(TestItem(testBoxId: '2', title: "Practice Test 2", resourceUrl: 'demo', questionNumber: 200, dowloaded: true, onProgress: true,));
+    testItems.add(TestItem(testBoxId: '3', title: "Practice Test 3", resourceUrl: 'demo', questionNumber: 200, actualScore: 880, dowloaded: true, onProgress: true,));
     return Scaffold(
       appBar: AppBar(
         title: Text('ETS 2020'),
@@ -25,7 +24,9 @@ class TestScreen extends StatelessWidget {
             child: ListView.builder(
               itemBuilder: (context, index) {
                 return Padding(
-                  padding: EdgeInsets.only(bottom: 8.0, top: 8.0),
+                  padding: EdgeInsets.only(
+                      bottom: index == testItems.length - 1 ? 8.0 : 0.0,
+                      top: index == 0 ? 8.0 : 0.0),
                   child: testItems[index],
                 );
               },

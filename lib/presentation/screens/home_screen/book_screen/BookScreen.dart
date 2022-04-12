@@ -1,9 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:flutter_toeic_quiz2/core/constants/dimensions.dart';
+import 'package:flutter_toeic_quiz2/core/constants/app_dimensions.dart';
 import 'package:flutter_toeic_quiz2/data/models/book_infor.dart';
-import 'package:flutter_toeic_quiz2/presentation/screens/book_screen/widgets/book_item_widget.dart';
 import 'package:flutter_toeic_quiz2/view_model/cubit/list_book_cubit.dart';
+
+import 'widgets/book_item_widget.dart';
 
 final List<BookItem> bookItems = [];
 
@@ -65,11 +66,11 @@ class _BookScreenState extends State<BookScreen> {
       itemBuilder: (context, index) {
         return Padding(
           padding: EdgeInsets.only(
-            left: Dimensions.kPaddingDefault,
-            right: Dimensions.kPaddingDefault,
-            top: index == 0 ? Dimensions.kPaddingDefault / 2 : 0.0,
+            left: AppDimensions.kPaddingDefault,
+            right: AppDimensions.kPaddingDefault,
+            top: index == 0 ? AppDimensions.kPaddingDefault / 2 : 0.0,
             bottom: index == bookItems.length - 1
-                ? Dimensions.kPaddingDefault / 2
+                ? AppDimensions.kPaddingDefault / 2
                 : 0.0,
           ),
           child: bookItems[index],

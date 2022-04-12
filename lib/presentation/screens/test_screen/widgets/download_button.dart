@@ -2,7 +2,7 @@ import 'dart:typed_data';
 import 'dart:convert';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_toeic_quiz2/core/constants/app_colors.dart';
+import 'package:flutter_toeic_quiz2/core/constants/app_light_colors.dart';
 
 enum DownloadStatus {
   notDownloaded,
@@ -298,7 +298,7 @@ class DownloadButton extends StatelessWidget {
       )
           : const ShapeDecoration(
         shape: StadiumBorder(),
-        color: AppColors.kPrimaryDarkColor,
+        color: AppLightColors.kButtonPrimary,
       ),
       child: child,
     );
