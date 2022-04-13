@@ -8,7 +8,6 @@ class AppDarkColors {
   static const kIconColor = Colors.blueGrey;
 
   // dark
-  static const kOnSurfaceDarkColorText = Color(0xFFD2D2D2);
   static const kOnSurfaceDarkColorText2 = Color(0xFF686868);
 
   static const kOnPrimaryDarkColor = Color(0xFF231A2E);
@@ -25,4 +24,10 @@ class AppDarkColors {
   static const kSelectedLightColor = Color(0xFF552FC2);
 
   static const kOnPrimaryLightColor = Color(0xFF808080);
+
+  static const kAnswerButtonColor = Color(0xFF1D1D1D);
+
+  // keep below
+  static const kSurface = Color(0xFF1D1D1D);
+  static const kOnSurfaceDarkColorText = Color(0xFFD2D2D2);
 }

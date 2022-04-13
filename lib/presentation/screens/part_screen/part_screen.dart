@@ -29,7 +29,7 @@ class PartScreen extends StatelessWidget {
       floatingActionButtonLocation: FloatingActionButtonLocation.centerFloat,
       appBar: AppBar(
         title: Text(
-          testTitle,
+          testTitle.toUpperCase(),
         ),
       ),
       body: ListView.builder(

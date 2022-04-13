@@ -1,11 +1,11 @@
-class BookInfor {
+class BookInfoModel {
   int id;
   String title;
   String des;
   String author;
   String coverUrl;
   int price;
-  BookInfor({
+  BookInfoModel({
     required this.id,
     required this.title,
     required this.des,

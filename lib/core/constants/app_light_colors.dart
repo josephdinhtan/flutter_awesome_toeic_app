@@ -1,19 +1,24 @@
-
 import 'package:flutter/material.dart';
 
 class AppLightColors {
   // background
   static const kBackground = Color(0xFFF0F0F0);
-  static const kPrimary = Color(0xFFFDFDFD); // app bar color
+  static const kPrimary = Color(0xFFFDFDFD); // app bar color, bottom navigation bar
   static const kOnPrimary = Color(0xFF808080);
-  static const kSecondary = Color(0xFF552FC2); // background color of floating action button
-  static const kOnSecondary = Color(0xFFE04E4E); // background color of container on floating action button
-  static const kSurface = Color(0xFFA9A9A9); // containers on background, ex: card background
-  static const kOnSurface = Color(0xFF727272); // containers on surface, ex: component background on card
-  static const kNavigationBar = Color(0xFFFDFDFD); // background color on Navigation bar
+  static const kSecondary =
+      Color(0xFF552FC2); // background color of floating action button
+  static const kOnSecondary = Color(
+      0xFFE04E4E); // background color of container on floating action button
+  static const kSurface =
+      Color(0xFFA9A9A9); // containers on background, ex: card background
+  static const kOnSurface = Color(
+      0xFF727272); // containers on surface, ex: components background on card
+  static const kNavigationBar =
+      Color(0xFFFDFDFD); // background color on Navigation bar
 
   // text
-  static const kTextPrimary = Color(0xFF5D5D5D); // text on app bar/ text on Card
+  static const kTextPrimary =
+      Color(0xFF5D5D5D); // text on app bar/ text on Card
   static const kTextSecondary = Color(0xFF808080); // text on app bar
   static const kOnSurfaceColorText = Color(0xFFD2D2D2);
   static const kOnSurfaceColorText2 = Color(0xFF686868);
@@ -29,5 +34,9 @@ class AppLightColors {
   static const kButtonPrimary = Color(0xffa062c1);
   static const kButtonTextPrimary = Color(0xFF343434);
 
+  static const kAnswerButtonColorSelected = Color(0xffffb703);
+  static const kAnswerButtonColor = Colors.white;
 
+  static const kSliderActiveColor = Color(0xffff8f00);
+  static const kSliderInactiveColor = Color(0x26ff8f00);
 }

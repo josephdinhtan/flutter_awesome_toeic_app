@@ -1,12 +1,13 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_toeic_quiz2/core/constants/app_dimensions.dart';
-import 'package:flutter_toeic_quiz2/data/models/book_infor.dart';
-import 'package:flutter_toeic_quiz2/view_model/cubit/list_book_cubit.dart';
+import 'package:flutter_toeic_quiz2/data/models/book_info_model.dart';
+import 'package:flutter_toeic_quiz2/view_model/book_screen_cubit/book_list_cubit.dart';
 
 import 'widgets/book_item_widget.dart';
 
-final List<BookItem> bookItems = [];
+final List<BookItemWidget> bookItems = [];
+final bookListCubit = BookListCubit();
 
 class BookScreen extends StatefulWidget {
   const BookScreen({Key? key}) : super(key: key);
@@ -16,42 +17,34 @@ class BookScreen extends StatefulWidget {
 }
 
 class _BookScreenState extends State<BookScreen> {
-  final listBookCubit = ListBookCubit();
   bool listItemIsUpdated = false;
 
 
   @override
   void initState() {
-    listBookCubit.getListBook();
+      bookListCubit.getListBook();
   }
 
   @override
   Widget build(BuildContext context) {
-    return BlocProvider<ListBookCubit>(
-      create: (context) => listBookCubit,
+    return BlocProvider<BookListCubit>(
+      create: (context) => bookListCubit,
       child: Scaffold(
-          appBar: AppBar(title: const Text('BOOKS'),),
-          body: BlocConsumer<ListBookCubit, ListBookState>(
+          appBar: AppBar(title: Text('BOOKS'.toUpperCase()),),
+          body: BlocConsumer<BookListCubit, BookListState>(
             listener: (context, state) {
-              print("tandq BlockConsumer report: $state");
-              if (state is ListBookLoaded) {
-                final listBookInfor = state.listBook;
+              if (state is BookListLoaded) {
+                final bookListInfor = state.bookListModel;
                 bookItems.clear();
-                for (BookInfor bookInfor in listBookInfor) {
-                  bookItems.add(BookItem(
-                      toeicBook: BookInfor(
-                          author: bookInfor.author,
-                          coverUrl: bookInfor.coverUrl,
-                          des: bookInfor.des,
-                          id: bookInfor.id,
-                          price: bookInfor.price,
-                          title: bookInfor.title)));
+                for (BookInfoModel bookInfor in bookListInfor) {
+                  bookItems.add(BookItemWidget(
+                      toeicBook: bookInfor));
                 }
               }
             },
             builder: (context, state) {
-              if (state is ListBookLoaded) return _buildList();
-              return Center(
+              if (state is BookListLoaded) return _buildList();
+              return const Center(
                 child: Text('Loading...'),
               );
             },

@@ -2,6 +2,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_toeic_quiz2/core/constants/app_light_colors.dart';
 import 'package:flutter_toeic_quiz2/core/constants/app_dimensions.dart';
+import 'package:flutter_toeic_quiz2/presentation/router/app_router.dart';
+import 'package:flutter_toeic_quiz2/presentation/router/screen_arguments.dart';
 import 'package:percent_indicator/percent_indicator.dart';
 
 List<String> testDescription = [
@@ -60,15 +62,35 @@ class PartItem extends StatelessWidget {
         //     CupertinoPageRoute(
         //       builder: (context) => PartOneScreen(),
         //     ));
+        switch (partNumber) {
+          case 1:
+            Navigator.pushNamed(context, AppRouter.part1Exam, arguments: ScreenArguments(title: 'This is part 1 title demo', id: 1));
+            break;
+          case 2:
+            Navigator.pushNamed(context, AppRouter.part2Exam, arguments: ScreenArguments(title: 'This is part 2 title demo', id: 1));
+            break;
+          case 3:
+            Navigator.pushNamed(context, AppRouter.part3Exam, arguments: ScreenArguments(title: 'This is part 3 title demo', id: 1));
+            break;
+          case 4:
+            Navigator.pushNamed(context, AppRouter.part4Exam, arguments: ScreenArguments(title: 'This is part 4 title demo', id: 1));
+            break;
+          case 5:
+            Navigator.pushNamed(context, AppRouter.part5Exam, arguments: ScreenArguments(title: 'This is part 5 title demo', id: 1));
+            break;
+          case 6:
+            Navigator.pushNamed(context, AppRouter.part6Exam, arguments: ScreenArguments(title: 'This is part 6 title demo', id: 1));
+            break;
+          case 7:
+            Navigator.pushNamed(context, AppRouter.part7Exam, arguments: ScreenArguments(title: 'This is part 7 title demo', id: 1));
+            break;
+
+        }
       },
       child: Center(
         child: Container(
           width: width > 600 ? 600 : null,
           child: Card(
-            shape: RoundedRectangleBorder(
-              borderRadius: BorderRadius.circular(AppDimensions.kCardRadiusDefault),
-            ),
-            elevation: AppDimensions.kCardElevationDefaut,
             child: Padding(
               padding: const EdgeInsets.all(AppDimensions.kPaddingDefault),
               child: Row(

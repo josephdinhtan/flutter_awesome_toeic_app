@@ -4,7 +4,7 @@ import 'package:flutter_toeic_quiz2/core/constants/app_light_colors.dart';
 class AppDarkTheme {
   const AppDarkTheme._();
   static final themeData = ThemeData(
-    backgroundColor: Color(0xFF264653),
+    backgroundColor: const Color(0xFF264653),
 
     primarySwatch: Colors.blue,
 

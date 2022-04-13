@@ -26,4 +26,21 @@ class AppDecorations {
       ),
     ],
   );
+
+  static const kNeumorphicDecoration = BoxDecoration(
+    boxShadow: [
+      BoxShadow(
+        color: Colors.white10,
+        offset: Offset(-6.0, -6.0),
+        blurRadius: 16.0,
+      ),
+      BoxShadow(
+        color: Colors.black12,
+        offset: Offset(6.0, 6.0),
+        blurRadius: 16.0,
+      ),
+    ],
+    color: Colors.white,
+    borderRadius: BorderRadius.all(Radius.circular(12.0)),
+  );
 }

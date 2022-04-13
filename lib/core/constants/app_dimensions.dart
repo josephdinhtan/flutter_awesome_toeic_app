@@ -5,4 +5,10 @@ class AppDimensions {
   static const kPaddingDefault = 8.0;
   static const kPaddingDefaultDouble = 16.0;
 
+  static const kSpaceBetweenAnsBox = 2.0;
+
+  static const kBorderSizeAnsBox = 2.5;
+
+  static const kPaddingIconButton = 6.0;
+
 }

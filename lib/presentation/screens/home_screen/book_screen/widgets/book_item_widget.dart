@@ -1,18 +1,18 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_toeic_quiz2/core/constants/app_dimensions.dart';
-import 'package:flutter_toeic_quiz2/data/models/book_infor.dart';
+import 'package:flutter_toeic_quiz2/data/models/book_info_model.dart';
 import 'package:flutter_toeic_quiz2/presentation/router/app_router.dart';
 import 'package:flutter_toeic_quiz2/presentation/router/screen_arguments.dart';
 import 'package:flutter_toeic_quiz2/presentation/screens/test_screen/test_screen.dart';
 
-class BookItem extends StatelessWidget {
-  BookItem({
+class BookItemWidget extends StatelessWidget {
+  BookItemWidget({
     Key? key,
     required this.toeicBook,
   }) : super(key: key);
 
-  BookInfor toeicBook;
+  BookInfoModel toeicBook;
   final planetCard = new Container(
     height: 124.0,
     margin: new EdgeInsets.only(left: 46.0),
@@ -60,11 +60,6 @@ class BookItem extends StatelessWidget {
             alignment: Alignment.bottomLeft,
             children: [
               Card(
-                shape: RoundedRectangleBorder(
-                  borderRadius:
-                      BorderRadius.circular(AppDimensions.kCardRadiusDefault),
-                ),
-                elevation: AppDimensions.kCardElevationDefaut,
                 child: Container(
                   color: Colors.transparent,
                   child: Padding(

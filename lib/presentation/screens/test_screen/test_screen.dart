@@ -1,40 +1,76 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_toeic_quiz2/presentation/screens/test_screen/widgets/test_item.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:flutter_toeic_quiz2/data/models/test_info_model.dart';
+import 'package:flutter_toeic_quiz2/presentation/screens/test_screen/widgets/test_item_widget.dart';
+import 'package:flutter_toeic_quiz2/view_model/test_screen_cubit/test_list_cubit.dart';
 
-class TestScreen extends StatelessWidget {
+final List<TestItemWidget> testItems = [];
+final testListCubit = TestListCubit();
+
+class TestScreen extends StatefulWidget {
   final int bookId;
   final String bookTitle;
 
-  const TestScreen({Key? key, required this.bookId, required this.bookTitle})
+  TestScreen({Key? key, required this.bookId, required this.bookTitle})
       : super(key: key);
 
   @override
+  State<TestScreen> createState() => _TestScreenState();
+}
+
+class _TestScreenState extends State<TestScreen> {
+  @override
+  void initState() {
+    testListCubit.getListTest();
+  }
+
+  @override
   Widget build(BuildContext context) {
-    final List<TestItem> testItems = [];
-    testItems.add(TestItem(testBoxId: '1', title: "Practice Test 1", resourceUrl: 'demo', questionNumber: 200, ));
-    testItems.add(TestItem(testBoxId: '2', title: "Practice Test 2", resourceUrl: 'demo', questionNumber: 200, dowloaded: true, onProgress: true,));
-    testItems.add(TestItem(testBoxId: '3', title: "Practice Test 3", resourceUrl: 'demo', questionNumber: 200, actualScore: 880, dowloaded: true, onProgress: true,));
-    return Scaffold(
-      appBar: AppBar(
-        title: Text('ETS 2020'),
+    return BlocProvider<TestListCubit>(
+      create: (context) => testListCubit,
+      child: Scaffold(
+        appBar: AppBar(
+          title: Text('ETS 2020'.toUpperCase()),
+        ),
+        body: BlocConsumer<TestListCubit, TestListState>(
+          listener: (context, state) {
+            if (state is TestListLoaded) {
+              final testListInfo = state.testListModel;
+              testItems.clear();
+              for (TestInfoModel testInfo in testListInfo) {
+                testItems.add(TestItemWidget.fromTestInfoModel(testInfo,));
+              }
+            }
+          },
+          builder: (context, state) {
+            print('test_list_cubit ==Inbuilder== $state');
+            if (state is TestListLoaded) return _buildList();
+            return const Center(
+              child: Text('Test Loading...'),
+            );
+          },
+        ),
       ),
-      body: Column(
-        children: [
-          Expanded(
-            child: ListView.builder(
-              itemBuilder: (context, index) {
-                return Padding(
-                  padding: EdgeInsets.only(
-                      bottom: index == testItems.length - 1 ? 8.0 : 0.0,
-                      top: index == 0 ? 8.0 : 0.0),
-                  child: testItems[index],
-                );
-              },
-              itemCount: testItems.length,
-            ),
+    );
+  }
+
+  Column _buildList() {
+    return Column(
+      children: [
+        Expanded(
+          child: ListView.builder(
+            itemBuilder: (context, index) {
+              return Padding(
+                padding: EdgeInsets.only(
+                    bottom: index == testItems.length - 1 ? 8.0 : 0.0,
+                    top: index == 0 ? 8.0 : 0.0),
+                child: testItems[index],
+              );
+            },
+            itemCount: testItems.length,
           ),
-        ],
-      ),
+        ),
+      ],
     );
   }
 }

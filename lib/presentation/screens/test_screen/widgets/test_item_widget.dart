@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_toeic_quiz2/core/constants/app_light_colors.dart';
 import 'package:flutter_toeic_quiz2/core/constants/app_dimensions.dart';
+import 'package:flutter_toeic_quiz2/data/models/test_info_model.dart';
 import 'package:flutter_toeic_quiz2/presentation/router/app_router.dart';
 import 'package:flutter_toeic_quiz2/presentation/router/screen_arguments.dart';
 import 'package:flutter_toeic_quiz2/presentation/screens/test_screen/widgets/download_button.dart';
@@ -8,33 +9,42 @@ import 'package:flutter/foundation.dart' show kIsWeb;
 
 const int maxScore = 990;
 
-class TestItem extends StatefulWidget {
-  TestItem({
+class TestItemWidget extends StatefulWidget {
+  TestItemWidget({
     Key? key,
     this.dowloaded = true,
     this.onProgress = false,
     this.actualScore = 560,
     this.size = "",
-    required this.testBoxId,
+    this.testBoxId = "",
     required this.resourceUrl,
     required this.questionNumber,
     required this.title,
   }) : super(key: key);
 
+  factory TestItemWidget.fromTestInfoModel(TestInfoModel testInfoModel) {
+    return TestItemWidget(
+        size: testInfoModel.size,
+        testBoxId: testInfoModel.boxId != null ? testInfoModel.boxId! : "",
+        title: testInfoModel.title,
+        resourceUrl: testInfoModel.resourceUrl,
+        questionNumber: testInfoModel.questionNumber);
+  }
+
   bool dowloaded;
   bool onProgress;
-  final String title;
+  late final String title;
   int actualScore;
-  final int questionNumber;
-  final String size;
-  final String resourceUrl;
-  final String testBoxId;
+  late final int questionNumber;
+  late final String size;
+  late final String resourceUrl;
+  String testBoxId;
 
   @override
-  State<TestItem> createState() => _TestItemState();
+  State<TestItemWidget> createState() => _TestItemWidgetState();
 }
 
-class _TestItemState extends State<TestItem> {
+class _TestItemWidgetState extends State<TestItemWidget> {
   late final DownloadController _downloadController;
 
   @override
@@ -72,11 +82,6 @@ class _TestItemState extends State<TestItem> {
         width: width > 600 ? 600 : null,
         child: Card(
           margin: EdgeInsets.symmetric(horizontal: 8.0, vertical: 4.0),
-          shape: RoundedRectangleBorder(
-            borderRadius:
-                BorderRadius.circular(AppDimensions.kCardRadiusDefault),
-          ),
-          elevation: AppDimensions.kCardElevationDefaut,
           child: Padding(
             padding: const EdgeInsets.only(
                 left: AppDimensions.kPaddingDefaultDouble,

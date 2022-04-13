@@ -36,6 +36,8 @@ dependencies:
   flutter_bloc: ^8.0.1
   bloc: ^8.0.3
   percent_indicator: ^3.4.0
+  assets_audio_player: ^3.0.3+9
+  flutter_neumorphic: ^3.2.0
 
 dev_dependencies:
   flutter_test:

@@ -2,6 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter_toeic_quiz2/core/constants/app_light_colors.dart';
 import 'package:flutter_toeic_quiz2/core/constants/app_text_styles.dart';
 
+import '../constants/app_dimensions.dart';
+
 class AppLightTheme {
   const AppLightTheme._();
 
@@ -23,6 +25,16 @@ class AppLightTheme {
       centerTitle: true,
       backgroundColor: AppLightColors.kPrimary,
       foregroundColor: AppLightColors.kTextPrimary,
+    ),
+    iconTheme: const IconThemeData(
+      color: AppLightColors.kIconUnSelectedColor,
+    ),
+    cardTheme: CardTheme(
+      shape: RoundedRectangleBorder(
+        borderRadius:
+        BorderRadius.circular(AppDimensions.kCardRadiusDefault),
+      ),
+      elevation: AppDimensions.kCardElevationDefaut,
     ),
     textTheme: const TextTheme(
       button: TextStyle(

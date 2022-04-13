@@ -1,4 +1,4 @@
-class TestInfo {
+class TestInfoModel {
   final String title;
   final String size;
   final int questionNumber;
@@ -7,7 +7,7 @@ class TestInfo {
   final int score; // only visiable in DB
   bool downloaded; // only visiable in DB
   String? boxId; // only visiable in DB
-  TestInfo({
+  TestInfoModel({
     required this.title,
     required this.size,
     required this.questionNumber,
