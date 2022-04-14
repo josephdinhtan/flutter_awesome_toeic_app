@@ -1,16 +1,17 @@
+import 'package:flutter_toeic_quiz2/data/repositories/test_repository/test_repository.dart';
+
 import '../data/models/test_info_model.dart';
-import '../data/repositories/base_repository.dart';
 import 'base_use_case.dart';
 
 class GetListTestUseCase extends BaseUseCase<List<TestInfoModel>> {
-  BaseRepository repository;
+  TestRepository repository;
 
   GetListTestUseCase({
     required this.repository,
   });
 
   @override
-  Future<List<TestInfoModel>> perform() async {
-    return await repository.get();
+  Future<List<TestInfoModel>> getListInfo() async {
+    return await repository.getTestList();
   }
 }

@@ -2,26 +2,18 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_toeic_quiz2/data/models/test_info_model.dart';
 import 'package:flutter_toeic_quiz2/presentation/screens/test_screen/widgets/test_item_widget.dart';
-import 'package:flutter_toeic_quiz2/view_model/test_screen_cubit/test_list_cubit.dart';
+import '../../../view_model/test_screen_view_model/test_list_cubit.dart';
 
 final List<TestItemWidget> testItems = [];
 final testListCubit = TestListCubit();
 
-class TestScreen extends StatefulWidget {
+class TestScreen extends StatelessWidget {
   final int bookId;
   final String bookTitle;
 
   TestScreen({Key? key, required this.bookId, required this.bookTitle})
-      : super(key: key);
-
-  @override
-  State<TestScreen> createState() => _TestScreenState();
-}
-
-class _TestScreenState extends State<TestScreen> {
-  @override
-  void initState() {
-    testListCubit.getListTest();
+      : super(key: key) {
+    testListCubit.getTestList();
   }
 
   @override
@@ -43,7 +35,7 @@ class _TestScreenState extends State<TestScreen> {
             }
           },
           builder: (context, state) {
-            print('test_list_cubit ==Inbuilder== $state');
+            //print('test_list_cubit ==Inbuilder== $state');
             if (state is TestListLoaded) return _buildList();
             return const Center(
               child: Text('Test Loading...'),

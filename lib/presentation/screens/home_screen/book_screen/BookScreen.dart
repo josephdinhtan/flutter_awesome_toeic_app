@@ -1,9 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:flutter_toeic_quiz2/core/constants/app_dimensions.dart';
-import 'package:flutter_toeic_quiz2/data/models/book_info_model.dart';
-import 'package:flutter_toeic_quiz2/view_model/book_screen_cubit/book_list_cubit.dart';
-
+import '../../../../core/constants/app_dimensions.dart';
+import '../../../../data/models/book_info_model.dart';
+import '../../../../view_model/book_screen_view_model/book_list_cubit.dart';
 import 'widgets/book_item_widget.dart';
 
 final List<BookItemWidget> bookItems = [];
@@ -22,7 +21,7 @@ class _BookScreenState extends State<BookScreen> {
 
   @override
   void initState() {
-      bookListCubit.getListBook();
+      bookListCubit.getBookList();
   }
 
   @override

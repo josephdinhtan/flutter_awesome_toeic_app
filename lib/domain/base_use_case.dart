@@ -1,3 +1,3 @@
 abstract class BaseUseCase<T> {
-  Future<T> perform();
+  Future<T> getListInfo();
 }
