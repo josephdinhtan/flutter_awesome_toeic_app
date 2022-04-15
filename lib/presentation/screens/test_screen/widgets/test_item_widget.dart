@@ -50,13 +50,14 @@ class _TestItemWidgetState extends State<TestItemWidget> {
   @override
   void initState() {
     super.initState();
-    if (kIsWeb)
+    if (kIsWeb) {
       _downloadController = SimulatedDownloadController(
           onOpenDownload: () => _openDownload(),
           downloadStatus: DownloadStatus.downloaded);
-    else
+    } else {
       _downloadController =
           SimulatedDownloadController(onOpenDownload: () => _openDownload());
+    }
     // _downloadController = DataBaseDownloadController(
     //   resourceUrl: widget.resourceUrl,
     //   onOpenDownload: () => _openDownload(),

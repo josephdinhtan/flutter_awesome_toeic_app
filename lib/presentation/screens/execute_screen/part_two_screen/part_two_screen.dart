@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import '../components/media_player.dart';
 import '../widgets/answer_board_widget.dart';
-import '../widgets/audio_controller_wiget.dart';
+import '../widgets/audio_controller_widget.dart';
 import '../widgets/bottom_controller_widget.dart';
 
 class PartTwoScreen extends StatelessWidget {

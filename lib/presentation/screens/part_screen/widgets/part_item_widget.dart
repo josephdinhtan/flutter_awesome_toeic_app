@@ -40,28 +40,23 @@ class PartItem extends StatelessWidget {
     Key? key,
     required this.partNumber,
     this.correctAns = 5,
-    this.totalQuestions,
+    this.numOfQuestion,
   }) : super(key: key);
 
-  int partNumber;
-  int? totalQuestions;
-  int correctAns;
+  final int partNumber;
+  int? numOfQuestion;
+  final int correctAns;
 
   @override
   Widget build(BuildContext context) {
-    double height = MediaQuery.of(context).size.height;
+    //double height = MediaQuery.of(context).size.height;
     double width = MediaQuery.of(context).size.width;
 
-    totalQuestions ??= numberQuestionDefault[partNumber - 1];
+    numOfQuestion ??= numberQuestionDefault[partNumber - 1];
     double correctPercent =
-        (correctAns * 100 / totalQuestions!).toDouble() / 100;
+        (correctAns * 100 / numOfQuestion!).toDouble() / 100;
     return GestureDetector(
       onTap: () {
-        // Navigator.push(
-        //     context,
-        //     CupertinoPageRoute(
-        //       builder: (context) => PartOneScreen(),
-        //     ));
         switch (partNumber) {
           case 1:
             Navigator.pushNamed(context, AppRouter.part1Exam, arguments: ScreenArguments(title: 'This is part 1 title demo', id: 1));
@@ -88,7 +83,7 @@ class PartItem extends StatelessWidget {
         }
       },
       child: Center(
-        child: Container(
+        child: SizedBox(
           width: width > 600 ? 600 : null,
           child: Card(
             child: Padding(
@@ -117,9 +112,9 @@ class PartItem extends StatelessWidget {
                                   Row(
                                     children: [
                                       Text(
-                                          totalQuestions! < 10
-                                              ? '0$totalQuestions'
-                                              : '$totalQuestions',
+                                          numOfQuestion! < 10
+                                              ? '0$numOfQuestion'
+                                              : '$numOfQuestion',
                                           style: const TextStyle(
                                               fontSize: 15.0,
                                               color: AppLightColors.kIconSelectedColor,

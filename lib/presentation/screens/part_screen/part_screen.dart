@@ -1,49 +1,76 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_toeic_quiz2/presentation/screens/part_screen/widgets/part_item_widget.dart';
+import 'package:flutter_toeic_quiz2/view_model/part_screen_view_model/part_list_cubit.dart';
 
-
+final List<PartItem> partItems = [];
+final partListCubit = PartListCubit();
 
 class PartScreen extends StatelessWidget {
   final int testId;
   final String testTitle;
-  const PartScreen({Key? key, required this.testId, required this.testTitle}) : super(key: key);
+
+  PartScreen({Key? key, required this.testId, required this.testTitle})
+      : super(key: key) {
+    partListCubit.getPartList();
+  }
 
   @override
   Widget build(BuildContext context) {
-
     //ToeicTest toeicTest = TestHiveApi.instance.getByID(testBoxId);
-    final List<PartItem> partItems = [
-      PartItem(partNumber: 1),
-      PartItem(partNumber: 2),
-      PartItem(partNumber: 3),
-      PartItem(partNumber: 4),
-      PartItem(partNumber: 5),
-      PartItem(partNumber: 6),
-      PartItem(partNumber: 7),
-    ];
 
-    return Scaffold(
-      floatingActionButton: FloatingActionButton.extended(
-        onPressed: () {},
-        label: const Text('START FULL TEST'),
-        icon: const Icon(Icons.play_arrow_rounded),
-      ),
-      floatingActionButtonLocation: FloatingActionButtonLocation.centerFloat,
-      appBar: AppBar(
-        title: Text(
-          testTitle.toUpperCase(),
+    return BlocProvider<PartListCubit>(
+      create: (context) => partListCubit,
+      child: Scaffold(
+        floatingActionButton: FloatingActionButton.extended(
+          onPressed: () {},
+          label: const Text('START FULL TEST'),
+          icon: const Icon(Icons.play_arrow_rounded),
+        ),
+        floatingActionButtonLocation: FloatingActionButtonLocation.centerFloat,
+        appBar: AppBar(
+          title: Text(
+            testTitle.toUpperCase(),
+          ),
+        ),
+        body: BlocConsumer<PartListCubit, PartListState>(
+          listener: (context, state) {
+            if (state is PartListLoaded) {
+              final partListModel = state.partListModel;
+              for (var element in partListModel) {
+                partItems.add(
+                  PartItem(
+                    partNumber: element.partType.index + 1,
+                    correctAns: element.numOfCorrect,
+                    numOfQuestion: element.numOfQuestion,
+                  ),
+                );
+              }
+            }
+          },
+          builder: (context, state) {
+            if (state is PartListLoaded) {
+              return _buildList();
+            }
+            return const Center(
+              child: Text('Parts loading ...'),
+            );
+          },
         ),
       ),
-      body: ListView.builder(
-        itemBuilder: (context, index) {
-          return Padding(
-            padding: EdgeInsets.only(
-                left: 4.0, right: 4.0, top: index == 0 ? 4.0 : 0.0),
-            child: partItems[index],
-          );
-        },
-        itemCount: partItems.length,
-      ),
+    );
+  }
+
+  Widget _buildList() {
+    return ListView.builder(
+      itemBuilder: (context, index) {
+        return Padding(
+          padding: EdgeInsets.only(
+              left: 4.0, right: 4.0, top: index == 0 ? 4.0 : 0.0),
+          child: partItems[index],
+        );
+      },
+      itemCount: partItems.length,
     );
   }
 }

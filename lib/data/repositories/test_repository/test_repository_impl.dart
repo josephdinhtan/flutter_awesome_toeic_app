@@ -12,6 +12,6 @@ class TestRepositoryImpl implements TestRepository {
   @override
   Future<List<TestInfoModel>> getTestList() async {
     // check here if it web flatform or doesn't have local database
-    return await api.get();
+    return await api.getList();
   }
 }

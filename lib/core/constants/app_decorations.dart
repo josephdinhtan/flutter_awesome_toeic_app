@@ -21,7 +21,7 @@ class AppDecorations {
   static const kCardDecoration = BoxDecoration(
     boxShadow: [
       BoxShadow(
-        color: Color(0xFFD0D0D0FF),
+        color: Color(0xFFD0D0D0),
         blurRadius: 3.0,
       ),
     ],

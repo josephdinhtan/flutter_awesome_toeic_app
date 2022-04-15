@@ -4,7 +4,7 @@ import 'base_api.dart';
 
 class TestApi extends BaseApi<List<TestInfoModel>> {
   @override
-  Future<List<TestInfoModel>> get() async {
+  Future<List<TestInfoModel>> getList() async {
     // TODO: implement get from remote with http request and should be repose a Reponse folder
     List<TestInfoModel> list = [];
     list.add(TestInfoModel(title: 'Practice Test 1', size: '', questionNumber: 200, ver: 1, resourceUrl: 'resourceUrl'));

@@ -46,7 +46,7 @@ class TestScreen extends StatelessWidget {
     );
   }
 
-  Column _buildList() {
+  Widget _buildList() {
     return Column(
       children: [
         Expanded(

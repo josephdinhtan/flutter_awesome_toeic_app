@@ -11,6 +11,6 @@ class BookRepositoryImpl implements BookRepository {
 
   @override
   Future<List<BookInfoModel>> getBookList() async {
-    return await api.get();
+    return await api.getList();
   }
 }

@@ -13,6 +13,6 @@ class PartRepositoryImpl implements PartRepository {
   @override
   Future<List<PartInfoModel>> getPartList() async {
     // check here if it web flatform or doesn't have local database
-    return await api.get();
+    return await api.getList();
   }
 }
