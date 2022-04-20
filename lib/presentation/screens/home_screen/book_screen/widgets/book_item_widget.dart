@@ -55,7 +55,9 @@ class BookItemWidget extends StatelessWidget {
       child: Center(
         child: Container(
           height: 150,
-          width: width > 600 ? 600 : null,
+          width: width > AppDimensions.maxWidthForMobileMode
+              ? AppDimensions.maxWidthForMobileMode
+              : null,
           child: Stack(
             alignment: Alignment.bottomLeft,
             children: [
@@ -64,69 +66,62 @@ class BookItemWidget extends StatelessWidget {
                   color: Colors.transparent,
                   child: Padding(
                     padding: const EdgeInsets.only(bottom: 8.0, top: 8.0),
-                    child: Stack(
+                    child: Row(
+                      crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
-                        Row(
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          children: [
-                            // SizedBox(width: kPaddingDefault),
-                            // ClipRRect(
-                            //   borderRadius: BorderRadius.all(
-                            //       Radius.circular(kCardRadiusDefault / 2)),
-                            //   child: Image.asset(
-                            //     'assets/images/ets_book_cover.png',
-                            //     fit: BoxFit.cover,
-                            //     width: 80.0,
-                            //     height: 100.0,
-                            //   ),
-                            // ),
-                            Padding(
-                              padding: const EdgeInsets.only(left: 130.0),
-                              child: Container(
-                                height: 100.0,
-                                child: Column(
+                        // SizedBox(width: kPaddingDefault),
+                        // ClipRRect(
+                        //   borderRadius: BorderRadius.all(
+                        //       Radius.circular(kCardRadiusDefault / 2)),
+                        //   child: Image.asset(
+                        //     'assets/images/ets_book_cover.png',
+                        //     fit: BoxFit.cover,
+                        //     width: 80.0,
+                        //     height: 100.0,
+                        //   ),
+                        // ),
+                        Padding(
+                          padding: const EdgeInsets.only(left: 130.0),
+                          child: Container(
+                            height: 100.0,
+                            child: Column(
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                              children: [
+                                Column(
                                   crossAxisAlignment: CrossAxisAlignment.start,
-                                  mainAxisAlignment:
-                                      MainAxisAlignment.spaceBetween,
                                   children: [
-                                    Column(
-                                      crossAxisAlignment:
-                                          CrossAxisAlignment.start,
-                                      children: [
-                                        Text('${toeicBook.title}',
-                                            style: Theme.of(context)
-                                                .textTheme
-                                                .headline3),
-                                        Text('${toeicBook.des}',
-                                            style: Theme.of(context)
-                                                .textTheme
-                                                .headline5),
-                                        Text('5% 887 B',
-                                            style: Theme.of(context)
-                                                .textTheme
-                                                .headline4),
-                                      ],
-                                    ),
-                                    Container(
-                                      decoration: BoxDecoration(
-                                          color: Colors.black45,
-                                          borderRadius: BorderRadius.all(
-                                              Radius.circular(5.0))),
-                                      child: Padding(
-                                        padding: const EdgeInsets.all(4.0),
-                                        child: Text(
-                                          'Toeic practice book',
-                                          style: TextStyle(
-                                              fontSize: 10.0,
-                                              color: Colors.white),
-                                        ),
-                                      ),
-                                    ),
+                                    Text('${toeicBook.title}',
+                                        style: Theme.of(context)
+                                            .textTheme
+                                            .headline3),
+                                    Text('${toeicBook.des}',
+                                        style: Theme.of(context)
+                                            .textTheme
+                                            .headline5),
+                                    Text('5% 887 B',
+                                        style: Theme.of(context)
+                                            .textTheme
+                                            .headline4),
                                   ],
                                 ),
-                              ),
+                                Container(
+                                  decoration: BoxDecoration(
+                                      color: Colors.black45,
+                                      borderRadius: BorderRadius.all(
+                                          Radius.circular(5.0))),
+                                  child: Padding(
+                                    padding: const EdgeInsets.all(4.0),
+                                    child: Text(
+                                      'Toeic practice book',
+                                      style: TextStyle(
+                                          fontSize: 10.0, color: Colors.white),
+                                    ),
+                                  ),
+                                ),
+                              ],
                             ),
-                          ],
+                          ),
                         ),
                       ],
                     ),

@@ -1,4 +1,4 @@
-import 'package:flutter_toeic_quiz2/data/dataproviders/base_api.dart';
+import 'package:flutter_toeic_quiz2/data/data_providers/base_api.dart';
 import 'package:flutter_toeic_quiz2/data/models/part_info_model.dart';
 
 class PartApi extends BaseApi {

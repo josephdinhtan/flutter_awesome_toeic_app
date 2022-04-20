@@ -31,10 +31,9 @@ class AppLightTheme {
     ),
     cardTheme: CardTheme(
       shape: RoundedRectangleBorder(
-        borderRadius:
-        BorderRadius.circular(AppDimensions.kCardRadiusDefault),
+        borderRadius: BorderRadius.circular(AppDimensions.kCardRadiusDefault),
       ),
-      elevation: AppDimensions.kCardElevationDefaut,
+      elevation: AppDimensions.kCardElevationDefault,
     ),
     textTheme: const TextTheme(
       button: TextStyle(

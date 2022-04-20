@@ -1,4 +1,3 @@
-
 import 'package:flutter/material.dart';
 
 // all properties bellow is temporary, need remove all -> coppy from light colors and modify become to dark colors
@@ -30,4 +29,6 @@ class AppDarkColors {
   // keep below
   static const kSurface = Color(0xFF1D1D1D);
   static const kOnSurfaceDarkColorText = Color(0xFFD2D2D2);
+
+  static const kPrimary = Color(0xFF1D1D1D);
 }

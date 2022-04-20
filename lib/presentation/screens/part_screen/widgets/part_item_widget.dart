@@ -1,4 +1,3 @@
-
 import 'package:flutter/material.dart';
 import 'package:flutter_toeic_quiz2/core/constants/app_light_colors.dart';
 import 'package:flutter_toeic_quiz2/core/constants/app_dimensions.dart';
@@ -59,32 +58,47 @@ class PartItem extends StatelessWidget {
       onTap: () {
         switch (partNumber) {
           case 1:
-            Navigator.pushNamed(context, AppRouter.part1Exam, arguments: ScreenArguments(title: 'This is part 1 title demo', id: 1));
+            Navigator.pushNamed(context, AppRouter.part1Exam,
+                arguments:
+                    ScreenArguments(title: 'This is part 1 title demo', id: 1));
             break;
           case 2:
-            Navigator.pushNamed(context, AppRouter.part2Exam, arguments: ScreenArguments(title: 'This is part 2 title demo', id: 1));
+            Navigator.pushNamed(context, AppRouter.part2Exam,
+                arguments:
+                    ScreenArguments(title: 'This is part 2 title demo', id: 1));
             break;
           case 3:
-            Navigator.pushNamed(context, AppRouter.part3Exam, arguments: ScreenArguments(title: 'This is part 3 title demo', id: 1));
+            Navigator.pushNamed(context, AppRouter.part3Exam,
+                arguments:
+                    ScreenArguments(title: 'This is part 3 title demo', id: 1));
             break;
           case 4:
-            Navigator.pushNamed(context, AppRouter.part4Exam, arguments: ScreenArguments(title: 'This is part 4 title demo', id: 1));
+            Navigator.pushNamed(context, AppRouter.part4Exam,
+                arguments:
+                    ScreenArguments(title: 'This is part 4 title demo', id: 1));
             break;
           case 5:
-            Navigator.pushNamed(context, AppRouter.part5Exam, arguments: ScreenArguments(title: 'This is part 5 title demo', id: 1));
+            Navigator.pushNamed(context, AppRouter.part5Exam,
+                arguments:
+                    ScreenArguments(title: 'This is part 5 title demo', id: 1));
             break;
           case 6:
-            Navigator.pushNamed(context, AppRouter.part6Exam, arguments: ScreenArguments(title: 'This is part 6 title demo', id: 1));
+            Navigator.pushNamed(context, AppRouter.part6Exam,
+                arguments:
+                    ScreenArguments(title: 'This is part 6 title demo', id: 1));
             break;
           case 7:
-            Navigator.pushNamed(context, AppRouter.part7Exam, arguments: ScreenArguments(title: 'This is part 7 title demo', id: 1));
+            Navigator.pushNamed(context, AppRouter.part7Exam,
+                arguments:
+                    ScreenArguments(title: 'This is part 7 title demo', id: 1));
             break;
-
         }
       },
       child: Center(
         child: SizedBox(
-          width: width > 600 ? 600 : null,
+          width: width > AppDimensions.maxWidthForMobileMode
+              ? AppDimensions.maxWidthForMobileMode
+              : null,
           child: Card(
             child: Padding(
               padding: const EdgeInsets.all(AppDimensions.kPaddingDefault),
@@ -106,7 +120,8 @@ class PartItem extends StatelessWidget {
                                 children: [
                                   Text(
                                     'Part $partNumber',
-                                    style: Theme.of(context).textTheme.headline3,
+                                    style:
+                                        Theme.of(context).textTheme.headline3,
                                   ),
                                   const SizedBox(height: 4.0),
                                   Row(
@@ -117,12 +132,14 @@ class PartItem extends StatelessWidget {
                                               : '$numOfQuestion',
                                           style: const TextStyle(
                                               fontSize: 15.0,
-                                              color: AppLightColors.kIconSelectedColor,
+                                              color: AppLightColors
+                                                  .kIconSelectedColor,
                                               fontWeight: FontWeight.bold)),
                                       Text(
                                         ' question',
-                                        style:
-                                        Theme.of(context).textTheme.headline4,
+                                        style: Theme.of(context)
+                                            .textTheme
+                                            .headline4,
                                       ),
                                       const SizedBox(
                                         width: 12.0,
@@ -133,12 +150,14 @@ class PartItem extends StatelessWidget {
                                               : '$correctAns',
                                           style: const TextStyle(
                                               fontSize: 15.0,
-                                              color: AppLightColors.kIconSelectedColor,
+                                              color: AppLightColors
+                                                  .kIconSelectedColor,
                                               fontWeight: FontWeight.bold)),
                                       Text(
                                         ' Correct',
-                                        style:
-                                        Theme.of(context).textTheme.headline4,
+                                        style: Theme.of(context)
+                                            .textTheme
+                                            .headline4,
                                       ),
                                     ],
                                   ),
@@ -146,14 +165,15 @@ class PartItem extends StatelessWidget {
                                   Container(
                                     decoration: const BoxDecoration(
                                         color: Colors.black45,
-                                        borderRadius:
-                                        BorderRadius.all(Radius.circular(5.0))),
+                                        borderRadius: BorderRadius.all(
+                                            Radius.circular(5.0))),
                                     child: Padding(
                                       padding: const EdgeInsets.all(4.0),
                                       child: Text(
                                         testDescription[partNumber - 1],
                                         style: const TextStyle(
-                                            fontSize: 10.0, color: Colors.white),
+                                            fontSize: 10.0,
+                                            color: Colors.white),
                                       ),
                                     ),
                                   ),

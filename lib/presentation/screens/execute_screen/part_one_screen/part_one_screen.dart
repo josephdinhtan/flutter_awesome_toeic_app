@@ -1,10 +1,13 @@
-import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:flutter_toeic_quiz2/core/constants/app_dimensions.dart';
+import 'package:flutter_toeic_quiz2/data/models/part_models/answer_enum.dart';
+import 'package:flutter_toeic_quiz2/presentation/screens/execute_screen/widgets/audio_controller_neumorphic_widget.dart';
 import '../../../../view_model/execute_screen_view_model/part_one_view_model/part_one_cubit.dart';
 import '../components/media_player.dart';
-import '../widgets/answer_board_widget.dart';
+import '../widgets/answer_board_neumorphic_widget.dart';
 import '../widgets/audio_controller_widget.dart';
+import '../widgets/bottom_controller_neumorphic_widget.dart';
 import '../widgets/bottom_controller_widget.dart';
 
 class PartOneScreen extends StatelessWidget {
@@ -17,7 +20,7 @@ class PartOneScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return BlocProvider(
-      create: (context) => PartOneCubit()..getContent(),
+      create: (context) => PartOneCubit()..getInitContent(),
       child: const PartOnePage(),
     );
   }
@@ -59,12 +62,14 @@ class PartOnePage extends StatelessWidget {
       ),
       body: Center(
         child: SizedBox(
-          width: width > 600 ? 600 : null,
+          width: width > AppDimensions.maxWidthForMobileMode
+              ? AppDimensions.maxWidthForMobileMode
+              : null,
           child: Column(
             children: [
               const LinearProgressIndicator(
                 value:
-                0.5, //quizBrain.currentQuestionNumber / quizBrain.totalQuestionNumber,
+                    0.5, //quizBrain.currentQuestionNumber / quizBrain.totalQuestionNumber,
               ),
               Expanded(
                 child: Container(
@@ -95,19 +100,24 @@ class PartOnePage extends StatelessWidget {
                   builder: (context, state) {
                     if (state is PartOneContentLoaded) {
                       final partOneModel = state.partOneModel;
-                      return AnswerBoard(
+                      final userChecked = state.userChecked;
+                      return AnswerBoardNeumorphic(
                         textA: partOneModel.answers[0],
                         textB: partOneModel.answers[1],
                         textC: partOneModel.answers[2],
                         textD: partOneModel.answers[3],
-                        correctAns: partOneModel.correctAnswer.index,
-                        selectedAns: -1,
+                        // need modify to check whether user is clicked the answer or not.
+                        correctAns:
+                            userChecked ? partOneModel.correctAnswer.index : -1,
+                        selectedAns: state.userAnswer.index,
                         selectChanged: (value) {
                           //quizBrain.setSelectedAnswer(value);
+                          BlocProvider.of<PartOneCubit>(context)
+                              .userSelectAnswerChange(UserAnswer.values[value]);
                         },
                       );
                     }
-                    return AnswerBoard(
+                    return AnswerBoardNeumorphic(
                       textA: '...',
                       textB: '...',
                       textC: '...',
@@ -120,14 +130,8 @@ class PartOnePage extends StatelessWidget {
                     );
                   },
                 ),
-                // child: AnswerBoard(
-                //   textA: 'To ask how to fill out an application',
-                //   textB: 'To inquire about a delivery date',
-                //   textC: 'To report a problem with a product',
-                //   textD: 'To revise a biling address',
-                // ),
               ),
-              AudioController(
+              AudioControllerNeumorphic(
                 //durationTime: MediaPlayer.instance.getDurationTime(),
                 changeToDurationCallBack: (timestamp) {
                   MediaPlayer.instance.seekTo(seconds: timestamp.toInt());
@@ -140,35 +144,15 @@ class PartOnePage extends StatelessWidget {
                 },
                 audioPlayer: MediaPlayer.instance.audioPlayer,
               ),
-              BottomController(
-                prePressed: () {
-                  // setState(() {
-                  //   if (quizBrain.preQuestion()) {
-                  //     MediaPlayer.instance
-                  //         .playLocal(quizBrain.getQuestionInfo().audioLocalUrl);
-                  //   }
-                  // });
+              BottomControllerNeumorphic(
+                prevPressed: () {
+                  BlocProvider.of<PartOneCubit>(context).getPrevContent();
                 },
                 nextPressed: () {
-                  if (kDebugMode) print('Next already Press');
-
-                  //context2.bloc<PartOneCubit>().getContent();
-                  //BlocProvider.of<PartOneCubit>(context).getContent();
-                  //partOneCubit.getContent();
-                  BlocProvider.of<PartOneCubit>(context).getContent();
-                  if (kDebugMode) print('Next already Press2');
-
-                  // setState(() {
-                  //   if (quizBrain.nextQuestion()) {
-                  //     MediaPlayer.instance
-                  //         .playLocal(quizBrain.getQuestionInfo().audioLocalUrl);
-                  //   }
-                  // });
+                  BlocProvider.of<PartOneCubit>(context).getNextContent();
                 },
                 checkAnsPressed: () {
-                  // setState(() {
-                  //   quizBrain.doCheckAnswer();
-                  // });
+                  BlocProvider.of<PartOneCubit>(context).userCheckAnswer();
                 },
               ),
             ],
@@ -176,6 +160,5 @@ class PartOnePage extends StatelessWidget {
         ),
       ),
     );
-
   }
 }

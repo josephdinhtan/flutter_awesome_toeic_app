@@ -1,4 +1,3 @@
-
 import 'package:flutter/material.dart';
 import 'package:flutter_toeic_quiz2/core/constants/app_dark_colors.dart';
 import 'package:flutter_toeic_quiz2/core/constants/app_light_colors.dart';
@@ -7,12 +6,12 @@ class BottomController extends StatelessWidget {
   BottomController({
     Key? key,
     required this.checkAnsPressed,
-    required this.prePressed,
+    required this.prevPressed,
     required this.nextPressed,
   }) : super(key: key);
 
   Function()? nextPressed;
-  Function()? prePressed;
+  Function()? prevPressed;
   Function()? checkAnsPressed;
 
   @override
@@ -27,7 +26,7 @@ class BottomController extends StatelessWidget {
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: [
             IconButton(
-              onPressed: prePressed,
+              onPressed: prevPressed,
               icon: const Icon(
                 Icons.arrow_back_ios_rounded,
               ),

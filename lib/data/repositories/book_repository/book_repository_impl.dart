@@ -1,4 +1,4 @@
-import '../../dataproviders/base_api.dart';
+import '../../data_providers/base_api.dart';
 import '../../models/book_info_model.dart';
 import 'book_repository.dart';
 

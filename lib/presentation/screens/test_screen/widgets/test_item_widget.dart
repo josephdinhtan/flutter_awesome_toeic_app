@@ -70,19 +70,19 @@ class _TestItemWidgetState extends State<TestItemWidget> {
 
   void _openDownload() {
     Navigator.pushNamed(context, AppRouter.part,
-        arguments: ScreenArguments(title: "Test title pust here", id: 1));
+        arguments: ScreenArguments(title: "Test title put here", id: 1));
   }
 
   @override
   Widget build(BuildContext context) {
-    double height, width;
-    height = MediaQuery.of(context).size.height;
-    width = MediaQuery.of(context).size.width;
+    double width = MediaQuery.of(context).size.width;
     return Center(
       child: Container(
-        width: width > 600 ? 600 : null,
+        width: width > AppDimensions.maxWidthForMobileMode
+            ? AppDimensions.maxWidthForMobileMode
+            : null,
         child: Card(
-          margin: EdgeInsets.symmetric(horizontal: 8.0, vertical: 4.0),
+          margin: const EdgeInsets.symmetric(horizontal: 8.0, vertical: 4.0),
           child: Padding(
             padding: const EdgeInsets.only(
                 left: AppDimensions.kPaddingDefaultDouble,

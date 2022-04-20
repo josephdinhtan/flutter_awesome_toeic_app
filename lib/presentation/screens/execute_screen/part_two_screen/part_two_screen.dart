@@ -1,8 +1,12 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:flutter_toeic_quiz2/core/constants/app_dimensions.dart';
+import 'package:flutter_toeic_quiz2/data/models/part_models/answer_enum.dart';
+import 'package:flutter_toeic_quiz2/presentation/screens/execute_screen/widgets/audio_controller_neumorphic_widget.dart';
+import '../../../../view_model/execute_screen_view_model/part_one_view_model/part_one_cubit.dart';
 import '../components/media_player.dart';
-import '../widgets/answer_board_widget.dart';
-import '../widgets/audio_controller_widget.dart';
-import '../widgets/bottom_controller_widget.dart';
+import '../widgets/answer_board_neumorphic_widget.dart';
+import '../widgets/bottom_controller_neumorphic_widget.dart';
 
 class PartTwoScreen extends StatelessWidget {
   final int partId;
@@ -13,7 +17,19 @@ class PartTwoScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    double height = MediaQuery.of(context).size.height;
+    return BlocProvider(
+      create: (context) => PartOneCubit()..getInitContent(),
+      child: const PartTwoPage(),
+    );
+  }
+}
+
+class PartTwoPage extends StatelessWidget {
+  const PartTwoPage({Key? key}) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    //double height = MediaQuery.of(context).size.height;
     double width = MediaQuery.of(context).size.width;
     return Scaffold(
       appBar: AppBar(
@@ -21,27 +37,53 @@ class PartTwoScreen extends StatelessWidget {
           IconButton(
               onPressed: () {
                 //_showMyDialog();
+                //BlocProvider.of<PartOneCubit>(context).getContent();
               },
-              icon: Icon(Icons.format_list_numbered_outlined))
+              icon: const Icon(Icons.format_list_numbered_outlined))
         ],
-        title: const Text('Question: 02/06'),
+        title: BlocBuilder<PartOneCubit, PartOneState>(
+          builder: (context, state) {
+            if (state is PartOneContentLoaded) {
+              final partOneModel = state.partOneModel;
+              final strQuestionNum = partOneModel.questionNumber < 10
+                  ? "0${partOneModel.questionNumber}"
+                  : partOneModel.questionNumber;
+              final strNumOfQuestion = partOneModel.numOfQuestion < 10
+                  ? "0${partOneModel.numOfQuestion}"
+                  : partOneModel.numOfQuestion;
+              final title = "Question: $strQuestionNum/$strNumOfQuestion";
+              return Text(title);
+            }
+            return const Text('Question: ../..');
+          },
+        ),
       ),
       body: Center(
-        child: Container(
-          width: width > 600 ? 600 : null,
+        child: SizedBox(
+          width: width > AppDimensions.maxWidthForMobileMode
+              ? AppDimensions.maxWidthForMobileMode
+              : null,
           child: Column(
             children: [
               const LinearProgressIndicator(
                 value:
-                0.5, //quizBrain.currentQuestionNumber / quizBrain.totalQuestionNumber,
+                    0.5, //quizBrain.currentQuestionNumber / quizBrain.totalQuestionNumber,
               ),
               Expanded(
                 child: Container(
                   alignment: Alignment.centerLeft,
-                  child: const Padding(
-                    padding: EdgeInsets.all(16.0),
+                  child: Padding(
+                    padding: const EdgeInsets.all(16.0),
                     child: Center(
-                      child: Text('title question part 2 here'),
+                      child: BlocBuilder<PartOneCubit, PartOneState>(
+                        builder: (context, state) {
+                          if (state is PartOneContentLoaded) {
+                            final partOneModel = state.partOneModel;
+                            return Text(partOneModel.imageUrl);
+                          }
+                          return const Text('...');
+                        },
+                      ),
                       // child: Image.file(
                       //   File(quizBrain.getQuestionInfo().pictureLocalUrl),
                       //   fit: BoxFit.contain,
@@ -52,25 +94,42 @@ class PartTwoScreen extends StatelessWidget {
               ),
               Padding(
                 padding: const EdgeInsets.all(16.0),
-                child: AnswerBoard(
-                  textA: 'quizBrain.getQuestionInfo().ansA',
-                  textB: 'quizBrain.getQuestionInfo().ansB',
-                  textC: 'quizBrain.getQuestionInfo().ansC',
-                  textD: 'quizBrain.getQuestionInfo().ansD',
-                  correctAns: -1,
-                  selectedAns: 2,
-                  selectChanged: (value) {
-                    //quizBrain.setSelectedAnswer(value);
+                child: BlocBuilder<PartOneCubit, PartOneState>(
+                  builder: (context, state) {
+                    if (state is PartOneContentLoaded) {
+                      final partOneModel = state.partOneModel;
+                      final userChecked = state.userChecked;
+                      return AnswerBoardNeumorphic(
+                        textA: partOneModel.answers[0],
+                        textB: partOneModel.answers[1],
+                        textC: partOneModel.answers[2],
+                        textD: partOneModel.answers[3],
+                        // need modify to check whether user is clicked the answer or not.
+                        correctAns:
+                            userChecked ? partOneModel.correctAnswer.index : -1,
+                        selectedAns: state.userAnswer.index,
+                        selectChanged: (value) {
+                          //quizBrain.setSelectedAnswer(value);
+                          BlocProvider.of<PartOneCubit>(context)
+                              .userSelectAnswerChange(UserAnswer.values[value]);
+                        },
+                      );
+                    }
+                    return AnswerBoardNeumorphic(
+                      textA: '...',
+                      textB: '...',
+                      textC: '...',
+                      textD: '...',
+                      correctAns: -1,
+                      selectedAns: -1,
+                      selectChanged: (value) {
+                        //quizBrain.setSelectedAnswer(value);
+                      },
+                    );
                   },
                 ),
-                // child: AnswerBoard(
-                //   textA: 'To ask how to fill out an application',
-                //   textB: 'To inquire about a delivery date',
-                //   textC: 'To report a problem with a product',
-                //   textD: 'To revise a biling address',
-                // ),
               ),
-              AudioController(
+              AudioControllerNeumorphic(
                 //durationTime: MediaPlayer.instance.getDurationTime(),
                 changeToDurationCallBack: (timestamp) {
                   MediaPlayer.instance.seekTo(seconds: timestamp.toInt());
@@ -83,27 +142,15 @@ class PartTwoScreen extends StatelessWidget {
                 },
                 audioPlayer: MediaPlayer.instance.audioPlayer,
               ),
-              BottomController(
-                prePressed: () {
-                  // setState(() {
-                  //   if (quizBrain.preQuestion()) {
-                  //     MediaPlayer.instance
-                  //         .playLocal(quizBrain.getQuestionInfo().audioLocalUrl);
-                  //   }
-                  // });
+              BottomControllerNeumorphic(
+                prevPressed: () {
+                  BlocProvider.of<PartOneCubit>(context).getPrevContent();
                 },
                 nextPressed: () {
-                  // setState(() {
-                  //   if (quizBrain.nextQuestion()) {
-                  //     MediaPlayer.instance
-                  //         .playLocal(quizBrain.getQuestionInfo().audioLocalUrl);
-                  //   }
-                  // });
+                  BlocProvider.of<PartOneCubit>(context).getNextContent();
                 },
                 checkAnsPressed: () {
-                  // setState(() {
-                  //   quizBrain.doCheckAnswer();
-                  // });
+                  BlocProvider.of<PartOneCubit>(context).userCheckAnswer();
                 },
               ),
             ],

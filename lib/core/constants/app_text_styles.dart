@@ -27,6 +27,7 @@ class AppTextStyles {
     fontWeight: FontWeight.bold,
     fontSize: 20.0,
   );
+
   //TextSecondary
   static const kTextSecondary = TextStyle(
     color: AppLightColors.kTextSecondary,
@@ -37,5 +38,16 @@ class AppTextStyles {
     color: AppLightColors.kTextSecondary,
     fontWeight: FontWeight.normal,
     fontSize: 15.0,
+  );
+
+  //execute test
+  static const kTextAnswerBoard = TextStyle(
+      color: AppLightColors.kTextAnswerBoard,
+      fontSize: 16.0,
+      fontWeight: FontWeight.w400);
+  static const kTextQuestion = TextStyle(
+    color: AppLightColors.kTextQuestion,
+    fontWeight: FontWeight.bold,
+    fontSize: 16.0,
   );
 }

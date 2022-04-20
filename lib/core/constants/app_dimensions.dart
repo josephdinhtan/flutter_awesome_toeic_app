@@ -1,5 +1,5 @@
 class AppDimensions {
-  static const kCardElevationDefaut = 5.0;
+  static const kCardElevationDefault = 5.0;
 
   static const kCardRadiusDefault = 8.0;
   static const kPaddingDefault = 8.0;
@@ -11,4 +11,5 @@ class AppDimensions {
 
   static const kPaddingIconButton = 6.0;
 
+  static const maxWidthForMobileMode = 600.0;
 }

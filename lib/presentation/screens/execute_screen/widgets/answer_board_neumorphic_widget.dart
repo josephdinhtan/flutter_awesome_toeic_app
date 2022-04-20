@@ -1,13 +1,16 @@
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_neumorphic/flutter_neumorphic.dart';
 import 'package:flutter_toeic_quiz2/core/constants/app_dark_colors.dart';
 import 'package:flutter_toeic_quiz2/core/constants/app_dimensions.dart';
 import 'package:flutter_toeic_quiz2/core/constants/app_light_colors.dart';
-import 'package:flutter_toeic_quiz2/core/constants/app_text_styles.dart';
+import 'package:flutter_toeic_quiz2/core/constants/app_neumorphic_style.dart';
 
-class AnswerBoard extends StatelessWidget {
+import '../../../../core/constants/app_text_styles.dart';
+
+class AnswerBoardNeumorphic extends StatelessWidget {
   final selectedIndex = ValueNotifier(-1);
-  AnswerBoard(
+  AnswerBoardNeumorphic(
       {this.textA,
       this.textB,
       this.textC,
@@ -33,7 +36,7 @@ class AnswerBoard extends StatelessWidget {
         return Column(
           crossAxisAlignment: CrossAxisAlignment.stretch,
           children: [
-            AnswerButton(
+            AnswerButtonNeumorphic(
                 id: 0,
                 isCorrectAns: correctAns == 0,
                 title: 'A. $textA',
@@ -45,7 +48,7 @@ class AnswerBoard extends StatelessWidget {
                   }
                 }),
             SizedBox(height: AppDimensions.kSpaceBetweenAnsBox),
-            AnswerButton(
+            AnswerButtonNeumorphic(
                 id: 1,
                 isCorrectAns: correctAns == 1,
                 title: 'B. $textB',
@@ -57,7 +60,7 @@ class AnswerBoard extends StatelessWidget {
                   }
                 }),
             SizedBox(height: AppDimensions.kSpaceBetweenAnsBox),
-            AnswerButton(
+            AnswerButtonNeumorphic(
                 id: 2,
                 isCorrectAns: correctAns == 2,
                 title: 'C. $textC',
@@ -70,7 +73,7 @@ class AnswerBoard extends StatelessWidget {
                 }),
             SizedBox(height: AppDimensions.kSpaceBetweenAnsBox),
             if (textD != null)
-              AnswerButton(
+              AnswerButtonNeumorphic(
                   id: 3,
                   isCorrectAns: correctAns == 3,
                   title: 'D. $textD',
@@ -88,8 +91,8 @@ class AnswerBoard extends StatelessWidget {
   }
 }
 
-class AnswerButton extends StatelessWidget {
-  AnswerButton({
+class AnswerButtonNeumorphic extends StatelessWidget {
+  AnswerButtonNeumorphic({
     Key? key,
     required this.id,
     required this.title,
@@ -108,40 +111,36 @@ class AnswerButton extends StatelessWidget {
   Widget build(BuildContext context) {
     var brightness = MediaQuery.of(context).platformBrightness;
     bool isDarkMode = brightness == Brightness.dark;
-    return SizedBox(
-      height: 36.0,
-      child: OutlinedButton(
-        onPressed: callBack,
-        child: Padding(
-          padding: const EdgeInsets.symmetric(horizontal: 8.0),
-          child: Text(
-            title,
-            style: AppTextStyles.kTextAnswerBoard,
+    return Stack(
+      alignment: Alignment.centerRight,
+      children: [
+        SizedBox(
+          width: double.infinity,
+          child: NeumorphicButton(
+            onPressed: callBack,
+            child: Text(
+              title,
+              style: AppTextStyles.kTextAnswerBoard,
+            ),
+            style: AppNeumorphicStyles.kAnswerButtonStyle.copyWith(
+              color: isSelected.value == id
+                  ? AppLightColors.kAnswerButtonColorSelected
+                  : isDarkMode
+                      ? AppDarkColors.kAnswerButtonColor
+                      : AppLightColors.kAnswerButtonColor,
+            ),
           ),
         ),
-        style: ButtonStyle(
-          alignment: Alignment.centerLeft,
-          foregroundColor: MaterialStateProperty.all(
-              isDarkMode ? Colors.white : Colors.black87),
-          elevation: MaterialStateProperty.all(2.0),
-          backgroundColor: isSelected.value == id
-              ? MaterialStateProperty.all(
-                  AppLightColors.kAnswerButtonColorSelected)
-              : MaterialStateProperty.all(isDarkMode
-                  ? AppDarkColors.kAnswerButtonColor
-                  : AppLightColors.kAnswerButtonColor),
-          shape: MaterialStateProperty.all(
-            StadiumBorder(),
-          ),
-          side: isCorrectAns
-              ? MaterialStateProperty.all(
-                  BorderSide(
-                      width: AppDimensions.kBorderSizeAnsBox,
-                      color: Colors.greenAccent),
-                )
-              : null,
-        ),
-      ),
+        isCorrectAns
+            ? Padding(
+                padding: const EdgeInsets.all(8.0),
+                child: Icon(
+                  Icons.check_circle_rounded,
+                  color: AppLightColors.kAnswerButtonColorCorrectAns,
+                ),
+              )
+            : Center(),
+      ],
     );
   }
 }

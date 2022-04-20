@@ -1,4 +1,14 @@
-import 'package:flutter_neumorphic/flutter_neumorphic.dart';
+import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:flutter_toeic_quiz2/core/constants/app_dimensions.dart';
+import 'package:flutter_toeic_quiz2/core/constants/app_text_styles.dart';
+import 'package:flutter_toeic_quiz2/data/models/part_models/answer_enum.dart';
+import 'package:flutter_toeic_quiz2/data/models/part_models/part_three_model.dart';
+import 'package:flutter_toeic_quiz2/presentation/screens/execute_screen/widgets/audio_controller_neumorphic_widget.dart';
+import 'package:flutter_toeic_quiz2/view_model/execute_screen_view_model/part_three_view_model/part_three_cubit.dart';
+import '../components/media_player.dart';
+import '../widgets/answer_board_neumorphic_widget.dart';
+import '../widgets/bottom_controller_neumorphic_widget.dart';
 
 class PartThreeScreen extends StatelessWidget {
   final int partId;
@@ -8,124 +18,190 @@ class PartThreeScreen extends StatelessWidget {
       {Key? key, required this.partId, required this.partTitle})
       : super(key: key);
 
-  // This widget is the root of your application.
   @override
   Widget build(BuildContext context) {
-    return NeumorphicApp(
-      debugShowCheckedModeBanner: false,
-      title: 'Flutter Demo',
-      themeMode: ThemeMode.light,
-      theme: NeumorphicThemeData(
-        baseColor: Color(0xFFFFFFFF),
-        lightSource: LightSource.topLeft,
-        depth: 10,
-      ),
-      darkTheme: NeumorphicThemeData(
-        baseColor: Color(0xFF3E3E3E),
-        lightSource: LightSource.topLeft,
-        depth: 6,
-      ),
-      home: MyHomePage(),
+    return BlocProvider(
+      create: (context) => PartThreeCubit()..getInitContent(),
+      child: const PartThreePage(),
     );
   }
 }
 
-class MyHomePage extends StatelessWidget {
-  MyHomePage({Key? key}) : super(key: key);
+class PartThreePage extends StatelessWidget {
+  const PartThreePage({Key? key}) : super(key: key);
 
+  @override
   Widget build(BuildContext context) {
+    //double height = MediaQuery.of(context).size.height;
+    double width = MediaQuery.of(context).size.width;
     return Scaffold(
-      floatingActionButton: NeumorphicFloatingActionButton(
-        child: Icon(Icons.add, size: 30),
-        onPressed: () {},
+      appBar: AppBar(
+        actions: [
+          IconButton(
+              onPressed: () {
+                //_showMyDialog();
+                //BlocProvider.of<PartOneCubit>(context).getContent();
+              },
+              icon: const Icon(Icons.format_list_numbered_outlined))
+        ],
+        title: BlocBuilder<PartThreeCubit, PartThreeState>(
+          builder: (context, state) {
+            if (state is PartThreeContentLoaded) {
+              final partThreeModel = state.partThreeModel;
+              final strQuestionNum = partThreeModel.questionNumber[0] < 10
+                  ? "0${partThreeModel.questionNumber[0]}"
+                  : partThreeModel.questionNumber[0];
+              final strNumOfQuestion = partThreeModel.numOfQuestion < 10
+                  ? "0${partThreeModel.numOfQuestion}"
+                  : partThreeModel.numOfQuestion;
+              final title = "Group Question: $strQuestionNum/$strNumOfQuestion";
+              return Text(title);
+            }
+            return const Text('Question: ../..');
+          },
+        ),
       ),
-      backgroundColor: NeumorphicTheme.baseColor(context),
       body: Center(
-        child: Column(
-          mainAxisSize: MainAxisSize.min,
-          children: <Widget>[
-            NeumorphicButton(
-              onPressed: () {
-                print("onClick");
-              },
-              child: Text('this is a text button'),
-              style: NeumorphicStyle(
-                shape: NeumorphicShape.flat,
-                boxShape:
-                NeumorphicBoxShape.roundRect(BorderRadius.circular(8)),
+        child: SizedBox(
+          width: width > AppDimensions.maxWidthForMobileMode
+              ? AppDimensions.maxWidthForMobileMode
+              : null,
+          child: Column(
+            children: [
+              const LinearProgressIndicator(
+                value:
+                    0.5, //quizBrain.currentQuestionNumber / quizBrain.totalQuestionNumber,
               ),
-            ),
-            NeumorphicButton(
-              onPressed: () {
-                print("onClick");
-              },
-              style: NeumorphicStyle(
-                shape: NeumorphicShape.flat,
-                boxShape: NeumorphicBoxShape.circle(),
-              ),
-              padding: const EdgeInsets.all(12.0),
-              child: Icon(
-                Icons.favorite_border,
-                color: _iconsColor(context),
-              ),
-            ),
-            NeumorphicButton(
-                margin: EdgeInsets.only(top: 12),
-                onPressed: () {
-                  NeumorphicTheme.of(context)?.themeMode =
-                      NeumorphicTheme.isUsingDark(context)
-                          ? ThemeMode.light
-                          : ThemeMode.dark;
-                },
-                style: NeumorphicStyle(
-                  shape: NeumorphicShape.flat,
-                  boxShape:
-                      NeumorphicBoxShape.roundRect(BorderRadius.circular(8)),
+              Expanded(
+                child: SingleChildScrollView(
+                  child: Padding(
+                    padding: const EdgeInsets.all(16.0),
+                    child: BlocBuilder<PartThreeCubit, PartThreeState>(
+                      builder: (context, state) {
+                        if (state is PartThreeContentLoaded) {
+                          final PartThreeModel partThreeModel =
+                              state.partThreeModel;
+                          final userChecked = state.userChecked;
+                          final userAnswer = state.userAnswer;
+                          List<Widget> listWidget = [];
+                          for (int i = 0;
+                              i < partThreeModel.questionNumber.length;
+                              i++) {
+                            if (i != 0) {
+                              listWidget.add(const SizedBox(
+                                  height: AppDimensions.kPaddingDefaultDouble));
+                            }
+                            listWidget.add(Text(
+                              '  ${partThreeModel.questionNumber[i]}: ${partThreeModel.questions[i]}',
+                              style: AppTextStyles.kTextQuestion,
+                            ));
+                            listWidget.add(const SizedBox(
+                                height: AppDimensions.kPaddingDefault));
+                            listWidget.add(AnswerBoardNeumorphic(
+                              textA: partThreeModel.answers[i][0],
+                              textB: partThreeModel.answers[i][1],
+                              textC: partThreeModel.answers[i][2],
+                              textD: partThreeModel.answers[i].length > 3
+                                  ? partThreeModel.answers[i][3]
+                                  : null,
+                              // need modify to check whether user is clicked the answer or not.
+                              correctAns: userChecked[i]
+                                  ? partThreeModel.correctAnswer[i].index
+                                  : -1,
+                              selectedAns: userAnswer[i].index,
+                              selectChanged: (value) {
+                                BlocProvider.of<PartThreeCubit>(context)
+                                    .userSelectAnswerChange(
+                                        partThreeModel.questionNumber[i],
+                                        UserAnswer.values[value]);
+                              },
+                            ));
+                          }
+                          return Column(
+                            children: listWidget,
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                          );
+                        }
+                        return Column(
+                          mainAxisSize: MainAxisSize.max,
+                          children: [
+                            const SizedBox(
+                                height: AppDimensions.kPaddingDefault),
+                            const Text('question ...'),
+                            AnswerBoardNeumorphic(
+                              textA: '...',
+                              textB: '...',
+                              textC: '...',
+                              textD: '...',
+                              correctAns: -1,
+                              selectedAns: -1,
+                              selectChanged: (value) {
+                                //quizBrain.setSelectedAnswer(value);
+                              },
+                            ),
+                            const SizedBox(
+                                height: AppDimensions.kPaddingDefault),
+                            const Text('question ...'),
+                            AnswerBoardNeumorphic(
+                              textA: '...',
+                              textB: '...',
+                              textC: '...',
+                              textD: '...',
+                              correctAns: -1,
+                              selectedAns: -1,
+                              selectChanged: (value) {
+                                //quizBrain.setSelectedAnswer(value);
+                              },
+                            ),
+                            const SizedBox(
+                                height: AppDimensions.kPaddingDefault),
+                            const Text('question ...'),
+                            AnswerBoardNeumorphic(
+                              textA: '...',
+                              textB: '...',
+                              textC: '...',
+                              textD: '...',
+                              correctAns: -1,
+                              selectedAns: -1,
+                              selectChanged: (value) {
+                                //quizBrain.setSelectedAnswer(value);
+                              },
+                            ),
+                          ],
+                        );
+                      },
+                    ),
+                  ),
                 ),
-                padding: const EdgeInsets.all(12.0),
-                child: Text(
-                  "Toggle Theme",
-                  style: TextStyle(color: _textColor(context)),
-                )),
-            NeumorphicButton(
-                margin: EdgeInsets.only(top: 12),
-                onPressed: () {
-                  // Navigator.of(context)
-                  //     .pushReplacement(MaterialPageRoute(builder: (context) {
-                  //   return FullSampleHomePage();
-                  // }));
+              ),
+              AudioControllerNeumorphic(
+                //durationTime: MediaPlayer.instance.getDurationTime(),
+                changeToDurationCallBack: (timestamp) {
+                  MediaPlayer.instance.seekTo(seconds: timestamp.toInt());
                 },
-                style: NeumorphicStyle(
-                  shape: NeumorphicShape.flat,
-                  boxShape:
-                      NeumorphicBoxShape.roundRect(BorderRadius.circular(8)),
-                  //border: NeumorphicBorder()
-                ),
-                padding: const EdgeInsets.all(12.0),
-                child: Text(
-                  "Go to full sample",
-                  style: TextStyle(color: _textColor(context)),
-                )),
-          ],
+                playCallBack: () {
+                  MediaPlayer.instance.resume();
+                },
+                pauseCallBack: () {
+                  MediaPlayer.instance.pause();
+                },
+                audioPlayer: MediaPlayer.instance.audioPlayer,
+              ),
+              BottomControllerNeumorphic(
+                prevPressed: () {
+                  BlocProvider.of<PartThreeCubit>(context).getPrevContent();
+                },
+                nextPressed: () {
+                  BlocProvider.of<PartThreeCubit>(context).getNextContent();
+                },
+                checkAnsPressed: () {
+                  BlocProvider.of<PartThreeCubit>(context).userCheckAnswer();
+                },
+              ),
+            ],
+          ),
         ),
       ),
     );
-  }
-
-  Color? _iconsColor(BuildContext context) {
-    final theme = NeumorphicTheme.of(context);
-    if (theme!.isUsingDark) {
-      return theme.current!.accentColor;
-    } else {
-      return null;
-    }
-  }
-
-  Color _textColor(BuildContext context) {
-    if (NeumorphicTheme.isUsingDark(context)) {
-      return Colors.white;
-    } else {
-      return Colors.black;
-    }
   }
 }

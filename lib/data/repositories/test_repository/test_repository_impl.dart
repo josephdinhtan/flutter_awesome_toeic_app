@@ -1,6 +1,6 @@
 import 'package:flutter_toeic_quiz2/data/models/test_info_model.dart';
 
-import '../../dataproviders/base_api.dart';
+import '../../data_providers/base_api.dart';
 import 'test_repository.dart';
 
 class TestRepositoryImpl implements TestRepository {

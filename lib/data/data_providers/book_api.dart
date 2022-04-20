@@ -1,10 +1,9 @@
-import 'package:flutter_toeic_quiz2/data/dataproviders/base_api.dart';
+import 'package:flutter_toeic_quiz2/data/data_providers/base_api.dart';
 import 'package:flutter_toeic_quiz2/data/models/book_info_model.dart';
 
 class BookApi extends BaseApi<List<BookInfoModel>> {
   @override
   Future<List<BookInfoModel>> getList() async {
-    // TODO: implement get from remote with http request and should be repose a Reponse folder
     List<BookInfoModel> list = [];
     list.add(BookInfoModel(
         id: 1,

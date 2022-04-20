@@ -1,31 +1,31 @@
 
-import 'package:assets_audio_player/assets_audio_player.dart';
+import 'package:audioplayers/audioplayers.dart';
 import 'package:flutter/material.dart';
 
 class MediaPlayer {
   static final MediaPlayer instance = MediaPlayer._init();
   MediaPlayer._init();
 
-  AssetsAudioPlayer audioPlayer = AssetsAudioPlayer();
+  AudioPlayer audioPlayer = AudioPlayer();
   void playLocal(String localPath) async {
-    audioPlayer.open(Audio.file(localPath), autoStart: true);
+    //audioPlayer.open(Audio.file(localPath), autoStart: true);
   }
 
   void pause() {
-    audioPlayer.pause();
+    //audioPlayer.pause();
   }
 
   void stop() {
-    audioPlayer.stop();
+    //audioPlayer.stop();
   }
 
   void resume() async {
-    audioPlayer.play();
+    //audioPlayer.play();
   }
 
   void setBuilderCurrentPosition(
       Widget Function(BuildContext, Duration) function) {
-    audioPlayer.builderCurrentPosition(builder: function);
+    //audioPlayer.builderCurrentPosition(builder: function);
   }
 
   // Duration getCurrentDuaration() {
@@ -33,6 +33,6 @@ class MediaPlayer {
   // }
 
   void seekTo({required int seconds}) async {
-    audioPlayer.seek(Duration(seconds: seconds));
+    //audioPlayer.seek(Duration(seconds: seconds));
   }
 }

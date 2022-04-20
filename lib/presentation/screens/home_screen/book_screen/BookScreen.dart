@@ -18,10 +18,10 @@ class BookScreen extends StatefulWidget {
 class _BookScreenState extends State<BookScreen> {
   bool listItemIsUpdated = false;
 
-
   @override
   void initState() {
-      bookListCubit.getBookList();
+    super.initState();
+    bookListCubit.getBookList();
   }
 
   @override
@@ -29,25 +29,26 @@ class _BookScreenState extends State<BookScreen> {
     return BlocProvider<BookListCubit>(
       create: (context) => bookListCubit,
       child: Scaffold(
-          appBar: AppBar(title: Text('BOOKS'.toUpperCase()),),
-          body: BlocConsumer<BookListCubit, BookListState>(
-            listener: (context, state) {
-              if (state is BookListLoaded) {
-                final bookListInfor = state.bookListModel;
-                bookItems.clear();
-                for (BookInfoModel bookInfor in bookListInfor) {
-                  bookItems.add(BookItemWidget(
-                      toeicBook: bookInfor));
-                }
+        appBar: AppBar(
+          title: Text('BOOKS'.toUpperCase()),
+        ),
+        body: BlocConsumer<BookListCubit, BookListState>(
+          listener: (context, state) {
+            if (state is BookListLoaded) {
+              final bookListInfo = state.bookListModel;
+              bookItems.clear();
+              for (BookInfoModel bookInfo in bookListInfo) {
+                bookItems.add(BookItemWidget(toeicBook: bookInfo));
               }
-            },
-            builder: (context, state) {
-              if (state is BookListLoaded) return _buildList();
-              return const Center(
-                child: Text('Loading...'),
-              );
-            },
-          ),
+            }
+          },
+          builder: (context, state) {
+            if (state is BookListLoaded) return _buildList();
+            return const Center(
+              child: Text('Loading...'),
+            );
+          },
+        ),
       ),
     );
   }

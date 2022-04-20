@@ -1,5 +1,5 @@
 
-import 'package:assets_audio_player/assets_audio_player.dart';
+import 'package:audioplayers/audioplayers.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_toeic_quiz2/core/constants/app_dark_colors.dart';
 import 'package:flutter_toeic_quiz2/core/constants/app_dimensions.dart';
@@ -19,10 +19,10 @@ class AudioController extends StatefulWidget {
   final Function(double timestamp)? changeToDurationCallBack;
   final Function() playCallBack;
   final Function() pauseCallBack;
-  final AssetsAudioPlayer audioPlayer;
+  final AudioPlayer audioPlayer;
 
   String coverFormatTime(int value) {
-    int min = (value / 60).toInt();
+    int min = value ~/ 60;
     int sec = value % 60;
     return '${min < 10 ? '0$min' : '$min'}:${sec < 10 ? '0$sec' : '$sec'}';
   }
@@ -41,22 +41,22 @@ class _AudioControllerState extends State<AudioController> {
   void initState() {
     // TODO: implement initState
     super.initState();
-    widget.audioPlayer.currentPosition.listen((positionValue) {
-      setState(() {
-        _currentDuration = positionValue.inSeconds.toDouble();
-        if (!sliderIsSliding) _currentSliderValue = _currentDuration;
-      });
-    });
-    //durationTime = (widget.audioPlayer.current.value as Playing).du
-    widget.audioPlayer.current.listen((playingAudio) {
-      widget.durationTime = playingAudio!.audio.duration.inSeconds;
-    });
-
-    widget.audioPlayer.isPlaying.listen((event) {
-      setState(() {
-        isPlaying = event;
-      });
-    });
+    // widget.audioPlayer.currentPosition.listen((positionValue) {
+    //   setState(() {
+    //     _currentDuration = positionValue.inSeconds.toDouble();
+    //     if (!sliderIsSliding) _currentSliderValue = _currentDuration;
+    //   });
+    // });
+    // //durationTime = (widget.audioPlayer.current.value as Playing).du
+    // widget.audioPlayer.current.listen((playingAudio) {
+    //   widget.durationTime = playingAudio!.audio.duration.inSeconds;
+    // });
+    //
+    // widget.audioPlayer.isPlaying.listen((event) {
+    //   setState(() {
+    //     isPlaying = event;
+    //   });
+    // });
   }
 
   @override
@@ -72,8 +72,8 @@ class _AudioControllerState extends State<AudioController> {
             Row(
               children: [
                 IconButton(
-                  padding: EdgeInsets.all(AppDimensions.kPaddingIconButton),
-                  constraints: BoxConstraints(),
+                  padding: const EdgeInsets.all(AppDimensions.kPaddingIconButton),
+                  constraints: const BoxConstraints(),
                   onPressed: () {
                     setState(() {
                       _currentDuration = (_currentDuration - 5) > 0
@@ -83,19 +83,20 @@ class _AudioControllerState extends State<AudioController> {
                       widget.changeToDurationCallBack!(_currentDuration);
                     });
                   },
-                  icon: Icon(
+                  icon: const Icon(
                     Icons.replay_5_rounded,
                   ),
                 ),
                 IconButton(
                   // play
-                  padding: EdgeInsets.all(AppDimensions.kPaddingIconButton),
-                  constraints: BoxConstraints(),
+                  padding: const EdgeInsets.all(AppDimensions.kPaddingIconButton),
+                  constraints: const BoxConstraints(),
                   onPressed: () {
-                    if (isPlaying)
+                    if (isPlaying) {
                       widget.pauseCallBack();
-                    else
+                    } else {
                       widget.playCallBack();
+                    }
                     setState(() {
                       isPlaying = !isPlaying;
                     });
@@ -105,8 +106,8 @@ class _AudioControllerState extends State<AudioController> {
                   ),
                 ),
                 IconButton(
-                  padding: EdgeInsets.all(AppDimensions.kPaddingIconButton),
-                  constraints: BoxConstraints(),
+                  padding: const EdgeInsets.all(AppDimensions.kPaddingIconButton),
+                  constraints: const BoxConstraints(),
                   onPressed: () {
                     setState(() {
                       _currentDuration =
@@ -117,11 +118,11 @@ class _AudioControllerState extends State<AudioController> {
                       widget.changeToDurationCallBack!(_currentDuration);
                     });
                   },
-                  icon: Icon(
+                  icon: const Icon(
                     Icons.forward_5_rounded,
                   ),
                 ),
-                SizedBox(width: 6.0),
+                const SizedBox(width: 6.0),
                 //Text(widget.coverFormatTime(_currentDuration.toInt())),
                 Text(widget.coverFormatTime(_currentDuration.toInt())),
               ],

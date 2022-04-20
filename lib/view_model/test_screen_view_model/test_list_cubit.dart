@@ -1,7 +1,6 @@
 import 'package:bloc/bloc.dart';
-import 'package:meta/meta.dart';
 
-import '../../data/dataproviders/test_api.dart';
+import '../../data/data_providers/test_api.dart';
 import '../../data/models/test_info_model.dart';
 import '../../data/repositories/test_repository/test_repository_impl.dart';
 import '../../domain/base_use_case.dart';

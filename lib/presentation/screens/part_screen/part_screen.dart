@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:flutter_neumorphic/flutter_neumorphic.dart';
+import 'package:flutter_toeic_quiz2/core/constants/app_neumorphic_style.dart';
 import 'package:flutter_toeic_quiz2/presentation/screens/part_screen/widgets/part_item_widget.dart';
 import 'package:flutter_toeic_quiz2/view_model/part_screen_view_model/part_list_cubit.dart';
 
@@ -22,11 +24,23 @@ class PartScreen extends StatelessWidget {
     return BlocProvider<PartListCubit>(
       create: (context) => partListCubit,
       child: Scaffold(
-        floatingActionButton: FloatingActionButton.extended(
+        floatingActionButton: NeumorphicButton(
+          style: AppNeumorphicStyles.kButtonStyle,
           onPressed: () {},
-          label: const Text('START FULL TEST'),
-          icon: const Icon(Icons.play_arrow_rounded),
+          child: Row(
+            mainAxisAlignment: MainAxisAlignment.center,
+            mainAxisSize: MainAxisSize.min,
+            children: [
+              const Icon(Icons.play_arrow_rounded),
+              const Text('START FULL TEST'),
+            ],
+          ),
         ),
+        // floatingActionButton: FloatingActionButton.extended(
+        //   onPressed: () {},
+        //   label: const Text('START FULL TEST'),
+        //   icon: const Icon(Icons.play_arrow_rounded),
+        // ),
         floatingActionButtonLocation: FloatingActionButtonLocation.centerFloat,
         appBar: AppBar(
           title: Text(

@@ -9,9 +9,13 @@ class PartOneLoading extends PartOneState {}
 
 class PartOneContentLoaded extends PartOneState {
   final PartOneModel partOneModel;
-  PartOneContentLoaded({required this.partOneModel});
+  final UserAnswer userAnswer;
+  final bool userChecked;
+  PartOneContentLoaded({
+    required this.userChecked,
+    required this.partOneModel,
+    required this.userAnswer,
+  });
 }
 
-// controller
-class PartOneSoundBack5Second extends PartOneState {}
-class PartOneSoundForward5Second extends PartOneState {}
+class PartOneCheckedAnswer extends PartOneState {}
