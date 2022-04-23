@@ -1,12 +1,17 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_toeic_quiz2/core/exceptions/route_exception.dart';
 import 'package:flutter_toeic_quiz2/presentation/screens/execute_screen/part_one_screen/part_one_screen.dart';
+import 'package:flutter_toeic_quiz2/presentation/screens/execute_screen/part_seven_screen/part_seven_screen.dart';
 import 'package:flutter_toeic_quiz2/presentation/screens/execute_screen/part_three_screen/part_three_screen.dart';
 import 'package:flutter_toeic_quiz2/presentation/screens/execute_screen/part_two_screen/part_two_screen.dart';
 import 'package:flutter_toeic_quiz2/presentation/screens/home_screen/home_screen.dart';
 import 'package:flutter_toeic_quiz2/presentation/router/screen_arguments.dart';
 import 'package:flutter_toeic_quiz2/presentation/screens/part_screen/part_screen.dart';
 import 'package:flutter_toeic_quiz2/presentation/screens/test_screen/test_screen.dart';
+
+import '../screens/execute_screen/part_five_screen/part_five_screen.dart';
+import '../screens/execute_screen/part_four_screen/part_four_screen.dart';
+import '../screens/execute_screen/part_six_screen/part_six_screen.dart';
 
 class AppRouter {
   static const String home = '/';
@@ -68,7 +73,26 @@ class AppRouter {
         return MaterialPageRoute(
           builder: (_) => PartThreeScreen(partId: args.id, partTitle: args.title),
         );
-      // part 3 4 5 6 7 here
+      case part4Exam:
+        final args = settings.arguments as ScreenArguments;
+        return MaterialPageRoute(
+          builder: (_) => PartFourScreen(partId: args.id, partTitle: args.title),
+        );
+      case part5Exam:
+        final args = settings.arguments as ScreenArguments;
+        return MaterialPageRoute(
+          builder: (_) => PartFiveScreen(partId: args.id, partTitle: args.title),
+        );
+      case part6Exam:
+        final args = settings.arguments as ScreenArguments;
+        return MaterialPageRoute(
+          builder: (_) => PartSixScreen(partId: args.id, partTitle: args.title),
+        );
+      case part7Exam:
+        final args = settings.arguments as ScreenArguments;
+        return MaterialPageRoute(
+          builder: (_) => PartSevenScreen(partId: args.id, partTitle: args.title),
+        );
       default:
         throw const RouteException('Route not found!');
     }

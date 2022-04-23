@@ -35,6 +35,7 @@ class AppLightColors {
 
   // button
   static const kButtonPrimary = Color(0xffa062c1);
+  //static const kButtonPrimary = Colors.transparent;
   static const kButtonTextPrimary = Color(0xFF343434);
 
   static const kAnswerButtonColorSelected = Color(0xffffb703);
@@ -44,4 +45,7 @@ class AppLightColors {
 
   static const kSliderActiveColor = Color(0xffff8f00);
   static const kSliderInactiveColor = Color(0x26ff8f00);
+
+  // split bar
+  static const kSplitBar = Color(0xFF00B4AB); // text
 }

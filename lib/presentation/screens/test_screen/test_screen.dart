@@ -2,7 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_toeic_quiz2/data/models/test_info_model.dart';
 import 'package:flutter_toeic_quiz2/presentation/screens/test_screen/widgets/test_item_widget.dart';
-import '../../../view_model/test_screen_view_model/test_list_cubit.dart';
+
+import '../../../view_model/test_screen_cubit/test_list_cubit.dart';
 
 final List<TestItemWidget> testItems = [];
 final testListCubit = TestListCubit();
@@ -30,7 +31,9 @@ class TestScreen extends StatelessWidget {
               final testListInfo = state.testListModel;
               testItems.clear();
               for (TestInfoModel testInfo in testListInfo) {
-                testItems.add(TestItemWidget.fromTestInfoModel(testInfo,));
+                testItems.add(TestItemWidget.fromTestInfoModel(
+                  testInfo,
+                ));
               }
             }
           },

@@ -11,5 +11,5 @@ class AppDimensions {
 
   static const kPaddingIconButton = 6.0;
 
-  static const maxWidthForMobileMode = 600.0;
+  static const maxWidthForMobileMode = 800.0;
 }

@@ -1,5 +1,4 @@
 import 'package:flutter/foundation.dart';
-import 'package:flutter/material.dart';
 import 'package:flutter_neumorphic/flutter_neumorphic.dart';
 import 'package:flutter_toeic_quiz2/core/constants/app_dark_colors.dart';
 import 'package:flutter_toeic_quiz2/core/constants/app_dimensions.dart';
@@ -11,13 +10,13 @@ import '../../../../core/constants/app_text_styles.dart';
 class AnswerBoardNeumorphic extends StatelessWidget {
   final selectedIndex = ValueNotifier(-1);
   AnswerBoardNeumorphic(
-      {this.textA,
+      {Key? key, this.textA,
       this.textB,
       this.textC,
       this.textD,
       required this.correctAns,
       required this.selectedAns,
-      required this.selectChanged});
+      required this.selectChanged}) : super(key: key);
 
   final String? textA;
   final String? textB;
@@ -42,7 +41,7 @@ class AnswerBoardNeumorphic extends StatelessWidget {
                 title: 'A. $textA',
                 isSelected: selectedIndex,
                 callBack: () {
-                  if (correctAns == -1) {
+                  if (correctAns == -1 || correctAns == 4) {
                     selectedIndex.value = 0;
                     selectChanged(0);
                   }
@@ -54,7 +53,7 @@ class AnswerBoardNeumorphic extends StatelessWidget {
                 title: 'B. $textB',
                 isSelected: selectedIndex,
                 callBack: () {
-                  if (correctAns == -1) {
+                  if (correctAns == -1 || correctAns == 4) {
                     selectedIndex.value = 1;
                     selectChanged(1);
                   }
@@ -66,12 +65,12 @@ class AnswerBoardNeumorphic extends StatelessWidget {
                 title: 'C. $textC',
                 isSelected: selectedIndex,
                 callBack: () {
-                  if (correctAns == -1) {
+                  if (correctAns == -1 || correctAns == 4) {
                     selectedIndex.value = 2;
                     selectChanged(2);
                   }
                 }),
-            SizedBox(height: AppDimensions.kSpaceBetweenAnsBox),
+            const SizedBox(height: AppDimensions.kSpaceBetweenAnsBox),
             if (textD != null)
               AnswerButtonNeumorphic(
                   id: 3,
@@ -79,7 +78,7 @@ class AnswerBoardNeumorphic extends StatelessWidget {
                   title: 'D. $textD',
                   isSelected: selectedIndex,
                   callBack: () {
-                    if (correctAns == -1) {
+                    if (correctAns == -1 || correctAns == 4) {
                       selectedIndex.value = 3;
                       selectChanged(3);
                     }

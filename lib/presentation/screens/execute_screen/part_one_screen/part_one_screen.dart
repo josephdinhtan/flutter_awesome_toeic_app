@@ -3,12 +3,11 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_toeic_quiz2/core/constants/app_dimensions.dart';
 import 'package:flutter_toeic_quiz2/data/models/part_models/answer_enum.dart';
 import 'package:flutter_toeic_quiz2/presentation/screens/execute_screen/widgets/audio_controller_neumorphic_widget.dart';
-import '../../../../view_model/execute_screen_view_model/part_one_view_model/part_one_cubit.dart';
+import '../../../../utils/misc.dart';
+import '../../../../view_model/execute_screen_cubit/part_one_cubit/part_one_cubit.dart';
 import '../components/media_player.dart';
 import '../widgets/answer_board_neumorphic_widget.dart';
-import '../widgets/audio_controller_widget.dart';
 import '../widgets/bottom_controller_neumorphic_widget.dart';
-import '../widgets/bottom_controller_widget.dart';
 
 class PartOneScreen extends StatelessWidget {
   final int partId;
@@ -46,15 +45,8 @@ class PartOnePage extends StatelessWidget {
         title: BlocBuilder<PartOneCubit, PartOneState>(
           builder: (context, state) {
             if (state is PartOneContentLoaded) {
-              final partOneModel = state.partOneModel;
-              final strQuestionNum = partOneModel.questionNumber < 10
-                  ? "0${partOneModel.questionNumber}"
-                  : partOneModel.questionNumber;
-              final strNumOfQuestion = partOneModel.numOfQuestion < 10
-                  ? "0${partOneModel.numOfQuestion}"
-                  : partOneModel.numOfQuestion;
-              final title = "Question: $strQuestionNum/$strNumOfQuestion";
-              return Text(title);
+              return Text(
+                  'Question: ${numToStr(state.currentQuestionNumber)}/${numToStr(state.questionListSize)}');
             }
             return const Text('Question: ../..');
           },

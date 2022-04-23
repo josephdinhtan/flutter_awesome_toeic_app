@@ -13,7 +13,6 @@ class PartThreeApi {
           'Question demo part 3 - 3',
         ],
         questionNumber: [40, 41, 42],
-        numOfQuestion: 30,
         soundUrl: 'Sound URL part 3 demo - 1',
         answers: [
           ['answer demo A', 'answer demo B', 'answer demo C', 'answer demo D'],
@@ -28,7 +27,6 @@ class PartThreeApi {
           'Question demo part 3 - 6',
         ],
         questionNumber: [43, 44, 45],
-        numOfQuestion: 30,
         soundUrl: 'Sound URL part 3 demo - 2',
         answers: [
           ['answer demo A', 'answer demo B', 'answer demo C', 'answer demo D'],
@@ -43,7 +41,6 @@ class PartThreeApi {
           'Question demo part 3 - 9',
         ],
         questionNumber: [46, 47, 48],
-        numOfQuestion: 30,
         soundUrl: 'Sound URL part 3 demo - 3',
         answers: [
           ['answer demo A', 'answer demo B', 'answer demo C', 'answer demo D'],

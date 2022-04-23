@@ -3,7 +3,8 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_toeic_quiz2/core/constants/app_dimensions.dart';
 import 'package:flutter_toeic_quiz2/data/models/part_models/answer_enum.dart';
 import 'package:flutter_toeic_quiz2/presentation/screens/execute_screen/widgets/audio_controller_neumorphic_widget.dart';
-import '../../../../view_model/execute_screen_view_model/part_one_view_model/part_one_cubit.dart';
+import '../../../../utils/misc.dart';
+import '../../../../view_model/execute_screen_cubit/part_two_cubit/part_two_cubit.dart';
 import '../components/media_player.dart';
 import '../widgets/answer_board_neumorphic_widget.dart';
 import '../widgets/bottom_controller_neumorphic_widget.dart';
@@ -18,7 +19,7 @@ class PartTwoScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return BlocProvider(
-      create: (context) => PartOneCubit()..getInitContent(),
+      create: (context) => PartTwoCubit()..getInitContent(),
       child: const PartTwoPage(),
     );
   }
@@ -37,22 +38,15 @@ class PartTwoPage extends StatelessWidget {
           IconButton(
               onPressed: () {
                 //_showMyDialog();
-                //BlocProvider.of<PartOneCubit>(context).getContent();
+                //BlocProvider.of<PartTwoCubit>(context).getContent();
               },
               icon: const Icon(Icons.format_list_numbered_outlined))
         ],
-        title: BlocBuilder<PartOneCubit, PartOneState>(
+        title: BlocBuilder<PartTwoCubit, PartTwoState>(
           builder: (context, state) {
-            if (state is PartOneContentLoaded) {
-              final partOneModel = state.partOneModel;
-              final strQuestionNum = partOneModel.questionNumber < 10
-                  ? "0${partOneModel.questionNumber}"
-                  : partOneModel.questionNumber;
-              final strNumOfQuestion = partOneModel.numOfQuestion < 10
-                  ? "0${partOneModel.numOfQuestion}"
-                  : partOneModel.numOfQuestion;
-              final title = "Question: $strQuestionNum/$strNumOfQuestion";
-              return Text(title);
+            if (state is PartTwoContentLoaded) {
+              return Text(
+                  'Question: ${numToStr(state.currentQuestionNumber)}/${numToStr(state.questionListSize)}');
             }
             return const Text('Question: ../..');
           },
@@ -75,11 +69,11 @@ class PartTwoPage extends StatelessWidget {
                   child: Padding(
                     padding: const EdgeInsets.all(16.0),
                     child: Center(
-                      child: BlocBuilder<PartOneCubit, PartOneState>(
+                      child: BlocBuilder<PartTwoCubit, PartTwoState>(
                         builder: (context, state) {
-                          if (state is PartOneContentLoaded) {
-                            final partOneModel = state.partOneModel;
-                            return Text(partOneModel.imageUrl);
+                          if (state is PartTwoContentLoaded) {
+                            final partTwoModel = state.partTwoModel;
+                            return Text(partTwoModel.soundUrl);
                           }
                           return const Text('...');
                         },
@@ -94,23 +88,23 @@ class PartTwoPage extends StatelessWidget {
               ),
               Padding(
                 padding: const EdgeInsets.all(16.0),
-                child: BlocBuilder<PartOneCubit, PartOneState>(
+                child: BlocBuilder<PartTwoCubit, PartTwoState>(
                   builder: (context, state) {
-                    if (state is PartOneContentLoaded) {
-                      final partOneModel = state.partOneModel;
+                    if (state is PartTwoContentLoaded) {
+                      final partTwoModel = state.partTwoModel;
                       final userChecked = state.userChecked;
                       return AnswerBoardNeumorphic(
-                        textA: partOneModel.answers[0],
-                        textB: partOneModel.answers[1],
-                        textC: partOneModel.answers[2],
-                        textD: partOneModel.answers[3],
+                        textA: partTwoModel.answers[0],
+                        textB: partTwoModel.answers[1],
+                        textC: partTwoModel.answers[2],
+                        textD: partTwoModel.answers[3],
                         // need modify to check whether user is clicked the answer or not.
                         correctAns:
-                            userChecked ? partOneModel.correctAnswer.index : -1,
+                            userChecked ? partTwoModel.correctAnswer.index : -1,
                         selectedAns: state.userAnswer.index,
                         selectChanged: (value) {
                           //quizBrain.setSelectedAnswer(value);
-                          BlocProvider.of<PartOneCubit>(context)
+                          BlocProvider.of<PartTwoCubit>(context)
                               .userSelectAnswerChange(UserAnswer.values[value]);
                         },
                       );
@@ -144,13 +138,13 @@ class PartTwoPage extends StatelessWidget {
               ),
               BottomControllerNeumorphic(
                 prevPressed: () {
-                  BlocProvider.of<PartOneCubit>(context).getPrevContent();
+                  BlocProvider.of<PartTwoCubit>(context).getPrevContent();
                 },
                 nextPressed: () {
-                  BlocProvider.of<PartOneCubit>(context).getNextContent();
+                  BlocProvider.of<PartTwoCubit>(context).getNextContent();
                 },
                 checkAnsPressed: () {
-                  BlocProvider.of<PartOneCubit>(context).userCheckAnswer();
+                  BlocProvider.of<PartTwoCubit>(context).userCheckAnswer();
                 },
               ),
             ],

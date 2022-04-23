@@ -5,7 +5,8 @@ import 'package:flutter_toeic_quiz2/core/constants/app_text_styles.dart';
 import 'package:flutter_toeic_quiz2/data/models/part_models/answer_enum.dart';
 import 'package:flutter_toeic_quiz2/data/models/part_models/part_three_model.dart';
 import 'package:flutter_toeic_quiz2/presentation/screens/execute_screen/widgets/audio_controller_neumorphic_widget.dart';
-import 'package:flutter_toeic_quiz2/view_model/execute_screen_view_model/part_three_view_model/part_three_cubit.dart';
+import '../../../../utils/misc.dart';
+import '../../../../view_model/execute_screen_cubit/part_three_cubit/part_three_cubit.dart';
 import '../components/media_player.dart';
 import '../widgets/answer_board_neumorphic_widget.dart';
 import '../widgets/bottom_controller_neumorphic_widget.dart';
@@ -47,15 +48,8 @@ class PartThreePage extends StatelessWidget {
         title: BlocBuilder<PartThreeCubit, PartThreeState>(
           builder: (context, state) {
             if (state is PartThreeContentLoaded) {
-              final partThreeModel = state.partThreeModel;
-              final strQuestionNum = partThreeModel.questionNumber[0] < 10
-                  ? "0${partThreeModel.questionNumber[0]}"
-                  : partThreeModel.questionNumber[0];
-              final strNumOfQuestion = partThreeModel.numOfQuestion < 10
-                  ? "0${partThreeModel.numOfQuestion}"
-                  : partThreeModel.numOfQuestion;
-              final title = "Group Question: $strQuestionNum/$strNumOfQuestion";
-              return Text(title);
+              return Text(
+                  'Question: ${numToStr(state.currentQuestionNumber)}/${numToStr(state.questionListSize)}');
             }
             return const Text('Question: ../..');
           },
