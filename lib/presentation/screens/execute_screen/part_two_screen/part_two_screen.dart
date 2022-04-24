@@ -3,10 +3,12 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_toeic_quiz2/core/constants/app_dimensions.dart';
 import 'package:flutter_toeic_quiz2/data/models/part_models/answer_enum.dart';
 import 'package:flutter_toeic_quiz2/presentation/screens/execute_screen/widgets/audio_controller_neumorphic_widget.dart';
+import '../../../../core/constants/app_light_colors.dart';
 import '../../../../utils/misc.dart';
 import '../../../../view_model/execute_screen_cubit/part_two_cubit/part_two_cubit.dart';
 import '../components/media_player.dart';
 import '../widgets/answer_board_neumorphic_widget.dart';
+import '../widgets/answer_sheet_widget.dart';
 import '../widgets/bottom_controller_neumorphic_widget.dart';
 
 class PartTwoScreen extends StatelessWidget {
@@ -39,6 +41,36 @@ class PartTwoPage extends StatelessWidget {
               onPressed: () {
                 //_showMyDialog();
                 //BlocProvider.of<PartTwoCubit>(context).getContent();
+
+                showDialog(
+                    context: context,
+                    builder: (BuildContext buildContext) {
+                      return AlertDialog(
+                        scrollable: true,
+                        title: const Center(child: Text('Answer sheet')),
+                        contentPadding: const EdgeInsets.symmetric(
+                            horizontal: 6.0, vertical: 16.0),
+                        content: AnswerSheetWidget(
+                          selectedColor:
+                              AppLightColors.kAnswerButtonColorSelected,
+                          answerColor:
+                              AppLightColors.kAnswerButtonColorCorrectAns,
+                          answerSheetData:
+                              BlocProvider.of<PartTwoCubit>(context)
+                                  .getAnswerSheetData(),
+                          maxWidth: AppDimensions.maxWidthForMobileMode,
+                          onPressedSubmit: () {},
+                          onPressedCancel: () {
+                            Navigator.pop(buildContext);
+                          },
+                          onPressedGoToQuestion: (questionNumber) {
+                            BlocProvider.of<PartTwoCubit>(context)
+                                .goToQuestion(questionNumber);
+                            Navigator.pop(buildContext);
+                          },
+                        ),
+                      );
+                    });
               },
               icon: const Icon(Icons.format_list_numbered_outlined))
         ],
@@ -59,9 +91,20 @@ class PartTwoPage extends StatelessWidget {
               : null,
           child: Column(
             children: [
-              const LinearProgressIndicator(
-                value:
+              BlocBuilder<PartTwoCubit, PartTwoState>(
+                builder: (context, state) {
+                  if (state is PartTwoContentLoaded) {
+
+                    return LinearProgressIndicator(
+                      value:
+                      state.currentQuestionNumber/state.questionListSize,
+                    );
+                  }
+                  return const LinearProgressIndicator(
+                    value:
                     0.5, //quizBrain.currentQuestionNumber / quizBrain.totalQuestionNumber,
+                  );
+                },
               ),
               Expanded(
                 child: Container(
@@ -92,15 +135,13 @@ class PartTwoPage extends StatelessWidget {
                   builder: (context, state) {
                     if (state is PartTwoContentLoaded) {
                       final partTwoModel = state.partTwoModel;
-                      final userChecked = state.userChecked;
                       return AnswerBoardNeumorphic(
                         textA: partTwoModel.answers[0],
                         textB: partTwoModel.answers[1],
                         textC: partTwoModel.answers[2],
                         textD: partTwoModel.answers[3],
                         // need modify to check whether user is clicked the answer or not.
-                        correctAns:
-                            userChecked ? partTwoModel.correctAnswer.index : -1,
+                        correctAns: state.correctAnswer.index,
                         selectedAns: state.userAnswer.index,
                         selectChanged: (value) {
                           //quizBrain.setSelectedAnswer(value);

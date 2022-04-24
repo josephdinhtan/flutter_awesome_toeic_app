@@ -89,9 +89,20 @@ class PartSixPage extends StatelessWidget {
               : null,
           child: Column(
             children: [
-              const LinearProgressIndicator(
-                value:
+              BlocBuilder<PartSixCubit, PartSixState>(
+                builder: (context, state) {
+                  if (state is PartSixContentLoaded) {
+
+                    return LinearProgressIndicator(
+                      value:
+                      state.currentQuestionNumber/state.questionListSize,
+                    );
+                  }
+                  return const LinearProgressIndicator(
+                    value:
                     0.5, //quizBrain.currentQuestionNumber / quizBrain.totalQuestionNumber,
+                  );
+                },
               ),
               Expanded(
                 child: Padding(

@@ -5,19 +5,18 @@ abstract class PartThreeState {}
 
 class PartThreeInitial extends PartThreeState {}
 
-// load content
 class PartThreeLoading extends PartThreeState {}
-
 class PartThreeContentLoaded extends PartThreeState {
   final int currentQuestionNumber;
   final int questionListSize;
   final PartThreeModel partThreeModel;
   final List<UserAnswer> userAnswer;
-  final List<bool> userChecked;
+  final List<UserAnswer> correctAnswer;
+
   PartThreeContentLoaded({
     required this.currentQuestionNumber,
     required this.questionListSize,
-    required this.userChecked,
+    required this.correctAnswer,
     required this.partThreeModel,
     required this.userAnswer,
   });

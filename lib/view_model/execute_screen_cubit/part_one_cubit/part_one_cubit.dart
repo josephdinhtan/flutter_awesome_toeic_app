@@ -4,6 +4,7 @@ import '../../../data/data_providers/execute_api/part_one_api.dart';
 import '../../../data/models/part_models/part_one_model.dart';
 import '../../../data/repositories/execute_repository/part_one_repository/part_one_repository_impl.dart';
 import '../../../domain/execute_use_cases/get_part_one_question_list_use_case.dart';
+import '../../../presentation/screens/execute_screen/widgets/answer_sheet_widget.dart';
 import '../../../utils/misc.dart';
 
 part 'part_one_state.dart';
@@ -17,7 +18,9 @@ class PartOneCubit extends Cubit<PartOneState> {
   int _currentQuestionIndex = 0;
   int _questionListSize = 0;
   final Map _userAnswerMap = <int, UserAnswer>{};
-  final Map _userCheckedMap = <int, bool>{};
+  final Map _correctAnsCheckedMap = <int, UserAnswer>{};
+  final Map _questionNumberIndexMap = <int, int>{};
+  final List<AnswerSheetModel> _answerSheetModel = [];
 
   Future<void> getInitContent() async {
     emit(PartOneLoading());
@@ -25,7 +28,11 @@ class PartOneCubit extends Cubit<PartOneState> {
     _currentQuestionIndex = 0;
     _questionListSize = _partOneQuestionList.length;
     _userAnswerMap.clear();
-    _userCheckedMap.clear();
+    _correctAnsCheckedMap.clear();
+    _questionNumberIndexMap.clear();
+    for (int i = 0; i < _questionListSize; i++) {
+      _questionNumberIndexMap[_partOneQuestionList[i].questionNumber] = i;
+    }
     notifyData();
   }
 
@@ -45,7 +52,7 @@ class PartOneCubit extends Cubit<PartOneState> {
 
   void userCheckAnswer() {
     final int key = _partOneQuestionList[_currentQuestionIndex].questionNumber;
-    _userCheckedMap[key] = true;
+    _correctAnsCheckedMap[key] = UserAnswer.values[_partOneQuestionList[_currentQuestionIndex].correctAnswer.index];
     notifyData();
   }
 
@@ -63,14 +70,38 @@ class PartOneCubit extends Cubit<PartOneState> {
     if (!_userAnswerMap.containsKey(key)) {
       _userAnswerMap[key] = UserAnswer.notAnswer;
     }
-    if (!_userCheckedMap.containsKey(key)) {
-      _userCheckedMap[key] = false;
+    if (!_correctAnsCheckedMap.containsKey(key)) {
+      _correctAnsCheckedMap[key] = UserAnswer.notAnswer;
     }
     emit(PartOneContentLoaded(
         partOneModel: _partOneQuestionList[_currentQuestionIndex],
         userAnswer: _userAnswerMap[key],
-        userChecked: _userCheckedMap[key],
+        correctAnswer: _correctAnsCheckedMap[key],
         questionListSize: _questionListSize,
         currentQuestionNumber: _currentQuestionIndex + 1));
+  }
+
+  List<AnswerSheetModel> getAnswerSheetData() {
+    _answerSheetModel.clear();
+    for (int i = 0; i < _partOneQuestionList.length; i++) {
+        UserAnswer? userAns =
+            _userAnswerMap[_partOneQuestionList[i].questionNumber];
+        UserAnswer? correctAns =
+            _correctAnsCheckedMap[_partOneQuestionList[i].questionNumber];
+        int userAnsIdx =
+            userAns == null ? UserAnswer.notAnswer.index : userAns.index;
+        int correctAnsIdx =
+            correctAns == null ? UserAnswer.notAnswer.index : correctAns.index;
+        _answerSheetModel.add(AnswerSheetModel(
+            questionNumber: _partOneQuestionList[i].questionNumber,
+            correctAnswerIndex: correctAnsIdx,
+            userSelectedIndex: userAnsIdx));
+    }
+    return _answerSheetModel;
+  }
+
+  void goToQuestion(int questionNumber) {
+    _currentQuestionIndex = _questionNumberIndexMap[questionNumber];
+    notifyData();
   }
 }

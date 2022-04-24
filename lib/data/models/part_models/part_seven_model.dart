@@ -1,7 +1,7 @@
 import 'answer_enum.dart';
 
 class PartSevenModel {
-  final String statement;
+  final List<PartSevenStatement> statement;
   final List<int> questionNumber; // length = 3;
   final List<String> questions;
   final List<List<String>> answers;
@@ -15,3 +15,12 @@ class PartSevenModel {
     required this.correctAnswer,
   });
 }
+
+class PartSevenStatement {
+  PartSevenStatementTyle style;
+  String stringData;
+
+  PartSevenStatement({required this.style, required this.stringData});
+}
+
+enum PartSevenStatementTyle {TEXT, IMAGE}

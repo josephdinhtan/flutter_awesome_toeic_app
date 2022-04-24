@@ -4,7 +4,7 @@ import '../../../data/data_providers/execute_api/part_two_api.dart';
 import '../../../data/models/part_models/part_two_model.dart';
 import '../../../data/repositories/execute_repository/part_two_repository/part_two_repository_impl.dart';
 import '../../../domain/execute_use_cases/get_part_two_question_list_use_case.dart';
-import '../../../utils/misc.dart';
+import '../../../presentation/screens/execute_screen/widgets/answer_sheet_widget.dart';
 
 part 'part_two_state.dart';
 
@@ -17,7 +17,9 @@ class PartTwoCubit extends Cubit<PartTwoState> {
   int _currentQuestionIndex = 0;
   int _questionListSize = 0;
   final Map _userAnswerMap = <int, UserAnswer>{};
-  final Map _userCheckedMap = <int, bool>{};
+  final Map _correctAnsCheckedMap = <int, UserAnswer>{};
+  final Map _questionNumberIndexMap = <int, int>{};
+  final List<AnswerSheetModel> _answerSheetModel = [];
 
   Future<void> getInitContent() async {
     emit(PartTwoLoading());
@@ -25,15 +27,20 @@ class PartTwoCubit extends Cubit<PartTwoState> {
     _currentQuestionIndex = 0;
     _questionListSize = _partTwoQuestionList.length;
     _userAnswerMap.clear();
-    _userCheckedMap.clear();
-
+    _correctAnsCheckedMap.clear();
+    _questionNumberIndexMap.clear();
+    for (int i = 0; i < _questionListSize; i++) {
+      _questionNumberIndexMap[_partTwoQuestionList[i].questionNumber] = i;
+    }
     notifyData();
   }
 
   Future<void> getNextContent() async {
+    emit(PartTwoLoading());
     if (_currentQuestionIndex < _partTwoQuestionList.length - 1) {
       _currentQuestionIndex++;
     }
+
     notifyData();
   }
 
@@ -44,14 +51,16 @@ class PartTwoCubit extends Cubit<PartTwoState> {
 
   void userCheckAnswer() {
     final int key = _partTwoQuestionList[_currentQuestionIndex].questionNumber;
-    _userCheckedMap[key] = true;
+    _correctAnsCheckedMap[key] = UserAnswer.values[_partTwoQuestionList[_currentQuestionIndex].correctAnswer.index];
     notifyData();
   }
 
   Future<void> getPrevContent() async {
+    emit(PartTwoLoading());
     if (_currentQuestionIndex > 0) {
       _currentQuestionIndex--;
     }
+
     notifyData();
   }
 
@@ -60,14 +69,38 @@ class PartTwoCubit extends Cubit<PartTwoState> {
     if (!_userAnswerMap.containsKey(key)) {
       _userAnswerMap[key] = UserAnswer.notAnswer;
     }
-    if (!_userCheckedMap.containsKey(key)) {
-      _userCheckedMap[key] = false;
+    if (!_correctAnsCheckedMap.containsKey(key)) {
+      _correctAnsCheckedMap[key] = UserAnswer.notAnswer;
     }
     emit(PartTwoContentLoaded(
         partTwoModel: _partTwoQuestionList[_currentQuestionIndex],
         userAnswer: _userAnswerMap[key],
-        userChecked: _userCheckedMap[key],
+        correctAnswer: _correctAnsCheckedMap[key],
         questionListSize: _questionListSize,
         currentQuestionNumber: _currentQuestionIndex + 1));
+  }
+
+  List<AnswerSheetModel> getAnswerSheetData() {
+    _answerSheetModel.clear();
+    for (int i = 0; i < _partTwoQuestionList.length; i++) {
+      UserAnswer? userAns =
+      _userAnswerMap[_partTwoQuestionList[i].questionNumber];
+      UserAnswer? correctAns =
+      _correctAnsCheckedMap[_partTwoQuestionList[i].questionNumber];
+      int userAnsIdx =
+      userAns == null ? UserAnswer.notAnswer.index : userAns.index;
+      int correctAnsIdx =
+      correctAns == null ? UserAnswer.notAnswer.index : correctAns.index;
+      _answerSheetModel.add(AnswerSheetModel(
+          questionNumber: _partTwoQuestionList[i].questionNumber,
+          correctAnswerIndex: correctAnsIdx,
+          userSelectedIndex: userAnsIdx));
+    }
+    return _answerSheetModel;
+  }
+
+  void goToQuestion(int questionNumber) {
+    _currentQuestionIndex = _questionNumberIndexMap[questionNumber];
+    notifyData();
   }
 }

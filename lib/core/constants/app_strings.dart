@@ -1,6 +1,6 @@
 class AppStrings {
   // App
-  static const appTitle = 'Weather Bloc';
+  static const appTitle = 'Awesome Toeic';
 
   // HomeScreen
   static const homeScreenTitle = 'Home Screen';

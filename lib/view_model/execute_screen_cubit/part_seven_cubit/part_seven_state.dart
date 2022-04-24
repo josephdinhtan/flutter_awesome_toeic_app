@@ -11,12 +11,12 @@ class PartSevenContentLoaded extends PartSevenState {
   final int questionListSize;
   final PartSevenModel partSevenModel;
   final List<UserAnswer> userAnswer;
-  final List<bool> userChecked;
+  final List<UserAnswer> correctAnswer;
 
   PartSevenContentLoaded({
     required this.currentQuestionNumber,
     required this.questionListSize,
-    required this.userChecked,
+    required this.correctAnswer,
     required this.partSevenModel,
     required this.userAnswer,
   });

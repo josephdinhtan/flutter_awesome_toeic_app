@@ -5,10 +5,12 @@ import 'package:flutter_toeic_quiz2/core/constants/app_text_styles.dart';
 import 'package:flutter_toeic_quiz2/data/models/part_models/answer_enum.dart';
 import 'package:flutter_toeic_quiz2/data/models/part_models/part_four_model.dart';
 import 'package:flutter_toeic_quiz2/presentation/screens/execute_screen/widgets/audio_controller_neumorphic_widget.dart';
-import 'package:flutter_toeic_quiz2/utils/misc.dart';
+import '../../../../core/constants/app_light_colors.dart';
+import '../../../../utils/misc.dart';
 import '../../../../view_model/execute_screen_cubit/part_four_cubit/part_four_cubit.dart';
 import '../components/media_player.dart';
 import '../widgets/answer_board_neumorphic_widget.dart';
+import '../widgets/answer_sheet_widget.dart';
 import '../widgets/bottom_controller_neumorphic_widget.dart';
 
 class PartFourScreen extends StatelessWidget {
@@ -41,7 +43,37 @@ class PartFourPage extends StatelessWidget {
           IconButton(
               onPressed: () {
                 //_showMyDialog();
-                //BlocProvider.of<PartFourCubit>(context).getContent();
+                //BlocProvider.of<PartOneCubit>(context).getContent();
+
+                showDialog(
+                    context: context,
+                    builder: (BuildContext buildContext) {
+                      return AlertDialog(
+                        scrollable: true,
+                        title: const Center(child: Text('Answer sheet')),
+                        contentPadding: const EdgeInsets.symmetric(
+                            horizontal: 6.0, vertical: 16.0),
+                        content: AnswerSheetWidget(
+                          selectedColor:
+                          AppLightColors.kAnswerButtonColorSelected,
+                          answerColor:
+                          AppLightColors.kAnswerButtonColorCorrectAns,
+                          answerSheetData:
+                          BlocProvider.of<PartFourCubit>(context)
+                              .getAnswerSheetData(),
+                          maxWidth: AppDimensions.maxWidthForMobileMode,
+                          onPressedSubmit: () {},
+                          onPressedCancel: () {
+                            Navigator.pop(buildContext);
+                          },
+                          onPressedGoToQuestion: (questionNumber) {
+                            BlocProvider.of<PartFourCubit>(context)
+                                .goToQuestion(questionNumber);
+                            Navigator.pop(buildContext);
+                          },
+                        ),
+                      );
+                    });
               },
               icon: const Icon(Icons.format_list_numbered_outlined))
         ],
@@ -62,9 +94,19 @@ class PartFourPage extends StatelessWidget {
               : null,
           child: Column(
             children: [
-              const LinearProgressIndicator(
-                value:
+              BlocBuilder<PartFourCubit, PartFourState>(
+                builder: (context, state) {
+                  if (state is PartFourContentLoaded) {
+                    return LinearProgressIndicator(
+                      value:
+                      state.currentQuestionNumber / state.questionListSize,
+                    );
+                  }
+                  return const LinearProgressIndicator(
+                    value:
                     0.5, //quizBrain.currentQuestionNumber / quizBrain.totalQuestionNumber,
+                  );
+                },
               ),
               Expanded(
                 child: SingleChildScrollView(
@@ -75,12 +117,12 @@ class PartFourPage extends StatelessWidget {
                         if (state is PartFourContentLoaded) {
                           final PartFourModel partFourModel =
                               state.partFourModel;
-                          final userChecked = state.userChecked;
+                          final correctAnswer = state.correctAnswer;
                           final userAnswer = state.userAnswer;
                           List<Widget> listWidget = [];
                           for (int i = 0;
-                              i < partFourModel.questionNumber.length;
-                              i++) {
+                          i < partFourModel.questionNumber.length;
+                          i++) {
                             if (i != 0) {
                               listWidget.add(const SizedBox(
                                   height: AppDimensions.kPaddingDefaultDouble));
@@ -99,15 +141,13 @@ class PartFourPage extends StatelessWidget {
                                   ? partFourModel.answers[i][3]
                                   : null,
                               // need modify to check whether user is clicked the answer or not.
-                              correctAns: userChecked[i]
-                                  ? partFourModel.correctAnswer[i].index
-                                  : -1,
+                              correctAns: correctAnswer[i].index,
                               selectedAns: userAnswer[i].index,
                               selectChanged: (value) {
                                 BlocProvider.of<PartFourCubit>(context)
                                     .userSelectAnswerChange(
-                                        partFourModel.questionNumber[i],
-                                        UserAnswer.values[value]);
+                                    partFourModel.questionNumber[i],
+                                    UserAnswer.values[value]);
                               },
                             ));
                           }
@@ -116,53 +156,7 @@ class PartFourPage extends StatelessWidget {
                             crossAxisAlignment: CrossAxisAlignment.start,
                           );
                         }
-                        return Column(
-                          mainAxisSize: MainAxisSize.max,
-                          children: [
-                            const SizedBox(
-                                height: AppDimensions.kPaddingDefault),
-                            const Text('question ...'),
-                            AnswerBoardNeumorphic(
-                              textA: '...',
-                              textB: '...',
-                              textC: '...',
-                              textD: '...',
-                              correctAns: -1,
-                              selectedAns: -1,
-                              selectChanged: (value) {
-                                //quizBrain.setSelectedAnswer(value);
-                              },
-                            ),
-                            const SizedBox(
-                                height: AppDimensions.kPaddingDefault),
-                            const Text('question ...'),
-                            AnswerBoardNeumorphic(
-                              textA: '...',
-                              textB: '...',
-                              textC: '...',
-                              textD: '...',
-                              correctAns: -1,
-                              selectedAns: -1,
-                              selectChanged: (value) {
-                                //quizBrain.setSelectedAnswer(value);
-                              },
-                            ),
-                            const SizedBox(
-                                height: AppDimensions.kPaddingDefault),
-                            const Text('question ...'),
-                            AnswerBoardNeumorphic(
-                              textA: '...',
-                              textB: '...',
-                              textC: '...',
-                              textD: '...',
-                              correctAns: -1,
-                              selectedAns: -1,
-                              selectChanged: (value) {
-                                //quizBrain.setSelectedAnswer(value);
-                              },
-                            ),
-                          ],
-                        );
+                        return const Center(child: Text('Loading ...'),);
                       },
                     ),
                   ),

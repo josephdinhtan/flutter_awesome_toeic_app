@@ -7,7 +7,7 @@ class PartSixApi {
 
     demoResult.add(PartSixModel(
         statement:
-            'This is a demo statement for part 6, This is a demo statement for part 6, This is a demo statement for part 6, This is a demo statement for part 6, This is a demo statement for part 6, This is a demo statement for part 6, This is a demo statement for part 6, ',
+            "The Design Present Conference is an annual event held in Melbourne for graphic-design professionals. The conference is steadily growing in popularity. Last year,it (1)..... more than 3,000 attendees from Australia and around the world. The next Design Present Conference,which will be held from 20 to 23 March,will offer more than 100 workshops, plus keynote speeches and plenary sessions. This year, several opportunities for professional networking will be added. Attendees will have the chance to market (2)..... to firms in several different industries. Periods for networking will be included in the (3)..... each day. Whether you are a design enthusiast, student, freelance designer, or business owner, Design Present has something for you. (4).....",
         questions: [
           'Question demo part 3 - 1',
           'Question demo part 3 - 2',

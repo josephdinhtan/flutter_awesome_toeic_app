@@ -12,12 +12,12 @@ class PartOneContentLoaded extends PartOneState {
   final int questionListSize;
   final PartOneModel partOneModel;
   final UserAnswer userAnswer;
-  final bool userChecked;
+  final UserAnswer correctAnswer;
 
   PartOneContentLoaded({
     required this.currentQuestionNumber,
     required this.questionListSize,
-    required this.userChecked,
+    required this.correctAnswer,
     required this.partOneModel,
     required this.userAnswer,
   });

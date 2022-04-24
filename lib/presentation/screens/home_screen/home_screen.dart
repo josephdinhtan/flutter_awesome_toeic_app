@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_toeic_quiz2/core/constants/app_light_colors.dart';
 import 'package:flutter_toeic_quiz2/presentation/screens/home_screen/favorite_screen/favorite_screen.dart';
-import 'package:flutter_toeic_quiz2/presentation/screens/home_screen/more_screen/more_screen.dart';
+import 'package:flutter_toeic_quiz2/presentation/screens/home_screen/setting_screen/setting_screen.dart';
 import 'package:flutter_toeic_quiz2/presentation/screens/home_screen/store_screen/store_screen.dart';
 
 import 'book_screen/BookScreen.dart';
@@ -28,7 +27,7 @@ class _HomeScreenState extends State<HomeScreen> {
     _bookScreen = const BookScreen();
     _storeScreen = const StoreScreen();
     _favoriteScreen = const FavoriteScreen();
-    _moreScreen = const MoreScreen();
+    _moreScreen = SettingScreen();
 
     _pageController = PageController();
   }

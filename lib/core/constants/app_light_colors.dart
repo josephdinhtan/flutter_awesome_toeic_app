@@ -34,8 +34,8 @@ class AppLightColors {
   static const kIconColor = Colors.blueGrey;
 
   // button
-  static const kButtonPrimary = Color(0xffa062c1);
-  //static const kButtonPrimary = Colors.transparent;
+  //static const kButtonPrimary = Color(0xffa062c1);
+  static const kButtonPrimary = Colors.grey;
   static const kButtonTextPrimary = Color(0xFF343434);
 
   static const kAnswerButtonColorSelected = Color(0xffffb703);

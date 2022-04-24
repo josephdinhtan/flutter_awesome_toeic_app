@@ -11,12 +11,12 @@ class PartFourContentLoaded extends PartFourState {
   final int questionListSize;
   final PartFourModel partFourModel;
   final List<UserAnswer> userAnswer;
-  final List<bool> userChecked;
+  final List<UserAnswer> correctAnswer;
 
   PartFourContentLoaded({
     required this.currentQuestionNumber,
     required this.questionListSize,
-    required this.userChecked,
+    required this.correctAnswer,
     required this.partFourModel,
     required this.userAnswer,
   });
