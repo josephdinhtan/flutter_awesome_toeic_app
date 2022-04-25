@@ -1,6 +1,7 @@
 import 'answer_enum.dart';
 
 class PartSixModel {
+  final String id;
   final String statement;
   final List<int> questionNumber; // length = 3;
   final List<String> questions;
@@ -8,6 +9,7 @@ class PartSixModel {
   final List<Answer> correctAnswer;
 
   PartSixModel({
+    this.id = "",
     required this.statement,
     required this.questions,
     required this.questionNumber,

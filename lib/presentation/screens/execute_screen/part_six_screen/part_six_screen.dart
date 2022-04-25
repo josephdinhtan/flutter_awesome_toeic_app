@@ -1,3 +1,4 @@
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_toeic_quiz2/core/constants/app_dimensions.dart';
@@ -5,10 +6,11 @@ import 'package:flutter_toeic_quiz2/core/constants/app_light_colors.dart';
 import 'package:flutter_toeic_quiz2/core/constants/app_text_styles.dart';
 import 'package:flutter_toeic_quiz2/data/models/part_models/answer_enum.dart';
 import 'package:flutter_toeic_quiz2/data/models/part_models/part_six_model.dart';
+import 'package:flutter_toeic_quiz2/presentation/screens/execute_screen/widgets/add_favorite_question_panel.dart';
 import 'package:flutter_toeic_quiz2/utils/misc.dart';
 import '../../../../view_model/execute_screen_cubit/part_six_cubit/part_six_cubit.dart';
 import '../widgets/answer_board_neumorphic_widget.dart';
-import '../widgets/answer_sheet_widget.dart';
+import '../widgets/answer_sheet_panel.dart';
 import '../widgets/bottom_controller_neumorphic_widget.dart';
 import '../widgets/horizontal_split_view.dart';
 
@@ -43,13 +45,15 @@ class PartSixPage extends StatelessWidget {
                 //_showMyDialog();
                 //BlocProvider.of<PartSixCubit>(context).getContent();
                 showDialog(
+                    barrierDismissible: false,
                     context: context,
                     builder: (BuildContext buildContext) {
                       return AlertDialog(
                         scrollable: true,
                         title: const Center(child: Text('Answer sheet')),
-                        contentPadding: const EdgeInsets.symmetric(horizontal: 6.0, vertical: 16.0),
-                        content: AnswerSheetWidget(
+                        contentPadding: const EdgeInsets.symmetric(
+                            horizontal: 6.0, vertical: 16.0),
+                        content: AnswerSheetPanel(
                           selectedColor:
                               AppLightColors.kAnswerButtonColorSelected,
                           answerColor:
@@ -57,15 +61,19 @@ class PartSixPage extends StatelessWidget {
                           answerSheetData:
                               BlocProvider.of<PartSixCubit>(context)
                                   .getAnswerSheetData(),
-                          maxWidth: AppDimensions.maxWidthForMobileMode,
+                          maxWidthForMobile:
+                              AppDimensions.maxWidthForMobileMode,
                           onPressedSubmit: () {},
                           onPressedCancel: () {
                             Navigator.pop(buildContext);
                           },
                           onPressedGoToQuestion: (questionNumber) {
-                            BlocProvider.of<PartSixCubit>(context).goToQuestion(questionNumber);
+                            BlocProvider.of<PartSixCubit>(context)
+                                .goToQuestion(questionNumber);
                             Navigator.pop(buildContext);
                           },
+                          currentWidth: width,
+                          currentHeight: height,
                         ),
                       );
                     });
@@ -92,15 +100,14 @@ class PartSixPage extends StatelessWidget {
               BlocBuilder<PartSixCubit, PartSixState>(
                 builder: (context, state) {
                   if (state is PartSixContentLoaded) {
-
                     return LinearProgressIndicator(
                       value:
-                      state.currentQuestionNumber/state.questionListSize,
+                          state.currentQuestionNumber / state.questionListSize,
                     );
                   }
                   return const LinearProgressIndicator(
                     value:
-                    0.5, //quizBrain.currentQuestionNumber / quizBrain.totalQuestionNumber,
+                        0.5, //quizBrain.currentQuestionNumber / quizBrain.totalQuestionNumber,
                   );
                 },
               ),
@@ -127,6 +134,29 @@ class PartSixPage extends StatelessWidget {
                 },
                 checkAnsPressed: () {
                   BlocProvider.of<PartSixCubit>(context).userCheckAnswer();
+                },
+                favoritePressed: () {
+                  showDialog(
+                      barrierDismissible: false,
+                      context: context,
+                      builder: (BuildContext buildContext) {
+                        return AlertDialog(
+                          scrollable: true,
+                          title: const Center(child: Text('Add a question to favorite')),
+                          contentPadding: const EdgeInsets.symmetric(
+                              horizontal: 6.0, vertical: 16.0),
+                          content: AddFavoriteQuestionPanel(
+                            maxWidth: AppDimensions.maxWidthForMobileMode,
+                            onPressedCancel: () {
+                              Navigator.pop(buildContext);
+                            },
+                            onPressedOk: (inputStr){
+                              BlocProvider.of<PartSixCubit>(context).saveCurrentQuestionToFavorite(inputStr);
+                              Navigator.pop(buildContext);
+                            },
+                          ),
+                        );
+                      });
                 },
               ),
             ],
@@ -170,9 +200,12 @@ class PartSixPage extends StatelessWidget {
     return HorizontalSplitView(
       color: AppLightColors.kSplitBar,
       up: SingleChildScrollView(
-        child: Text(
-          partSixModel.statement,
-          style: AppTextStyles.kTextQuestion,
+        child: Padding(
+          padding: const EdgeInsets.symmetric(horizontal: 16.0),
+          child: Text(
+            partSixModel.statement,
+            style: AppTextStyles.kTextQuestion,
+          ),
         ),
       ),
       bottom: SingleChildScrollView(

@@ -150,7 +150,7 @@ class PartFivePage extends StatelessWidget {
                 },
                 checkAnsPressed: () {
                   BlocProvider.of<PartFiveCubit>(context).userCheckAnswer();
-                },
+                }, favoritePressed: () {  },
               ),
             ],
           ),

@@ -41,7 +41,8 @@ class MyApp extends StatelessWidget {
               routes: {
                 // need remove in production version
                 '/test': (context) =>
-                    TestScreen(bookId: 1, bookTitle: 'demo title'),
+                PartSixScreen(partId: 1, partTitle: 'title'),
+                //TestScreen(bookId: 1, bookTitle: 'demo title'),
               },
               onGenerateRoute: AppRouter.onGenerateRoute,
             ),

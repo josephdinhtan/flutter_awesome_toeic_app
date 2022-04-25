@@ -22,7 +22,7 @@ class AudioControllerNeumorphic extends StatefulWidget {
   final AudioPlayer audioPlayer;
 
   String coverFormatTime(int value) {
-    int min = (value / 60).toInt();
+    int min = value ~/ 60;
     int sec = value % 60;
     return '${min < 10 ? '0$min' : '$min'}:${sec < 10 ? '0$sec' : '$sec'}';
   }
@@ -67,7 +67,7 @@ class _AudioControllerNeumorphicState extends State<AudioControllerNeumorphic> {
     return Neumorphic(
       style: AppNeumorphicStyles.kAudioControllerStyle,
       child: Material(
-        color: isDarkMode ? AppDarkColors.kSurface : AppLightColors.kPrimary,
+        color: isDarkMode ? AppDarkColors.kBottomNavigationBackground : AppLightColors.kBottomNavigationBackground,
         child: Padding(
           padding: const EdgeInsets.symmetric(horizontal: 8.0, vertical: 2.0),
           child: Row(
@@ -75,8 +75,8 @@ class _AudioControllerNeumorphicState extends State<AudioControllerNeumorphic> {
               Row(
                 children: [
                   IconButton(
-                    padding: EdgeInsets.all(AppDimensions.kPaddingIconButton),
-                    constraints: BoxConstraints(),
+                    padding: const EdgeInsets.all(AppDimensions.kPaddingIconButton),
+                    constraints: const BoxConstraints(),
                     onPressed: () {
                       setState(() {
                         _currentDuration = (_currentDuration - 5) > 0
@@ -86,19 +86,20 @@ class _AudioControllerNeumorphicState extends State<AudioControllerNeumorphic> {
                         widget.changeToDurationCallBack!(_currentDuration);
                       });
                     },
-                    icon: Icon(
+                    icon: const Icon(
                       Icons.replay_5_rounded,
                     ),
                   ),
                   IconButton(
                     // play
-                    padding: EdgeInsets.all(AppDimensions.kPaddingIconButton),
-                    constraints: BoxConstraints(),
+                    padding: const EdgeInsets.all(AppDimensions.kPaddingIconButton),
+                    constraints: const BoxConstraints(),
                     onPressed: () {
-                      if (isPlaying)
+                      if (isPlaying) {
                         widget.pauseCallBack();
-                      else
+                      } else {
                         widget.playCallBack();
+                      }
                       setState(() {
                         isPlaying = !isPlaying;
                       });
@@ -108,8 +109,8 @@ class _AudioControllerNeumorphicState extends State<AudioControllerNeumorphic> {
                     ),
                   ),
                   IconButton(
-                    padding: EdgeInsets.all(AppDimensions.kPaddingIconButton),
-                    constraints: BoxConstraints(),
+                    padding: const EdgeInsets.all(AppDimensions.kPaddingIconButton),
+                    constraints: const BoxConstraints(),
                     onPressed: () {
                       setState(() {
                         _currentDuration =
@@ -120,11 +121,11 @@ class _AudioControllerNeumorphicState extends State<AudioControllerNeumorphic> {
                         widget.changeToDurationCallBack!(_currentDuration);
                       });
                     },
-                    icon: Icon(
+                    icon: const Icon(
                       Icons.forward_5_rounded,
                     ),
                   ),
-                  SizedBox(width: 6.0),
+                  const SizedBox(width: 6.0),
                   //Text(widget.coverFormatTime(_currentDuration.toInt())),
                   Text(widget.coverFormatTime(_currentDuration.toInt())),
                 ],

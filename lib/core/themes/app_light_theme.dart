@@ -17,14 +17,14 @@ class AppLightTheme {
     ),
     bottomNavigationBarTheme: const BottomNavigationBarThemeData(
       type: BottomNavigationBarType.fixed,
-      backgroundColor: AppLightColors.kPrimary,
+      backgroundColor: AppLightColors.kBottomNavigationBackground,
       unselectedItemColor: AppLightColors.kIconUnSelectedColor,
-      selectedItemColor: AppLightColors.kIconSelectedColor,
+      selectedItemColor: AppLightColors.kPrimary,
     ),
     appBarTheme: const AppBarTheme(
       centerTitle: true,
       backgroundColor: AppLightColors.kPrimary,
-      foregroundColor: AppLightColors.kTextPrimary,
+      foregroundColor: AppLightColors.kTextAppBar,
     ),
     iconTheme: const IconThemeData(
       color: AppLightColors.kIconUnSelectedColor,

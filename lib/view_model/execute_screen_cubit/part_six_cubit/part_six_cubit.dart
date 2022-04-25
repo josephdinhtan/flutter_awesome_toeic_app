@@ -1,4 +1,5 @@
 import 'package:bloc/bloc.dart';
+import 'package:flutter_toeic_quiz2/data/repositories/execute_repository/base_repository/part_repository_base.dart';
 import 'package:meta/meta.dart';
 
 import '../../../data/data_providers/execute_api/part_six_api.dart';
@@ -6,14 +7,17 @@ import '../../../data/models/part_models/answer_enum.dart';
 import '../../../data/models/part_models/part_six_model.dart';
 import '../../../data/repositories/execute_repository/part_six_repository/part_six_repository_impl.dart';
 import '../../../domain/execute_use_cases/get_part_six_question_list_use_case.dart';
-import '../../../presentation/screens/execute_screen/widgets/answer_sheet_widget.dart';
+import '../../../domain/execute_use_cases/save_question_to_favorite_use_case.dart';
+import '../../../presentation/screens/execute_screen/widgets/answer_sheet_panel.dart';
 
 part 'part_six_state.dart';
 
 class PartSixCubit extends Cubit<PartSixState> {
   PartSixCubit() : super(PartSixInitial());
 
-  final useCase = GetPartSixQuestionListUserCase(
+  final getQuestionListUsecase = GetPartSixQuestionListUserCase(
+      repository: PartSixRepositoryImpl(api: PartSixApi()));
+  final saveQuestionToFavoriteUseCase = SaveQuestionToFavoriteUseCase(
       repository: PartSixRepositoryImpl(api: PartSixApi()));
 
   late List<PartSixModel> _partSixQuestionList;
@@ -26,14 +30,14 @@ class PartSixCubit extends Cubit<PartSixState> {
 
   Future<void> getInitContent() async {
     emit(PartSixLoading());
-    _partSixQuestionList = await useCase.getContent();
+    _partSixQuestionList = await getQuestionListUsecase.getContent();
     _currentQuestionIndex = 0;
     _questionListSize = _partSixQuestionList.length;
     _userAnswerMap.clear();
     _correctAnsCheckedMap.clear();
     _questionNumberIndexMap.clear();
-    for(int i = 0; i < _questionListSize; i++) {
-      for(int questionNumber in _partSixQuestionList[i].questionNumber) {
+    for (int i = 0; i < _questionListSize; i++) {
+      for (int questionNumber in _partSixQuestionList[i].questionNumber) {
         _questionNumberIndexMap[questionNumber] = i;
       }
     }
@@ -56,9 +60,13 @@ class PartSixCubit extends Cubit<PartSixState> {
   }
 
   void userCheckAnswer() {
-    for(int i = 0; i < _partSixQuestionList[_currentQuestionIndex].questionNumber.length; i++) {
-      int questionNumber = _partSixQuestionList[_currentQuestionIndex].questionNumber[i];
-      _correctAnsCheckedMap[questionNumber] = UserAnswer.values[_partSixQuestionList[_currentQuestionIndex].correctAnswer[i].index];
+    for (int i = 0;
+        i < _partSixQuestionList[_currentQuestionIndex].questionNumber.length;
+        i++) {
+      int questionNumber =
+          _partSixQuestionList[_currentQuestionIndex].questionNumber[i];
+      _correctAnsCheckedMap[questionNumber] = UserAnswer.values[
+          _partSixQuestionList[_currentQuestionIndex].correctAnswer[i].index];
     }
     notifyData();
   }
@@ -93,10 +101,14 @@ class PartSixCubit extends Cubit<PartSixState> {
     _answerSheetModel.clear();
     for (int i = 0; i < _partSixQuestionList.length; i++) {
       for (int j = 0; j < _partSixQuestionList[i].questionNumber.length; j++) {
-        UserAnswer? userAns = _userAnswerMap[_partSixQuestionList[i].questionNumber[j]];
-        UserAnswer? correctAns = _correctAnsCheckedMap[_partSixQuestionList[i].questionNumber[j]];
-        int userAnsIdx = userAns == null ? UserAnswer.notAnswer.index : userAns.index;
-        int correctAnsIdx = correctAns == null ? UserAnswer.notAnswer.index : correctAns.index;
+        UserAnswer? userAns =
+            _userAnswerMap[_partSixQuestionList[i].questionNumber[j]];
+        UserAnswer? correctAns =
+            _correctAnsCheckedMap[_partSixQuestionList[i].questionNumber[j]];
+        int userAnsIdx =
+            userAns == null ? UserAnswer.notAnswer.index : userAns.index;
+        int correctAnsIdx =
+            correctAns == null ? UserAnswer.notAnswer.index : correctAns.index;
         _answerSheetModel.add(AnswerSheetModel(
             questionNumber: _partSixQuestionList[i].questionNumber[j],
             correctAnswerIndex: correctAnsIdx,
@@ -109,5 +121,11 @@ class PartSixCubit extends Cubit<PartSixState> {
   void goToQuestion(int questionNumber) {
     _currentQuestionIndex = _questionNumberIndexMap[questionNumber];
     notifyData();
+  }
+
+  void saveCurrentQuestionToFavorite(String message) {
+    saveQuestionToFavoriteUseCase.saveQuestionToFavorite(
+        questionId: _partSixQuestionList[_currentQuestionIndex].id,
+        message: message);
   }
 }

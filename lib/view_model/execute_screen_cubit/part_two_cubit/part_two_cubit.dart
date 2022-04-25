@@ -4,7 +4,7 @@ import '../../../data/data_providers/execute_api/part_two_api.dart';
 import '../../../data/models/part_models/part_two_model.dart';
 import '../../../data/repositories/execute_repository/part_two_repository/part_two_repository_impl.dart';
 import '../../../domain/execute_use_cases/get_part_two_question_list_use_case.dart';
-import '../../../presentation/screens/execute_screen/widgets/answer_sheet_widget.dart';
+import '../../../presentation/screens/execute_screen/widgets/answer_sheet_panel.dart';
 
 part 'part_two_state.dart';
 

@@ -30,9 +30,9 @@ class PartScreen extends StatelessWidget {
           child: Row(
             mainAxisAlignment: MainAxisAlignment.center,
             mainAxisSize: MainAxisSize.min,
-            children: [
-              const Icon(Icons.play_arrow_rounded),
-              const Text('START FULL TEST'),
+            children: const [
+              Icon(Icons.play_arrow_rounded),
+              Text('START FULL TEST'),
             ],
           ),
         ),
@@ -50,6 +50,7 @@ class PartScreen extends StatelessWidget {
         body: BlocConsumer<PartListCubit, PartListState>(
           listener: (context, state) {
             if (state is PartListLoaded) {
+              partItems.clear();
               final partListModel = state.partListModel;
               for (var element in partListModel) {
                 partItems.add(

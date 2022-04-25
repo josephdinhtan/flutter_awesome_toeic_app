@@ -37,7 +37,7 @@ class AppTextStyles {
   static const kTextSecondaryThin = TextStyle(
     color: AppLightColors.kTextSecondary,
     fontWeight: FontWeight.normal,
-    fontSize: 15.0,
+    fontSize: 12.0,
   );
 
   //execute test

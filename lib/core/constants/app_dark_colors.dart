@@ -12,6 +12,8 @@ class AppDarkColors {
   static const kOnPrimaryDarkColor = Color(0xFF231A2E);
   static const kSurfaceDarkColor = Color(0xFF6D0707);
 
+  static const kBottomNavigationBackground = Colors.white;
+
   // light
   static const kBackgroundLightColor = Color(0xFFF0F0F0);
   static const kSurfaceLightColor = Color(0xFFA9A9A9);

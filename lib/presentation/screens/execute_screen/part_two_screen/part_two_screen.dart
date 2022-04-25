@@ -8,7 +8,7 @@ import '../../../../utils/misc.dart';
 import '../../../../view_model/execute_screen_cubit/part_two_cubit/part_two_cubit.dart';
 import '../components/media_player.dart';
 import '../widgets/answer_board_neumorphic_widget.dart';
-import '../widgets/answer_sheet_widget.dart';
+import '../widgets/answer_sheet_panel.dart';
 import '../widgets/bottom_controller_neumorphic_widget.dart';
 
 class PartTwoScreen extends StatelessWidget {
@@ -32,7 +32,7 @@ class PartTwoPage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    //double height = MediaQuery.of(context).size.height;
+    double height = MediaQuery.of(context).size.height;
     double width = MediaQuery.of(context).size.width;
     return Scaffold(
       appBar: AppBar(
@@ -50,7 +50,7 @@ class PartTwoPage extends StatelessWidget {
                         title: const Center(child: Text('Answer sheet')),
                         contentPadding: const EdgeInsets.symmetric(
                             horizontal: 6.0, vertical: 16.0),
-                        content: AnswerSheetWidget(
+                        content: AnswerSheetPanel(
                           selectedColor:
                               AppLightColors.kAnswerButtonColorSelected,
                           answerColor:
@@ -58,7 +58,7 @@ class PartTwoPage extends StatelessWidget {
                           answerSheetData:
                               BlocProvider.of<PartTwoCubit>(context)
                                   .getAnswerSheetData(),
-                          maxWidth: AppDimensions.maxWidthForMobileMode,
+                          maxWidthForMobile: AppDimensions.maxWidthForMobileMode,
                           onPressedSubmit: () {},
                           onPressedCancel: () {
                             Navigator.pop(buildContext);
@@ -67,7 +67,7 @@ class PartTwoPage extends StatelessWidget {
                             BlocProvider.of<PartTwoCubit>(context)
                                 .goToQuestion(questionNumber);
                             Navigator.pop(buildContext);
-                          },
+                          }, currentWidth: width, currentHeight: height,
                         ),
                       );
                     });
@@ -186,7 +186,7 @@ class PartTwoPage extends StatelessWidget {
                 },
                 checkAnsPressed: () {
                   BlocProvider.of<PartTwoCubit>(context).userCheckAnswer();
-                },
+                }, favoritePressed: () {  },
               ),
             ],
           ),

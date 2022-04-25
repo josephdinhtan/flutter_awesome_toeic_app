@@ -12,11 +12,13 @@ class BottomControllerNeumorphic extends StatelessWidget {
     required this.checkAnsPressed,
     required this.prevPressed,
     required this.nextPressed,
+    required this.favoritePressed,
   }) : super(key: key);
 
   Function()? nextPressed;
   Function()? prevPressed;
   Function()? checkAnsPressed;
+  Function()? favoritePressed;
   bool isStandAlone;
 
   @override
@@ -28,7 +30,7 @@ class BottomControllerNeumorphic extends StatelessWidget {
           ? AppNeumorphicStyles.kCommonStyle
           : AppNeumorphicStyles.kBottomControllerStyle,
       child: Material(
-        color: isDarkMode ? AppDarkColors.kPrimary : AppLightColors.kPrimary,
+        color: isDarkMode ? AppDarkColors.kBottomNavigationBackground : AppLightColors.kBottomNavigationBackground,
         child: Padding(
           padding: const EdgeInsets.symmetric(horizontal: 8.0, vertical: 2.0),
           child: Row(
@@ -41,7 +43,7 @@ class BottomControllerNeumorphic extends StatelessWidget {
                 ),
               ),
               IconButton(
-                onPressed: () {},
+                onPressed: favoritePressed,
                 icon: const Icon(
                   Icons.favorite_border,
                 ),

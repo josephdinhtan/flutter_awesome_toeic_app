@@ -6,7 +6,7 @@ import '../../../data/models/part_models/answer_enum.dart';
 import '../../../data/models/part_models/part_three_model.dart';
 import '../../../data/repositories/execute_repository/part_three_repository/part_three_repository_impl.dart';
 import '../../../domain/execute_use_cases/get_part_three_question_list_use_case.dart';
-import '../../../presentation/screens/execute_screen/widgets/answer_sheet_widget.dart';
+import '../../../presentation/screens/execute_screen/widgets/answer_sheet_panel.dart';
 
 part 'part_three_state.dart';
 

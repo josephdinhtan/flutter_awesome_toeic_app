@@ -8,7 +8,7 @@ import 'package:flutter_toeic_quiz2/data/models/part_models/part_seven_model.dar
 import 'package:flutter_toeic_quiz2/utils/misc.dart';
 import '../../../../view_model/execute_screen_cubit/part_seven_cubit/part_seven_cubit.dart';
 import '../widgets/answer_board_neumorphic_widget.dart';
-import '../widgets/answer_sheet_widget.dart';
+import '../widgets/answer_sheet_panel.dart';
 import '../widgets/bottom_controller_neumorphic_widget.dart';
 import '../widgets/horizontal_split_view.dart';
 
@@ -49,7 +49,7 @@ class PartSevenPage extends StatelessWidget {
                         scrollable: true,
                         title: const Center(child: Text('Answer sheet')),
                         contentPadding: const EdgeInsets.symmetric(horizontal: 6.0, vertical: 16.0),
-                        content: AnswerSheetWidget(
+                        content: AnswerSheetPanel(
                           selectedColor:
                           AppLightColors.kAnswerButtonColorSelected,
                           answerColor:
@@ -57,7 +57,7 @@ class PartSevenPage extends StatelessWidget {
                           answerSheetData:
                           BlocProvider.of<PartSevenCubit>(context)
                               .getAnswerSheetData(),
-                          maxWidth: AppDimensions.maxWidthForMobileMode,
+                          maxWidthForMobile: AppDimensions.maxWidthForMobileMode,
                           onPressedSubmit: () {},
                           onPressedCancel: () {
                             Navigator.pop(buildContext);
@@ -65,7 +65,7 @@ class PartSevenPage extends StatelessWidget {
                           onPressedGoToQuestion: (questionNumber) {
                             BlocProvider.of<PartSevenCubit>(context).goToQuestion(questionNumber);
                             Navigator.pop(buildContext);
-                          },
+                          }, currentWidth: width, currentHeight: height,
                         ),
                       );
                     });
@@ -126,7 +126,7 @@ class PartSevenPage extends StatelessWidget {
                 },
                 checkAnsPressed: () {
                   BlocProvider.of<PartSevenCubit>(context).userCheckAnswer();
-                },
+                }, favoritePressed: () {  },
               ),
             ],
           ),

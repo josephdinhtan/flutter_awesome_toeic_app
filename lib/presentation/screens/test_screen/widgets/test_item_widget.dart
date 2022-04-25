@@ -104,10 +104,10 @@ class _TestItemWidgetState extends State<TestItemWidget> {
                               : '${widget.questionNumber} QUESTIONS',
                           style: Theme.of(context).textTheme.headline5,
                         ),
-                        SizedBox(height: AppDimensions.kPaddingDefault),
+                        const SizedBox(height: AppDimensions.kPaddingDefault),
                         Text(
-                          '${widget.title}',
-                          style: Theme.of(context).textTheme.headline3,
+                          widget.title,
+                          style: Theme.of(context).textTheme.headline3?.copyWith(color: Colors.black54),
                         ),
                       ],
                     ),

@@ -3,8 +3,10 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_neumorphic/flutter_neumorphic.dart';
 
-class AnswerSheetWidget extends StatelessWidget {
-  double maxWidth;
+class AnswerSheetPanel extends StatelessWidget {
+  double maxWidthForMobile;
+  double currentWidth;
+  double currentHeight;
   Color selectedColor;
   Color answerColor;
   Function onPressedCancel;
@@ -13,9 +15,11 @@ class AnswerSheetWidget extends StatelessWidget {
   List<AnswerSheetModel> answerSheetData;
   final List<Widget> _displayList = [];
 
-  AnswerSheetWidget({
+  AnswerSheetPanel({
     Key? key,
-    required this.maxWidth,
+    required this.currentWidth,
+    required this.currentHeight,
+    required this.maxWidthForMobile,
     required this.selectedColor,
     required this.answerColor,
     required this.answerSheetData,
@@ -26,8 +30,6 @@ class AnswerSheetWidget extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    double height = MediaQuery.of(context).size.height;
-    double width = MediaQuery.of(context).size.width;
     _displayList.clear();
     for (AnswerSheetModel answerSheetModel in answerSheetData) {
       _displayList.add(
@@ -44,8 +46,8 @@ class AnswerSheetWidget extends StatelessWidget {
       );
     }
     return SizedBox(
-      width: width > maxWidth ? 0.8 * maxWidth : 0.8 * width,
-      height: 0.7 * height,
+      width: currentWidth > maxWidthForMobile ? 0.7 * maxWidthForMobile : 0.7 * currentWidth,
+      height: 0.7 * currentHeight,
       child: Column(
         children: [
           Expanded(
@@ -62,15 +64,13 @@ class AnswerSheetWidget extends StatelessWidget {
           Row(
             mainAxisAlignment: MainAxisAlignment.spaceEvenly,
             children: [
-              NeumorphicButton(
-                style: const NeumorphicStyle(color: Colors.transparent),
+              TextButton(
                 child: const Text('Cancel'),
                 onPressed: () {
                   onPressedCancel();
                 },
               ),
-              NeumorphicButton(
-                style: const NeumorphicStyle(color: Colors.transparent),
+              TextButton(
                 child: const Text('Submit'),
                 onPressed: () {
                   onPressedSubmit();
