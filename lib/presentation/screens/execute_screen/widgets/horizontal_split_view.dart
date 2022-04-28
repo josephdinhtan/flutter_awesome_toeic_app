@@ -1,8 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_neumorphic/flutter_neumorphic.dart';
-import 'package:flutter_toeic_quiz2/core/constants/app_dimensions.dart';
-import 'package:flutter_toeic_quiz2/core/constants/app_light_colors.dart';
-import 'package:flutter_toeic_quiz2/core/constants/app_neumorphic_style.dart';
 
 class HorizontalSplitView extends StatefulWidget {
   final Widget up;
@@ -25,7 +21,8 @@ class HorizontalSplitView extends StatefulWidget {
 }
 
 class _HorizontalSplitViewState extends State<HorizontalSplitView> {
-  final _dividerHeight = 32.0;
+  final _dividerHeight = 16.0;
+  final _dividerVisiableHeight = 2.0;
 
   //from 0-1
   late double _ratio;
@@ -62,9 +59,9 @@ class _HorizontalSplitViewState extends State<HorizontalSplitView> {
                 child: SizedBox(
                   height: _dividerHeight,
                   width: constraints.maxWidth,
-                  child: Padding(
-                    padding: const EdgeInsets.symmetric(vertical: 15.0),
+                  child: Center(
                     child: Container(
+                      height: _dividerVisiableHeight,
                       color: widget.color,
                     ),
                   ),

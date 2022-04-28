@@ -129,16 +129,16 @@ class AnswerSheetItem extends StatelessWidget {
             userSelectedAns == correctAns)
         ? Theme.of(context)
             .textTheme
-            .headline5
+            .headline4
             ?.copyWith(color: Colors.green, fontWeight: FontWeight.bold)
         : (correctAns != 4 &&
                 userSelectedAns != 4 &&
                 userSelectedAns != correctAns)
             ? Theme.of(context)
                 .textTheme
-                .headline5
+                .headline4
                 ?.copyWith(color: Colors.orange, fontWeight: FontWeight.bold)
-            : Theme.of(context).textTheme.headline5;
+            : Theme.of(context).textTheme.headline4;
     return GestureDetector(
       onTap: () {
         onPressed!(questionNumber);

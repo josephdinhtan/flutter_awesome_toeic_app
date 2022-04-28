@@ -5,6 +5,7 @@ import 'package:flutter_toeic_quiz2/core/themes/app_dark_theme.dart';
 import 'package:flutter_toeic_quiz2/core/themes/app_light_theme.dart';
 import 'package:flutter_toeic_quiz2/core/themes/app_light_theme_neumorphic.dart';
 import 'package:flutter_toeic_quiz2/presentation/router/app_router.dart';
+import 'package:flutter_toeic_quiz2/presentation/screens/part_screen/part_screen.dart';
 import 'package:flutter_toeic_quiz2/presentation/screens/test_screen/test_screen.dart';
 import 'package:flutter_toeic_quiz2/view_model/home_screen_cubit/home_screen_cubit.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -41,7 +42,7 @@ class MyApp extends StatelessWidget {
               routes: {
                 // need remove in production version
                 '/test': (context) =>
-                PartSixScreen(partId: 1, partTitle: 'title'),
+                PartScreen(testId: 1, testTitle: 'title'),
                 //TestScreen(bookId: 1, bookTitle: 'demo title'),
               },
               onGenerateRoute: AppRouter.onGenerateRoute,

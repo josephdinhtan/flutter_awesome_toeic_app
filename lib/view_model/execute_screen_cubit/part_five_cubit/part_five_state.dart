@@ -12,12 +12,12 @@ class PartFiveContentLoaded extends PartFiveState {
   final int questionListSize;
   final PartFiveModel partFiveModel;
   final UserAnswer userAnswer;
-  final bool userChecked;
+  final UserAnswer correctAnswer;
 
   PartFiveContentLoaded({
     required this.currentQuestionNumber,
     required this.questionListSize,
-    required this.userChecked,
+    required this.correctAnswer,
     required this.partFiveModel,
     required this.userAnswer,
   });
