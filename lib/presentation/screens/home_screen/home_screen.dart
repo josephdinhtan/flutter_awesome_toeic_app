@@ -25,7 +25,6 @@ class _HomeScreenState extends State<HomeScreen> {
     super.initState();
     // init screen
     _bookScreen = const BookScreen();
-    _storeScreen = const StoreScreen();
     _favoriteScreen = const FavoriteScreen();
     _moreScreen = SettingScreen();
 
@@ -53,7 +52,6 @@ class _HomeScreenState extends State<HomeScreen> {
           },
           children: <Widget>[
             _bookScreen,
-            _storeScreen,
             _favoriteScreen,
             _moreScreen,
           ],
@@ -70,10 +68,6 @@ class _HomeScreenState extends State<HomeScreen> {
           BottomNavigationBarItem(
             label: 'Books',
             icon: Icon(Icons.my_library_books_sharp),
-          ),
-          BottomNavigationBarItem(
-            label: 'Store',
-            icon: Icon(Icons.shopping_cart_outlined),
           ),
           BottomNavigationBarItem(
             label: 'Favorite',

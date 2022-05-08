@@ -1,3 +1,4 @@
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_toeic_quiz2/core/exceptions/route_exception.dart';
 import 'package:flutter_toeic_quiz2/presentation/screens/execute_screen/part_one_screen/part_one_screen.dart';
@@ -6,6 +7,7 @@ import 'package:flutter_toeic_quiz2/presentation/screens/execute_screen/part_thr
 import 'package:flutter_toeic_quiz2/presentation/screens/execute_screen/part_two_screen/part_two_screen.dart';
 import 'package:flutter_toeic_quiz2/presentation/screens/home_screen/home_screen.dart';
 import 'package:flutter_toeic_quiz2/presentation/router/screen_arguments.dart';
+import 'package:flutter_toeic_quiz2/presentation/screens/home_screen/store_screen/store_screen.dart';
 import 'package:flutter_toeic_quiz2/presentation/screens/part_screen/part_screen.dart';
 import 'package:flutter_toeic_quiz2/presentation/screens/test_screen/test_screen.dart';
 
@@ -16,6 +18,7 @@ import '../screens/execute_screen/part_six_screen/part_six_screen.dart';
 class AppRouter {
   static const String home = '/';
   static const String test = '/tests';
+  static const String store = '/store';
   static const String part = '/parts';
   static const String part1Exam = '/part1exam';
   static const String part2Exam = '/part2exam';
@@ -30,17 +33,21 @@ class AppRouter {
   static Route<dynamic> onGenerateRoute(RouteSettings settings) {
     switch (settings.name) {
       case home:
-        return MaterialPageRoute(
+        return CupertinoPageRoute(
           builder: (_) => const HomeScreen(),
         );
       case test:
         final args = settings.arguments as ScreenArguments;
-        return MaterialPageRoute(
+        return CupertinoPageRoute(
           builder: (_) => TestScreen(bookId: args.id, bookTitle: args.title),
+        );
+      case store:
+        return CupertinoPageRoute(
+          builder: (_) => StoreScreen(),
         );
       case part:
         final args = settings.arguments as ScreenArguments;
-        return MaterialPageRoute(
+        return CupertinoPageRoute(
           builder: (_) => PartScreen(testId: args.id, testTitle: args.title),
         );
       case part1Exam:
@@ -60,37 +67,37 @@ class AppRouter {
     switch (settings.name) {
       case part1Exam:
         final args = settings.arguments as ScreenArguments;
-        return MaterialPageRoute(
+        return CupertinoPageRoute(
           builder: (_) => PartOneScreen(partId: args.id, partTitle: args.title),
         );
       case part2Exam:
         final args = settings.arguments as ScreenArguments;
-        return MaterialPageRoute(
+        return CupertinoPageRoute(
           builder: (_) => PartTwoScreen(partId: args.id, partTitle: args.title),
         );
       case part3Exam:
         final args = settings.arguments as ScreenArguments;
-        return MaterialPageRoute(
+        return CupertinoPageRoute(
           builder: (_) => PartThreeScreen(partId: args.id, partTitle: args.title),
         );
       case part4Exam:
         final args = settings.arguments as ScreenArguments;
-        return MaterialPageRoute(
+        return CupertinoPageRoute(
           builder: (_) => PartFourScreen(partId: args.id, partTitle: args.title),
         );
       case part5Exam:
         final args = settings.arguments as ScreenArguments;
-        return MaterialPageRoute(
+        return CupertinoPageRoute(
           builder: (_) => PartFiveScreen(partId: args.id, partTitle: args.title),
         );
       case part6Exam:
         final args = settings.arguments as ScreenArguments;
-        return MaterialPageRoute(
+        return CupertinoPageRoute(
           builder: (_) => PartSixScreen(partId: args.id, partTitle: args.title),
         );
       case part7Exam:
         final args = settings.arguments as ScreenArguments;
-        return MaterialPageRoute(
+        return CupertinoPageRoute(
           builder: (_) => PartSevenScreen(partId: args.id, partTitle: args.title),
         );
       default:

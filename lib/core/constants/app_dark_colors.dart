@@ -12,6 +12,7 @@ class AppDarkColors {
   static const kOnPrimaryDarkColor = Color(0xFF231A2E);
   static const kSurfaceDarkColor = Color(0xFF6D0707);
 
+  static const kNavigationBar = Colors.black;
   static const kBottomNavigationBackground = Colors.white;
 
   // light
@@ -19,6 +20,7 @@ class AppDarkColors {
   static const kSurfaceLightColor = Color(0xFFA9A9A9);
   static const kPrimaryTextLightColor = Color(0xFF414B5A);
   static const kSecondaryTextLightColor = Color(0xFF686868);
+  static const kTextAnswerBoard = Colors.white; // text
   static const kSurfaceNavigatorLightColor = Color(0xFFFDFDFD);
 
   static const kUnSelectedLightColor = Color(0xFF414B5A);

@@ -5,10 +5,16 @@ class NeumorphismButton extends StatefulWidget {
   static const double PRESSED_SCALE = 0.98;
   static const double UNPRESSED_SCALE = 1.0;
   final Widget? child;
+  final double boderRadius;
+  final Function() onPressed;
+  final Color backgroundColor;
 
   const NeumorphismButton({
     Key? key,
     this.child,
+    this.boderRadius = 12,
+    this.backgroundColor = Colors.white,
+    required this.onPressed,
   }) : super(key: key);
 
   @override
@@ -26,37 +32,43 @@ class _NeumorphismButtonState extends State<NeumorphismButton> {
             _pressed = true;
           });
         },
-        onTapUp: (detail) {
+        onTapCancel: () {
           setState(() {
             _pressed = false;
           });
         },
+        onTapUp: (detail) {
+          setState(() {
+            _pressed = false;
+          });
+          widget.onPressed();
+        },
         child: animationScale.AnimatedScale(
           scale: _getScale(),
           child: AnimatedContainer(
-            width: 30,
             duration: const Duration(milliseconds: 100),
             decoration: BoxDecoration(
-                color: Colors.white,
-                borderRadius: BorderRadius.circular(50.0),
+                color: widget.backgroundColor,
+                borderRadius: BorderRadius.circular(widget.boderRadius),
                 boxShadow: !_pressed
                     ? [
                         BoxShadow(
                           color: Colors.grey[500]!,
-                          offset: const Offset(4, 4),
-                          blurRadius: 15,
-                          spreadRadius: 1,
+                          //color: Colors.red!,
+                          offset: const Offset(2,2),
+                          blurRadius: 6,
+                          spreadRadius: 0.1,
                         ),
                         const BoxShadow(
                           color: Colors.white,
-                          offset: Offset(-4, -4),
-                          blurRadius: 15,
+                          offset: Offset(-2, -2),
+                          blurRadius: 6,
                           spreadRadius: 1,
                         )
                       ]
                     : null),
             child: Padding(
-              padding: const EdgeInsets.all(8.0),
+              padding: const EdgeInsets.symmetric(horizontal: 16.0, vertical: 8),
               child: widget.child,
             ),
           ),

@@ -8,6 +8,7 @@ import 'package:flutter_toeic_quiz2/presentation/screens/execute_screen/widgets/
 import '../../../../core/constants/app_light_colors.dart';
 import '../../../../utils/misc.dart';
 import '../../../../view_model/execute_screen_cubit/part_three_cubit/part_three_cubit.dart';
+import '../../widgets/neumorphism_button.dart';
 import '../components/media_player.dart';
 import '../widgets/answer_board_neumorphic_widget.dart';
 import '../widgets/answer_sheet_panel.dart';
@@ -61,7 +62,8 @@ class PartThreePage extends StatelessWidget {
                           answerSheetData:
                               BlocProvider.of<PartThreeCubit>(context)
                                   .getAnswerSheetData(),
-                          maxWidthForMobile: AppDimensions.maxWidthForMobileMode,
+                          maxWidthForMobile:
+                              AppDimensions.maxWidthForMobileMode,
                           onPressedSubmit: () {},
                           onPressedCancel: () {
                             Navigator.pop(buildContext);
@@ -70,7 +72,9 @@ class PartThreePage extends StatelessWidget {
                             BlocProvider.of<PartThreeCubit>(context)
                                 .goToQuestion(questionNumber);
                             Navigator.pop(buildContext);
-                          }, currentWidth: width, currentHeight: height,
+                          },
+                          currentWidth: width,
+                          currentHeight: height,
                         ),
                       );
                     });
@@ -103,8 +107,7 @@ class PartThreePage extends StatelessWidget {
                     );
                   }
                   return const LinearProgressIndicator(
-                    value:
-                        0.5, //quizBrain.currentQuestionNumber / quizBrain.totalQuestionNumber,
+                    value: 0.5,
                   );
                 },
               ),
@@ -156,7 +159,9 @@ class PartThreePage extends StatelessWidget {
                             crossAxisAlignment: CrossAxisAlignment.start,
                           );
                         }
-                        return const Center(child: Text('Loading ...'),);
+                        return const Center(
+                          child: Text('Loading ...'),
+                        );
                       },
                     ),
                   ),
@@ -184,7 +189,8 @@ class PartThreePage extends StatelessWidget {
                 },
                 checkAnsPressed: () {
                   BlocProvider.of<PartThreeCubit>(context).userCheckAnswer();
-                }, favoritePressed: () {  },
+                },
+                favoritePressed: () {},
               ),
             ],
           ),

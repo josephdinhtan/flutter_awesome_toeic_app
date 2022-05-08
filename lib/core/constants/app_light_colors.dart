@@ -41,7 +41,7 @@ class AppLightColors {
 
   // button
   //static const kButtonPrimary = Color(0xffa062c1);
-  static const kButtonPrimary = Color(0xFF47BCAB);
+  static const kButtonPrimary = Color(0xFF40916C);
   static const kButtonTextPrimary = Colors.white;
 
   static const kAnswerButtonColorSelected = Color(0xffffb703);

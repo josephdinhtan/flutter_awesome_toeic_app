@@ -1,11 +1,13 @@
+import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_neumorphic/flutter_neumorphic.dart';
-import 'package:flutter_toeic_quiz2/core/constants/app_neumorphic_style.dart';
+import 'package:flutter_toeic_quiz2/core/constants/app_dimensions.dart';
+import 'package:flutter_toeic_quiz2/core/constants/app_light_colors.dart';
 import 'package:flutter_toeic_quiz2/presentation/screens/part_screen/widgets/part_item_widget.dart';
 
 import '../../../view_model/part_screen_cubit/part_list_cubit.dart';
 
-final List<PartItem> partItems = [];
+final List<Widget> partItems = [];
 final partListCubit = PartListCubit();
 
 class PartScreen extends StatelessWidget {
@@ -24,15 +26,15 @@ class PartScreen extends StatelessWidget {
     return BlocProvider<PartListCubit>(
       create: (context) => partListCubit,
       child: Scaffold(
-        floatingActionButton: NeumorphicButton(
-          style: AppNeumorphicStyles.kButtonStyle,
+        floatingActionButton: FloatingActionButton.extended(
           onPressed: () {},
-          child: Row(
+          label: Row(
             mainAxisAlignment: MainAxisAlignment.center,
             mainAxisSize: MainAxisSize.min,
             children: const [
-              Icon(Icons.play_arrow_rounded),
-              Text('START FULL TEST'),
+              Icon(Icons.play_arrow_rounded, color: AppLightColors.kButtonTextPrimary,),
+              SizedBox(width: AppDimensions.kPaddingDefault,),
+              Text('START FULL TEST', style: TextStyle(color: AppLightColors.kButtonTextPrimary),),
             ],
           ),
         ),
@@ -61,6 +63,7 @@ class PartScreen extends StatelessWidget {
                   ),
                 );
               }
+              partItems.add(const SizedBox(height: 80.0,));
             }
           },
           builder: (context, state) {

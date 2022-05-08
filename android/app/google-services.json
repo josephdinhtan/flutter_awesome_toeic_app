@@ -1,0 +1,40 @@
+{
+  "project_info": {
+    "project_number": "394024930348",
+    "firebase_url": "https://awesome-toeic-default-rtdb.asia-southeast1.firebasedatabase.app",
+    "project_id": "awesome-toeic",
+    "storage_bucket": "awesome-toeic.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:394024930348:android:e7e2217f2ae669e6f91589",
+        "android_client_info": {
+          "package_name": "com.example.flutter_toeic_quiz2"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "394024930348-6iftsu6bafbm022dhrvl5lb41b6oojb3.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBn2jeVeOKkN6b7GADEzZ9fAHtpFpFTXoU"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "394024930348-6iftsu6bafbm022dhrvl5lb41b6oojb3.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

@@ -46,7 +46,9 @@ class AnswerSheetPanel extends StatelessWidget {
       );
     }
     return SizedBox(
-      width: currentWidth > maxWidthForMobile ? 0.7 * maxWidthForMobile : 0.7 * currentWidth,
+      width: currentWidth > maxWidthForMobile
+          ? 0.7 * maxWidthForMobile
+          : 0.7 * currentWidth,
       height: 0.7 * currentHeight,
       child: Column(
         children: [
@@ -65,13 +67,13 @@ class AnswerSheetPanel extends StatelessWidget {
             mainAxisAlignment: MainAxisAlignment.spaceEvenly,
             children: [
               TextButton(
-                child: const Text('Cancel'),
+                child: const Text('CANCEL'),
                 onPressed: () {
                   onPressedCancel();
                 },
               ),
               TextButton(
-                child: const Text('Submit'),
+                child: const Text('SUBMIT'),
                 onPressed: () {
                   onPressedSubmit();
                 },
@@ -138,7 +140,10 @@ class AnswerSheetItem extends StatelessWidget {
                 .textTheme
                 .headline4
                 ?.copyWith(color: Colors.orange, fontWeight: FontWeight.bold)
-            : Theme.of(context).textTheme.headline4;
+            : Theme.of(context)
+                .textTheme
+                .headline4
+                ?.copyWith(fontWeight: FontWeight.normal);
     return GestureDetector(
       onTap: () {
         onPressed!(questionNumber);

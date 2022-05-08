@@ -27,24 +27,6 @@ class _SettingScreenState extends State<SettingScreen> {
           crossAxisAlignment: CrossAxisAlignment.stretch,
           children: [
             const SizedBox(height: 4.0),
-            const SizedBox(height: 4.0),
-            Padding(
-              padding: const EdgeInsets.symmetric(horizontal: 16.0),
-              child: NeumorphismButton(child: Text('A. this is a correct answer'),),
-            ),
-            Padding(
-              padding: const EdgeInsets.symmetric(horizontal: 16.0),
-              child: NeumorphismButton(child: Text('B. this is a correct answer'),),
-            ),
-            Padding(
-              padding: const EdgeInsets.symmetric(horizontal: 16.0),
-              child: NeumorphismButton(child: Text('C. this is a correct answer'),),
-            ),
-            Padding(
-              padding: const EdgeInsets.symmetric(horizontal: 16.0),
-              child: NeumorphismButton(child: Text('D. this is a correct answer'),),
-            ),
-            const SizedBox(height: 4.0),
             SettingCard(
               children: [
                 Text(

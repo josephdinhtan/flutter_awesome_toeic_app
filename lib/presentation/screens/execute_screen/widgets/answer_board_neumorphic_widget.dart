@@ -1,22 +1,27 @@
 import 'package:flutter/foundation.dart';
-import 'package:flutter_neumorphic/flutter_neumorphic.dart';
+import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_toeic_quiz2/core/constants/app_dark_colors.dart';
 import 'package:flutter_toeic_quiz2/core/constants/app_dimensions.dart';
 import 'package:flutter_toeic_quiz2/core/constants/app_light_colors.dart';
-import 'package:flutter_toeic_quiz2/core/constants/app_neumorphic_style.dart';
 
 import '../../../../core/constants/app_text_styles.dart';
+import '../../../../view_model/home_screen_cubit/home_screen_cubit.dart';
+import '../../widgets/neumorphism_button.dart';
 
 class AnswerBoardNeumorphic extends StatelessWidget {
   final selectedIndex = ValueNotifier(-1);
+
   AnswerBoardNeumorphic(
-      {Key? key, this.textA,
+      {Key? key,
+      this.textA,
       this.textB,
       this.textC,
       this.textD,
       required this.correctAns,
       required this.selectedAns,
-      required this.selectChanged}) : super(key: key);
+      required this.selectChanged})
+      : super(key: key);
 
   final String? textA;
   final String? textB;
@@ -46,7 +51,7 @@ class AnswerBoardNeumorphic extends StatelessWidget {
                     selectChanged(0);
                   }
                 }),
-            SizedBox(height: AppDimensions.kSpaceBetweenAnsBox),
+            const SizedBox(height: AppDimensions.kSpaceBetweenAnsBox),
             AnswerButtonNeumorphic(
                 id: 1,
                 isCorrectAns: correctAns == 1,
@@ -58,7 +63,7 @@ class AnswerBoardNeumorphic extends StatelessWidget {
                     selectChanged(1);
                   }
                 }),
-            SizedBox(height: AppDimensions.kSpaceBetweenAnsBox),
+            const SizedBox(height: AppDimensions.kSpaceBetweenAnsBox),
             AnswerButtonNeumorphic(
                 id: 2,
                 isCorrectAns: correctAns == 2,
@@ -97,48 +102,47 @@ class AnswerButtonNeumorphic extends StatelessWidget {
     required this.title,
     required this.isSelected,
     required this.isCorrectAns,
-    this.callBack,
+    required this.callBack,
   }) : super(key: key);
 
   bool isCorrectAns;
   String title;
   final ValueListenable<int> isSelected;
   final int id;
-  Function()? callBack;
+  Function() callBack;
 
   @override
   Widget build(BuildContext context) {
-    var brightness = MediaQuery.of(context).platformBrightness;
-    bool isDarkMode = brightness == Brightness.dark;
+    bool isDarkMode =
+        BlocProvider.of<HomeScreenCubit>(context).getThemeMode() ==
+            ThemeMode.dark;
     return Stack(
       alignment: Alignment.centerRight,
       children: [
         SizedBox(
           width: double.infinity,
-          child: NeumorphicButton(
+          child: NeumorphismButton(
             onPressed: callBack,
             child: Text(
               title,
-              style: AppTextStyles.kTextAnswerBoard,
+              style: isDarkMode ? AppTextStyles.kTextAnswerBoard.copyWith(color: AppDarkColors.kTextAnswerBoard) : AppTextStyles.kTextAnswerBoard,
             ),
-            style: AppNeumorphicStyles.kAnswerButtonStyle.copyWith(
-              color: isSelected.value == id
-                  ? AppLightColors.kAnswerButtonColorSelected
-                  : isDarkMode
-                      ? AppDarkColors.kAnswerButtonColor
-                      : AppLightColors.kAnswerButtonColor,
-            ),
+            backgroundColor: isSelected.value == id
+                ? AppLightColors.kAnswerButtonColorSelected
+                : isDarkMode
+                    ? AppDarkColors.kAnswerButtonColor
+                    : AppLightColors.kAnswerButtonColor,
           ),
         ),
         isCorrectAns
-            ? Padding(
-                padding: const EdgeInsets.all(8.0),
+            ? const Padding(
+                padding: EdgeInsets.only(right: 8.0),
                 child: Icon(
                   Icons.check_circle_rounded,
                   color: AppLightColors.kAnswerButtonColorCorrectAns,
                 ),
               )
-            : Center(),
+            : const Center(),
       ],
     );
   }

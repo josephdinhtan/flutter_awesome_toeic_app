@@ -3,6 +3,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import '../../../../core/constants/app_dimensions.dart';
 import '../../../../data/models/book_info_model.dart';
 import '../../../../view_model/book_screen_cubit/book_list_cubit.dart';
+import '../../../router/app_router.dart';
 import 'widgets/book_item_widget.dart';
 
 final List<BookItemWidget> bookItems = [];
@@ -31,6 +32,11 @@ class _BookScreenState extends State<BookScreen> {
       child: Scaffold(
         appBar: AppBar(
           title: Text('BOOKS'.toUpperCase()),
+          actions: [
+            IconButton(onPressed: () {
+              Navigator.pushNamed(context, AppRouter.store);
+            }, icon: const Icon(Icons.shopping_cart_outlined)),
+          ],
         ),
         body: BlocConsumer<BookListCubit, BookListState>(
           listener: (context, state) {

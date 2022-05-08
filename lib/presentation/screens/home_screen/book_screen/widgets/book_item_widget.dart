@@ -53,7 +53,7 @@ class BookItemWidget extends StatelessWidget {
         //     ));
       },
       child: Center(
-        child: Container(
+        child: SizedBox(
           height: 150,
           width: width > AppDimensions.maxWidthForMobileMode
               ? AppDimensions.maxWidthForMobileMode

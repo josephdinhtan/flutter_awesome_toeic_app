@@ -39,13 +39,19 @@ class AppLightTheme {
       button: TextStyle(
         color: AppLightColors.kButtonTextPrimary,
         fontSize: 15.0,
-        fontWeight: FontWeight.bold,
+        fontWeight: FontWeight.normal,
       ),
       headline3: AppTextStyles.kTextPrimary,
       headline4: AppTextStyles.kTextSecondary,
       headline5: AppTextStyles.kTextSecondaryThin,
       headline6: TextStyle(
         color: AppLightColors.kTextPrimary,
+      ),
+    ),
+    textButtonTheme: TextButtonThemeData(
+      style: TextButton.styleFrom(
+        primary: AppLightColors.kButtonPrimary,
+        textStyle: const TextStyle(fontWeight: FontWeight.bold),
       ),
     ),
   );

@@ -5,6 +5,7 @@ class BookInfoModel {
   String author;
   String coverUrl;
   int price;
+
   BookInfoModel({
     required this.id,
     required this.title,
@@ -13,4 +14,9 @@ class BookInfoModel {
     required this.coverUrl,
     required this.price,
   });
+
+  @override
+  String toString() {
+    return "{\"id\": $id, \"title\": $title, \"des\": $des, \"author\": $author, \"coverUrl\": $coverUrl, \"price\": $price}";
+  }
 }
