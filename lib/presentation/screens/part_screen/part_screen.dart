@@ -1,10 +1,8 @@
-import 'package:flutter/services.dart';
+import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:flutter_neumorphic/flutter_neumorphic.dart';
 import 'package:flutter_toeic_quiz2/core/constants/app_dimensions.dart';
 import 'package:flutter_toeic_quiz2/core/constants/app_light_colors.dart';
 import 'package:flutter_toeic_quiz2/presentation/screens/part_screen/widgets/part_item_widget.dart';
-
 import '../../../view_model/part_screen_cubit/part_list_cubit.dart';
 
 final List<Widget> partItems = [];

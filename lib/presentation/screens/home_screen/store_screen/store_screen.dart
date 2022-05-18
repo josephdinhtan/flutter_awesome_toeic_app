@@ -66,7 +66,7 @@ class _StoreScreenState extends State<StoreScreen> {
                 return Padding(
                   padding: const EdgeInsets.all(8.0),
                   child: MasonryGridView.count(
-                    itemCount: bookInfoModelList.length + 2,
+                    itemCount: bookInfoModelList.length + 4,
                     crossAxisCount: width > AppDimensions.maxWidthForMobileMode
                         ? 3
                         : 2,
@@ -76,7 +76,7 @@ class _StoreScreenState extends State<StoreScreen> {
                       // );
                       index = 0;
                       return BookStoreItemWidget(
-                        toeicBook: bookInfoModelList[index],
+                        bookInfoModel: bookInfoModelList[index],
                       );
                     },
                   ),

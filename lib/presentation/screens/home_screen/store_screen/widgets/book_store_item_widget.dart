@@ -1,12 +1,15 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_toeic_quiz2/presentation/screens/widgets/neumorphism_button.dart';
 
 import '../../../../../data/models/book_info_model.dart';
+import 'book_store_item_popup_widget.dart';
 
 class BookStoreItemWidget extends StatefulWidget {
-  BookStoreItemWidget({Key? key, required this.toeicBook}) : super(key: key);
+  BookStoreItemWidget({Key? key, required this.bookInfoModel})
+      : super(key: key);
 
-  BookInfoModel toeicBook;
+  BookInfoModel bookInfoModel;
   bool bought = false;
 
   @override
@@ -38,7 +41,7 @@ class _BookStoreItemWidgetState extends State<BookStoreItemWidget> {
     // });
     await Future.delayed(const Duration(milliseconds: 500));
     setState(() {
-      bookCoverLink = widget.toeicBook.coverUrl;
+      bookCoverLink = widget.bookInfoModel.coverUrl;
     });
   }
 
@@ -55,6 +58,28 @@ class _BookStoreItemWidgetState extends State<BookStoreItemWidget> {
         //         bought: widget.bought,
         //       ),
         //     ));
+        showDialog(
+            barrierDismissible: false,
+            context: context,
+            builder: (BuildContext buildContext) {
+              return AlertDialog(
+                scrollable: true,
+                actions: [
+                  NeumorphismButton(
+                      onPressed: () {
+                        Navigator.pop(buildContext);
+                      },
+                      child: const Text('CANCEL')),
+                  NeumorphismButton(onPressed: () {}, child: const Text('GET'),),
+                ],
+                title: Center(child: Text(widget.bookInfoModel.title)),
+                contentPadding:
+                    const EdgeInsets.symmetric(horizontal: 6.0, vertical: 16.0),
+                content: BookStoreItemPopupWidget(
+                  bookInfoModel: widget.bookInfoModel,
+                ),
+              );
+            });
       },
       child: Card(
         child: Padding(
@@ -67,11 +92,11 @@ class _BookStoreItemWidgetState extends State<BookStoreItemWidget> {
                 child: bookCoverLink == ''
                     ? const Center(
                         child: Padding(
-                          padding: EdgeInsets.all(8.0),
-                          child: CircularProgressIndicator(
+                        padding: EdgeInsets.all(8.0),
+                        child: CircularProgressIndicator(
                           color: Colors.blue,
-                      ),
-                        ))
+                        ),
+                      ))
                     : Image.network(
                         bookCoverLink,
                         fit: BoxFit.cover,
@@ -86,13 +111,13 @@ class _BookStoreItemWidgetState extends State<BookStoreItemWidget> {
                 children: [
                   SizedBox(height: 8.0),
                   Text(
-                    widget.toeicBook.title,
+                    widget.bookInfoModel.title,
                     style: Theme.of(context).textTheme.headline3,
                   ),
                   const SizedBox(height: 8.0),
-                  widget.toeicBook.price != 0
+                  widget.bookInfoModel.price != 0
                       ? Text(
-                          "${widget.toeicBook.price}K",
+                          "${widget.bookInfoModel.price}K",
                           style: const TextStyle(
                               fontWeight: FontWeight.bold, fontSize: 18.0),
                         )

@@ -36,7 +36,6 @@ dependencies:
   flutter_bloc: ^8.0.1
   bloc: ^8.0.3
   percent_indicator: ^3.4.0
-  flutter_neumorphic: ^3.2.0
   audioplayers: ^0.20.1
   firebase_storage: ^10.2.15
   firebase_core: ^1.16.0
