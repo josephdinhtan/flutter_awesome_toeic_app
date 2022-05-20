@@ -1,16 +1,19 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_toeic_quiz2/core/constants/app_light_colors.dart';
 import 'package:flutter_toeic_quiz2/presentation/screens/widgets/neumorphism_button.dart';
 
+import '../../../../../core/constants/app_dimensions.dart';
 import '../../../../../data/models/book_info_model.dart';
 import 'book_store_item_popup_widget.dart';
 
 class BookStoreItemWidget extends StatefulWidget {
-  BookStoreItemWidget({Key? key, required this.bookInfoModel})
+  BookStoreItemWidget(
+      {Key? key, required this.bookInfoModel, this.isBought = false})
       : super(key: key);
 
   BookInfoModel bookInfoModel;
-  bool bought = false;
+  bool isBought;
 
   @override
   State<BookStoreItemWidget> createState() => _BookStoreItemWidgetState();
@@ -64,14 +67,6 @@ class _BookStoreItemWidgetState extends State<BookStoreItemWidget> {
             builder: (BuildContext buildContext) {
               return AlertDialog(
                 scrollable: true,
-                actions: [
-                  NeumorphismButton(
-                      onPressed: () {
-                        Navigator.pop(buildContext);
-                      },
-                      child: const Text('CANCEL')),
-                  NeumorphismButton(onPressed: () {}, child: const Text('GET'),),
-                ],
                 title: Center(child: Text(widget.bookInfoModel.title)),
                 contentPadding:
                     const EdgeInsets.symmetric(horizontal: 6.0, vertical: 16.0),
@@ -109,12 +104,12 @@ class _BookStoreItemWidgetState extends State<BookStoreItemWidget> {
               Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  SizedBox(height: 8.0),
+                  const SizedBox(height: AppDimensions.kPaddingDefault),
                   Text(
                     widget.bookInfoModel.title,
                     style: Theme.of(context).textTheme.headline3,
                   ),
-                  const SizedBox(height: 8.0),
+                  const SizedBox(height: AppDimensions.kPaddingDefault),
                   widget.bookInfoModel.price != 0
                       ? Text(
                           "${widget.bookInfoModel.price}K",
@@ -126,13 +121,19 @@ class _BookStoreItemWidgetState extends State<BookStoreItemWidget> {
                               color: Colors.green,
                               borderRadius:
                                   BorderRadius.all(Radius.circular(5.0))),
-                          child: const Padding(
-                            padding: EdgeInsets.all(4.0),
-                            child: Text(
-                              'Free',
-                              style: TextStyle(
-                                  fontSize: 16.0, color: Colors.white),
-                            ),
+                          child: Padding(
+                            padding: const EdgeInsets.all(4.0),
+                            child: widget.isBought
+                                ? const Text(
+                                    'You already get it',
+                                    style: TextStyle(
+                                        fontSize: 16.0, color: Colors.white),
+                                  )
+                                : const Text(
+                                    'Free',
+                                    style: TextStyle(
+                                        fontSize: 16.0, color: Colors.white),
+                                  ),
                           ),
                         ),
                 ],
