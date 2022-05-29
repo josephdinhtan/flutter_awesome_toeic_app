@@ -1,6 +1,6 @@
 class ScreenArguments {
   final String title;
-  final int id;
+  final String id;
 
   ScreenArguments({required this.title, required this.id});
 }

@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_toeic_quiz2/core/constants/app_light_colors.dart';
 import 'package:flutter_toeic_quiz2/core/constants/app_dimensions.dart';
-import 'package:flutter_toeic_quiz2/data/models/test_info_model.dart';
+import 'package:flutter_toeic_quiz2/data/business_models/test_info_model.dart';
 import 'package:flutter_toeic_quiz2/presentation/router/app_router.dart';
 import 'package:flutter_toeic_quiz2/presentation/router/screen_arguments.dart';
 import 'package:flutter_toeic_quiz2/presentation/screens/test_screen/widgets/download_button.dart';
@@ -13,9 +13,8 @@ class TestItemWidget extends StatefulWidget {
   TestItemWidget({
     Key? key,
     this.dowloaded = true,
-    this.onProgress = false,
-    this.actualScore = 560,
-    this.size = "",
+    this.actualScore = -1,
+    this.memorySize = "",
     this.testBoxId = "",
     required this.resourceUrl,
     required this.questionNumber,
@@ -24,19 +23,21 @@ class TestItemWidget extends StatefulWidget {
 
   factory TestItemWidget.fromTestInfoModel(TestInfoModel testInfoModel) {
     return TestItemWidget(
-        size: testInfoModel.size,
+        memorySize: testInfoModel.memorySize,
         testBoxId: testInfoModel.boxId != null ? testInfoModel.boxId! : "",
         title: testInfoModel.title,
         resourceUrl: testInfoModel.resourceUrl,
+        dowloaded: testInfoModel.isDownloaded,
+        actualScore: testInfoModel.actualScore,
         questionNumber: testInfoModel.questionNumber);
   }
 
   bool dowloaded;
-  bool onProgress;
+  bool onProgress = false;
   late final String title;
   int actualScore;
   late final int questionNumber;
-  late final String size;
+  late final String memorySize;
   late final String resourceUrl;
   String testBoxId;
 
@@ -50,6 +51,7 @@ class _TestItemWidgetState extends State<TestItemWidget> {
   @override
   void initState() {
     super.initState();
+    widget.onProgress = widget.actualScore != -1;
     if (kIsWeb) {
       _downloadController = SimulatedDownloadController(
           onOpenDownload: () => _openDownload(),
@@ -70,14 +72,14 @@ class _TestItemWidgetState extends State<TestItemWidget> {
 
   void _openDownload() {
     Navigator.pushNamed(context, AppRouter.part,
-        arguments: ScreenArguments(title: "Test title put here", id: 1));
+        arguments: ScreenArguments(title: "Test title put here", id: "DemoId"));
   }
 
   @override
   Widget build(BuildContext context) {
     double width = MediaQuery.of(context).size.width;
     return Center(
-      child: Container(
+      child: SizedBox(
         width: width > AppDimensions.maxWidthForMobileMode
             ? AppDimensions.maxWidthForMobileMode
             : null,
@@ -99,8 +101,8 @@ class _TestItemWidgetState extends State<TestItemWidget> {
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
                         Text(
-                          widget.size != ''
-                              ? '${widget.questionNumber} QUESTIONS - ${widget.size}'
+                          widget.memorySize != ''
+                              ? '${widget.questionNumber} QUESTIONS - ${widget.memorySize}'
                               : '${widget.questionNumber} QUESTIONS',
                           style: Theme.of(context).textTheme.headline5,
                         ),

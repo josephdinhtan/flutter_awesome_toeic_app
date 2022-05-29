@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_toeic_quiz2/core/constants/app_dimensions.dart';
-import 'package:flutter_toeic_quiz2/data/models/part_models/answer_enum.dart';
+import 'package:flutter_toeic_quiz2/data/business_models/part_models/answer_enum.dart';
 import 'package:flutter_toeic_quiz2/presentation/screens/execute_screen/widgets/audio_controller_neumorphic_widget.dart';
 import '../../../../core/constants/app_light_colors.dart';
 import '../../../../utils/misc.dart';
@@ -12,23 +12,11 @@ import '../widgets/answer_sheet_panel.dart';
 import '../widgets/bottom_controller_neumorphic_widget.dart';
 
 class PartTwoScreen extends StatelessWidget {
-  final int partId;
+  final String partId;
   final String partTitle;
 
   const PartTwoScreen({Key? key, required this.partId, required this.partTitle})
       : super(key: key);
-
-  @override
-  Widget build(BuildContext context) {
-    return BlocProvider(
-      create: (context) => PartTwoCubit()..getInitContent(),
-      child: const PartTwoPage(),
-    );
-  }
-}
-
-class PartTwoPage extends StatelessWidget {
-  const PartTwoPage({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {

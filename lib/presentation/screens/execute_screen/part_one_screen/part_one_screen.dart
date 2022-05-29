@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_toeic_quiz2/core/constants/app_dimensions.dart';
-import 'package:flutter_toeic_quiz2/data/models/part_models/answer_enum.dart';
 import 'package:flutter_toeic_quiz2/presentation/screens/execute_screen/widgets/audio_controller_neumorphic_widget.dart';
 import '../../../../core/constants/app_light_colors.dart';
+import '../../../../data/business_models/part_models/answer_enum.dart';
 import '../../../../utils/misc.dart';
 import '../../../../view_model/execute_screen_cubit/part_one_cubit/part_one_cubit.dart';
 import '../components/media_player.dart';
@@ -12,23 +12,11 @@ import '../widgets/answer_sheet_panel.dart';
 import '../widgets/bottom_controller_neumorphic_widget.dart';
 
 class PartOneScreen extends StatelessWidget {
-  final int partId;
+  final String partId;
   final String partTitle;
 
   const PartOneScreen({Key? key, required this.partId, required this.partTitle})
       : super(key: key);
-
-  @override
-  Widget build(BuildContext context) {
-    return BlocProvider(
-      create: (context) => PartOneCubit()..getInitContent(),
-      child: const PartOnePage(),
-    );
-  }
-}
-
-class PartOnePage extends StatelessWidget {
-  const PartOnePage({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {

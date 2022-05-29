@@ -1,4 +1,4 @@
-import '../../data/models/part_models/part_two_model.dart';
+import '../../data/business_models/part_models/part_two_model.dart';
 import '../../data/repositories/execute_repository/part_two_repository/part_two_repository.dart';
 
 class GetPartTwoQuestionListUseCase {

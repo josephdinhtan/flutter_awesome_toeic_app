@@ -60,37 +60,37 @@ class PartItem extends StatelessWidget {
           case 1:
             Navigator.pushNamed(context, AppRouter.part1Exam,
                 arguments:
-                    ScreenArguments(title: 'This is part 1 title demo', id: 1));
+                    ScreenArguments(title: 'This is part 1 title demo', id: "demoID"));
             break;
           case 2:
             Navigator.pushNamed(context, AppRouter.part2Exam,
                 arguments:
-                    ScreenArguments(title: 'This is part 2 title demo', id: 1));
+                    ScreenArguments(title: 'This is part 2 title demo', id: "demoID"));
             break;
           case 3:
             Navigator.pushNamed(context, AppRouter.part3Exam,
                 arguments:
-                    ScreenArguments(title: 'This is part 3 title demo', id: 1));
+                    ScreenArguments(title: 'This is part 3 title demo', id: "demoID"));
             break;
           case 4:
             Navigator.pushNamed(context, AppRouter.part4Exam,
                 arguments:
-                    ScreenArguments(title: 'This is part 4 title demo', id: 1));
+                    ScreenArguments(title: 'This is part 4 title demo', id: "demoID"));
             break;
           case 5:
             Navigator.pushNamed(context, AppRouter.part5Exam,
                 arguments:
-                    ScreenArguments(title: 'This is part 5 title demo', id: 1));
+                    ScreenArguments(title: 'This is part 5 title demo', id: "demoID"));
             break;
           case 6:
             Navigator.pushNamed(context, AppRouter.part6Exam,
                 arguments:
-                    ScreenArguments(title: 'This is part 6 title demo', id: 1));
+                    ScreenArguments(title: 'This is part 6 title demo', id: "demoID"));
             break;
           case 7:
             Navigator.pushNamed(context, AppRouter.part7Exam,
                 arguments:
-                    ScreenArguments(title: 'This is part 7 title demo', id: 1));
+                    ScreenArguments(title: 'This is part 7 title demo', id: "demoID"));
             break;
         }
       },

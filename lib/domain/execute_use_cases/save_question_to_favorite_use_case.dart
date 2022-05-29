@@ -1,4 +1,3 @@
-import '../../data/models/part_models/part_two_model.dart';
 import '../../data/repositories/execute_repository/base_repository/part_repository_base.dart';
 
 class SaveQuestionToFavoriteUseCase {

@@ -1,5 +1,6 @@
-import 'package:flutter_toeic_quiz2/data/data_providers/execute_api/part_three_api.dart';
-import 'package:flutter_toeic_quiz2/data/models/part_models/part_three_model.dart';
+
+import '../../../business_models/part_models/part_three_model.dart';
+import '../../../data_providers/apis/part_execute_apis/part_three_api.dart';
 
 abstract class PartThreeRepository {
   late PartThreeApi api;

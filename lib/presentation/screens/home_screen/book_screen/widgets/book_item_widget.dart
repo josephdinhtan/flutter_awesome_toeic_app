@@ -1,39 +1,26 @@
+import 'dart:io';
+
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_toeic_quiz2/core/constants/app_dimensions.dart';
-import 'package:flutter_toeic_quiz2/data/models/book_info_model.dart';
+import 'package:flutter_toeic_quiz2/data/business_models/book_info_model.dart';
 import 'package:flutter_toeic_quiz2/presentation/router/app_router.dart';
 import 'package:flutter_toeic_quiz2/presentation/router/screen_arguments.dart';
-import 'package:flutter_toeic_quiz2/presentation/screens/test_screen/test_screen.dart';
+import 'package:flutter_toeic_quiz2/utils/misc.dart';
 
 class BookItemWidget extends StatelessWidget {
   BookItemWidget({
     Key? key,
-    required this.toeicBook,
+    required this.bookInfoModel,
   }) : super(key: key);
 
-  BookInfoModel toeicBook;
-  final planetCard = new Container(
-    height: 124.0,
-    margin: new EdgeInsets.only(left: 46.0),
-    decoration: new BoxDecoration(
-      color: new Color(0xFF333366),
-      shape: BoxShape.rectangle,
-      borderRadius: new BorderRadius.circular(8.0),
-      boxShadow: <BoxShadow>[
-        new BoxShadow(
-          color: Colors.black12,
-          blurRadius: 10.0,
-          offset: new Offset(0.0, 10.0),
-        ),
-      ],
-    ),
-  );
+  BookInfoModel bookInfoModel;
 
   @override
   Widget build(BuildContext context) {
     double height = MediaQuery.of(context).size.height;
     double width = MediaQuery.of(context).size.width;
+    final _bookCoverPath = getApplicationDirectory() + '/' + bookInfoModel.coverUrl;
     //print("BookItem widget rebuild $height, $width");
     return GestureDetector(
       onTap: () {
@@ -41,8 +28,9 @@ class BookItemWidget extends StatelessWidget {
           context,
           AppRouter.test,
           arguments: ScreenArguments(
-            title: toeicBook.title,
-            id: toeicBook.id,
+            title: bookInfoModel.title,
+            id: "widget.bookInfoModel.boxId",
+            //id: widget.bookInfoModel.boxId!,
           ),
         );
         // Navigator.push(
@@ -91,11 +79,11 @@ class BookItemWidget extends StatelessWidget {
                                 Column(
                                   crossAxisAlignment: CrossAxisAlignment.start,
                                   children: [
-                                    Text('${toeicBook.title}',
+                                    Text('${bookInfoModel.title}',
                                         style: Theme.of(context)
                                             .textTheme
                                             .headline3),
-                                    Text('${toeicBook.des}',
+                                    Text('${bookInfoModel.des}',
                                         style: Theme.of(context)
                                             .textTheme
                                             .headline5),
@@ -106,12 +94,12 @@ class BookItemWidget extends StatelessWidget {
                                   ],
                                 ),
                                 Container(
-                                  decoration: BoxDecoration(
+                                  decoration: const BoxDecoration(
                                       color: Colors.black45,
                                       borderRadius: BorderRadius.all(
                                           Radius.circular(5.0))),
-                                  child: Padding(
-                                    padding: const EdgeInsets.all(4.0),
+                                  child: const Padding(
+                                    padding: EdgeInsets.all(4.0),
                                     child: Text(
                                       'Toeic practice book',
                                       style: TextStyle(
@@ -134,12 +122,18 @@ class BookItemWidget extends StatelessWidget {
                 child: ClipRRect(
                   borderRadius: BorderRadius.all(
                       Radius.circular(AppDimensions.kCardRadiusDefault)),
-                  child: Image.asset(
-                    'assets/images/ets_book_cover.png',
+                  child: Image.file(
+                    File(_bookCoverPath),
                     fit: BoxFit.cover,
                     width: 100.0,
                     height: 120.0,
                   ),
+                  // child: Image.asset(
+                  //   'assets/images/ets_book_cover.png',
+                  //   fit: BoxFit.cover,
+                  //   width: 100.0,
+                  //   height: 120.0,
+                  // ),
                 ),
               ),
             ],

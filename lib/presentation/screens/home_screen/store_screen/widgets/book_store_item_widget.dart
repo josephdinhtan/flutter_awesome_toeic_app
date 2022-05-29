@@ -1,19 +1,19 @@
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_toeic_quiz2/core/constants/app_light_colors.dart';
-import 'package:flutter_toeic_quiz2/presentation/screens/widgets/neumorphism_button.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:flutter_toeic_quiz2/view_model/book_screen_cubit/book_list_cubit.dart';
+import 'package:flutter_toeic_quiz2/view_model/store_screen_cubit/store_screen_popup_cubit.dart';
 
 import '../../../../../core/constants/app_dimensions.dart';
-import '../../../../../data/models/book_info_model.dart';
+import '../../../../../data/business_models/book_info_model.dart';
 import 'book_store_item_popup_widget.dart';
 
 class BookStoreItemWidget extends StatefulWidget {
+
+  final BookInfoModel bookInfoModel;
+  bool isBought;
   BookStoreItemWidget(
       {Key? key, required this.bookInfoModel, this.isBought = false})
       : super(key: key);
-
-  BookInfoModel bookInfoModel;
-  bool isBought;
 
   @override
   State<BookStoreItemWidget> createState() => _BookStoreItemWidgetState();
@@ -30,21 +30,9 @@ class _BookStoreItemWidgetState extends State<BookStoreItemWidget> {
   }
 
   void updateImageCover() async {
-    // print('fullUrl: bookCoverPathUrl ${widget.toeicBook.coverUrl}');
-    // final fullUrl = await FirebaseApi.getDownloadUrl(widget.toeicBook.coverUrl);
-    // print('tandq FirebaseApi get fullUrl done!');
-    //
-    // // check this item already in DB or not
-    // final toeicBook = BookHiveApi.instance.getByID(widget.toeicBook.id);
-    // widget.bought = toeicBook == null ? false : true;
-    //
-    // print('tandq bookInfoDb check exist done');
-    // setState(() {
-    //   bookCoverLink = fullUrl;
-    // });
     await Future.delayed(const Duration(milliseconds: 500));
     setState(() {
-      bookCoverLink = widget.bookInfoModel.coverUrl;
+      bookCoverLink = widget.bookInfoModel.networkUrl;
     });
   }
 
@@ -61,6 +49,7 @@ class _BookStoreItemWidgetState extends State<BookStoreItemWidget> {
         //         bought: widget.bought,
         //       ),
         //     ));
+        //BlocProvider.of<StoreScreenCubit>(context).displayBookItemPopup();
         showDialog(
             barrierDismissible: false,
             context: context,
@@ -70,8 +59,15 @@ class _BookStoreItemWidgetState extends State<BookStoreItemWidget> {
                 title: Center(child: Text(widget.bookInfoModel.title)),
                 contentPadding:
                     const EdgeInsets.symmetric(horizontal: 6.0, vertical: 16.0),
-                content: BookStoreItemPopupWidget(
-                  bookInfoModel: widget.bookInfoModel,
+                content: BlocProvider.value(
+                  value: StoreScreenPopupCubit()..displayBookItemPopup(),
+                  child: BlocProvider.value(
+                    value: BlocProvider.of<BookListCubit>(context),
+                    child: BookStoreItemPopupWidget(
+                      bookInfoModel: widget.bookInfoModel,
+                      isBought: widget.bookInfoModel.isBought,
+                    ),
+                  ),
                 ),
               );
             });
@@ -88,17 +84,13 @@ class _BookStoreItemWidgetState extends State<BookStoreItemWidget> {
                     ? const Center(
                         child: Padding(
                         padding: EdgeInsets.all(8.0),
-                        child: CircularProgressIndicator(
-                          color: Colors.blue,
-                        ),
+                        child: SizedBox(
+                            height: 200,
+                            child: Center(child: Text('Loading...'))),
                       ))
                     : Image.network(
                         bookCoverLink,
                         fit: BoxFit.cover,
-                        // loadingBuilder: (context, child, loadingProgress) {
-                        //   if (loadingProgress == null) return child;
-                        //   return child;
-                        // },
                       ),
               ),
               Column(

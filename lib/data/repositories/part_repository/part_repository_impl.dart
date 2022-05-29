@@ -1,18 +1,24 @@
-import 'package:flutter_toeic_quiz2/data/data_providers/base_api.dart';
-import 'package:flutter_toeic_quiz2/data/models/part_info_model.dart';
 
+import '../../base_api_dao/baseAPIDAO.dart';
+import '../../business_models/part_info_model.dart';
+import '../../data_providers/apis/part_api.dart';
+import '../../data_source/daos/part_dao.dart';
 import 'part_repository.dart';
+import 'package:flutter/foundation.dart' show kIsWeb;
 
 class PartRepositoryImpl implements PartRepository {
-  BaseApi api;
+  late BaseAPIDAO _apidao;
 
-  PartRepositoryImpl({
-    required this.api,
-  });
+  PartRepositoryImpl() {
+    if(kIsWeb) {
+      _apidao = PartApi();
+    } else {
+      _apidao = PartDAO();
+    }
+  }
 
   @override
   Future<List<PartInfoModel>> getPartList() async {
-    // check here if it web flatform or doesn't have local database
-    return await api.getList();
+    return await _apidao.getAllItems() as List<PartInfoModel>;
   }
 }

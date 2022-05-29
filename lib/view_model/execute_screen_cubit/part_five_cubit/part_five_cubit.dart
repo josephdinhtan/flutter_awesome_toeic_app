@@ -1,7 +1,7 @@
 import 'package:bloc/bloc.dart';
-import 'package:flutter_toeic_quiz2/data/models/part_models/answer_enum.dart';
-import '../../../data/data_providers/execute_api/part_five_api.dart';
-import '../../../data/models/part_models/part_five_model.dart';
+import '../../../data/business_models/part_models/answer_enum.dart';
+import '../../../data/business_models/part_models/part_five_model.dart';
+import '../../../data/data_providers/apis/part_execute_apis/part_five_api.dart';
 import '../../../data/repositories/execute_repository/part_five_repository/part_five_repository_impl.dart';
 import '../../../domain/execute_use_cases/get_part_five_question_list_use_case.dart';
 import '../../../presentation/screens/execute_screen/widgets/answer_sheet_panel.dart';
@@ -10,8 +10,7 @@ part 'part_five_state.dart';
 
 class PartFiveCubit extends Cubit<PartFiveState> {
   PartFiveCubit() : super(PartFiveInitial());
-  final useCase = GetPartFiveQuestionListUseCase(
-      repository: PartFiveRepositoryImpl(api: PartFiveApi()));
+  final useCase = GetPartFiveQuestionListUseCase();
 
   late List<PartFiveModel> _partFiveQuestionList;
   int _currentQuestionIndex = 0;

@@ -2,10 +2,10 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_toeic_quiz2/core/constants/app_dimensions.dart';
 import 'package:flutter_toeic_quiz2/core/constants/app_text_styles.dart';
-import 'package:flutter_toeic_quiz2/data/models/part_models/answer_enum.dart';
-import 'package:flutter_toeic_quiz2/data/models/part_models/part_four_model.dart';
 import 'package:flutter_toeic_quiz2/presentation/screens/execute_screen/widgets/audio_controller_neumorphic_widget.dart';
 import '../../../../core/constants/app_light_colors.dart';
+import '../../../../data/business_models/part_models/answer_enum.dart';
+import '../../../../data/business_models/part_models/part_four_model.dart';
 import '../../../../utils/misc.dart';
 import '../../../../view_model/execute_screen_cubit/part_four_cubit/part_four_cubit.dart';
 import '../components/media_player.dart';
@@ -14,25 +14,12 @@ import '../widgets/answer_sheet_panel.dart';
 import '../widgets/bottom_controller_neumorphic_widget.dart';
 
 class PartFourScreen extends StatelessWidget {
-  final int partId;
+  final String partId;
   final String partTitle;
 
   const PartFourScreen(
       {Key? key, required this.partId, required this.partTitle})
       : super(key: key);
-
-  @override
-  Widget build(BuildContext context) {
-    return BlocProvider(
-      create: (context) => PartFourCubit()..getInitContent(),
-      child: const PartFourPage(),
-    );
-  }
-}
-
-class PartFourPage extends StatelessWidget {
-  const PartFourPage({Key? key}) : super(key: key);
-
   @override
   Widget build(BuildContext context) {
     double height = MediaQuery.of(context).size.height;
@@ -116,7 +103,7 @@ class PartFourPage extends StatelessWidget {
                       builder: (context, state) {
                         if (state is PartFourContentLoaded) {
                           final PartFourModel partFourModel =
-                              state.partFourModel;
+                              state.partFourModel as PartFourModel;
                           final correctAnswer = state.correctAnswer;
                           final userAnswer = state.userAnswer;
                           List<Widget> listWidget = [];

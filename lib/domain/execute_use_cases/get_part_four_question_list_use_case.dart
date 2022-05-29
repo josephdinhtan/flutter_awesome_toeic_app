@@ -1,5 +1,6 @@
-import 'package:flutter_toeic_quiz2/data/models/part_models/part_four_model.dart';
 import 'package:flutter_toeic_quiz2/data/repositories/execute_repository/part_four_repository/part_four_repository.dart';
+
+import '../../data/business_models/part_models/part_four_model.dart';
 
 class GetPartFourQuestionListUserCase {
   PartFourRepository repository;

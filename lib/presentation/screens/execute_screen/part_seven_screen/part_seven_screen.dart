@@ -3,9 +3,9 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_toeic_quiz2/core/constants/app_dimensions.dart';
 import 'package:flutter_toeic_quiz2/core/constants/app_light_colors.dart';
 import 'package:flutter_toeic_quiz2/core/constants/app_text_styles.dart';
-import 'package:flutter_toeic_quiz2/data/models/part_models/answer_enum.dart';
-import 'package:flutter_toeic_quiz2/data/models/part_models/part_seven_model.dart';
 import 'package:flutter_toeic_quiz2/utils/misc.dart';
+import '../../../../data/business_models/part_models/answer_enum.dart';
+import '../../../../data/business_models/part_models/part_seven_model.dart';
 import '../../../../view_model/execute_screen_cubit/part_seven_cubit/part_seven_cubit.dart';
 import '../widgets/answer_board_neumorphic_widget.dart';
 import '../widgets/answer_sheet_panel.dart';
@@ -13,24 +13,11 @@ import '../widgets/bottom_controller_neumorphic_widget.dart';
 import '../widgets/horizontal_split_view.dart';
 
 class PartSevenScreen extends StatelessWidget {
-  final int partId;
+  final String partId;
   final String partTitle;
 
   const PartSevenScreen({Key? key, required this.partId, required this.partTitle})
       : super(key: key);
-
-  @override
-  Widget build(BuildContext context) {
-    return BlocProvider(
-      create: (context) => PartSevenCubit()..getInitContent(),
-      child: const PartSevenPage(),
-    );
-  }
-}
-
-class PartSevenPage extends StatelessWidget {
-  const PartSevenPage({Key? key}) : super(key: key);
-
   @override
   Widget build(BuildContext context) {
     double height = MediaQuery.of(context).size.height;
@@ -138,7 +125,7 @@ class PartSevenPage extends StatelessWidget {
   Widget _buildPartSevenContentView(context,
       {required PartSevenContentLoaded state}) {
     List<Widget> listWidget = [];
-    final PartSevenModel partSevenModel = state.partSevenModel;
+    final PartSevenModel partSevenModel = state.partSevenModel as PartSevenModel;
     final correctAnswer = state.correctAnswer;
     final userAnswer = state.userAnswer;
     for (int i = 0; i < partSevenModel.questionNumber.length; i++) {

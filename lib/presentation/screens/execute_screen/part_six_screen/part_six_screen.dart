@@ -4,10 +4,10 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_toeic_quiz2/core/constants/app_dimensions.dart';
 import 'package:flutter_toeic_quiz2/core/constants/app_light_colors.dart';
 import 'package:flutter_toeic_quiz2/core/constants/app_text_styles.dart';
-import 'package:flutter_toeic_quiz2/data/models/part_models/answer_enum.dart';
-import 'package:flutter_toeic_quiz2/data/models/part_models/part_six_model.dart';
 import 'package:flutter_toeic_quiz2/presentation/screens/execute_screen/widgets/add_favorite_question_panel.dart';
 import 'package:flutter_toeic_quiz2/utils/misc.dart';
+import '../../../../data/business_models/part_models/answer_enum.dart';
+import '../../../../data/business_models/part_models/part_six_model.dart';
 import '../../../../view_model/execute_screen_cubit/part_six_cubit/part_six_cubit.dart';
 import '../widgets/answer_board_neumorphic_widget.dart';
 import '../widgets/answer_sheet_panel.dart';
@@ -15,24 +15,11 @@ import '../widgets/bottom_controller_neumorphic_widget.dart';
 import '../widgets/horizontal_split_view.dart';
 
 class PartSixScreen extends StatelessWidget {
-  final int partId;
+  final String partId;
   final String partTitle;
 
   const PartSixScreen({Key? key, required this.partId, required this.partTitle})
       : super(key: key);
-
-  @override
-  Widget build(BuildContext context) {
-    return BlocProvider(
-      create: (context) => PartSixCubit()..getInitContent(),
-      child: const PartSixPage(),
-    );
-  }
-}
-
-class PartSixPage extends StatelessWidget {
-  const PartSixPage({Key? key}) : super(key: key);
-
   @override
   Widget build(BuildContext context) {
     double height = MediaQuery.of(context).size.height;
@@ -169,7 +156,7 @@ class PartSixPage extends StatelessWidget {
   Widget _buildPartSixContentView(context,
       {required PartSixContentLoaded state}) {
     List<Widget> listWidget = [];
-    final PartSixModel partSixModel = state.partSixModel;
+    final PartSixModel partSixModel = state.partSixModel as PartSixModel;
     final correctAnswer = state.correctAnswer;
     final userAnswer = state.userAnswer;
     for (int i = 0; i < partSixModel.questionNumber.length; i++) {

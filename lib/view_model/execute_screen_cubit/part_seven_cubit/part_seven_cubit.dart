@@ -1,9 +1,9 @@
 import 'package:bloc/bloc.dart';
 import 'package:meta/meta.dart';
 
-import '../../../data/data_providers/execute_api/part_seven_api.dart';
-import '../../../data/models/part_models/answer_enum.dart';
-import '../../../data/models/part_models/part_seven_model.dart';
+import '../../../data/business_models/part_models/answer_enum.dart';
+import '../../../data/business_models/part_models/part_seven_model.dart';
+import '../../../data/data_providers/apis/part_execute_apis/part_seven_api.dart';
 import '../../../data/repositories/execute_repository/part_seven_repository/part_seven_repository_impl.dart';
 import '../../../domain/execute_use_cases/get_part_seven_question_list_use_case.dart';
 import '../../../presentation/screens/execute_screen/widgets/answer_sheet_panel.dart';
