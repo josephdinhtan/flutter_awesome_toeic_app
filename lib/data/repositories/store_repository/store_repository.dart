@@ -1,10 +1,9 @@
 
 import 'dart:async';
-
-import '../../business_models/book_info_model.dart';
+import '../../data_providers/apis/store_api/network_store_item_object.dart';
 
 abstract class StoreRepository {
 
-  Future<List<BookInfoModel>> getBookList();
-  Future<bool> saveABookToDb(BookInfoModel bookInfoModel);
+  Future<List<NetworkStoreItemModel>> getBookList();
+  Future<bool> saveABookToDb(NetworkStoreItemModel networkBookInfoModel);
 }

@@ -17,18 +17,19 @@ class BookHiveObjectAdapter extends TypeAdapter<BookHiveObject> {
       for (int i = 0; i < numOfFields; i++) reader.readByte(): reader.read(),
     };
     return BookHiveObject(
-      id: fields[0] as int,
+      id: fields[0] as String,
       title: fields[1] as String,
       des: fields[2] as String,
       author: fields[3] as String,
       coverLocalUrl: fields[4] as String,
+      childId: (fields[5] as List).cast<String>(),
     );
   }
 
   @override
   void write(BinaryWriter writer, BookHiveObject obj) {
     writer
-      ..writeByte(5)
+      ..writeByte(6)
       ..writeByte(0)
       ..write(obj.id)
       ..writeByte(1)
@@ -38,7 +39,9 @@ class BookHiveObjectAdapter extends TypeAdapter<BookHiveObject> {
       ..writeByte(3)
       ..write(obj.author)
       ..writeByte(4)
-      ..write(obj.coverLocalUrl);
+      ..write(obj.coverLocalUrl)
+      ..writeByte(5)
+      ..write(obj.childId);
   }
 
   @override

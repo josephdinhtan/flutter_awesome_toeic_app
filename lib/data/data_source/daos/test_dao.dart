@@ -1,28 +1,73 @@
+import 'dart:developer';
+
 import 'package:flutter_toeic_quiz2/data/business_models/base_model/base_model.dart';
 import 'package:flutter_toeic_quiz2/data/data_source/daos/base_dao.dart';
+import 'package:flutter_toeic_quiz2/presentation/screens/test_screen/widgets/test_item_widget.dart';
+import 'package:hive/hive.dart';
 import 'package:hive/src/object/hive_object.dart';
 
 import '../../business_models/test_info_model.dart';
+import '../box_name.dart';
+import '../hive_objects/book_hive_object/book_hive_object.dart';
 import '../hive_objects/test_hive_object/test_hive_object.dart';
 
+const LOG_TAG = "TestDAO";
+final logEnable = false;
+
 class TestDAO implements BaseDAO<TestInfoModel, TestHiveObject> {
-
-
   @override
-  Future<bool> addItem(HiveObject item, String hiveId) {
-    // TODO: implement addItem
-    throw UnimplementedError();
+  Future<bool> addItem(HiveObject item, String hiveId) async {
+    if (logEnable) log("$LOG_TAG addItem() item: $item, hiveId: $hiveId");
+    try {
+      if (logEnable) log("$LOG_TAG addItem() openBox started");
+      await Hive.openBox(BoxName.TEST_BOX_NAME);
+      if (logEnable) log("$LOG_TAG addItem() openBox done");
+    } catch (e) {
+      if (logEnable) log("$LOG_TAG addItem() ${e.toString()}");
+      return false;
+    }
+    final testBox = Hive.box(BoxName.TEST_BOX_NAME);
+    if (logEnable) log("$LOG_TAG addItem() testBox.length: ${testBox.length}");
+    // hiveId should be farther ID, bookId
+    await testBox.put(hiveId, item);
+    if (logEnable) log("$LOG_TAG addItem() testBox put done");
+    return true;
   }
 
   @override
-  Future<List<BaseBusinessModel>> getAllItems() async {
-    return await getFakeList();
+  Future<List<BaseBusinessModel>> getAllItems(List<String> hiveIds) async {
+    if (logEnable) log("$LOG_TAG getAllItems() hiveId: $hiveIds");
+    List<TestInfoModel> testInfoModelList = [];
+    try {
+      await Hive.openBox(BoxName.TEST_BOX_NAME);
+    } catch (e) {
+      return testInfoModelList;
+    }
+    final testBox = Hive.box(BoxName.TEST_BOX_NAME);
+    if (logEnable) log("$LOG_TAG getAllItems() trying get test...");
+    for (String hiveId in hiveIds) {
+      if (logEnable) log("$LOG_TAG getAllItems() testHiveId: $hiveId");
+      final testHiveObjectList = testBox.get(hiveId, defaultValue: null);
+      if (testHiveObjectList == null) break;
+      if (logEnable)
+        log("$LOG_TAG getAllItems() testHiveObjectList: $testHiveObjectList");
+      final testInfoModel = TestInfoModel.fromHiveObject(testHiveObjectList as TestHiveObject);
+      testInfoModel.hiveId = hiveId;
+      testInfoModelList.add(testInfoModel);
+    }
+    return testInfoModelList;
   }
 
   @override
-  Future<BaseBusinessModel?> getItem(String hiveId) {
-    // TODO: implement getItem
-    throw UnimplementedError();
+  Future<BaseBusinessModel?> getItem(String hiveId) async {
+    try {
+      await Hive.openBox(BoxName.TEST_BOX_NAME);
+    } catch (e) {
+      return null;
+    }
+    final testBox = Hive.box(BoxName.TEST_BOX_NAME);
+    final testHiveObject = testBox.get(hiveId, defaultValue: null);
+    return TestInfoModel.fromHiveObject(testHiveObject);
   }
 
   @override
@@ -33,7 +78,6 @@ class TestDAO implements BaseDAO<TestInfoModel, TestHiveObject> {
 
   @override
   Future<bool> updateItem(HiveObject item) {
-    // TODO: implement updateItem
     throw UnimplementedError();
   }
 
@@ -46,7 +90,6 @@ class TestDAO implements BaseDAO<TestInfoModel, TestHiveObject> {
         version: 1,
         isDownloaded: true,
         actualScore: 730,
-        boxId: "demo BoxID",
         resourceUrl: 'resourceUrl'));
     list.add(TestInfoModel(
         title: 'Practice Test 2',
@@ -108,5 +151,4 @@ class TestDAO implements BaseDAO<TestInfoModel, TestHiveObject> {
     await Future.delayed(const Duration(milliseconds: 1000));
     return Future.value(list);
   }
-  
 }

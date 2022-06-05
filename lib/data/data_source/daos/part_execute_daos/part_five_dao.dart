@@ -14,7 +14,7 @@ class PartFiveDAO implements BaseDAO<PartFiveModel, PartFiveHiveObject> {
   }
 
   @override
-  Future<List<BaseBusinessModel>> getAllItems() async {
+  Future<List<BaseBusinessModel>> getAllItems(List<String> hiveIds) async {
     return await getFakeQuestionList();
   }
 

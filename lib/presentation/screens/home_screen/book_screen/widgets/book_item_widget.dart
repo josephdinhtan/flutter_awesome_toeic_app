@@ -29,7 +29,8 @@ class BookItemWidget extends StatelessWidget {
           AppRouter.test,
           arguments: ScreenArguments(
             title: bookInfoModel.title,
-            id: "widget.bookInfoModel.boxId",
+            id: bookInfoModel.getBoxId(),
+            otherInfo: bookInfoModel,
             //id: widget.bookInfoModel.boxId!,
           ),
         );

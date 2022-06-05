@@ -7,7 +7,7 @@ class StoreScreenInitial extends StoreScreenState {}
 class StoreScreenBooksLoading extends StoreScreenState {}
 
 class StoreScreenBooksLoaded extends StoreScreenState {
-  List<BookInfoModel> bookInfoModelList;
+  List<NetworkStoreItemModel> networkStoreItemModelList;
 
-  StoreScreenBooksLoaded({required this.bookInfoModelList});
+  StoreScreenBooksLoaded({required this.networkStoreItemModelList});
 }

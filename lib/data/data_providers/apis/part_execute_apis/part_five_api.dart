@@ -16,7 +16,7 @@ class PartFiveApi extends BaseApi<PartFiveModel, NetworkPartFiveObject> {
   }
 
   @override
-  Future<List<BaseBusinessModel>> getAllItems() async {
+  Future<List<BaseBusinessModel>> getAllItems(List<String> hiveIds) async {
     return await getFakeQuestionList();
   }
 

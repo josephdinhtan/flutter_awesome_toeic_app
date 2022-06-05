@@ -5,7 +5,7 @@ part 'book_hive_object.g.dart';
 @HiveType(typeId: 1)
 class BookHiveObject extends HiveObject {
   @HiveField(0)
-  int id;
+  String id;
   @HiveField(1)
   String title;
   @HiveField(2)
@@ -14,6 +14,8 @@ class BookHiveObject extends HiveObject {
   String author;
   @HiveField(4)
   String coverLocalUrl;
+  @HiveField(5)
+  List<String> childId;
 
   BookHiveObject({
     required this.id,
@@ -21,5 +23,6 @@ class BookHiveObject extends HiveObject {
     required this.des,
     required this.author,
     required this.coverLocalUrl,
+    required this.childId
   });
 }

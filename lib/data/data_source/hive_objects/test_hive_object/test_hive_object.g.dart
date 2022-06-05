@@ -17,36 +17,33 @@ class TestHiveObjectAdapter extends TypeAdapter<TestHiveObject> {
       for (int i = 0; i < numOfFields; i++) reader.readByte(): reader.read(),
     };
     return TestHiveObject(
-      bookFatherBoxId: fields[0] as String,
-      title: fields[1] as String,
-      memorySize: fields[2] as String,
-      questionNumber: fields[3] as int,
-      resourceUrl: fields[4] as String,
-      isDownloaded: fields[5] as bool,
-      actualScore: fields[6] as int,
-      version: fields[7] as int,
+      title: fields[0] as String,
+      memorySize: fields[1] as String,
+      questionNumber: fields[2] as int,
+      resourceUrl: fields[3] as String,
+      isDownloaded: fields[4] as bool,
+      actualScore: fields[5] as int,
+      version: fields[6] as int,
     );
   }
 
   @override
   void write(BinaryWriter writer, TestHiveObject obj) {
     writer
-      ..writeByte(8)
-      ..writeByte(0)
-      ..write(obj.bookFatherBoxId)
-      ..writeByte(1)
-      ..write(obj.title)
-      ..writeByte(2)
-      ..write(obj.memorySize)
-      ..writeByte(3)
-      ..write(obj.questionNumber)
-      ..writeByte(4)
-      ..write(obj.resourceUrl)
-      ..writeByte(5)
-      ..write(obj.isDownloaded)
-      ..writeByte(6)
-      ..write(obj.actualScore)
       ..writeByte(7)
+      ..writeByte(0)
+      ..write(obj.title)
+      ..writeByte(1)
+      ..write(obj.memorySize)
+      ..writeByte(2)
+      ..write(obj.questionNumber)
+      ..writeByte(3)
+      ..write(obj.resourceUrl)
+      ..writeByte(4)
+      ..write(obj.isDownloaded)
+      ..writeByte(5)
+      ..write(obj.actualScore)
+      ..writeByte(6)
       ..write(obj.version);
   }
 

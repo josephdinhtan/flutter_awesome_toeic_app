@@ -15,7 +15,7 @@ class TestApi extends BaseApi<TestInfoModel, NetworkTestObject> {
   }
 
   @override
-  Future<List<BaseBusinessModel>> getAllItems() async {
+  Future<List<BaseBusinessModel>> getAllItems(List<String> hiveIds) async {
     return await getFakeList();
   }
 
@@ -46,7 +46,6 @@ class TestApi extends BaseApi<TestInfoModel, NetworkTestObject> {
         version: 1,
         isDownloaded: true,
         actualScore: 700,
-        boxId: "demo BoxID",
         resourceUrl: 'resourceUrl'));
     list.add(TestInfoModel(
         title: 'Practice Test 2',

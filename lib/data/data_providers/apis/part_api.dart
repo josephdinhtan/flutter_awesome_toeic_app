@@ -14,7 +14,7 @@ class PartApi extends BaseApi<PartInfoModel, NetworkPartObject> {
   }
 
   @override
-  Future<List<BaseBusinessModel>> getAllItems() {
+  Future<List<BaseBusinessModel>> getAllItems(List<String> hiveIds) {
     // TODO: implement getAllItems
     throw UnimplementedError();
   }

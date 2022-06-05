@@ -8,49 +8,67 @@ import 'package:flutter_toeic_quiz2/data/download_manager/download_constant.dart
 import 'package:flutter_toeic_quiz2/data/download_manager/download_manager.dart';
 import 'package:permission_handler/permission_handler.dart';
 
-final String LOG_TAG = "BookDownloadManagerImpl";
-class BookDownloadManagerImpl implements DownloadManager {
+import '../../utils/misc.dart';
+
+final String LOG_TAG = "TestDownloadManagerImpl";
+class TestDownloadManagerImpl implements DownloadManager {
 
   @override
   Future<bool> downloadFile(String relativeUrl, String localFireUrl) async {
+    final appDocDir = getApplicationDirectory();
     final islandRef = FirebaseStorage.instance.ref(relativeUrl);
 
     //final file = File("${appDocDir}file.jpg");
     final localDir = localFireUrl.replaceAll(islandRef.name, '');
     await _createFolder(localDir);
-    log("$LOG_TAG downloadFile() $localDir");
+    log("$LOG_TAG downloadFile() localFireUrl: $localFireUrl");
     final file = File(localFireUrl);
     try {
-      final downloadTask = islandRef.writeToFile(file);
-      downloadTask.snapshotEvents.listen((taskSnapshot) {
-        switch (taskSnapshot.state) {
-          case TaskState.running:
-          // TODO: Handle this case.
-            log("$LOG_TAG downloadTask: running");
-            break;
-          case TaskState.paused:
-          // TODO: Handle this case.
-            log("$LOG_TAG downloadTask: paused");
-            break;
-          case TaskState.success:
-          // TODO: Handle this case.
-            log("$LOG_TAG downloadTask: success");
-            break;
-          case TaskState.canceled:
-          // TODO: Handle this case.
-            log("$LOG_TAG downloadTask: canceled");
-            break;
-          case TaskState.error:
-          // TODO: Handle this case.
-            log("$LOG_TAG downloadTask: error");
-            break;
-        }
-      });
+      final downloadTask = await islandRef.writeToFile(file);
+      // downloadTask.snapshotEvents.listen((taskSnapshot) {
+      //   switch (taskSnapshot.state) {
+      //     case TaskState.running:
+      //     // TODO: Handle this case.
+      //       //log("$LOG_TAG downloadTask: running");
+      //       break;
+      //     case TaskState.paused:
+      //     // TODO: Handle this case.
+      //       log("$LOG_TAG downloadTask: paused");
+      //       break;
+      //     case TaskState.success:
+      //     // TODO: Handle this case.
+      //       log("$LOG_TAG downloadTask: success");
+      //       break;
+      //     case TaskState.canceled:
+      //     // TODO: Handle this case.
+      //       log("$LOG_TAG downloadTask: canceled");
+      //       break;
+      //     case TaskState.error:
+      //     // TODO: Handle this case.
+      //       log("$LOG_TAG downloadTask: error");
+      //       break;
+      //   }
+      // });
     } on FirebaseException catch (e) {
       // e.g, e.code == 'canceled'
       log('$LOG_TAG downloadFile exception ${e.code}');
     }
     return Future.value(true);
+  }
+
+  Future<List<String>> fetchingUrls(String relativePath) async {
+    final ref = FirebaseStorage.instance.ref(relativePath);
+    final result = await ref.listAll();
+    List<Reference> refs = result.items;
+    List<String> urls = [];
+    for(final ref in refs) {
+      urls.add(ref.fullPath);
+    }
+    //final urls = await _getDownloadLinks(result.items);
+    return urls;
+  }
+  static Future<List<String>> _getDownloadLinks(List<Reference> refs) {
+    return Future.wait(refs.map((e) => e.getDownloadURL()).toList());
   }
 
   Future<String> _getDownloadUrlFromPath(String path) async {

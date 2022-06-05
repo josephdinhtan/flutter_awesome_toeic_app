@@ -5,24 +5,21 @@ part 'test_hive_object.g.dart';
 @HiveType(typeId: 2)
 class TestHiveObject extends HiveObject {
   @HiveField(0)
-  String bookFatherBoxId;// for searching
-  @HiveField(1)
   String title;
-  @HiveField(2)
+  @HiveField(1)
   String memorySize;
-  @HiveField(3)
+  @HiveField(2)
   int questionNumber;
-  @HiveField(4)
+  @HiveField(3)
   String resourceUrl;// local = network relative path
-  @HiveField(5)
+  @HiveField(4)
   bool isDownloaded;// display open button
-  @HiveField(6)
+  @HiveField(5)
   int actualScore;
-  @HiveField(7)
+  @HiveField(6)
   int version;
 
   TestHiveObject({
-    required this.bookFatherBoxId, // for searching
     required this.title,
     required this.memorySize,
     required this.questionNumber,

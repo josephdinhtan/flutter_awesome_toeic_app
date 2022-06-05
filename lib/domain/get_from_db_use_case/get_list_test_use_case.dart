@@ -9,7 +9,7 @@ class GetListTestUseCase {
     required this.repository,
   });
 
-  Future<List<TestInfoModel>> getListInfo() async {
-    return await repository.getTestList();
+  Future<List<TestInfoModel>> getListInfo(List<String> hiveIds) async {
+    return await repository.getTestList(hiveIds);
   }
 }

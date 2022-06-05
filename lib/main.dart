@@ -13,6 +13,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:hive/hive.dart';
 import 'package:path_provider/path_provider.dart';
 import 'data/data_source/hive_objects/book_hive_object/book_hive_object.dart';
+import 'data/data_source/hive_objects/test_hive_object/test_hive_object.dart';
 import 'presentation/screens/execute_screen/part_six_screen/part_six_screen.dart';
 import 'firebase_options.dart';
 import 'package:flutter/foundation.dart' show kIsWeb;
@@ -67,6 +68,7 @@ Future<void> globalInitializerForMobile() async {
   setApplicationDirectory(dir.path);
   Hive.init(dir.path);
   Hive.registerAdapter(BookHiveObjectAdapter());
+  Hive.registerAdapter(TestHiveObjectAdapter());
   await Firebase.initializeApp(
     options: DefaultFirebaseOptions.currentPlatform,
   );

@@ -1,6 +1,7 @@
 import 'dart:convert';
 import 'dart:typed_data';
 import 'package:firebase_storage/firebase_storage.dart';
+import 'package:flutter_toeic_quiz2/data/business_models/test_info_model.dart';
 import 'package:flutter_toeic_quiz2/data/download_manager/download_constant.dart';
 
 import '../../../business_models/book_info_model.dart';
@@ -9,17 +10,13 @@ import 'network_store_item_object.dart';
 
 class StoreApi {
   // one instant only
-  static final List<NetworkStoreItemObject> _networkBookInfoModelList = [];
+  static final List<NetworkStoreItemModel> _networkBookInfoModelList = [];
 
-  Future<List<BookInfoModel>> getBookListNetwork() async {
+  Future<List<NetworkStoreItemModel>> getBookListNetwork() async {
     if (_networkBookInfoModelList.isEmpty) {
       await _updateNetworkBookInfoModelList();
     }
-    List<BookInfoModel> bookInfoModelList = [];
-    for (var networkBookInfoModel in _networkBookInfoModelList) {
-      bookInfoModelList.add(networkBookInfoModel.toBusinessModel());
-    }
-    return bookInfoModelList;
+    return _networkBookInfoModelList;
   }
 
   Future<String> _getDownloadUrlFromPath(String path) async {
@@ -32,7 +29,7 @@ class StoreApi {
     final String jsonString = await _getRawMainFileItemList();
     List<dynamic> jsonMapList = jsonDecode(jsonString);
     for (var jsonMap in jsonMapList) {
-      final networkBookInfoModel = NetworkStoreItemObject.fromJson(jsonMap);
+      final networkBookInfoModel = NetworkStoreItemModel.fromJson(jsonMap);
       networkBookInfoModel.networkUrl =
           await _getDownloadUrlFromPath(networkBookInfoModel.coverUrl);
       _networkBookInfoModelList.add(networkBookInfoModel);

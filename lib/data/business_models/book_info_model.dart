@@ -6,12 +6,13 @@ import 'base_model/base_model.dart';
 class BookInfoModel implements BaseBusinessModel {
   String? boxId;
   bool isBought;
-  int id;
+  String id;
   String title;
   String des;
   String author;
   String coverUrl;
   String networkUrl;
+  List<String> childIds;
   int price;
 
   BookInfoModel({
@@ -19,6 +20,7 @@ class BookInfoModel implements BaseBusinessModel {
     this.isBought = false,
     this.networkUrl = "",
     required this.id,
+    required this.childIds,
     required this.title,
     required this.des,
     required this.author,
@@ -28,22 +30,29 @@ class BookInfoModel implements BaseBusinessModel {
 
   @override
   String toString() {
-    return "{\"id\": $id, \"title\": $title, \"des\": $des, \"author\": $author, \"coverUrl\": $coverUrl, \"price\": $price}";
+    return "{\"id\": $id, \"title\": $title, \"des\": $des, \"author\": $author, \"coverUrl\": $coverUrl, \"price\": $price, childId: $childIds}";
   }
 
   HiveObject toHiveObject() {
-    return BookHiveObject(id: id, title: title, des: des, author: author, coverLocalUrl: coverUrl);
+    return BookHiveObject(
+      id: id,
+      title: title,
+      des: des,
+      author: author,
+      coverLocalUrl: coverUrl,
+      childId: childIds,
+    );
   }
 
   static BookInfoModel fromHiveObject(BookHiveObject hiveObject) {
     return BookInfoModel(
-      id: hiveObject.id,
-      author: hiveObject.author,
-      coverUrl: hiveObject.coverLocalUrl,
-      des: hiveObject.des,
-      price: 0,
-      title: hiveObject.title,
-    );
+        id: hiveObject.id,
+        author: hiveObject.author,
+        coverUrl: hiveObject.coverLocalUrl,
+        des: hiveObject.des,
+        price: 0,
+        title: hiveObject.title,
+        childIds: hiveObject.childId);
   }
 
   String getBoxId() {

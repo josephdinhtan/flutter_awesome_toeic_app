@@ -20,6 +20,6 @@ class BookRepositoryImpl implements BookRepository {
 
   @override
   Future<List<BookInfoModel>> getBookList() async {
-    return await _apidao.getAllItems() as List<BookInfoModel>;
+    return await _apidao.getAllItems([]) as List<BookInfoModel>;
   }
 }

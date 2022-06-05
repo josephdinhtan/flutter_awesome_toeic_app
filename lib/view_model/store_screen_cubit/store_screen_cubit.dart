@@ -2,10 +2,12 @@ import 'dart:developer';
 
 import 'package:bloc/bloc.dart';
 import 'package:flutter_toeic_quiz2/data/business_models/book_info_model.dart';
-import 'package:flutter_toeic_quiz2/domain/save_to_db_use_cases/save_a_store_book_to_db_use_case.dart';
+import 'package:flutter_toeic_quiz2/data/data_providers/apis/store_api/network_store_item_object.dart';
+import 'package:flutter_toeic_quiz2/domain/save_to_db_use_cases/save_book_to_db_use_case.dart';
 import 'package:meta/meta.dart';
 
 import '../../data/business_models/book_info_model.dart';
+import '../../data/business_models/test_info_model.dart';
 import '../../data/data_providers/apis/book_api.dart';
 import '../../data/data_source/daos/book_dao.dart';
 import '../../data/repositories/book_repository/book_repository_impl.dart';
@@ -29,7 +31,7 @@ class StoreScreenCubit extends Cubit<StoreScreenState> {
     log("$LOG_TAG getBookListFromNetwork() loaded: $storeBookInfoList");
 
     final dbBookInforList = await _getFromDBBookListUserCase.getListInfo();
-    for (BookInfoModel storeBookInfoModel in storeBookInfoList) {
+    for (NetworkStoreItemModel storeBookInfoModel in storeBookInfoList) {
       log('$LOG_TAG storeBookInfoModel: ${storeBookInfoModel.getBoxId()}');
       for (BookInfoModel bookInfoModel in dbBookInforList) {
         log('$LOG_TAG db bookInfoModel: ${bookInfoModel.getBoxId()}');
@@ -42,6 +44,7 @@ class StoreScreenCubit extends Cubit<StoreScreenState> {
     }
     //check item bought
 
-    emit(StoreScreenBooksLoaded(bookInfoModelList: storeBookInfoList));
+    emit(StoreScreenBooksLoaded(
+        networkStoreItemModelList: storeBookInfoList));
   }
 }

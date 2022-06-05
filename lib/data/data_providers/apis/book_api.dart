@@ -13,7 +13,7 @@ class BookApi extends BaseApi<BookInfoModel, NetworkBookObject> {
   }
 
   @override
-  Future<List<BaseBusinessModel>> getAllItems() {
+  Future<List<BaseBusinessModel>> getAllItems(List<String> hiveIds) {
     // TODO: implement getAllItems
     throw UnimplementedError();
   }

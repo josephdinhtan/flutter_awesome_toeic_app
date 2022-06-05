@@ -61,7 +61,7 @@ class BookDAO implements BaseDAO<BookInfoModel, BookHiveObject> {
   }
 
   @override
-  Future<List<BookInfoModel>> getAllItems() async {
+  Future<List<BookInfoModel>> getAllItems(List<String> hiveIds) async {
     List<BookInfoModel> bookInfoModelList = [];
     try {
       await Hive.openBox(BoxName.BOOK_BOX_NAME);

@@ -12,10 +12,10 @@ class TestListCubit extends Cubit<TestListState> {
 
   TestListCubit() : super(TestListInitial());
 
-  Future<void> getInitContent() async {
+  Future<void> getInitContent(List<String> hiveIds) async {
     emit(TestListLoading());
     try {
-      final List<TestInfoModel> testList = await useCase.getListInfo();
+      final List<TestInfoModel> testList = await useCase.getListInfo(hiveIds);
       emit(TestListLoaded(
         testListModel: testList,
       ));

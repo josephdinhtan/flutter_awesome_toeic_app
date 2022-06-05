@@ -18,7 +18,16 @@ class TestRepositoryImpl implements TestRepository {
   }
 
   @override
-  Future<List<TestInfoModel>> getTestList() async {
-    return await _apidao.getAllItems() as List<TestInfoModel>;
+  Future<List<TestInfoModel>> getTestList(List<String> hiveIds) async {
+    return await _apidao.getAllItems(hiveIds) as List<TestInfoModel>;
   }
+
+  @override
+  Future<bool> updateATestDataDownloadedToDB(String testHiveId) async {
+    TestInfoModel testInfoModel = await _apidao.getItem(testHiveId) as TestInfoModel;
+    testInfoModel.isDownloaded = true;
+    return await _apidao.addItem(testInfoModel.toHiveObject(), testHiveId);
+  }
+
+
 }

@@ -22,6 +22,6 @@ class PartFiveRepositoryImpl implements PartFiveRepository {
 
   @override
   Future<List<PartFiveModel>> getPartFiveQuestionList() async {
-    return await _apidao.getAllItems() as List<PartFiveModel>;
+    return await _apidao.getAllItems([]) as List<PartFiveModel>;
   }
 }

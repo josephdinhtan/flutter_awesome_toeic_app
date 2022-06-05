@@ -7,6 +7,11 @@ import 'package:flutter_toeic_quiz2/presentation/router/screen_arguments.dart';
 import 'package:flutter_toeic_quiz2/presentation/screens/test_screen/widgets/download_button.dart';
 import 'package:flutter/foundation.dart' show kIsWeb;
 
+import 'download_handler/database_download_controller.dart';
+import 'download_handler/download_controller.dart';
+import 'download_handler/download_status.dart';
+import 'download_handler/simulate_download_controller.dart';
+
 const int maxScore = 990;
 
 class TestItemWidget extends StatefulWidget {
@@ -15,7 +20,7 @@ class TestItemWidget extends StatefulWidget {
     this.dowloaded = true,
     this.actualScore = -1,
     this.memorySize = "",
-    this.testBoxId = "",
+    required this.testHiveId,
     required this.resourceUrl,
     required this.questionNumber,
     required this.title,
@@ -23,8 +28,8 @@ class TestItemWidget extends StatefulWidget {
 
   factory TestItemWidget.fromTestInfoModel(TestInfoModel testInfoModel) {
     return TestItemWidget(
+      testHiveId: testInfoModel.hiveId,
         memorySize: testInfoModel.memorySize,
-        testBoxId: testInfoModel.boxId != null ? testInfoModel.boxId! : "",
         title: testInfoModel.title,
         resourceUrl: testInfoModel.resourceUrl,
         dowloaded: testInfoModel.isDownloaded,
@@ -39,14 +44,14 @@ class TestItemWidget extends StatefulWidget {
   late final int questionNumber;
   late final String memorySize;
   late final String resourceUrl;
-  String testBoxId;
+  String testHiveId;
 
   @override
   State<TestItemWidget> createState() => _TestItemWidgetState();
 }
 
 class _TestItemWidgetState extends State<TestItemWidget> {
-  late final DownloadController _downloadController;
+  late DownloadController _downloadController;
 
   @override
   void initState() {
@@ -57,22 +62,22 @@ class _TestItemWidgetState extends State<TestItemWidget> {
           onOpenDownload: () => _openDownload(),
           downloadStatus: DownloadStatus.downloaded);
     } else {
-      _downloadController =
-          SimulatedDownloadController(onOpenDownload: () => _openDownload());
+      //_downloadController = SimulatedDownloadController(onOpenDownload: () => _openDownload());
+
+      _downloadController = DataBaseDownloadController(
+        resourceUrl: widget.resourceUrl,
+        onOpenDownload: () => _openDownload(),
+        downloadStatus: widget.dowloaded
+            ? DownloadStatus.downloaded
+            : DownloadStatus.notDownloaded,
+        testHiveId: widget.testHiveId,
+      );
     }
-    // _downloadController = DataBaseDownloadController(
-    //   resourceUrl: widget.resourceUrl,
-    //   onOpenDownload: () => _openDownload(),
-    //   downloadStatus: widget.dowloaded
-    //       ? DownloadStatus.downloaded
-    //       : DownloadStatus.notDownloaded,
-    //   testBoxId: widget.testBoxId,
-    // );
   }
 
   void _openDownload() {
     Navigator.pushNamed(context, AppRouter.part,
-        arguments: ScreenArguments(title: "Test title put here", id: "DemoId"));
+        arguments: ScreenArguments(title: widget.title, id: "DemoId"));
   }
 
   @override

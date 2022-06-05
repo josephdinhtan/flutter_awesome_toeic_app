@@ -19,6 +19,6 @@ class PartRepositoryImpl implements PartRepository {
 
   @override
   Future<List<PartInfoModel>> getPartList() async {
-    return await _apidao.getAllItems() as List<PartInfoModel>;
+    return await _apidao.getAllItems([]) as List<PartInfoModel>;
   }
 }
