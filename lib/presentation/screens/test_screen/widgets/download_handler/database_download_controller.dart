@@ -88,8 +88,8 @@ class DataBaseDownloadController extends DownloadController
       }
     }
 
-    UpdateTestIsDownloadedToDB updateBd = UpdateTestIsDownloadedToDB();
-    await updateBd.updateATestDataIsDownloaded(testHiveId);
+    UpdateTestIsDownloadedToDB updateDB = UpdateTestIsDownloadedToDB();
+    await updateDB.updateATestDataIsDownloaded(testHiveId);
     // save text data for each part here
     // ............
     _downloadStatus = DownloadStatus.downloaded;
