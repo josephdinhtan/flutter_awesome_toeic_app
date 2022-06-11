@@ -1,6 +1,6 @@
 # flutter_toeic_quiz2
 
-A new Flutter project.
+A new Flutter project. Applied Clean architecture, MVVN
 
 ## Getting Started
 
