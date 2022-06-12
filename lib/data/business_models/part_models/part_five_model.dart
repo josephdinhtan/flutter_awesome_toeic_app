@@ -1,8 +1,7 @@
-
-import '../base_model/base_model.dart';
+import '../base_model/base_business_model.dart';
 import 'answer_enum.dart';
 
-class PartFiveModel implements BaseBusinessModel{
+class PartFiveModel implements BaseBusinessModel {
   final int questionNumber;
   final String question;
   final List<String> answers;

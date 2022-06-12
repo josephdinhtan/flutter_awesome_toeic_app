@@ -1,5 +1,4 @@
-
-import '../base_model/base_model.dart';
+import '../base_model/base_business_model.dart';
 import 'answer_enum.dart';
 
 class PartFourModel implements BaseBusinessModel {

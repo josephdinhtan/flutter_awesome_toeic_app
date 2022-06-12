@@ -1,8 +1,6 @@
 import 'package:bloc/bloc.dart';
 import '../../../data/business_models/part_models/answer_enum.dart';
 import '../../../data/business_models/part_models/part_five_model.dart';
-import '../../../data/data_providers/apis/part_execute_apis/part_five_api.dart';
-import '../../../data/repositories/execute_repository/part_five_repository/part_five_repository_impl.dart';
 import '../../../domain/execute_use_cases/get_part_five_question_list_use_case.dart';
 import '../../../presentation/screens/execute_screen/widgets/answer_sheet_panel.dart';
 
@@ -22,7 +20,7 @@ class PartFiveCubit extends Cubit<PartFiveState> {
 
   Future<void> getInitContent() async {
     emit(PartFiveLoading());
-    _partFiveQuestionList = await useCase.getContent();
+    _partFiveQuestionList = await useCase.perform(() {});
     _currentQuestionIndex = 0;
     _questionListSize = _partFiveQuestionList.length;
     _userAnswerMap.clear();
@@ -30,7 +28,7 @@ class PartFiveCubit extends Cubit<PartFiveState> {
     _questionNumberIndexMap.clear();
 
     for (int i = 0; i < _questionListSize; i++) {
-        _questionNumberIndexMap[_partFiveQuestionList[i].questionNumber] = i;
+      _questionNumberIndexMap[_partFiveQuestionList[i].questionNumber] = i;
     }
     notifyData();
   }

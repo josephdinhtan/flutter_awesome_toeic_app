@@ -1,4 +1,3 @@
-
 import 'dart:async';
 
 import '../../business_models/book_info_model.dart';

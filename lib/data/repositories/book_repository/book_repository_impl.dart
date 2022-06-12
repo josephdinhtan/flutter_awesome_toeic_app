@@ -11,7 +11,7 @@ import 'package:flutter/foundation.dart' show kIsWeb;
 class BookRepositoryImpl implements BookRepository {
   late BaseAPIDAO _apidao;
   BookRepositoryImpl() {
-    if(kIsWeb) {
+    if (kIsWeb) {
       _apidao = BookApi();
     } else {
       _apidao = BookDAO();

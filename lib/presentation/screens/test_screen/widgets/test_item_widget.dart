@@ -17,34 +17,10 @@ const int maxScore = 990;
 class TestItemWidget extends StatefulWidget {
   TestItemWidget({
     Key? key,
-    this.dowloaded = true,
-    this.actualScore = -1,
-    this.memorySize = "",
-    required this.testHiveId,
-    required this.resourceUrl,
-    required this.questionNumber,
-    required this.title,
+    required this.testInfoModel,
   }) : super(key: key);
 
-  factory TestItemWidget.fromTestInfoModel(TestInfoModel testInfoModel) {
-    return TestItemWidget(
-      testHiveId: testInfoModel.hiveId,
-        memorySize: testInfoModel.memorySize,
-        title: testInfoModel.title,
-        resourceUrl: testInfoModel.resourceUrl,
-        dowloaded: testInfoModel.isDownloaded,
-        actualScore: testInfoModel.actualScore,
-        questionNumber: testInfoModel.questionNumber);
-  }
-
-  bool dowloaded;
-  bool onProgress = false;
-  late final String title;
-  int actualScore;
-  late final int questionNumber;
-  late final String memorySize;
-  late final String resourceUrl;
-  String testHiveId;
+  TestInfoModel testInfoModel;
 
   @override
   State<TestItemWidget> createState() => _TestItemWidgetState();
@@ -56,7 +32,6 @@ class _TestItemWidgetState extends State<TestItemWidget> {
   @override
   void initState() {
     super.initState();
-    widget.onProgress = widget.actualScore != -1;
     if (kIsWeb) {
       _downloadController = SimulatedDownloadController(
           onOpenDownload: () => _openDownload(),
@@ -65,19 +40,24 @@ class _TestItemWidgetState extends State<TestItemWidget> {
       //_downloadController = SimulatedDownloadController(onOpenDownload: () => _openDownload());
 
       _downloadController = DataBaseDownloadController(
-        resourceUrl: widget.resourceUrl,
+        audioPath: widget.testInfoModel.audioPath,
+        picturePath: widget.testInfoModel.picturePath,
         onOpenDownload: () => _openDownload(),
-        downloadStatus: widget.dowloaded
+        downloadStatus: widget.testInfoModel.isResourceDownloaded
             ? DownloadStatus.downloaded
             : DownloadStatus.notDownloaded,
-        testHiveId: widget.testHiveId,
+        testHiveId: widget.testInfoModel.id,
       );
     }
   }
 
   void _openDownload() {
     Navigator.pushNamed(context, AppRouter.part,
-        arguments: ScreenArguments(title: widget.title, id: "DemoId"));
+        arguments: ScreenArguments(
+          title: widget.testInfoModel.title,
+          id: widget.testInfoModel.id,
+          childIds: widget.testInfoModel.partIds,
+        ));
   }
 
   @override
@@ -106,15 +86,18 @@ class _TestItemWidgetState extends State<TestItemWidget> {
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
                         Text(
-                          widget.memorySize != ''
-                              ? '${widget.questionNumber} QUESTIONS - ${widget.memorySize}'
-                              : '${widget.questionNumber} QUESTIONS',
+                          widget.testInfoModel.memorySize != ''
+                              ? '${widget.testInfoModel.numOfQuestion} QUESTIONS - ${widget.testInfoModel.memorySize}'
+                              : '${widget.testInfoModel.numOfQuestion} QUESTIONS',
                           style: Theme.of(context).textTheme.headline5,
                         ),
                         const SizedBox(height: AppDimensions.kPaddingDefault),
                         Text(
-                          widget.title,
-                          style: Theme.of(context).textTheme.headline3?.copyWith(color: Colors.black54),
+                          widget.testInfoModel.title,
+                          style: Theme.of(context)
+                              .textTheme
+                              .headline3
+                              ?.copyWith(color: Colors.black54),
                         ),
                       ],
                     ),
@@ -136,7 +119,8 @@ class _TestItemWidgetState extends State<TestItemWidget> {
                   ],
                 ),
                 const SizedBox(height: AppDimensions.kPaddingDefault),
-                if (widget.dowloaded && widget.onProgress)
+                if (widget.testInfoModel.isResourceDownloaded &&
+                    widget.testInfoModel.actualScore != null)
                   Row(
                     children: [
                       Container(
@@ -147,8 +131,8 @@ class _TestItemWidgetState extends State<TestItemWidget> {
                         child: Padding(
                           padding: const EdgeInsets.all(8.0),
                           child: Text(
-                            '${widget.actualScore}/$maxScore',
-                            style: TextStyle(color: Colors.white),
+                            '${widget.testInfoModel.actualScore}/$maxScore',
+                            style: const TextStyle(color: Colors.white),
                           ),
                         ),
                       ),
@@ -158,9 +142,9 @@ class _TestItemWidgetState extends State<TestItemWidget> {
                           padding: const EdgeInsets.only(
                               left: AppDimensions.kPaddingDefault),
                           child: LinearProgressIndicator(
-                            value: widget.actualScore / maxScore,
+                            value: widget.testInfoModel.actualScore! / maxScore,
                             color: AppLightColors.kCircularProgressColor,
-                            backgroundColor: Color(0xffb7e4c7),
+                            backgroundColor: const Color(0xffb7e4c7),
                           ),
                         ),
                       )
@@ -169,14 +153,14 @@ class _TestItemWidgetState extends State<TestItemWidget> {
                 else
                   Row(
                     children: [
-                      Icon(Icons.help_outline_outlined,
+                      const Icon(Icons.help_outline_outlined,
                           color: AppLightColors.kIconColor),
-                      SizedBox(width: AppDimensions.kPaddingDefault),
+                      const SizedBox(width: AppDimensions.kPaddingDefault),
                       Text(
                         'You have not studied this test',
                         style: Theme.of(context).textTheme.headline4,
                       ),
-                      SizedBox(width: AppDimensions.kPaddingDefault),
+                      const SizedBox(width: AppDimensions.kPaddingDefault),
                     ],
                   )
               ],

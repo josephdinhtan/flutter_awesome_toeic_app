@@ -1,6 +1,9 @@
+import 'dart:developer';
+
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:flutter_toeic_quiz2/utils/misc.dart';
 import '../../core/exceptions/route_exception.dart' show RouteException;
 import '../../data/business_models/book_info_model.dart';
 import '../screens/execute_screen/part_one_screen/part_one_screen.dart';
@@ -29,6 +32,8 @@ import '../../view_model/test_screen_cubit/test_list_cubit.dart';
 import '../screens/execute_screen/part_five_screen/part_five_screen.dart';
 import '../screens/execute_screen/part_four_screen/part_four_screen.dart';
 import '../screens/execute_screen/part_six_screen/part_six_screen.dart';
+
+const _logTag = "AppRouter";
 
 class AppRouter {
   static const String home = '/';
@@ -84,16 +89,18 @@ class AppRouter {
         final bookInfoModel = args.otherInfo as BookInfoModel;
         return CupertinoPageRoute(
           builder: (_) => BlocProvider.value(
-            value: _testListCubit..getInitContent(bookInfoModel.childIds),
-            child: TestScreen(bookId: args.id, bookTitle: args.title),
+            value: _testListCubit..getInitContent(bookInfoModel.testIds),
+            child: TestScreen(bookTitle: args.title),
           ),
         );
       case part:
         final args = settings.arguments as ScreenArguments;
+        if (DebugLogEnable)
+          log('$_logTag part: args.childIds: ${args.childIds}');
         return CupertinoPageRoute(
           builder: (_) => BlocProvider.value(
-            value: _partListCubit..getInitContent(),
-            child: PartScreen(testId: args.id, testTitle: args.title),
+            value: _partListCubit..getInitContent(args.childIds),
+            child: PartScreen(testTitle: args.title),
           ),
         );
       case part1Exam:
@@ -115,8 +122,8 @@ class AppRouter {
         final args = settings.arguments as ScreenArguments;
         return CupertinoPageRoute(
           builder: (_) => BlocProvider.value(
-            value: _partOneCubit..getInitContent(),
-            child: PartOneScreen(partId: args.id, partTitle: args.title),
+            value: _partOneCubit..getInitContent(args.childIds),
+            child: PartOneScreen(partTitle: args.title),
           ),
         );
       case part2Exam:
@@ -124,7 +131,7 @@ class AppRouter {
         return CupertinoPageRoute(
           builder: (_) => BlocProvider.value(
             value: _partTwoCubit..getInitContent(),
-            child: PartTwoScreen(partId: args.id, partTitle: args.title),
+            child: PartTwoScreen(partTitle: args.title),
           ),
         );
       case part3Exam:
@@ -132,7 +139,7 @@ class AppRouter {
         return CupertinoPageRoute(
           builder: (_) => BlocProvider.value(
             value: _partThreeCubit..getInitContent(),
-            child: PartThreeScreen(partId: args.id, partTitle: args.title),
+            child: PartThreeScreen(partTitle: args.title),
           ),
         );
       case part4Exam:
@@ -140,7 +147,7 @@ class AppRouter {
         return CupertinoPageRoute(
           builder: (_) => BlocProvider.value(
             value: _partFourCubit..getInitContent(),
-            child: PartFourScreen(partId: args.id, partTitle: args.title),
+            child: PartFourScreen(partTitle: args.title),
           ),
         );
       case part5Exam:
@@ -148,7 +155,7 @@ class AppRouter {
         return CupertinoPageRoute(
           builder: (_) => BlocProvider.value(
             value: _partFiveCubit..getInitContent(),
-            child: PartFiveScreen(partId: args.id, partTitle: args.title),
+            child: PartFiveScreen(partTitle: args.title),
           ),
         );
       case part6Exam:
@@ -156,7 +163,7 @@ class AppRouter {
         return CupertinoPageRoute(
           builder: (_) => BlocProvider.value(
             value: _partSixCubit..getInitContent(),
-            child: PartSixScreen(partId: args.id, partTitle: args.title),
+            child: PartSixScreen(partTitle: args.title),
           ),
         );
       case part7Exam:
@@ -164,7 +171,7 @@ class AppRouter {
         return CupertinoPageRoute(
           builder: (_) => BlocProvider.value(
             value: _partSevenCubit..getInitContent(),
-            child: PartSevenScreen(partId: args.id, partTitle: args.title),
+            child: PartSevenScreen(partTitle: args.title),
           ),
         );
       default:

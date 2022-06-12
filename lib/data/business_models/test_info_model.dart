@@ -1,53 +1,66 @@
+// ignore_for_file: public_member_api_docs, sort_constructors_first
 import 'package:hive/hive.dart';
 
 import '../data_source/hive_objects/test_hive_object/test_hive_object.dart';
-import 'base_model/base_model.dart';
+import 'base_model/base_business_model.dart';
 
 class TestInfoModel extends BaseBusinessModel {
-  String hiveId;
-  final String title;
-  final String memorySize;
-  final int questionNumber;
-  final int version;
-  final String resourceUrl;
-  final int actualScore; // only visiable in DB
-  bool isDownloaded; // only visiable in DB
+  String id;
+  String title;
+  String memorySize;
+  int numOfQuestion;
+  int? actualScore;
+  int ver;
+  String picturePath;
+  String audioPath;
+  List<String> partIds;
+  bool isResourceDownloaded;
+
   TestInfoModel({
+    required this.id,
     required this.title,
     required this.memorySize,
-    required this.questionNumber,
-    required this.version,
-    required this.resourceUrl,
-    this.actualScore = -1,
-    this.isDownloaded = false,
-    this.hiveId = "",
+    required this.numOfQuestion,
+    required this.actualScore,
+    required this.ver,
+    required this.picturePath,
+    required this.audioPath,
+    required this.partIds,
+    this.isResourceDownloaded = false,
   });
 
   @override
   String toString() {
-    return "title: $title, size: $memorySize, questionNumber: $questionNumber, ver: $version, resourceUrl: $resourceUrl, score: $actualScore, downloaded: $isDownloaded";
+    return "title: $title, size: $memorySize, questionNumber: $numOfQuestion, ver: $ver, resourceUrl: $picturePath, score: $actualScore, downloaded: $isResourceDownloaded";
   }
 
   HiveObject toHiveObject() {
-    return TestHiveObject(title: title,
+    return TestHiveObject(
+      id: id,
+      title: title,
       actualScore: actualScore,
-      isDownloaded: isDownloaded,
+      isResourceDownloaded: isResourceDownloaded,
       memorySize: memorySize,
-      questionNumber: questionNumber,
-      //bookFatherBoxId:,
-      resourceUrl: resourceUrl,
-      version: version,);
+      numOfQuestion: numOfQuestion,
+      picturePath: picturePath,
+      audioPath: audioPath,
+      ver: ver,
+      partIds: partIds,
+    );
   }
 
-  static TestInfoModel fromHiveObject(TestHiveObject hiveObject) {
+  factory TestInfoModel.fromHiveObject(TestHiveObject hiveObject) {
     return TestInfoModel(
-      version: hiveObject.version,
-      resourceUrl: hiveObject.resourceUrl,
-      questionNumber: hiveObject.questionNumber,
+      id: hiveObject.id,
+      ver: hiveObject.ver,
+      picturePath: hiveObject.picturePath,
+      numOfQuestion: hiveObject.numOfQuestion,
       memorySize: hiveObject.memorySize,
       title: hiveObject.title,
-      isDownloaded: hiveObject.isDownloaded,
+      isResourceDownloaded: hiveObject.isResourceDownloaded,
       actualScore: hiveObject.actualScore,
+      audioPath: hiveObject.audioPath,
+      partIds: hiveObject.partIds,
     );
   }
 }

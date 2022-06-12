@@ -1,30 +1,34 @@
 import 'dart:developer';
 import 'package:flutter_toeic_quiz2/data/data_source/hive_objects/book_hive_object/book_hive_object.dart';
+import 'package:flutter_toeic_quiz2/utils/misc.dart';
 
 import '../../business_models/book_info_model.dart';
 import '../daos/base_dao.dart';
 import '../box_name.dart';
 import 'package:hive/hive.dart';
 
-const logEnable = true;
-const LOG_TAG = "BookDAO";
+const _logTag = "BookDAO";
 
 class BookDAO implements BaseDAO<BookInfoModel, BookHiveObject> {
+  static final BookDAO _singleton = BookDAO._internal();
+  BookDAO._internal();
+  factory BookDAO() => _singleton;
 
   @override
   Future<bool> addItem(HiveObject item, String hiveId) async {
     try {
-      if(logEnable) log("$LOG_TAG addItem() openBox started");
+      if (DebugLogEnable) log("$_logTag addItem() openBox started");
       await Hive.openBox(BoxName.BOOK_BOX_NAME);
-      if(logEnable) log("$LOG_TAG addItem() openBox done");
+      if (DebugLogEnable) log("$_logTag addItem() openBox done");
     } catch (e) {
-      if(logEnable) log("$LOG_TAG addItem() ${e.toString()}");
+      if (DebugLogEnable) log("$_logTag addItem() ${e.toString()}");
       return false;
     }
     final bookBox = Hive.box(BoxName.BOOK_BOX_NAME);
-    if(logEnable) log("$LOG_TAG addItem() bookBox.length: ${bookBox.length}");
+    if (DebugLogEnable)
+      log("$_logTag addItem() bookBox.length: ${bookBox.length}");
     await bookBox.put(hiveId, item);
-    if(logEnable) log("$LOG_TAG addItem() bookBox put done");
+    if (DebugLogEnable) log("$_logTag addItem() bookBox put done");
     return true;
   }
 
@@ -33,11 +37,12 @@ class BookDAO implements BaseDAO<BookInfoModel, BookHiveObject> {
     try {
       await Hive.openBox(BoxName.BOOK_BOX_NAME);
     } catch (e) {
-      log("$LOG_TAG getItem() ${e.toString()}");
+      log("$_logTag getItem() ${e.toString()}");
       return null;
     }
     final bookBox = Hive.box(BoxName.BOOK_BOX_NAME);
-    final hiveObject = await bookBox.get(hiveId, defaultValue: null) as BookHiveObject;
+    final hiveObject =
+        await bookBox.get(hiveId, defaultValue: null) as BookHiveObject;
     return BookInfoModel.fromHiveObject(hiveObject);
   }
 
@@ -46,7 +51,7 @@ class BookDAO implements BaseDAO<BookInfoModel, BookHiveObject> {
     try {
       await Hive.openBox(BoxName.BOOK_BOX_NAME);
     } catch (e) {
-      log("$LOG_TAG removeItem() ${e.toString()}");
+      log("$_logTag removeItem() ${e.toString()}");
       return false;
     }
     final bookBox = Hive.box(BoxName.BOOK_BOX_NAME);
@@ -69,8 +74,9 @@ class BookDAO implements BaseDAO<BookInfoModel, BookHiveObject> {
       return bookInfoModelList;
     }
     final bookBox = Hive.box(BoxName.BOOK_BOX_NAME);
-    for(int i = 0; i < bookBox.length; i++) {
-      bookInfoModelList.add(BookInfoModel.fromHiveObject(bookBox.getAt(i) as BookHiveObject));
+    for (int i = 0; i < bookBox.length; i++) {
+      bookInfoModelList.add(
+          BookInfoModel.fromHiveObject(bookBox.getAt(i) as BookHiveObject));
     }
     return bookInfoModelList;
   }

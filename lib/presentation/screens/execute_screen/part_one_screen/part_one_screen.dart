@@ -1,3 +1,6 @@
+import 'dart:developer';
+import 'dart:io';
+
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_toeic_quiz2/core/constants/app_dimensions.dart';
@@ -11,12 +14,12 @@ import '../widgets/answer_board_neumorphic_widget.dart';
 import '../widgets/answer_sheet_panel.dart';
 import '../widgets/bottom_controller_neumorphic_widget.dart';
 
+const _logTag = "PartOneScreen";
+
 class PartOneScreen extends StatelessWidget {
-  final String partId;
   final String partTitle;
 
-  const PartOneScreen({Key? key, required this.partId, required this.partTitle})
-      : super(key: key);
+  const PartOneScreen({Key? key, required this.partTitle}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -45,7 +48,8 @@ class PartOneScreen extends StatelessWidget {
                           answerSheetData:
                               BlocProvider.of<PartOneCubit>(context)
                                   .getAnswerSheetData(),
-                          maxWidthForMobile: AppDimensions.maxWidthForMobileMode,
+                          maxWidthForMobile:
+                              AppDimensions.maxWidthForMobileMode,
                           onPressedSubmit: () {},
                           onPressedCancel: () {
                             Navigator.pop(buildContext);
@@ -54,7 +58,9 @@ class PartOneScreen extends StatelessWidget {
                             BlocProvider.of<PartOneCubit>(context)
                                 .goToQuestion(questionNumber);
                             Navigator.pop(buildContext);
-                          }, currentWidth: width, currentHeight: height,
+                          },
+                          currentWidth: width,
+                          currentHeight: height,
                         ),
                       );
                     });
@@ -81,15 +87,14 @@ class PartOneScreen extends StatelessWidget {
               BlocBuilder<PartOneCubit, PartOneState>(
                 builder: (context, state) {
                   if (state is PartOneContentLoaded) {
-
                     return LinearProgressIndicator(
                       value:
-                      state.currentQuestionNumber/state.questionListSize,
+                          state.currentQuestionNumber / state.questionListSize,
                     );
                   }
                   return const LinearProgressIndicator(
                     value:
-                    0.5, //quizBrain.currentQuestionNumber / quizBrain.totalQuestionNumber,
+                        0.5, //quizBrain.currentQuestionNumber / quizBrain.totalQuestionNumber,
                   );
                 },
               ),
@@ -103,7 +108,22 @@ class PartOneScreen extends StatelessWidget {
                         builder: (context, state) {
                           if (state is PartOneContentLoaded) {
                             final partOneModel = state.partOneModel;
-                            return Text(partOneModel.imageUrl);
+                            //return Text(partOneModel.picturePath);
+                            final String pictureFullPath =
+                                getApplicationDirectory() +
+                                    partOneModel.picturePath;
+                            if (DebugLogEnable) {
+                              log('$_logTag pictureFullPath: $pictureFullPath');
+                            }
+                            return ClipRRect(
+                              borderRadius: const BorderRadius.all(
+                                  Radius.circular(
+                                      AppDimensions.kCardRadiusDefault)),
+                              child: Image.file(
+                                File(pictureFullPath),
+                                fit: BoxFit.contain,
+                              ),
+                            );
                           }
                           return const Text('...');
                         },
@@ -173,7 +193,8 @@ class PartOneScreen extends StatelessWidget {
                 },
                 checkAnsPressed: () {
                   BlocProvider.of<PartOneCubit>(context).userCheckAnswer();
-                }, favoritePressed: () {  },
+                },
+                favoritePressed: () {},
               ),
             ],
           ),

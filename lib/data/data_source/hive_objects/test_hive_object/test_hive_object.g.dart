@@ -17,34 +17,43 @@ class TestHiveObjectAdapter extends TypeAdapter<TestHiveObject> {
       for (int i = 0; i < numOfFields; i++) reader.readByte(): reader.read(),
     };
     return TestHiveObject(
-      title: fields[0] as String,
-      memorySize: fields[1] as String,
-      questionNumber: fields[2] as int,
-      resourceUrl: fields[3] as String,
-      isDownloaded: fields[4] as bool,
-      actualScore: fields[5] as int,
-      version: fields[6] as int,
+      id: fields[0] as String,
+      title: fields[1] as String,
+      memorySize: fields[2] as String,
+      numOfQuestion: fields[3] as int,
+      actualScore: fields[4] as int?,
+      ver: fields[5] as int,
+      picturePath: fields[6] as String,
+      audioPath: fields[7] as String,
+      partIds: (fields[8] as List).cast<String>(),
+      isResourceDownloaded: fields[9] as bool,
     );
   }
 
   @override
   void write(BinaryWriter writer, TestHiveObject obj) {
     writer
-      ..writeByte(7)
+      ..writeByte(10)
       ..writeByte(0)
-      ..write(obj.title)
+      ..write(obj.id)
       ..writeByte(1)
-      ..write(obj.memorySize)
+      ..write(obj.title)
       ..writeByte(2)
-      ..write(obj.questionNumber)
+      ..write(obj.memorySize)
       ..writeByte(3)
-      ..write(obj.resourceUrl)
+      ..write(obj.numOfQuestion)
       ..writeByte(4)
-      ..write(obj.isDownloaded)
-      ..writeByte(5)
       ..write(obj.actualScore)
+      ..writeByte(5)
+      ..write(obj.ver)
       ..writeByte(6)
-      ..write(obj.version);
+      ..write(obj.picturePath)
+      ..writeByte(7)
+      ..write(obj.audioPath)
+      ..writeByte(8)
+      ..write(obj.partIds)
+      ..writeByte(9)
+      ..write(obj.isResourceDownloaded);
   }
 
   @override

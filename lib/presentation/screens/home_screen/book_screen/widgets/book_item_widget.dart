@@ -20,7 +20,8 @@ class BookItemWidget extends StatelessWidget {
   Widget build(BuildContext context) {
     double height = MediaQuery.of(context).size.height;
     double width = MediaQuery.of(context).size.width;
-    final _bookCoverPath = getApplicationDirectory() + '/' + bookInfoModel.coverUrl;
+    final _bookCoverPath =
+        getApplicationDirectory() + '/' + bookInfoModel.coverPath;
     //print("BookItem widget rebuild $height, $width");
     return GestureDetector(
       onTap: () {
@@ -29,7 +30,8 @@ class BookItemWidget extends StatelessWidget {
           AppRouter.test,
           arguments: ScreenArguments(
             title: bookInfoModel.title,
-            id: bookInfoModel.getBoxId(),
+            id: bookInfoModel.id,
+            childIds: bookInfoModel.testIds,
             otherInfo: bookInfoModel,
             //id: widget.bookInfoModel.boxId!,
           ),

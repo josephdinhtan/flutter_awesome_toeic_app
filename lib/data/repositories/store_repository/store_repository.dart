@@ -1,9 +1,7 @@
-
 import 'dart:async';
-import '../../data_providers/apis/store_api/network_store_item_object.dart';
+import 'package:flutter_toeic_quiz2/data/data_providers/network_response_models/book_network_object.dart';
 
 abstract class StoreRepository {
-
-  Future<List<NetworkStoreItemModel>> getBookList();
-  Future<bool> saveABookToDb(NetworkStoreItemModel networkBookInfoModel);
+  Future<List<BookNetworkObject>> getBookList();
+  Future<bool> saveABookToDb(BookNetworkObject networkBookInfoModel);
 }

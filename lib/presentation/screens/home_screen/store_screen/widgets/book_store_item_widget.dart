@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_toeic_quiz2/data/business_models/test_info_model.dart';
-import 'package:flutter_toeic_quiz2/data/data_providers/apis/store_api/network_store_item_object.dart';
+import 'package:flutter_toeic_quiz2/data/data_providers/network_response_models/book_network_object.dart';
 import 'package:flutter_toeic_quiz2/view_model/book_screen_cubit/book_list_cubit.dart';
 import 'package:flutter_toeic_quiz2/view_model/store_screen_cubit/store_screen_popup_cubit.dart';
 
@@ -10,11 +10,10 @@ import '../../../../../data/business_models/book_info_model.dart';
 import 'book_store_item_popup_widget.dart';
 
 class BookStoreItemWidget extends StatefulWidget {
-
-  final NetworkStoreItemModel networkStoreItemModel;
+  final BookNetworkObject bookNetworkObject;
   bool isBought;
   BookStoreItemWidget(
-      {Key? key, required this.networkStoreItemModel, this.isBought = false})
+      {Key? key, required this.bookNetworkObject, this.isBought = false})
       : super(key: key);
 
   @override
@@ -34,7 +33,7 @@ class _BookStoreItemWidgetState extends State<BookStoreItemWidget> {
   void updateImageCover() async {
     await Future.delayed(const Duration(milliseconds: 500));
     setState(() {
-      bookCoverLink = widget.networkStoreItemModel.networkUrl;
+      bookCoverLink = widget.bookNetworkObject.full_cover_url;
     });
   }
 
@@ -58,7 +57,7 @@ class _BookStoreItemWidgetState extends State<BookStoreItemWidget> {
             builder: (BuildContext buildContext) {
               return AlertDialog(
                 scrollable: true,
-                title: Center(child: Text(widget.networkStoreItemModel.title)),
+                title: Center(child: Text(widget.bookNetworkObject.title)),
                 contentPadding:
                     const EdgeInsets.symmetric(horizontal: 6.0, vertical: 16.0),
                 content: BlocProvider.value(
@@ -66,8 +65,8 @@ class _BookStoreItemWidgetState extends State<BookStoreItemWidget> {
                   child: BlocProvider.value(
                     value: BlocProvider.of<BookListCubit>(context),
                     child: BookStoreItemPopupWidget(
-                      networkStoreItemModel: widget.networkStoreItemModel,
-                      isBought: widget.networkStoreItemModel.isBought,
+                      bookNetworkObject: widget.bookNetworkObject,
+                      isBought: widget.bookNetworkObject.isBought,
                     ),
                   ),
                 ),
@@ -100,13 +99,13 @@ class _BookStoreItemWidgetState extends State<BookStoreItemWidget> {
                 children: [
                   const SizedBox(height: AppDimensions.kPaddingDefault),
                   Text(
-                    widget.networkStoreItemModel.title,
+                    widget.bookNetworkObject.title,
                     style: Theme.of(context).textTheme.headline3,
                   ),
                   const SizedBox(height: AppDimensions.kPaddingDefault),
-                  widget.networkStoreItemModel.price != 0
+                  widget.bookNetworkObject.price != 0
                       ? Text(
-                          "${widget.networkStoreItemModel.price}K",
+                          "${widget.bookNetworkObject.price}K",
                           style: const TextStyle(
                               fontWeight: FontWeight.bold, fontSize: 18.0),
                         )

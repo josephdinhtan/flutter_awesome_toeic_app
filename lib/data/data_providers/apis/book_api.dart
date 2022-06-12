@@ -1,11 +1,11 @@
-import 'package:flutter_toeic_quiz2/data/business_models/base_model/base_model.dart';
+import 'package:flutter_toeic_quiz2/data/business_models/base_model/base_business_model.dart';
 import 'package:flutter_toeic_quiz2/data/data_providers/apis/base_api.dart';
-import 'package:flutter_toeic_quiz2/data/data_providers/network_response_models/network_base_object.dart';
+import 'package:flutter_toeic_quiz2/data/data_providers/network_response_models/base_network_object/network_base_object.dart';
 
 import '../../business_models/book_info_model.dart';
-import '../network_response_models/network_book_object.dart';
+import '../network_response_models/book_network_object.dart';
 
-class BookApi extends BaseApi<BookInfoModel, NetworkBookObject> {
+class BookApi extends BaseApi<BookInfoModel, BookNetworkObject> {
   @override
   Future<bool> addItem(NetworkBaseObject item, String hiveId) {
     // TODO: implement addItem
@@ -35,7 +35,4 @@ class BookApi extends BaseApi<BookInfoModel, NetworkBookObject> {
     // TODO: implement updateItem
     throw UnimplementedError();
   }
-
-
-
 }

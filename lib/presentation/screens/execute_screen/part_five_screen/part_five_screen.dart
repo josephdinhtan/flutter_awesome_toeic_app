@@ -11,12 +11,9 @@ import '../widgets/answer_sheet_panel.dart';
 import '../widgets/bottom_controller_neumorphic_widget.dart';
 
 class PartFiveScreen extends StatelessWidget {
-  final String partId;
   final String partTitle;
 
-  const PartFiveScreen(
-      {Key? key, required this.partId, required this.partTitle})
-      : super(key: key);
+  const PartFiveScreen({Key? key, required this.partTitle}) : super(key: key);
   @override
   Widget build(BuildContext context) {
     double height = MediaQuery.of(context).size.height;

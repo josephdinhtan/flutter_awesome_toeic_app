@@ -3,11 +3,8 @@ import 'dart:convert';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_staggered_grid_view/flutter_staggered_grid_view.dart';
-import 'package:flutter_toeic_quiz2/data/business_models/book_info_model.dart';
-import 'package:flutter_toeic_quiz2/data/business_models/test_info_model.dart';
-import 'package:flutter_toeic_quiz2/data/data_providers/apis/store_api/network_store_item_object.dart';
+import 'package:flutter_toeic_quiz2/data/data_providers/network_response_models/book_network_object.dart';
 import 'package:flutter_toeic_quiz2/presentation/screens/home_screen/store_screen/widgets/book_store_item_widget.dart';
-import 'package:flutter_toeic_quiz2/view_model/book_screen_cubit/book_list_cubit.dart';
 import 'package:flutter_toeic_quiz2/view_model/store_screen_cubit/store_screen_cubit.dart';
 
 import '../../../../core/constants/app_dimensions.dart';
@@ -42,7 +39,8 @@ class StoreScreen extends StatelessWidget {
               return const Center(child: Text('Loading...'));
             }
             if (state is StoreScreenBooksLoaded) {
-              List<NetworkStoreItemModel> networkStoreItemModelList = state.networkStoreItemModelList;
+              List<BookNetworkObject> networkStoreItemModelList =
+                  state.networkStoreItemModelList;
               if (networkStoreItemModelList.isEmpty) {
                 return const Center(
                     child: Text('Loading done, but no item found...'));
@@ -62,7 +60,7 @@ class StoreScreen extends StatelessWidget {
                     return BlocProvider.value(
                       value: BlocProvider.of<StoreScreenCubit>(context),
                       child: BookStoreItemWidget(
-                        networkStoreItemModel: networkStoreItemModelList[index],
+                        bookNetworkObject: networkStoreItemModelList[index],
                         isBought: networkStoreItemModelList[index].isBought,
                       ),
                     );

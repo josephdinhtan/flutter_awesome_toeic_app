@@ -1,6 +1,8 @@
 import 'dart:developer';
 import 'dart:io';
 
+import 'package:flutter_toeic_quiz2/domain/base_use_case/BaseUseCase.dart';
+
 import '../../utils/misc.dart';
 
 import '../../data/download_manager/test_download_manager_impl.dart';
@@ -9,14 +11,21 @@ import '../../data/download_manager/download_manager.dart';
 
 const LOG_TAG = "DownloadTestUseCase";
 
-class DownloadTestUseCase {
+class DownloadTestUseCase implements BaseUseCase<bool, String> {
+  static final DownloadTestUseCase _singleton = DownloadTestUseCase._internal();
+  factory DownloadTestUseCase() => _singleton;
+  DownloadTestUseCase._internal();
+
   final DownloadManager _downloadManager = TestDownloadManagerImpl();
 
-  Future<bool> doDownload(relativeUrl) async {
-    final String localFilePath = getApplicationDirectory() + relativeUrl;
-    final file = File(localFilePath);
+  @override
+  Future<bool> perform(relativeUrl) async {
+    log('$LOG_TAG doDownload() downloadFile relativeUrl: $relativeUrl');
+    final String localFilePath = getApplicationDirectory() + "/" + relativeUrl;
     if (await File(localFilePath).exists()) {
-      log('$LOG_TAG doDownload() downloadFile file already exits: $localFilePath');
+      if (DebugLogEnable) {
+        log('$LOG_TAG doDownload() downloadFile file already exits: $localFilePath');
+      }
       return Future.value(true);
     }
     return await _downloadManager.downloadFile(relativeUrl, localFilePath);

@@ -14,12 +14,9 @@ import '../widgets/answer_sheet_panel.dart';
 import '../widgets/bottom_controller_neumorphic_widget.dart';
 
 class PartFourScreen extends StatelessWidget {
-  final String partId;
   final String partTitle;
 
-  const PartFourScreen(
-      {Key? key, required this.partId, required this.partTitle})
-      : super(key: key);
+  const PartFourScreen({Key? key, required this.partTitle}) : super(key: key);
   @override
   Widget build(BuildContext context) {
     double height = MediaQuery.of(context).size.height;
@@ -42,13 +39,14 @@ class PartFourScreen extends StatelessWidget {
                             horizontal: 6.0, vertical: 16.0),
                         content: AnswerSheetPanel(
                           selectedColor:
-                          AppLightColors.kAnswerButtonColorSelected,
+                              AppLightColors.kAnswerButtonColorSelected,
                           answerColor:
-                          AppLightColors.kAnswerButtonColorCorrectAns,
+                              AppLightColors.kAnswerButtonColorCorrectAns,
                           answerSheetData:
-                          BlocProvider.of<PartFourCubit>(context)
-                              .getAnswerSheetData(),
-                          maxWidthForMobile: AppDimensions.maxWidthForMobileMode,
+                              BlocProvider.of<PartFourCubit>(context)
+                                  .getAnswerSheetData(),
+                          maxWidthForMobile:
+                              AppDimensions.maxWidthForMobileMode,
                           onPressedSubmit: () {},
                           onPressedCancel: () {
                             Navigator.pop(buildContext);
@@ -57,7 +55,9 @@ class PartFourScreen extends StatelessWidget {
                             BlocProvider.of<PartFourCubit>(context)
                                 .goToQuestion(questionNumber);
                             Navigator.pop(buildContext);
-                          }, currentWidth: width, currentHeight: height,
+                          },
+                          currentWidth: width,
+                          currentHeight: height,
                         ),
                       );
                     });
@@ -86,12 +86,12 @@ class PartFourScreen extends StatelessWidget {
                   if (state is PartFourContentLoaded) {
                     return LinearProgressIndicator(
                       value:
-                      state.currentQuestionNumber / state.questionListSize,
+                          state.currentQuestionNumber / state.questionListSize,
                     );
                   }
                   return const LinearProgressIndicator(
                     value:
-                    0.5, //quizBrain.currentQuestionNumber / quizBrain.totalQuestionNumber,
+                        0.5, //quizBrain.currentQuestionNumber / quizBrain.totalQuestionNumber,
                   );
                 },
               ),
@@ -108,8 +108,8 @@ class PartFourScreen extends StatelessWidget {
                           final userAnswer = state.userAnswer;
                           List<Widget> listWidget = [];
                           for (int i = 0;
-                          i < partFourModel.questionNumber.length;
-                          i++) {
+                              i < partFourModel.questionNumber.length;
+                              i++) {
                             if (i != 0) {
                               listWidget.add(const SizedBox(
                                   height: AppDimensions.kPaddingDefaultDouble));
@@ -133,8 +133,8 @@ class PartFourScreen extends StatelessWidget {
                               selectChanged: (value) {
                                 BlocProvider.of<PartFourCubit>(context)
                                     .userSelectAnswerChange(
-                                    partFourModel.questionNumber[i],
-                                    UserAnswer.values[value]);
+                                        partFourModel.questionNumber[i],
+                                        UserAnswer.values[value]);
                               },
                             ));
                           }
@@ -143,7 +143,9 @@ class PartFourScreen extends StatelessWidget {
                             crossAxisAlignment: CrossAxisAlignment.start,
                           );
                         }
-                        return const Center(child: Text('Loading ...'),);
+                        return const Center(
+                          child: Text('Loading ...'),
+                        );
                       },
                     ),
                   ),
@@ -171,7 +173,8 @@ class PartFourScreen extends StatelessWidget {
                 },
                 checkAnsPressed: () {
                   BlocProvider.of<PartFourCubit>(context).userCheckAnswer();
-                }, favoritePressed: () {  },
+                },
+                favoritePressed: () {},
               ),
             ],
           ),

@@ -15,11 +15,9 @@ import '../widgets/bottom_controller_neumorphic_widget.dart';
 import '../widgets/horizontal_split_view.dart';
 
 class PartSixScreen extends StatelessWidget {
-  final String partId;
   final String partTitle;
 
-  const PartSixScreen({Key? key, required this.partId, required this.partTitle})
-      : super(key: key);
+  const PartSixScreen({Key? key, required this.partTitle}) : super(key: key);
   @override
   Widget build(BuildContext context) {
     double height = MediaQuery.of(context).size.height;
@@ -129,7 +127,8 @@ class PartSixScreen extends StatelessWidget {
                       builder: (BuildContext buildContext) {
                         return AlertDialog(
                           scrollable: true,
-                          title: const Center(child: Text('Add a question to favorite')),
+                          title: const Center(
+                              child: Text('Add a question to favorite')),
                           contentPadding: const EdgeInsets.symmetric(
                               horizontal: 6.0, vertical: 16.0),
                           content: AddFavoriteQuestionPanel(
@@ -137,8 +136,9 @@ class PartSixScreen extends StatelessWidget {
                             onPressedCancel: () {
                               Navigator.pop(buildContext);
                             },
-                            onPressedOk: (inputStr){
-                              BlocProvider.of<PartSixCubit>(context).saveCurrentQuestionToFavorite(inputStr);
+                            onPressedOk: (inputStr) {
+                              BlocProvider.of<PartSixCubit>(context)
+                                  .saveCurrentQuestionToFavorite(inputStr);
                               Navigator.pop(buildContext);
                             },
                           ),

@@ -1,8 +1,7 @@
-
-import '../base_model/base_model.dart';
+import '../base_model/base_business_model.dart';
 import 'answer_enum.dart';
 
-class PartSevenModel implements BaseBusinessModel{
+class PartSevenModel implements BaseBusinessModel {
   final List<PartSevenStatement> statement;
   final List<int> questionNumber; // length = 3;
   final List<String> questions;
@@ -25,4 +24,4 @@ class PartSevenStatement {
   PartSevenStatement({required this.style, required this.stringData});
 }
 
-enum PartSevenStatementTyle {TEXT, IMAGE}
+enum PartSevenStatementTyle { TEXT, IMAGE }

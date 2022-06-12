@@ -2,6 +2,7 @@ import 'dart:developer';
 
 import 'package:flutter/material.dart';
 import 'package:flutter_toeic_quiz2/domain/download_use_case/download_test_use_case.dart';
+import 'package:flutter_toeic_quiz2/utils/misc.dart';
 
 import '../../../../../domain/download_use_case/test_fetching_data_use_case.dart';
 import '../../../../../domain/save_to_db_use_cases/update_test_isdownloaded_to_db.dart';
@@ -15,7 +16,8 @@ class DataBaseDownloadController extends DownloadController
   DataBaseDownloadController(
       {DownloadStatus downloadStatus = DownloadStatus.notDownloaded,
       double progress = 0.0,
-      required this.resourceUrl,
+      required this.audioPath,
+      required this.picturePath,
       required this.testHiveId,
       required VoidCallback onOpenDownload,
       test})
@@ -24,7 +26,8 @@ class DataBaseDownloadController extends DownloadController
         _onOpenDownload = onOpenDownload;
 
   String testHiveId;
-  String resourceUrl;
+  String audioPath;
+  String picturePath;
   DownloadStatus _downloadStatus;
 
   @override
@@ -51,14 +54,14 @@ class DataBaseDownloadController extends DownloadController
     _isDownloading = true;
     _downloadStatus = DownloadStatus.fetchingDownload;
     notifyListeners();
-    log('$LOG_TAG resourceUrl: $resourceUrl');
+    if (DebugLogEnable) log('$LOG_TAG resourceUrl: $audioPath');
     List<String> itemAudioUrls =
-        await TestFetchingDataUseCase().doFetching("$resourceUrl/audios");
+        await TestFetchingDataUseCase().perform("$audioPath");
     List<String> itemPictureUrls =
-        await TestFetchingDataUseCase().doFetching("$resourceUrl/pictures");
+        await TestFetchingDataUseCase().perform("$picturePath");
 
-    log('$LOG_TAG itemAudioUrl: $itemAudioUrls');
-    log('$LOG_TAG itemPictureUrl: $itemPictureUrls');
+    if (DebugLogEnable) log('$LOG_TAG itemAudioUrl: $itemAudioUrls');
+    if (DebugLogEnable) log('$LOG_TAG itemPictureUrl: $itemPictureUrls');
     if (!_isDownloading) {
       return;
     }
@@ -70,7 +73,7 @@ class DataBaseDownloadController extends DownloadController
 
     DownloadTestUseCase downloadTestUseCase = DownloadTestUseCase();
     for (final itemAudioUrl in itemAudioUrls) {
-      await downloadTestUseCase.doDownload(itemAudioUrl);
+      await downloadTestUseCase.perform(itemAudioUrl);
       _progress = count / allFileCount;
       count++;
       notifyListeners();
@@ -79,7 +82,7 @@ class DataBaseDownloadController extends DownloadController
       }
     }
     for (final itemPictureUrl in itemPictureUrls) {
-      await downloadTestUseCase.doDownload(itemPictureUrl);
+      await downloadTestUseCase.perform(itemPictureUrl);
       _progress = count / allFileCount;
       count++;
       notifyListeners();

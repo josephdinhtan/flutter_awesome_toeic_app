@@ -11,8 +11,8 @@ import 'package:permission_handler/permission_handler.dart';
 import '../../utils/misc.dart';
 
 final String LOG_TAG = "TestDownloadManagerImpl";
-class TestDownloadManagerImpl implements DownloadManager {
 
+class TestDownloadManagerImpl implements DownloadManager {
   @override
   Future<bool> downloadFile(String relativeUrl, String localFireUrl) async {
     final appDocDir = getApplicationDirectory();
@@ -61,12 +61,13 @@ class TestDownloadManagerImpl implements DownloadManager {
     final result = await ref.listAll();
     List<Reference> refs = result.items;
     List<String> urls = [];
-    for(final ref in refs) {
+    for (final ref in refs) {
       urls.add(ref.fullPath);
     }
     //final urls = await _getDownloadLinks(result.items);
     return urls;
   }
+
   static Future<List<String>> _getDownloadLinks(List<Reference> refs) {
     return Future.wait(refs.map((e) => e.getDownloadURL()).toList());
   }
@@ -77,13 +78,12 @@ class TestDownloadManagerImpl implements DownloadManager {
   }
 
   static Future<String> _getRawMainFileItemList() async {
-    const path = DownloadConstant.MainJsonFileBaseRelativePath;
+    const path = DownloadConstant.BooksJsonFileBaseRelativePath;
     final ref = FirebaseStorage.instance.ref(path);
     final Uint8List? downloadedData = await ref.getData();
     final res = utf8.decode(downloadedData!);
     return res;
   }
-
 
   Future<void> _createFolder(String pathStr) async {
     final path = Directory(pathStr);

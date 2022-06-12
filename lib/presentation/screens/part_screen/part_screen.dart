@@ -1,18 +1,20 @@
+import 'dart:developer';
+
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_toeic_quiz2/core/constants/app_dimensions.dart';
 import 'package:flutter_toeic_quiz2/core/constants/app_light_colors.dart';
 import 'package:flutter_toeic_quiz2/presentation/screens/part_screen/widgets/part_item_widget.dart';
+import 'package:flutter_toeic_quiz2/utils/misc.dart';
 import '../../../view_model/part_screen_cubit/part_list_cubit.dart';
 
 final List<Widget> partItems = [];
+const _logTag = "PartScreen";
 
 class PartScreen extends StatelessWidget {
-  final String testId;
   final String testTitle;
 
-  PartScreen({Key? key, required this.testId, required this.testTitle})
-      : super(key: key);
+  PartScreen({Key? key, required this.testTitle}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -25,9 +27,17 @@ class PartScreen extends StatelessWidget {
           mainAxisAlignment: MainAxisAlignment.center,
           mainAxisSize: MainAxisSize.min,
           children: const [
-            Icon(Icons.play_arrow_rounded, color: AppLightColors.kButtonTextPrimary,),
-            SizedBox(width: AppDimensions.kPaddingDefault,),
-            Text('START FULL TEST', style: TextStyle(color: AppLightColors.kButtonTextPrimary),),
+            Icon(
+              Icons.play_arrow_rounded,
+              color: AppLightColors.kButtonTextPrimary,
+            ),
+            SizedBox(
+              width: AppDimensions.kPaddingDefault,
+            ),
+            Text(
+              'START FULL TEST',
+              style: TextStyle(color: AppLightColors.kButtonTextPrimary),
+            ),
           ],
         ),
       ),
@@ -40,18 +50,21 @@ class PartScreen extends StatelessWidget {
       body: BlocConsumer<PartListCubit, PartListState>(
         listener: (context, state) {
           if (state is PartListLoaded) {
+            if (DebugLogEnable) {
+              log('$_logTag build() BlocConsumer state is PartListLoaded');
+            }
             partItems.clear();
             final partListModel = state.partListModel;
             for (var element in partListModel) {
               partItems.add(
                 PartItem(
-                  partNumber: element.partType.index + 1,
-                  correctAns: element.numOfCorrect,
-                  numOfQuestion: element.numOfQuestion,
+                  partBusinessModel: element,
                 ),
               );
             }
-            partItems.add(const SizedBox(height: 80.0,));
+            partItems.add(const SizedBox(
+              height: 80.0,
+            ));
           }
         },
         builder: (context, state) {

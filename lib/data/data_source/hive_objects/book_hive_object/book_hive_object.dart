@@ -1,3 +1,4 @@
+// ignore_for_file: public_member_api_docs, sort_constructors_first
 import 'package:hive/hive.dart';
 
 part 'book_hive_object.g.dart';
@@ -13,16 +14,19 @@ class BookHiveObject extends HiveObject {
   @HiveField(3)
   String author;
   @HiveField(4)
-  String coverLocalUrl;
+  String coverPath;
   @HiveField(5)
-  List<String> childId;
+  List<String> testIds;
+  @HiveField(6)
+  String price;
 
   BookHiveObject({
     required this.id,
     required this.title,
     required this.des,
     required this.author,
-    required this.coverLocalUrl,
-    required this.childId
+    required this.coverPath,
+    required this.testIds,
+    required this.price,
   });
 }

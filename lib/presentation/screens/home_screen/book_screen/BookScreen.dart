@@ -41,7 +41,7 @@ class _BookScreenState extends State<BookScreen> {
           }
         },
         builder: (context, state) {
-          if(state is BookListInitial) {
+          if (state is BookListInitial) {
             return const Center(
               child: Text('Still in init state'),
             );

@@ -13,11 +13,9 @@ import '../widgets/bottom_controller_neumorphic_widget.dart';
 import '../widgets/horizontal_split_view.dart';
 
 class PartSevenScreen extends StatelessWidget {
-  final String partId;
   final String partTitle;
 
-  const PartSevenScreen({Key? key, required this.partId, required this.partTitle})
-      : super(key: key);
+  const PartSevenScreen({Key? key, required this.partTitle}) : super(key: key);
   @override
   Widget build(BuildContext context) {
     double height = MediaQuery.of(context).size.height;
@@ -35,24 +33,29 @@ class PartSevenScreen extends StatelessWidget {
                       return AlertDialog(
                         scrollable: true,
                         title: const Center(child: Text('Answer sheet')),
-                        contentPadding: const EdgeInsets.symmetric(horizontal: 6.0, vertical: 16.0),
+                        contentPadding: const EdgeInsets.symmetric(
+                            horizontal: 6.0, vertical: 16.0),
                         content: AnswerSheetPanel(
                           selectedColor:
-                          AppLightColors.kAnswerButtonColorSelected,
+                              AppLightColors.kAnswerButtonColorSelected,
                           answerColor:
-                          AppLightColors.kAnswerButtonColorCorrectAns,
+                              AppLightColors.kAnswerButtonColorCorrectAns,
                           answerSheetData:
-                          BlocProvider.of<PartSevenCubit>(context)
-                              .getAnswerSheetData(),
-                          maxWidthForMobile: AppDimensions.maxWidthForMobileMode,
+                              BlocProvider.of<PartSevenCubit>(context)
+                                  .getAnswerSheetData(),
+                          maxWidthForMobile:
+                              AppDimensions.maxWidthForMobileMode,
                           onPressedSubmit: () {},
                           onPressedCancel: () {
                             Navigator.pop(buildContext);
                           },
                           onPressedGoToQuestion: (questionNumber) {
-                            BlocProvider.of<PartSevenCubit>(context).goToQuestion(questionNumber);
+                            BlocProvider.of<PartSevenCubit>(context)
+                                .goToQuestion(questionNumber);
                             Navigator.pop(buildContext);
-                          }, currentWidth: width, currentHeight: height,
+                          },
+                          currentWidth: width,
+                          currentHeight: height,
                         ),
                       );
                     });
@@ -81,12 +84,12 @@ class PartSevenScreen extends StatelessWidget {
                   if (state is PartSevenContentLoaded) {
                     return LinearProgressIndicator(
                       value:
-                      state.currentQuestionNumber/state.questionListSize,
+                          state.currentQuestionNumber / state.questionListSize,
                     );
                   }
                   return const LinearProgressIndicator(
                     value:
-                    0.5, //quizBrain.currentQuestionNumber / quizBrain.totalQuestionNumber,
+                        0.5, //quizBrain.currentQuestionNumber / quizBrain.totalQuestionNumber,
                   );
                 },
               ),
@@ -96,7 +99,8 @@ class PartSevenScreen extends StatelessWidget {
                   child: BlocBuilder<PartSevenCubit, PartSevenState>(
                     builder: (context, state) {
                       if (state is PartSevenContentLoaded) {
-                        return _buildPartSevenContentView(context, state: state);
+                        return _buildPartSevenContentView(context,
+                            state: state);
                       }
                       return const Center(child: Text('Loading ...'));
                     },
@@ -113,7 +117,8 @@ class PartSevenScreen extends StatelessWidget {
                 },
                 checkAnsPressed: () {
                   BlocProvider.of<PartSevenCubit>(context).userCheckAnswer();
-                }, favoritePressed: () {  },
+                },
+                favoritePressed: () {},
               ),
             ],
           ),
@@ -125,7 +130,8 @@ class PartSevenScreen extends StatelessWidget {
   Widget _buildPartSevenContentView(context,
       {required PartSevenContentLoaded state}) {
     List<Widget> listWidget = [];
-    final PartSevenModel partSevenModel = state.partSevenModel as PartSevenModel;
+    final PartSevenModel partSevenModel =
+        state.partSevenModel as PartSevenModel;
     final correctAnswer = state.correctAnswer;
     final userAnswer = state.userAnswer;
     for (int i = 0; i < partSevenModel.questionNumber.length; i++) {

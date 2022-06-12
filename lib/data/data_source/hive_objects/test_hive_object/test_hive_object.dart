@@ -1,3 +1,4 @@
+// ignore_for_file: public_member_api_docs, sort_constructors_first
 import 'package:hive/hive.dart';
 
 part 'test_hive_object.g.dart';
@@ -5,27 +6,36 @@ part 'test_hive_object.g.dart';
 @HiveType(typeId: 2)
 class TestHiveObject extends HiveObject {
   @HiveField(0)
-  String title;
+  String id;
   @HiveField(1)
-  String memorySize;
+  String title;
   @HiveField(2)
-  int questionNumber;
+  String memorySize;
   @HiveField(3)
-  String resourceUrl;// local = network relative path
+  int numOfQuestion;
   @HiveField(4)
-  bool isDownloaded;// display open button
+  int? actualScore;
   @HiveField(5)
-  int actualScore;
+  int ver;
   @HiveField(6)
-  int version;
+  String picturePath;
+  @HiveField(7)
+  String audioPath;
+  @HiveField(8)
+  List<String> partIds;
+  @HiveField(9)
+  bool isResourceDownloaded;
 
   TestHiveObject({
+    required this.id,
     required this.title,
     required this.memorySize,
-    required this.questionNumber,
-    required this.resourceUrl,
-    required this.isDownloaded,
-    required this.actualScore,// default = -1;
-    required this.version,
+    required this.numOfQuestion,
+    required this.actualScore,
+    required this.ver,
+    required this.picturePath,
+    required this.audioPath,
+    required this.partIds,
+    required this.isResourceDownloaded,
   });
 }

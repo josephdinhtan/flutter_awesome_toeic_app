@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_toeic_quiz2/core/constants/app_light_colors.dart';
 import 'package:flutter_toeic_quiz2/core/constants/app_dimensions.dart';
+import 'package:flutter_toeic_quiz2/data/business_models/part_info_model.dart';
 import 'package:flutter_toeic_quiz2/presentation/router/app_router.dart';
 import 'package:flutter_toeic_quiz2/presentation/router/screen_arguments.dart';
 import 'package:percent_indicator/percent_indicator.dart';
@@ -8,20 +9,11 @@ import 'package:percent_indicator/percent_indicator.dart';
 List<String> testDescription = [
   'Photographs',
   'Question-Response',
-  'Coversations',
+  'Conversations',
   'Short Talks',
   'Incomplete Sentences',
   'Text Completion',
   'Reading Comprehension',
-];
-List<int> numberQuestionDefault = [
-  6,
-  25,
-  39,
-  30,
-  30,
-  16,
-  54,
 ];
 
 List<IconData> testIconData = [
@@ -37,60 +29,71 @@ List<IconData> testIconData = [
 class PartItem extends StatelessWidget {
   PartItem({
     Key? key,
-    required this.partNumber,
-    this.correctAns = 5,
-    this.numOfQuestion,
+    required this.partBusinessModel,
   }) : super(key: key);
-
-  final int partNumber;
-  int? numOfQuestion;
-  final int correctAns;
+  final PartInfoModel partBusinessModel;
+  int correctAns = 0;
 
   @override
   Widget build(BuildContext context) {
     //double height = MediaQuery.of(context).size.height;
     double width = MediaQuery.of(context).size.width;
-
-    numOfQuestion ??= numberQuestionDefault[partNumber - 1];
+    if (partBusinessModel.numOfCorrect != null) {
+      correctAns = partBusinessModel.numOfCorrect!;
+    }
     double correctPercent =
-        (correctAns * 100 / numOfQuestion!).toDouble() / 100;
+        (correctAns * 100 / partBusinessModel.numOfQuestion).toDouble() / 100;
     return GestureDetector(
       onTap: () {
-        switch (partNumber) {
-          case 1:
+        switch (partBusinessModel.partType) {
+          case PartType.part1:
             Navigator.pushNamed(context, AppRouter.part1Exam,
-                arguments:
-                    ScreenArguments(title: 'This is part 1 title demo', id: "demoID"));
+                arguments: ScreenArguments(
+                    title: partBusinessModel.title,
+                    id: partBusinessModel.id,
+                    childIds: partBusinessModel.questionIds));
             break;
-          case 2:
+          case PartType.part2:
             Navigator.pushNamed(context, AppRouter.part2Exam,
-                arguments:
-                    ScreenArguments(title: 'This is part 2 title demo', id: "demoID"));
+                arguments: ScreenArguments(
+                    title: partBusinessModel.title,
+                    id: partBusinessModel.id,
+                    childIds: partBusinessModel.questionIds));
             break;
-          case 3:
+          case PartType.part3:
             Navigator.pushNamed(context, AppRouter.part3Exam,
-                arguments:
-                    ScreenArguments(title: 'This is part 3 title demo', id: "demoID"));
+                arguments: ScreenArguments(
+                    title: partBusinessModel.title,
+                    id: partBusinessModel.id,
+                    childIds: partBusinessModel.questionIds));
             break;
-          case 4:
+          case PartType.part4:
             Navigator.pushNamed(context, AppRouter.part4Exam,
-                arguments:
-                    ScreenArguments(title: 'This is part 4 title demo', id: "demoID"));
+                arguments: ScreenArguments(
+                    title: partBusinessModel.title,
+                    id: partBusinessModel.id,
+                    childIds: partBusinessModel.questionIds));
             break;
-          case 5:
+          case PartType.part5:
             Navigator.pushNamed(context, AppRouter.part5Exam,
-                arguments:
-                    ScreenArguments(title: 'This is part 5 title demo', id: "demoID"));
+                arguments: ScreenArguments(
+                    title: partBusinessModel.title,
+                    id: partBusinessModel.id,
+                    childIds: partBusinessModel.questionIds));
             break;
-          case 6:
+          case PartType.part6:
             Navigator.pushNamed(context, AppRouter.part6Exam,
-                arguments:
-                    ScreenArguments(title: 'This is part 6 title demo', id: "demoID"));
+                arguments: ScreenArguments(
+                    title: partBusinessModel.title,
+                    id: partBusinessModel.id,
+                    childIds: partBusinessModel.questionIds));
             break;
-          case 7:
+          case PartType.part7:
             Navigator.pushNamed(context, AppRouter.part7Exam,
-                arguments:
-                    ScreenArguments(title: 'This is part 7 title demo', id: "demoID"));
+                arguments: ScreenArguments(
+                    title: partBusinessModel.title,
+                    id: partBusinessModel.id,
+                    childIds: partBusinessModel.questionIds));
             break;
         }
       },
@@ -111,7 +114,7 @@ class PartItem extends StatelessWidget {
                       children: [
                         Row(
                           children: [
-                            Icon(testIconData[partNumber - 1],
+                            Icon(testIconData[partBusinessModel.partType.index],
                                 size: 30.0, color: AppLightColors.kIconColor),
                             Padding(
                               padding: const EdgeInsets.only(left: 12.0),
@@ -119,7 +122,7 @@ class PartItem extends StatelessWidget {
                                 crossAxisAlignment: CrossAxisAlignment.start,
                                 children: [
                                   Text(
-                                    'Part $partNumber',
+                                    partBusinessModel.title,
                                     style:
                                         Theme.of(context).textTheme.headline3,
                                   ),
@@ -127,9 +130,9 @@ class PartItem extends StatelessWidget {
                                   Row(
                                     children: [
                                       Text(
-                                          numOfQuestion! < 10
-                                              ? '0$numOfQuestion'
-                                              : '$numOfQuestion',
+                                          partBusinessModel.numOfQuestion < 10
+                                              ? '0${partBusinessModel.numOfQuestion}'
+                                              : '${partBusinessModel.numOfQuestion}',
                                           style: const TextStyle(
                                               fontSize: 15.0,
                                               color: AppLightColors
@@ -170,7 +173,8 @@ class PartItem extends StatelessWidget {
                                     child: Padding(
                                       padding: const EdgeInsets.all(4.0),
                                       child: Text(
-                                        testDescription[partNumber - 1],
+                                        testDescription[
+                                            partBusinessModel.partType.index],
                                         style: const TextStyle(
                                             fontSize: 10.0,
                                             color: Colors.white),

@@ -1,4 +1,3 @@
-
 import 'package:flutter_toeic_quiz2/data/data_providers/apis/test_api.dart';
 
 import '../../base_api_dao/baseAPIDAO.dart';
@@ -10,7 +9,7 @@ import 'package:flutter/foundation.dart' show kIsWeb;
 class TestRepositoryImpl implements TestRepository {
   late BaseAPIDAO _apidao;
   TestRepositoryImpl() {
-    if(kIsWeb) {
+    if (kIsWeb) {
       _apidao = TestApi();
     } else {
       _apidao = TestDAO();
@@ -24,10 +23,10 @@ class TestRepositoryImpl implements TestRepository {
 
   @override
   Future<bool> updateATestDataDownloadedToDB(String testHiveId) async {
-    TestInfoModel testInfoModel = await _apidao.getItem(testHiveId) as TestInfoModel;
-    testInfoModel.isDownloaded = true;
-    return await _apidao.addItem(testInfoModel.toHiveObject(), testHiveId);
+    // TestsInfoModel testInfoModel
+    //      await _apidao.getItem(testHiveId) as TestsInfoModel;
+    // testInfoModel.isResourceDownloaded = true;
+    // return await _apidao.addItem(testInfoModel.toHiveObject(), testHiveId);
+    return true;
   }
-
-
 }

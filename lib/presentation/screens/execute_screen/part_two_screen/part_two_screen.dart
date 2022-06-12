@@ -12,11 +12,9 @@ import '../widgets/answer_sheet_panel.dart';
 import '../widgets/bottom_controller_neumorphic_widget.dart';
 
 class PartTwoScreen extends StatelessWidget {
-  final String partId;
   final String partTitle;
 
-  const PartTwoScreen({Key? key, required this.partId, required this.partTitle})
-      : super(key: key);
+  const PartTwoScreen({Key? key, required this.partTitle}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -46,7 +44,8 @@ class PartTwoScreen extends StatelessWidget {
                           answerSheetData:
                               BlocProvider.of<PartTwoCubit>(context)
                                   .getAnswerSheetData(),
-                          maxWidthForMobile: AppDimensions.maxWidthForMobileMode,
+                          maxWidthForMobile:
+                              AppDimensions.maxWidthForMobileMode,
                           onPressedSubmit: () {},
                           onPressedCancel: () {
                             Navigator.pop(buildContext);
@@ -55,7 +54,9 @@ class PartTwoScreen extends StatelessWidget {
                             BlocProvider.of<PartTwoCubit>(context)
                                 .goToQuestion(questionNumber);
                             Navigator.pop(buildContext);
-                          }, currentWidth: width, currentHeight: height,
+                          },
+                          currentWidth: width,
+                          currentHeight: height,
                         ),
                       );
                     });
@@ -82,15 +83,14 @@ class PartTwoScreen extends StatelessWidget {
               BlocBuilder<PartTwoCubit, PartTwoState>(
                 builder: (context, state) {
                   if (state is PartTwoContentLoaded) {
-
                     return LinearProgressIndicator(
                       value:
-                      state.currentQuestionNumber/state.questionListSize,
+                          state.currentQuestionNumber / state.questionListSize,
                     );
                   }
                   return const LinearProgressIndicator(
                     value:
-                    0.5, //quizBrain.currentQuestionNumber / quizBrain.totalQuestionNumber,
+                        0.5, //quizBrain.currentQuestionNumber / quizBrain.totalQuestionNumber,
                   );
                 },
               ),
@@ -174,7 +174,8 @@ class PartTwoScreen extends StatelessWidget {
                 },
                 checkAnsPressed: () {
                   BlocProvider.of<PartTwoCubit>(context).userCheckAnswer();
-                }, favoritePressed: () {  },
+                },
+                favoritePressed: () {},
               ),
             ],
           ),

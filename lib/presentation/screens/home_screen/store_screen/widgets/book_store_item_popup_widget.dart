@@ -2,8 +2,7 @@ import 'dart:developer';
 
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:flutter_toeic_quiz2/data/business_models/test_info_model.dart';
-import 'package:flutter_toeic_quiz2/data/data_providers/apis/store_api/network_store_item_object.dart';
+import 'package:flutter_toeic_quiz2/data/data_providers/network_response_models/book_network_object.dart';
 import '../../../../../view_model/book_screen_cubit/book_list_cubit.dart';
 import '../../../../../view_model/store_screen_cubit/store_screen_popup_cubit.dart';
 
@@ -12,9 +11,9 @@ import '../../../widgets/neumorphism_button.dart';
 
 class BookStoreItemPopupWidget extends StatelessWidget {
   BookStoreItemPopupWidget(
-      {Key? key, required this.networkStoreItemModel, this.isBought = false})
+      {Key? key, required this.bookNetworkObject, this.isBought = false})
       : super(key: key);
-  final NetworkStoreItemModel networkStoreItemModel;
+  final BookNetworkObject bookNetworkObject;
   bool isBought;
 
   @override
@@ -30,7 +29,7 @@ class BookStoreItemPopupWidget extends StatelessWidget {
               child: ClipRRect(
                 borderRadius: const BorderRadius.all(Radius.circular(8.0)),
                 child: Image.network(
-                  networkStoreItemModel.networkUrl,
+                  bookNetworkObject.full_cover_url,
                   fit: BoxFit.cover,
                 ),
               ),
@@ -41,9 +40,9 @@ class BookStoreItemPopupWidget extends StatelessWidget {
             children: [
               const SizedBox(height: 8.0),
               const SizedBox(height: 8.0),
-              networkStoreItemModel.price != 0
+              bookNetworkObject.price != 0
                   ? Text(
-                      "${networkStoreItemModel.price}K",
+                      "${bookNetworkObject.price}K",
                       style: const TextStyle(
                           fontWeight: FontWeight.bold, fontSize: 18.0),
                     )
@@ -68,11 +67,11 @@ class BookStoreItemPopupWidget extends StatelessWidget {
                       ),
                     ),
               const SizedBox(height: 8.0),
-              Text(networkStoreItemModel.author,
+              Text(bookNetworkObject.author,
                   style: const TextStyle(
                       color: Color(0xff2a9d8f), fontWeight: FontWeight.bold)),
               const SizedBox(height: 8.0),
-              Text(networkStoreItemModel.des),
+              Text(bookNetworkObject.des),
               const SizedBox(height: 16.0),
               isBought
                   ? Center(
@@ -83,8 +82,8 @@ class BookStoreItemPopupWidget extends StatelessWidget {
                           },
                           child: const Text(
                             'OK',
-                            style: TextStyle(
-                                color: AppLightColors.kButtonPrimary),
+                            style:
+                                TextStyle(color: AppLightColors.kButtonPrimary),
                           )),
                     )
                   : BlocBuilder<StoreScreenPopupCubit, StoreScreenPopupState>(
@@ -109,12 +108,11 @@ class BookStoreItemPopupWidget extends StatelessWidget {
                                 onPressed: () {
                                   BlocProvider.of<StoreScreenPopupCubit>(
                                           builderContext)
-                                      .buyABookItem(networkStoreItemModel);
+                                      .buyABookItem(bookNetworkObject);
                                 },
                                 child: const Text('GET',
                                     style: TextStyle(
-                                        color:
-                                            AppLightColors.kButtonPrimary)),
+                                        color: AppLightColors.kButtonPrimary)),
                               ),
                             ],
                           );
@@ -149,8 +147,7 @@ class BookStoreItemPopupWidget extends StatelessWidget {
                                 boderRadius: 8.0,
                                 onPressed: () {
                                   Navigator.pop(builderContext);
-                                  BlocProvider.of<BookListCubit>(
-                                          builderContext)
+                                  BlocProvider.of<BookListCubit>(builderContext)
                                       .getBookList();
                                 },
                                 child: const Text(

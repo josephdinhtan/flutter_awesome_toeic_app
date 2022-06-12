@@ -1,60 +1,41 @@
+import 'package:flutter_toeic_quiz2/data/data_providers/network_response_models/base_network_object/network_base_object.dart';
+import 'package:flutter_toeic_quiz2/data/business_models/base_model/base_business_model.dart';
+import 'package:flutter_toeic_quiz2/data/data_providers/network_response_models/network_part_object/part_one_question_network_object.dart';
 
 import '../../../business_models/part_models/answer_enum.dart';
 import '../../../business_models/part_models/part_one_model.dart';
+import '../base_api.dart';
 
-class PartOneApi {
-  Future<List<PartOneModel>> getQuestionList() async {
-    final List<PartOneModel> demoResult = [];
+class PartOneApi
+    implements BaseApi<PartOneModel, PartOneQuestionNetworkObject> {
+  @override
+  Future<bool> addItem(
+      NetworkBaseObject<BaseBusinessModel> item, String hiveId) {
+    // TODO: implement addItem
+    throw UnimplementedError();
+  }
 
-    demoResult.add(PartOneModel(
-      questionNumber: 1,
-      numOfQuestion: 6,
-      imageUrl: 'this is a image url 1',
-      soundUrl: 'this is a sound url 1',
-      answers: ['A. Ans A', 'B. Ans B', 'C. Ans C', 'D. Ans D'],
-      correctAnswer: Answer.A,
-    ));
-    demoResult.add(PartOneModel(
-      questionNumber: 2,
-      numOfQuestion: 6,
-      imageUrl: 'this is a image url 2',
-      soundUrl: 'this is a sound url 2',
-      answers: ['A. Ans A', 'B. Ans B', 'C. Ans C', 'D. Ans D'],
-      correctAnswer: Answer.A,
-    ));
-    demoResult.add(PartOneModel(
-      questionNumber: 3,
-      numOfQuestion: 6,
-      imageUrl: 'this is a image url 3',
-      soundUrl: 'this is a sound url 3',
-      answers: ['A. Ans A', 'B. Ans B', 'C. Ans C', 'D. Ans D'],
-      correctAnswer: Answer.A,
-    ));
-    demoResult.add(PartOneModel(
-      questionNumber: 4,
-      numOfQuestion: 6,
-      imageUrl: 'this is a image url 4',
-      soundUrl: 'this is a sound url 4',
-      answers: ['A. Ans A', 'B. Ans B', 'C. Ans C', 'D. Ans D'],
-      correctAnswer: Answer.A,
-    ));
-    demoResult.add(PartOneModel(
-      questionNumber: 5,
-      numOfQuestion: 6,
-      imageUrl: 'this is a image url 5',
-      soundUrl: 'this is a sound url 5',
-      answers: ['A. Ans A', 'B. Ans B', 'C. Ans C', 'D. Ans D'],
-      correctAnswer: Answer.A,
-    ));
-    demoResult.add(PartOneModel(
-      questionNumber: 6,
-      numOfQuestion: 6,
-      imageUrl: 'this is a image url 6',
-      soundUrl: 'this is a sound url 6',
-      answers: ['A. Ans A', 'B. Ans B', 'C. Ans C', 'D. Ans D'],
-      correctAnswer: Answer.A,
-    ));
-    await Future.delayed(const Duration(milliseconds: 1000));
-    return Future.value(demoResult);
+  @override
+  Future<List<BaseBusinessModel>> getAllItems(List<String> hiveIds) {
+    // TODO: implement getAllItems
+    throw UnimplementedError();
+  }
+
+  @override
+  Future<BaseBusinessModel?> getItem(String hiveId) {
+    // TODO: implement getItem
+    throw UnimplementedError();
+  }
+
+  @override
+  Future<bool> removeItem(String hiveId) {
+    // TODO: implement removeItem
+    throw UnimplementedError();
+  }
+
+  @override
+  Future<bool> updateItem(NetworkBaseObject<BaseBusinessModel> item) {
+    // TODO: implement updateItem
+    throw UnimplementedError();
   }
 }

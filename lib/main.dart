@@ -13,13 +13,15 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:hive/hive.dart';
 import 'package:path_provider/path_provider.dart';
 import 'data/data_source/hive_objects/book_hive_object/book_hive_object.dart';
+import 'data/data_source/hive_objects/part_execute_hive_object/part_one_hive_object.dart';
+import 'data/data_source/hive_objects/part_hive_object/part_hive_object.dart';
 import 'data/data_source/hive_objects/test_hive_object/test_hive_object.dart';
 import 'presentation/screens/execute_screen/part_six_screen/part_six_screen.dart';
 import 'firebase_options.dart';
 import 'package:flutter/foundation.dart' show kIsWeb;
 
 void main() async {
-  if(kIsWeb) {
+  if (kIsWeb) {
     await globalInitializerForWeb();
   } else {
     await globalInitializerForMobile();
@@ -35,19 +37,20 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return BlocProvider<HomeScreenCubit>(
-      create: (context) =>
-      HomeScreenCubit()
-        ..changeTheme(ThemeMode.light),// need change follow data base
+      create: (context) => HomeScreenCubit()
+        ..changeTheme(ThemeMode.light), // need change follow data base
       child: BlocBuilder<HomeScreenCubit, HomeScreenState>(
         builder: (context, state) {
           return MaterialApp(
-              title: AppStrings.appTitle,
-              theme: AppLightTheme.themeData,
-              darkTheme: AppDarkTheme.themeData,
-              debugShowCheckedModeBanner: false,
-              themeMode: state is HomeScreenThemeModeChange ? state.themeMode : ThemeMode.light,
-              initialRoute: AppRouter.home,
-              onGenerateRoute: _appRouter.onGenerateRoute,
+            title: AppStrings.appTitle,
+            theme: AppLightTheme.themeData,
+            darkTheme: AppDarkTheme.themeData,
+            debugShowCheckedModeBanner: false,
+            themeMode: state is HomeScreenThemeModeChange
+                ? state.themeMode
+                : ThemeMode.light,
+            initialRoute: AppRouter.home,
+            onGenerateRoute: _appRouter.onGenerateRoute,
           );
         },
       ),
@@ -69,6 +72,8 @@ Future<void> globalInitializerForMobile() async {
   Hive.init(dir.path);
   Hive.registerAdapter(BookHiveObjectAdapter());
   Hive.registerAdapter(TestHiveObjectAdapter());
+  Hive.registerAdapter(PartHiveObjectAdapter());
+  Hive.registerAdapter(PartOneHiveObjectAdapter());
   await Firebase.initializeApp(
     options: DefaultFirebaseOptions.currentPlatform,
   );
