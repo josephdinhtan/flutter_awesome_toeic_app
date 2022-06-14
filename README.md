@@ -1,8 +1,19 @@
-# flutter_toeic_quiz2
+# About project
 
-A new Flutter project. Applied Clean architecture, MVVN
+Awesome Toeic project. Applied Clean architecture, MVVN
+Provide a tool to learn toeic easier, no more note, audio player, book.
+Just enjoy with all in one application
 
 ## Getting Started
+
+After install app, 
+The app is lightweight and provide a store for downloading so many toeic books
+In order to download a book: 
+    - Goto store from top-left Books screen.
+    - Select book you want.
+    - Get it
+
+## Flutter Getting Started
 
 This project is a starting point for a Flutter application.
 
