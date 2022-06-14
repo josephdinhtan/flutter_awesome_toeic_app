@@ -40,27 +40,37 @@ class _AudioControllerNeumorphicState extends State<AudioControllerNeumorphic> {
   double _currentDuration = 1.0; // for both text and slider
   double _currentSliderValue = 1.0; // just for slider for slide only
   bool isPlaying = true;
+  bool isDisposing = false;
 
   @override
   void initState() {
+    isDisposing = false;
     // TODO: implement initState
     super.initState();
     widget.audioPlayer.onAudioPositionChanged.listen((Duration positionValue) {
+      if (isDisposing) return;
       setState(() {
         _currentDuration = positionValue.inSeconds.toDouble();
         if (!sliderIsSliding) _currentSliderValue = _currentDuration;
       });
     });
-    //durationTime = (widget.audioPlayer.current.value as Playing).du
+
     widget.audioPlayer.onPlayerStateChanged.listen((playingState) {
-      //widget.durationTime = playingState.;
+      if (isDisposing) return;
+      setState(() => isPlaying = playingState == PlayerState.PLAYING);
     });
 
-    // widget.audioPlayer.isPlaying.listen((event) {
-    //   setState(() {
-    //     isPlaying = event;
-    //   });
-    // });
+    widget.audioPlayer.onDurationChanged.listen((Duration d) {
+      if (isDisposing) return;
+      setState(() => widget.durationTime = d.inSeconds);
+    });
+  }
+
+  @override
+  void dispose() {
+    super.dispose();
+    isDisposing = true;
+    widget.audioPlayer.stop();
   }
 
   @override
@@ -109,9 +119,6 @@ class _AudioControllerNeumorphicState extends State<AudioControllerNeumorphic> {
                     } else {
                       widget.playCallBack();
                     }
-                    setState(() {
-                      isPlaying = !isPlaying;
-                    });
                   },
                   icon: Icon(
                     isPlaying ? Icons.pause : Icons.play_arrow_rounded,

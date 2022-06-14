@@ -8,18 +8,24 @@ class PartTwoInitial extends PartTwoState {}
 class PartTwoLoading extends PartTwoState {}
 
 class PartTwoContentLoaded extends PartTwoState {
+  final int currentQuestionIndex;
   final int currentQuestionNumber;
   final int questionListSize;
-  final PartTwoModel partTwoModel;
+  final String question;
+  final List<String> answers;
   final UserAnswer userAnswer;
   final UserAnswer correctAnswer;
+  final String audioPath;
 
   PartTwoContentLoaded({
     required this.currentQuestionNumber,
+    required this.currentQuestionIndex,
     required this.questionListSize,
     required this.correctAnswer,
-    required this.partTwoModel,
     required this.userAnswer,
+    required this.answers,
+    required this.audioPath,
+    required this.question,
   });
 }
 

@@ -154,15 +154,15 @@ class PartFourScreen extends StatelessWidget {
               AudioControllerNeumorphic(
                 //durationTime: MediaPlayer.instance.getDurationTime(),
                 changeToDurationCallBack: (timestamp) {
-                  MediaPlayer.instance.seekTo(seconds: timestamp.toInt());
+                  MediaPlayer().seekTo(seconds: timestamp.toInt());
                 },
                 playCallBack: () {
-                  MediaPlayer.instance.resume();
+                  MediaPlayer().resume();
                 },
                 pauseCallBack: () {
-                  MediaPlayer.instance.pause();
+                  MediaPlayer().pause();
                 },
-                audioPlayer: MediaPlayer.instance.audioPlayer,
+                audioPlayer: MediaPlayer().audioPlayer,
               ),
               BottomControllerNeumorphic(
                 prevPressed: () {

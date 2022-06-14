@@ -15,13 +15,13 @@ class PartOneDao implements BaseDao<PartOneModel, PartOneHiveObject> {
     if (LogEnable) log("$_logTag addItem() item: $item, hiveId: $hiveId");
     try {
       if (LogEnable) log("$_logTag addItem() openBox started");
-      await Hive.openBox(BoxName.PART_ONCE_BOX_NAME);
+      await Hive.openBox(BoxName.PART_ONE_BOX_NAME);
       if (LogEnable) log("$_logTag addItem() openBox done");
     } catch (e) {
       if (LogEnable) log("$_logTag addItem() ${e.toString()}");
       return false;
     }
-    final partOneBox = Hive.box(BoxName.PART_ONCE_BOX_NAME);
+    final partOneBox = Hive.box(BoxName.PART_ONE_BOX_NAME);
     if (LogEnable) {
       log("$_logTag addItem() partOneBox.length: ${partOneBox.length}");
     }
@@ -36,11 +36,11 @@ class PartOneDao implements BaseDao<PartOneModel, PartOneHiveObject> {
     if (LogEnable) log("$_logTag getAllItems() hiveId: $hiveIds");
     List<PartOneModel> partOneModelList = [];
     try {
-      await Hive.openBox(BoxName.PART_ONCE_BOX_NAME);
+      await Hive.openBox(BoxName.PART_ONE_BOX_NAME);
     } catch (e) {
       return partOneModelList;
     }
-    final partOneBox = Hive.box(BoxName.PART_ONCE_BOX_NAME);
+    final partOneBox = Hive.box(BoxName.PART_ONE_BOX_NAME);
     if (LogEnable) log("$_logTag getAllItems() trying get partOne...");
     for (String hiveId in hiveIds) {
       if (LogEnable) log("$_logTag getAllItems() partOneHiveId: $hiveId");
@@ -59,11 +59,11 @@ class PartOneDao implements BaseDao<PartOneModel, PartOneHiveObject> {
   @override
   Future<PartOneModel?> getItem(String hiveId) async {
     try {
-      await Hive.openBox(BoxName.PART_ONCE_BOX_NAME);
+      await Hive.openBox(BoxName.PART_ONE_BOX_NAME);
     } catch (e) {
       return null;
     }
-    final partOneBox = Hive.box(BoxName.PART_ONCE_BOX_NAME);
+    final partOneBox = Hive.box(BoxName.PART_ONE_BOX_NAME);
     final partOneHiveObject = partOneBox.get(hiveId, defaultValue: null);
     return PartOneModel.fromHiveObject(partOneHiveObject);
   }
@@ -71,12 +71,12 @@ class PartOneDao implements BaseDao<PartOneModel, PartOneHiveObject> {
   @override
   Future<bool> removeItem(String hiveId) async {
     try {
-      await Hive.openBox(BoxName.PART_ONCE_BOX_NAME);
+      await Hive.openBox(BoxName.PART_ONE_BOX_NAME);
     } catch (e) {
       log("$_logTag removeItem() ${e.toString()}");
       return false;
     }
-    final partOneBox = Hive.box(BoxName.PART_ONCE_BOX_NAME);
+    final partOneBox = Hive.box(BoxName.PART_ONE_BOX_NAME);
     await partOneBox.delete(hiveId);
     return true;
   }

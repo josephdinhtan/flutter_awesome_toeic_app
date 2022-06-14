@@ -1,7 +1,7 @@
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_toeic_quiz2/presentation/router/app_router.dart';
-import 'package:flutter_toeic_quiz2/view_model/home_screen_cubit/home_screen_cubit.dart';
+import 'presentation/router/app_router.dart';
+import 'view_model/home_screen_cubit/home_screen_cubit.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:hive/hive.dart';
 import 'package:path_provider/path_provider.dart';
@@ -11,6 +11,8 @@ import 'core_ui/themes/app_light_theme.dart';
 import 'core_utils/core_utils.dart';
 import 'data/data_providers/hive_objects/book_hive_object/book_hive_object.dart';
 import 'data/data_providers/hive_objects/part_execute_hive_object/part_one_hive_object.dart';
+import 'data/data_providers/hive_objects/part_execute_hive_object/part_three_hive_object.dart';
+import 'data/data_providers/hive_objects/part_execute_hive_object/part_two_hive_object.dart';
 import 'data/data_providers/hive_objects/part_hive_object/part_hive_object.dart';
 import 'data/data_providers/hive_objects/test_hive_object/test_hive_object.dart';
 import 'firebase_options.dart';
@@ -70,6 +72,8 @@ Future<void> globalInitializerForMobile() async {
   Hive.registerAdapter(TestHiveObjectAdapter());
   Hive.registerAdapter(PartHiveObjectAdapter());
   Hive.registerAdapter(PartOneHiveObjectAdapter());
+  Hive.registerAdapter(PartTwoHiveObjectAdapter());
+  Hive.registerAdapter(PartThreeHiveObjectAdapter());
   await Firebase.initializeApp(
     options: DefaultFirebaseOptions.currentPlatform,
   );

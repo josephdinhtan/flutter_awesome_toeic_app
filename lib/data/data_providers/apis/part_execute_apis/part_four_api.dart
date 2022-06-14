@@ -1,5 +1,5 @@
 import 'package:flutter_toeic_quiz2/data/data_providers/apis/base_api/base_api.dart';
-import 'package:flutter_toeic_quiz2/data/data_providers/dtos/part_dto/part_four_dto.dart';
+import 'package:flutter_toeic_quiz2/data/data_providers/dtos/parts_dto/part_four_dto.dart';
 
 import '../../../business_models/execute_models/answer_enum.dart';
 import '../../../business_models/execute_models/part_four_model.dart';

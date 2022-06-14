@@ -3,10 +3,12 @@ import 'dart:typed_data';
 import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter_toeic_quiz2/data/data_providers/dtos/book_dto.dart';
 import 'package:flutter_toeic_quiz2/data/data_providers/dtos/part_dto.dart';
-import 'package:flutter_toeic_quiz2/data/data_providers/dtos/part_dto/part_one_dto.dart';
+import 'package:flutter_toeic_quiz2/data/data_providers/dtos/parts_dto/part_one_dto.dart';
+import 'package:flutter_toeic_quiz2/data/data_providers/dtos/parts_dto/part_two_dto.dart';
 import 'package:flutter_toeic_quiz2/data/data_providers/dtos/test_dto.dart';
 
 import '../../download_manager/download_constant.dart';
+import '../dtos/parts_dto/part_three_dto.dart';
 
 class StoreApi {
   static final StoreApi _singleton = StoreApi._internal();
@@ -16,14 +18,36 @@ class StoreApi {
   static final List<BookDto> _bookDtoList = [];
 
   Future<List<PartOneDto>> getPartOneListNetwork(String path) async {
-    final List<PartOneDto> partOneDto = [];
+    final List<PartOneDto> partOneDtoList = [];
     final String jsonString = await _getRawJsonFile(path);
     List<dynamic> jsonMapList = jsonDecode(jsonString);
     for (var jsonMap in jsonMapList) {
-      final partOneNetworkObject = PartOneDto.fromMap(jsonMap);
-      partOneDto.add(partOneNetworkObject);
+      final partTwoDto = PartOneDto.fromMap(jsonMap);
+      partOneDtoList.add(partTwoDto);
     }
-    return partOneDto;
+    return partOneDtoList;
+  }
+
+  Future<List<PartTwoDto>> getPartTwoListNetwork(String path) async {
+    final List<PartTwoDto> partTwoDtoList = [];
+    final String jsonString = await _getRawJsonFile(path);
+    List<dynamic> jsonMapList = jsonDecode(jsonString);
+    for (var jsonMap in jsonMapList) {
+      final partTwoDto = PartTwoDto.fromMap(jsonMap);
+      partTwoDtoList.add(partTwoDto);
+    }
+    return partTwoDtoList;
+  }
+
+  Future<List<PartThreeDto>> getPartThreeListNetwork(String path) async {
+    final List<PartThreeDto> partThreeDtoList = [];
+    final String jsonString = await _getRawJsonFile(path);
+    List<dynamic> jsonMapList = jsonDecode(jsonString);
+    for (var jsonMap in jsonMapList) {
+      final partThreeDto = PartThreeDto.fromMap(jsonMap);
+      partThreeDtoList.add(partThreeDto);
+    }
+    return partThreeDtoList;
   }
 
   Future<List<PartDto>> getPartListNetwork(String path) async {

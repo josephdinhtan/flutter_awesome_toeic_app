@@ -3,7 +3,7 @@ import 'dart:io';
 
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:flutter_toeic_quiz2/core_utils/global_configuration.dart';
+import '../../../../core_utils/global_configuration.dart';
 import '../../../../core_ui/constants/app_dimensions.dart';
 import '../../../../core_ui/constants/app_light_colors.dart';
 import '../../../../core_utils/core_utils.dart';
@@ -127,10 +127,6 @@ class PartOneScreen extends StatelessWidget {
                           return const Text('...');
                         },
                       ),
-                      // child: Image.file(
-                      //   File(quizBrain.getQuestionInfo().pictureLocalUrl),
-                      //   fit: BoxFit.contain,
-                      // ),
                     ),
                   ),
                 ),
@@ -159,28 +155,24 @@ class PartOneScreen extends StatelessWidget {
                       textA: '...',
                       textB: '...',
                       textC: '...',
-                      textD: '...',
                       correctAns: -1,
                       selectedAns: -1,
-                      selectChanged: (value) {
-                        //quizBrain.setSelectedAnswer(value);
-                      },
+                      selectChanged: (value) {},
                     );
                   },
                 ),
               ),
               AudioControllerNeumorphic(
-                //durationTime: MediaPlayer.instance.getDurationTime(),
                 changeToDurationCallBack: (timestamp) {
-                  MediaPlayer.instance.seekTo(seconds: timestamp.toInt());
+                  MediaPlayer().seekTo(seconds: timestamp.toInt());
                 },
                 playCallBack: () {
-                  MediaPlayer.instance.resume();
+                  MediaPlayer().resume();
                 },
                 pauseCallBack: () {
-                  MediaPlayer.instance.pause();
+                  MediaPlayer().pause();
                 },
-                audioPlayer: MediaPlayer.instance.audioPlayer,
+                audioPlayer: MediaPlayer().audioPlayer,
               ),
               BottomControllerNeumorphic(
                 prevPressed: () {

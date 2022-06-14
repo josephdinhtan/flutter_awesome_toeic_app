@@ -1,4 +1,8 @@
+import 'dart:developer';
+
 import 'package:bloc/bloc.dart';
+import 'package:flutter_toeic_quiz2/core_utils/core_utils.dart';
+import 'package:flutter_toeic_quiz2/presentation/screens/execute_screen/components/media_player.dart';
 import '../../../data/business_models/execute_models/answer_enum.dart';
 import '../../../data/business_models/execute_models/part_one_model.dart';
 import '../../../domain/execute_use_cases/get_part_one_question_list_use_case.dart';
@@ -29,7 +33,13 @@ class PartOneCubit extends Cubit<PartOneState> {
     for (int i = 0; i < _questionListSize; i++) {
       _questionNumberIndexMap[_partOneQuestionList[i].number] = i;
     }
-    notifyData();
+    _playAudio(_partOneQuestionList[_currentQuestionIndex].audioPath);
+    _notifyData();
+  }
+
+  void _playAudio(String audioRelativePath) {
+    final String audioFullPath = getApplicationDirectory() + audioRelativePath;
+    MediaPlayer().playLocal(audioFullPath);
   }
 
   Future<void> getNextContent() async {
@@ -37,8 +47,8 @@ class PartOneCubit extends Cubit<PartOneState> {
     if (_currentQuestionIndex < _partOneQuestionList.length - 1) {
       _currentQuestionIndex++;
     }
-
-    notifyData();
+    _playAudio(_partOneQuestionList[_currentQuestionIndex].audioPath);
+    _notifyData();
   }
 
   void userSelectAnswerChange(UserAnswer userAnswer) {
@@ -50,7 +60,7 @@ class PartOneCubit extends Cubit<PartOneState> {
     final int key = _partOneQuestionList[_currentQuestionIndex].number;
     _correctAnsCheckedMap[key] = UserAnswer.values[
         _partOneQuestionList[_currentQuestionIndex].correctAnswer.index];
-    notifyData();
+    _notifyData();
   }
 
   Future<void> getPrevContent() async {
@@ -58,11 +68,11 @@ class PartOneCubit extends Cubit<PartOneState> {
     if (_currentQuestionIndex > 0) {
       _currentQuestionIndex--;
     }
-
-    notifyData();
+    _playAudio(_partOneQuestionList[_currentQuestionIndex].audioPath);
+    _notifyData();
   }
 
-  void notifyData() {
+  void _notifyData() {
     final int key = _partOneQuestionList[_currentQuestionIndex].number;
     bool needHideAns = false;
     if (!_userAnswerMap.containsKey(key)) {
@@ -105,7 +115,9 @@ class PartOneCubit extends Cubit<PartOneState> {
   }
 
   void goToQuestion(int questionNumber) {
+    if (questionNumber - 1 == _currentQuestionIndex) return;
     _currentQuestionIndex = _questionNumberIndexMap[questionNumber];
-    notifyData();
+    _playAudio(_partOneQuestionList[_currentQuestionIndex].audioPath);
+    _notifyData();
   }
 }

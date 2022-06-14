@@ -106,14 +106,14 @@ class PartThreeScreen extends StatelessWidget {
                           final userAnswer = state.userAnswer;
                           List<Widget> listWidget = [];
                           for (int i = 0;
-                              i < partThreeModel.questionNumber.length;
+                              i < partThreeModel.numbers.length;
                               i++) {
                             if (i != 0) {
                               listWidget.add(const SizedBox(
                                   height: AppDimensions.kPaddingDefaultDouble));
                             }
                             listWidget.add(Text(
-                              '  ${partThreeModel.questionNumber[i]}: ${partThreeModel.questions[i]}',
+                              '  ${partThreeModel.numbers[i]}: ${partThreeModel.questions[i]}',
                               style: AppTextStyles.kTextQuestion,
                             ));
                             listWidget.add(const SizedBox(
@@ -131,7 +131,7 @@ class PartThreeScreen extends StatelessWidget {
                               selectChanged: (value) {
                                 BlocProvider.of<PartThreeCubit>(context)
                                     .userSelectAnswerChange(
-                                        partThreeModel.questionNumber[i],
+                                        partThreeModel.numbers[i],
                                         UserAnswer.values[value]);
                               },
                             ));
@@ -152,15 +152,15 @@ class PartThreeScreen extends StatelessWidget {
               AudioControllerNeumorphic(
                 //durationTime: MediaPlayer.instance.getDurationTime(),
                 changeToDurationCallBack: (timestamp) {
-                  MediaPlayer.instance.seekTo(seconds: timestamp.toInt());
+                  MediaPlayer().seekTo(seconds: timestamp.toInt());
                 },
                 playCallBack: () {
-                  MediaPlayer.instance.resume();
+                  MediaPlayer().resume();
                 },
                 pauseCallBack: () {
-                  MediaPlayer.instance.pause();
+                  MediaPlayer().pause();
                 },
-                audioPlayer: MediaPlayer.instance.audioPlayer,
+                audioPlayer: MediaPlayer().audioPlayer,
               ),
               BottomControllerNeumorphic(
                 prevPressed: () {

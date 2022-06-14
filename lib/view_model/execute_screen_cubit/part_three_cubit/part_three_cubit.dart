@@ -1,11 +1,13 @@
+import 'dart:developer';
+
 import 'package:bloc/bloc.dart';
 import 'package:meta/meta.dart';
 
+import '../../../core_utils/core_utils.dart';
 import '../../../data/business_models/execute_models/answer_enum.dart';
 import '../../../data/business_models/execute_models/part_three_model.dart';
-import '../../../data/data_providers/apis/part_execute_apis/part_three_api.dart';
-import '../../../data/repositories/execute_repository/part_three_repository/part_three_repository_impl.dart';
 import '../../../domain/execute_use_cases/get_part_three_question_list_use_case.dart';
+import '../../../presentation/screens/execute_screen/components/media_player.dart';
 import '../../../presentation/screens/execute_screen/widgets/answer_sheet_panel.dart';
 
 part 'part_three_state.dart';
@@ -13,8 +15,7 @@ part 'part_three_state.dart';
 class PartThreeCubit extends Cubit<PartThreeState> {
   PartThreeCubit() : super(PartThreeInitial());
 
-  final useCase = GetPartThreeQuestionListUserCase(
-      repository: PartThreeRepositoryImpl(api: PartThreeApi()));
+  final useCase = GetPartThreeQuestionListUserCase();
 
   late List<PartThreeModel> _partThreeQuestionList;
   int _currentQuestionIndex = 0;
@@ -24,20 +25,26 @@ class PartThreeCubit extends Cubit<PartThreeState> {
   final Map _questionNumberIndexMap = <int, int>{};
   final List<AnswerSheetModel> _answerSheetModel = [];
 
-  Future<void> getInitContent() async {
+  Future<void> getInitContent(List<String> ids) async {
     emit(PartThreeLoading());
-    _partThreeQuestionList = await useCase.getContent();
+    _partThreeQuestionList = await useCase.perform(ids);
     _currentQuestionIndex = 0;
     _questionListSize = _partThreeQuestionList.length;
     _userAnswerMap.clear();
     _correctAnsCheckedMap.clear();
     _questionNumberIndexMap.clear();
     for (int i = 0; i < _questionListSize; i++) {
-      for (int questionNumber in _partThreeQuestionList[i].questionNumber) {
+      for (int questionNumber in _partThreeQuestionList[i].numbers) {
         _questionNumberIndexMap[questionNumber] = i;
       }
     }
+    _playAudio(_partThreeQuestionList[_currentQuestionIndex].audioPath);
     notifyData();
+  }
+
+  void _playAudio(String audioRelativePath) {
+    final String audioFullPath = getApplicationDirectory() + audioRelativePath;
+    MediaPlayer().playLocal(audioFullPath);
   }
 
   Future<void> getNextContent() async {
@@ -45,6 +52,7 @@ class PartThreeCubit extends Cubit<PartThreeState> {
     if (_currentQuestionIndex < _partThreeQuestionList.length - 1) {
       _currentQuestionIndex++;
     }
+    _playAudio(_partThreeQuestionList[_currentQuestionIndex].audioPath);
     notifyData();
   }
 
@@ -52,17 +60,18 @@ class PartThreeCubit extends Cubit<PartThreeState> {
     if (_currentQuestionIndex > 0) {
       _currentQuestionIndex--;
     }
+    _playAudio(_partThreeQuestionList[_currentQuestionIndex].audioPath);
     notifyData();
   }
 
   void userCheckAnswer() {
     for (int i = 0;
-        i < _partThreeQuestionList[_currentQuestionIndex].questionNumber.length;
+        i < _partThreeQuestionList[_currentQuestionIndex].numbers.length;
         i++) {
       int questionNumber =
-          _partThreeQuestionList[_currentQuestionIndex].questionNumber[i];
+          _partThreeQuestionList[_currentQuestionIndex].numbers[i];
       _correctAnsCheckedMap[questionNumber] = UserAnswer.values[
-          _partThreeQuestionList[_currentQuestionIndex].correctAnswer[i].index];
+          _partThreeQuestionList[_currentQuestionIndex].correctAns[i].index];
     }
     notifyData();
   }
@@ -75,7 +84,7 @@ class PartThreeCubit extends Cubit<PartThreeState> {
     List<UserAnswer> userAnswerList = [];
     List<UserAnswer> correctAnswer = [];
     for (int questionNumber
-        in _partThreeQuestionList[_currentQuestionIndex].questionNumber) {
+        in _partThreeQuestionList[_currentQuestionIndex].numbers) {
       if (!_userAnswerMap.containsKey(questionNumber)) {
         _userAnswerMap[questionNumber] = UserAnswer.notAnswer;
       }
@@ -96,19 +105,17 @@ class PartThreeCubit extends Cubit<PartThreeState> {
   List<AnswerSheetModel> getAnswerSheetData() {
     _answerSheetModel.clear();
     for (int i = 0; i < _partThreeQuestionList.length; i++) {
-      for (int j = 0;
-          j < _partThreeQuestionList[i].questionNumber.length;
-          j++) {
+      for (int j = 0; j < _partThreeQuestionList[i].numbers.length; j++) {
         UserAnswer? userAns =
-            _userAnswerMap[_partThreeQuestionList[i].questionNumber[j]];
+            _userAnswerMap[_partThreeQuestionList[i].numbers[j]];
         UserAnswer? correctAns =
-            _correctAnsCheckedMap[_partThreeQuestionList[i].questionNumber[j]];
+            _correctAnsCheckedMap[_partThreeQuestionList[i].numbers[j]];
         int userAnsIdx =
             userAns == null ? UserAnswer.notAnswer.index : userAns.index;
         int correctAnsIdx =
             correctAns == null ? UserAnswer.notAnswer.index : correctAns.index;
         _answerSheetModel.add(AnswerSheetModel(
-            questionNumber: _partThreeQuestionList[i].questionNumber[j],
+            questionNumber: _partThreeQuestionList[i].numbers[j],
             correctAnswerIndex: correctAnsIdx,
             userSelectedIndex: userAnsIdx));
       }
@@ -117,7 +124,10 @@ class PartThreeCubit extends Cubit<PartThreeState> {
   }
 
   void goToQuestion(int questionNumber) {
+    //log('questionNumber: ${(questionNumber - 32) ~/ 3}, _currentQuestionIndex: $_currentQuestionIndex');
+    if ((questionNumber - 32) ~/ 3 == _currentQuestionIndex) return;
     _currentQuestionIndex = _questionNumberIndexMap[questionNumber];
+    _playAudio(_partThreeQuestionList[_currentQuestionIndex].audioPath);
     notifyData();
   }
 }

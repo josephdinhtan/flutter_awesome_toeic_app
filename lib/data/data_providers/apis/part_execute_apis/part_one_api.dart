@@ -1,4 +1,4 @@
-import 'package:flutter_toeic_quiz2/data/data_providers/dtos/part_dto/part_one_dto.dart';
+import 'package:flutter_toeic_quiz2/data/data_providers/dtos/parts_dto/part_one_dto.dart';
 
 import '../../../business_models/execute_models/part_one_model.dart';
 import '../base_api/base_api.dart';

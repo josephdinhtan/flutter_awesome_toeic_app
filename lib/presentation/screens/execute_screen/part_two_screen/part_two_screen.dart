@@ -67,7 +67,7 @@ class PartTwoScreen extends StatelessWidget {
           builder: (context, state) {
             if (state is PartTwoContentLoaded) {
               return Text(
-                  'Question: ${numToStr(state.currentQuestionNumber)}/${numToStr(state.questionListSize)}');
+                  'Question: ${numToStr(state.currentQuestionIndex)}/${numToStr(state.questionListSize)}');
             }
             return const Text('Question: ../..');
           },
@@ -85,7 +85,7 @@ class PartTwoScreen extends StatelessWidget {
                   if (state is PartTwoContentLoaded) {
                     return LinearProgressIndicator(
                       value:
-                          state.currentQuestionNumber / state.questionListSize,
+                          state.currentQuestionIndex / state.questionListSize,
                     );
                   }
                   return const LinearProgressIndicator(
@@ -99,20 +99,22 @@ class PartTwoScreen extends StatelessWidget {
                   alignment: Alignment.centerLeft,
                   child: Padding(
                     padding: const EdgeInsets.all(16.0),
-                    child: Center(
-                      child: BlocBuilder<PartTwoCubit, PartTwoState>(
-                        builder: (context, state) {
-                          if (state is PartTwoContentLoaded) {
-                            final partTwoModel = state.partTwoModel;
-                            return Text(partTwoModel.soundUrl);
-                          }
-                          return const Text('...');
-                        },
-                      ),
-                      // child: Image.file(
-                      //   File(quizBrain.getQuestionInfo().pictureLocalUrl),
-                      //   fit: BoxFit.contain,
-                      // ),
+                    child: BlocBuilder<PartTwoCubit, PartTwoState>(
+                      builder: (context, state) {
+                        if (state is PartTwoContentLoaded) {
+                          return Row(
+                            mainAxisAlignment: MainAxisAlignment.center,
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: [
+                              Text('${state.currentQuestionNumber}. '),
+                              Flexible(
+                                child: Text(state.question),
+                              ),
+                            ],
+                          );
+                        }
+                        return const Text('...');
+                      },
                     ),
                   ),
                 ),
@@ -122,12 +124,10 @@ class PartTwoScreen extends StatelessWidget {
                 child: BlocBuilder<PartTwoCubit, PartTwoState>(
                   builder: (context, state) {
                     if (state is PartTwoContentLoaded) {
-                      final partTwoModel = state.partTwoModel;
                       return AnswerBoardNeumorphic(
-                        textA: partTwoModel.answers[0],
-                        textB: partTwoModel.answers[1],
-                        textC: partTwoModel.answers[2],
-                        textD: partTwoModel.answers[3],
+                        textA: state.answers[0],
+                        textB: state.answers[1],
+                        textC: state.answers[2],
                         // need modify to check whether user is clicked the answer or not.
                         correctAns: state.correctAnswer.index,
                         selectedAns: state.userAnswer.index,
@@ -142,12 +142,9 @@ class PartTwoScreen extends StatelessWidget {
                       textA: '...',
                       textB: '...',
                       textC: '...',
-                      textD: '...',
                       correctAns: -1,
                       selectedAns: -1,
-                      selectChanged: (value) {
-                        //quizBrain.setSelectedAnswer(value);
-                      },
+                      selectChanged: (value) {},
                     );
                   },
                 ),
@@ -155,15 +152,15 @@ class PartTwoScreen extends StatelessWidget {
               AudioControllerNeumorphic(
                 //durationTime: MediaPlayer.instance.getDurationTime(),
                 changeToDurationCallBack: (timestamp) {
-                  MediaPlayer.instance.seekTo(seconds: timestamp.toInt());
+                  MediaPlayer().seekTo(seconds: timestamp.toInt());
                 },
                 playCallBack: () {
-                  MediaPlayer.instance.resume();
+                  MediaPlayer().resume();
                 },
                 pauseCallBack: () {
-                  MediaPlayer.instance.pause();
+                  MediaPlayer().pause();
                 },
-                audioPlayer: MediaPlayer.instance.audioPlayer,
+                audioPlayer: MediaPlayer().audioPlayer,
               ),
               BottomControllerNeumorphic(
                 prevPressed: () {

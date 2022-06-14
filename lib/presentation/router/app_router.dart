@@ -131,7 +131,7 @@ class AppRouter {
         final args = settings.arguments as ScreenArguments;
         return CupertinoPageRoute(
           builder: (_) => BlocProvider.value(
-            value: _partTwoCubit..getInitContent(),
+            value: _partTwoCubit..getInitContent(args.childIds),
             child: PartTwoScreen(partTitle: args.title),
           ),
         );
@@ -139,7 +139,7 @@ class AppRouter {
         final args = settings.arguments as ScreenArguments;
         return CupertinoPageRoute(
           builder: (_) => BlocProvider.value(
-            value: _partThreeCubit..getInitContent(),
+            value: _partThreeCubit..getInitContent(args.childIds),
             child: PartThreeScreen(partTitle: args.title),
           ),
         );
