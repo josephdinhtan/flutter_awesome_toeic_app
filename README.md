@@ -9,9 +9,10 @@ Just enjoy with all in one application
 After install app, 
 The app is lightweight and provide a store for downloading so many toeic books
 In order to download a book: 
-    - Goto store from top-left Books screen.
-    - Select book you want.
-    - Get it
+
+* Goto store from top-left Books screen.
+* Select book you want.
+* Download and enjoy it.
 
 ## Flutter Getting Started
 
