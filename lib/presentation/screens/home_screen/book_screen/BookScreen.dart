@@ -1,8 +1,8 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import '../../../../core/constants/app_dimensions.dart';
-import '../../../../data/business_models/book_info_model.dart';
+import '../../../../core_ui/constants/app_dimensions.dart';
+import '../../../../data/business_models/book_model.dart';
 import '../../../../view_model/book_screen_cubit/book_list_cubit.dart';
 import '../../../router/app_router.dart';
 import 'widgets/book_item_widget.dart';
@@ -11,7 +11,6 @@ final List<BookItemWidget> bookItems = [];
 
 class BookScreen extends StatefulWidget {
   const BookScreen({Key? key}) : super(key: key);
-
   @override
   State<BookScreen> createState() => _BookScreenState();
 }
@@ -35,7 +34,7 @@ class _BookScreenState extends State<BookScreen> {
           if (state is BookListLoaded) {
             final bookListInfo = state.bookListModel;
             bookItems.clear();
-            for (BookInfoModel bookInfo in bookListInfo) {
+            for (BookModel bookInfo in bookListInfo) {
               bookItems.add(BookItemWidget(bookInfoModel: bookInfo));
             }
           }

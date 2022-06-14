@@ -1,6 +1,6 @@
 import 'package:bloc/bloc.dart';
-import '../../../data/business_models/part_models/answer_enum.dart';
-import '../../../data/business_models/part_models/part_two_model.dart';
+import '../../../data/business_models/execute_models/answer_enum.dart';
+import '../../../data/business_models/execute_models/part_two_model.dart';
 import '../../../data/data_providers/apis/part_execute_apis/part_two_api.dart';
 import '../../../data/repositories/execute_repository/part_two_repository/part_two_repository_impl.dart';
 import '../../../domain/execute_use_cases/get_part_two_question_list_use_case.dart';
@@ -51,7 +51,8 @@ class PartTwoCubit extends Cubit<PartTwoState> {
 
   void userCheckAnswer() {
     final int key = _partTwoQuestionList[_currentQuestionIndex].questionNumber;
-    _correctAnsCheckedMap[key] = UserAnswer.values[_partTwoQuestionList[_currentQuestionIndex].correctAnswer.index];
+    _correctAnsCheckedMap[key] = UserAnswer.values[
+        _partTwoQuestionList[_currentQuestionIndex].correctAnswer.index];
     notifyData();
   }
 
@@ -84,13 +85,13 @@ class PartTwoCubit extends Cubit<PartTwoState> {
     _answerSheetModel.clear();
     for (int i = 0; i < _partTwoQuestionList.length; i++) {
       UserAnswer? userAns =
-      _userAnswerMap[_partTwoQuestionList[i].questionNumber];
+          _userAnswerMap[_partTwoQuestionList[i].questionNumber];
       UserAnswer? correctAns =
-      _correctAnsCheckedMap[_partTwoQuestionList[i].questionNumber];
+          _correctAnsCheckedMap[_partTwoQuestionList[i].questionNumber];
       int userAnsIdx =
-      userAns == null ? UserAnswer.notAnswer.index : userAns.index;
+          userAns == null ? UserAnswer.notAnswer.index : userAns.index;
       int correctAnsIdx =
-      correctAns == null ? UserAnswer.notAnswer.index : correctAns.index;
+          correctAns == null ? UserAnswer.notAnswer.index : correctAns.index;
       _answerSheetModel.add(AnswerSheetModel(
           questionNumber: _partTwoQuestionList[i].questionNumber,
           correctAnswerIndex: correctAnsIdx,

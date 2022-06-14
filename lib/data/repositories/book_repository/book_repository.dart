@@ -1,7 +1,7 @@
 import 'dart:async';
 
-import '../../business_models/book_info_model.dart';
+import '../../business_models/book_model.dart';
 
 abstract class BookRepository {
-  Future<List<BookInfoModel>> getBookList();
+  Future<List<BookModel>> getBookList();
 }

@@ -1,12 +1,12 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_toeic_quiz2/core/constants/app_light_colors.dart';
-import 'package:flutter_toeic_quiz2/core/constants/app_dimensions.dart';
-import 'package:flutter_toeic_quiz2/data/business_models/test_info_model.dart';
+import 'package:flutter_toeic_quiz2/data/business_models/test_model.dart';
 import 'package:flutter_toeic_quiz2/presentation/router/app_router.dart';
 import 'package:flutter_toeic_quiz2/presentation/router/screen_arguments.dart';
 import 'package:flutter_toeic_quiz2/presentation/screens/test_screen/widgets/download_button.dart';
 import 'package:flutter/foundation.dart' show kIsWeb;
 
+import '../../../../core_ui/constants/app_dimensions.dart';
+import '../../../../core_ui/constants/app_light_colors.dart';
 import 'download_handler/database_download_controller.dart';
 import 'download_handler/download_controller.dart';
 import 'download_handler/download_status.dart';
@@ -15,12 +15,12 @@ import 'download_handler/simulate_download_controller.dart';
 const int maxScore = 990;
 
 class TestItemWidget extends StatefulWidget {
-  TestItemWidget({
+  const TestItemWidget({
     Key? key,
     required this.testInfoModel,
   }) : super(key: key);
 
-  TestInfoModel testInfoModel;
+  final TestModel testInfoModel;
 
   @override
   State<TestItemWidget> createState() => _TestItemWidgetState();

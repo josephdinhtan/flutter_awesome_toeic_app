@@ -1,10 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:flutter_toeic_quiz2/core/constants/app_dimensions.dart';
-import 'package:flutter_toeic_quiz2/core/constants/app_text_styles.dart';
-import '../../../../core/constants/app_light_colors.dart';
-import '../../../../data/business_models/part_models/answer_enum.dart';
-import '../../../../utils/misc.dart';
+import '../../../../core_ui/constants/app_dimensions.dart';
+import '../../../../core_ui/constants/app_light_colors.dart';
+import '../../../../core_ui/constants/app_text_styles.dart';
+import '../../../../core_utils/core_utils.dart';
+import '../../../../data/business_models/execute_models/answer_enum.dart';
 import '../../../../view_model/execute_screen_cubit/part_five_cubit/part_five_cubit.dart';
 import '../widgets/answer_board_neumorphic_widget.dart';
 import '../widgets/answer_sheet_panel.dart';

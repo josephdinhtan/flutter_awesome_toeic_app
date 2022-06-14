@@ -2,15 +2,15 @@ import 'dart:developer';
 
 import 'package:bloc/bloc.dart';
 import 'package:flutter/foundation.dart';
-import 'package:flutter_toeic_quiz2/data/data_providers/network_response_models/book_network_object.dart';
+import 'package:flutter_toeic_quiz2/core_utils/global_configuration.dart';
+import 'package:flutter_toeic_quiz2/data/data_providers/dtos/book_dto.dart';
 import 'package:flutter_toeic_quiz2/domain/download_use_case/download_book_cover_use_case.dart';
-import 'package:flutter_toeic_quiz2/utils/misc.dart';
 
 import '../../domain/save_to_db_use_cases/save_book_to_db_use_case.dart';
 
 part 'store_screen_popup_state.dart';
 
-final logTag = "StoreScreenPopupCubit";
+const logTag = "StoreScreenPopupCubit";
 
 class StoreScreenPopupCubit extends Cubit<StoreScreenPopupState> {
   StoreScreenPopupCubit() : super(StoreScreenPopupInitial());
@@ -22,7 +22,7 @@ class StoreScreenPopupCubit extends Cubit<StoreScreenPopupState> {
     emit(StoreScreenPopupItemDisplay());
   }
 
-  Future<void> buyABookItem(BookNetworkObject bookNetworkObject) async {
+  Future<void> buyABookItem(BookDto bookDto) async {
     emit(StoreScreenPopupItemBuying());
     bool saveOk = false;
     if (kIsWeb) {
@@ -31,16 +31,16 @@ class StoreScreenPopupCubit extends Cubit<StoreScreenPopupState> {
       saveOk = false;
     } else {
       final downloadOK =
-          await _downloadBookCoverUseCase.perform(bookNetworkObject.cover_url);
-      if (DebugLogEnable) {
+          await _downloadBookCoverUseCase.perform(bookDto.cover_url);
+      if (LogEnable) {
         log("$logTag buyABookItem() download bookCover done downloadOK: $downloadOK");
       }
       if (!downloadOK) {
         emit(StoreScreenPopupItemBuyFail());
         return;
       }
-      saveOk = await _saveABookUseCase.perform(bookNetworkObject);
-      if (DebugLogEnable) {
+      saveOk = await _saveABookUseCase.perform(bookDto);
+      if (LogEnable) {
         log("$logTag buyABookItem() download save a book done saveOk: $saveOk");
       }
     }

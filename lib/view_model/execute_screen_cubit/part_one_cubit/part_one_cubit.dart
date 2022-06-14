@@ -1,11 +1,8 @@
 import 'package:bloc/bloc.dart';
-import '../../../data/business_models/part_models/answer_enum.dart';
-import '../../../data/business_models/part_models/part_one_model.dart';
-import '../../../data/data_providers/apis/part_execute_apis/part_one_api.dart';
-import '../../../data/repositories/execute_repository/part_one_repository/part_one_repository_impl.dart';
+import '../../../data/business_models/execute_models/answer_enum.dart';
+import '../../../data/business_models/execute_models/part_one_model.dart';
 import '../../../domain/execute_use_cases/get_part_one_question_list_use_case.dart';
 import '../../../presentation/screens/execute_screen/widgets/answer_sheet_panel.dart';
-import '../../../utils/misc.dart';
 
 part 'part_one_state.dart';
 
@@ -67,14 +64,22 @@ class PartOneCubit extends Cubit<PartOneState> {
 
   void notifyData() {
     final int key = _partOneQuestionList[_currentQuestionIndex].number;
+    bool needHideAns = false;
     if (!_userAnswerMap.containsKey(key)) {
       _userAnswerMap[key] = UserAnswer.notAnswer;
     }
     if (!_correctAnsCheckedMap.containsKey(key)) {
       _correctAnsCheckedMap[key] = UserAnswer.notAnswer;
     }
+    if (_correctAnsCheckedMap[key] == UserAnswer.notAnswer) {
+      needHideAns = true;
+    }
     emit(PartOneContentLoaded(
-        partOneModel: _partOneQuestionList[_currentQuestionIndex],
+        answers: needHideAns
+            ? ["", "", "", ""]
+            : _partOneQuestionList[_currentQuestionIndex].answers,
+        audioPath: _partOneQuestionList[_currentQuestionIndex].audioPath,
+        picturePath: _partOneQuestionList[_currentQuestionIndex].picturePath,
         userAnswer: _userAnswerMap[key],
         correctAnswer: _correctAnsCheckedMap[key],
         questionListSize: _questionListSize,

@@ -2,10 +2,10 @@ import 'dart:developer';
 
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:flutter_toeic_quiz2/core/constants/app_dimensions.dart';
-import 'package:flutter_toeic_quiz2/core/constants/app_light_colors.dart';
+import 'package:flutter_toeic_quiz2/core_utils/global_configuration.dart';
 import 'package:flutter_toeic_quiz2/presentation/screens/part_screen/widgets/part_item_widget.dart';
-import 'package:flutter_toeic_quiz2/utils/misc.dart';
+import '../../../core_ui/constants/app_dimensions.dart';
+import '../../../core_ui/constants/app_light_colors.dart';
 import '../../../view_model/part_screen_cubit/part_list_cubit.dart';
 
 final List<Widget> partItems = [];
@@ -50,7 +50,7 @@ class PartScreen extends StatelessWidget {
       body: BlocConsumer<PartListCubit, PartListState>(
         listener: (context, state) {
           if (state is PartListLoaded) {
-            if (DebugLogEnable) {
+            if (LogEnable) {
               log('$_logTag build() BlocConsumer state is PartListLoaded');
             }
             partItems.clear();

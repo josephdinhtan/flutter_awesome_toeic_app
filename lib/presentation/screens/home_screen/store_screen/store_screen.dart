@@ -3,11 +3,11 @@ import 'dart:convert';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_staggered_grid_view/flutter_staggered_grid_view.dart';
-import 'package:flutter_toeic_quiz2/data/data_providers/network_response_models/book_network_object.dart';
+import 'package:flutter_toeic_quiz2/data/data_providers/dtos/book_dto.dart';
 import 'package:flutter_toeic_quiz2/presentation/screens/home_screen/store_screen/widgets/book_store_item_widget.dart';
 import 'package:flutter_toeic_quiz2/view_model/store_screen_cubit/store_screen_cubit.dart';
 
-import '../../../../core/constants/app_dimensions.dart';
+import '../../../../core_ui/constants/app_dimensions.dart';
 
 class StoreScreen extends StatelessWidget {
   StoreScreen({Key? key}) : super(key: key);
@@ -39,16 +39,15 @@ class StoreScreen extends StatelessWidget {
               return const Center(child: Text('Loading...'));
             }
             if (state is StoreScreenBooksLoaded) {
-              List<BookNetworkObject> networkStoreItemModelList =
-                  state.networkStoreItemModelList;
-              if (networkStoreItemModelList.isEmpty) {
+              List<BookDto> bookDtoList = state.bookDto;
+              if (bookDtoList.isEmpty) {
                 return const Center(
                     child: Text('Loading done, but no item found...'));
               }
               return Padding(
                 padding: const EdgeInsets.all(8.0),
                 child: MasonryGridView.count(
-                  itemCount: networkStoreItemModelList.length,
+                  itemCount: bookDtoList.length,
                   // extern for display purpose, shoudl remove 4
                   crossAxisCount:
                       width > AppDimensions.maxWidthForMobileMode ? 3 : 2,
@@ -60,8 +59,8 @@ class StoreScreen extends StatelessWidget {
                     return BlocProvider.value(
                       value: BlocProvider.of<StoreScreenCubit>(context),
                       child: BookStoreItemWidget(
-                        bookNetworkObject: networkStoreItemModelList[index],
-                        isBought: networkStoreItemModelList[index].isBought,
+                        bookNetworkObject: bookDtoList[index],
+                        isBought: bookDtoList[index].isBought,
                       ),
                     );
                   },

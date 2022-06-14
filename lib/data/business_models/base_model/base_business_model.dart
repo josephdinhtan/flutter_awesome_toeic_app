@@ -1,1 +1,1 @@
-class BaseBusinessModel {}
+abstract class BaseBusinessModel {}

@@ -1,12 +1,11 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_toeic_quiz2/core/constants/app_light_colors.dart';
 
+import '../../../../core_ui/constants/app_light_colors.dart';
 import 'download_handler/download_status.dart';
 
 class DownloadButton extends StatelessWidget {
   const DownloadButton({
-
     Key? key,
     required this.status,
     this.downloadProgress = 0.0,
@@ -35,7 +34,7 @@ class DownloadButton extends StatelessWidget {
         onDownload();
         break;
       case DownloadStatus.fetchingDownload:
-      // do nothing.
+        // do nothing.
         break;
       case DownloadStatus.downloading:
         onCancel();
@@ -70,13 +69,13 @@ class DownloadButton extends StatelessWidget {
       width: double.infinity,
       decoration: _isDownloading || _isFetching
           ? const ShapeDecoration(
-        shape: CircleBorder(),
-        color: Colors.transparent,
-      )
+              shape: CircleBorder(),
+              color: Colors.transparent,
+            )
           : const ShapeDecoration(
-        shape: StadiumBorder(),
-        color: AppLightColors.kButtonPrimary,
-      ),
+              shape: StadiumBorder(),
+              color: AppLightColors.kButtonPrimary,
+            ),
       child: child,
     );
   }

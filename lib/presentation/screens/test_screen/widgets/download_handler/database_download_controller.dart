@@ -1,15 +1,15 @@
 import 'dart:developer';
 
 import 'package:flutter/material.dart';
+import 'package:flutter_toeic_quiz2/core_utils/global_configuration.dart';
 import 'package:flutter_toeic_quiz2/domain/download_use_case/download_test_use_case.dart';
-import 'package:flutter_toeic_quiz2/utils/misc.dart';
 
 import '../../../../../domain/download_use_case/test_fetching_data_use_case.dart';
 import '../../../../../domain/save_to_db_use_cases/update_test_isdownloaded_to_db.dart';
 import 'download_status.dart';
 import 'download_controller.dart';
 
-const LOG_TAG = "DataBaseDownloadController";
+const _logTag = "DataBaseDownloadController";
 
 class DataBaseDownloadController extends DownloadController
     with ChangeNotifier {
@@ -54,14 +54,14 @@ class DataBaseDownloadController extends DownloadController
     _isDownloading = true;
     _downloadStatus = DownloadStatus.fetchingDownload;
     notifyListeners();
-    if (DebugLogEnable) log('$LOG_TAG resourceUrl: $audioPath');
+    if (LogEnable) log('$_logTag resourceUrl: $audioPath');
     List<String> itemAudioUrls =
         await TestFetchingDataUseCase().perform("$audioPath");
     List<String> itemPictureUrls =
         await TestFetchingDataUseCase().perform("$picturePath");
 
-    if (DebugLogEnable) log('$LOG_TAG itemAudioUrl: $itemAudioUrls');
-    if (DebugLogEnable) log('$LOG_TAG itemPictureUrl: $itemPictureUrls');
+    if (LogEnable) log('$_logTag itemAudioUrl: $itemAudioUrls');
+    if (LogEnable) log('$_logTag itemPictureUrl: $itemPictureUrls');
     if (!_isDownloading) {
       return;
     }

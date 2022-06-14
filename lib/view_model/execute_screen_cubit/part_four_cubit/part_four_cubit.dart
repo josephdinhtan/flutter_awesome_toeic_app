@@ -1,8 +1,8 @@
 import 'package:bloc/bloc.dart';
 import 'package:meta/meta.dart';
 
-import '../../../data/business_models/part_models/answer_enum.dart';
-import '../../../data/business_models/part_models/part_four_model.dart';
+import '../../../data/business_models/execute_models/answer_enum.dart';
+import '../../../data/business_models/execute_models/part_four_model.dart';
 import '../../../data/data_providers/apis/part_execute_apis/part_four_api.dart';
 import '../../../data/repositories/execute_repository/part_four_repository/part_four_repository_impl.dart';
 import '../../../domain/execute_use_cases/get_part_four_question_list_use_case.dart';
@@ -32,8 +32,8 @@ class PartFourCubit extends Cubit<PartFourState> {
     _userAnswerMap.clear();
     _correctAnsCheckedMap.clear();
     _questionNumberIndexMap.clear();
-    for(int i = 0; i < _questionListSize; i++) {
-      for(int questionNumber in _partFourQuestionList[i].questionNumber) {
+    for (int i = 0; i < _questionListSize; i++) {
+      for (int questionNumber in _partFourQuestionList[i].questionNumber) {
         _questionNumberIndexMap[questionNumber] = i;
       }
     }
@@ -56,9 +56,13 @@ class PartFourCubit extends Cubit<PartFourState> {
   }
 
   void userCheckAnswer() {
-    for(int i = 0; i < _partFourQuestionList[_currentQuestionIndex].questionNumber.length; i++) {
-      int questionNumber = _partFourQuestionList[_currentQuestionIndex].questionNumber[i];
-      _correctAnsCheckedMap[questionNumber] = UserAnswer.values[_partFourQuestionList[_currentQuestionIndex].correctAnswer[i].index];
+    for (int i = 0;
+        i < _partFourQuestionList[_currentQuestionIndex].questionNumber.length;
+        i++) {
+      int questionNumber =
+          _partFourQuestionList[_currentQuestionIndex].questionNumber[i];
+      _correctAnsCheckedMap[questionNumber] = UserAnswer.values[
+          _partFourQuestionList[_currentQuestionIndex].correctAnswer[i].index];
     }
     notifyData();
   }
@@ -71,7 +75,7 @@ class PartFourCubit extends Cubit<PartFourState> {
     List<UserAnswer> userAnswerList = [];
     List<UserAnswer> correctAnswer = [];
     for (int questionNumber
-    in _partFourQuestionList[_currentQuestionIndex].questionNumber) {
+        in _partFourQuestionList[_currentQuestionIndex].questionNumber) {
       if (!_userAnswerMap.containsKey(questionNumber)) {
         _userAnswerMap[questionNumber] = UserAnswer.notAnswer;
       }
@@ -93,10 +97,14 @@ class PartFourCubit extends Cubit<PartFourState> {
     _answerSheetModel.clear();
     for (int i = 0; i < _partFourQuestionList.length; i++) {
       for (int j = 0; j < _partFourQuestionList[i].questionNumber.length; j++) {
-        UserAnswer? userAns = _userAnswerMap[_partFourQuestionList[i].questionNumber[j]];
-        UserAnswer? correctAns = _correctAnsCheckedMap[_partFourQuestionList[i].questionNumber[j]];
-        int userAnsIdx = userAns == null ? UserAnswer.notAnswer.index : userAns.index;
-        int correctAnsIdx = correctAns == null ? UserAnswer.notAnswer.index : correctAns.index;
+        UserAnswer? userAns =
+            _userAnswerMap[_partFourQuestionList[i].questionNumber[j]];
+        UserAnswer? correctAns =
+            _correctAnsCheckedMap[_partFourQuestionList[i].questionNumber[j]];
+        int userAnsIdx =
+            userAns == null ? UserAnswer.notAnswer.index : userAns.index;
+        int correctAnsIdx =
+            correctAns == null ? UserAnswer.notAnswer.index : correctAns.index;
         _answerSheetModel.add(AnswerSheetModel(
             questionNumber: _partFourQuestionList[i].questionNumber[j],
             correctAnswerIndex: correctAnsIdx,

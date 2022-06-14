@@ -1,5 +1,5 @@
-import '../../business_models/part_info_model.dart';
+import '../../business_models/part_model.dart';
 
 abstract class PartRepository {
-  Future<List<PartInfoModel>> getPartList(List<String> ids);
+  Future<List<PartModel>> getPartList(List<String> ids);
 }

@@ -2,8 +2,8 @@ import 'package:bloc/bloc.dart';
 import 'package:flutter_toeic_quiz2/data/repositories/execute_repository/base_repository/part_repository_base.dart';
 import 'package:meta/meta.dart';
 
-import '../../../data/business_models/part_models/answer_enum.dart';
-import '../../../data/business_models/part_models/part_six_model.dart';
+import '../../../data/business_models/execute_models/answer_enum.dart';
+import '../../../data/business_models/execute_models/part_six_model.dart';
 import '../../../data/data_providers/apis/part_execute_apis/part_six_api.dart';
 import '../../../data/repositories/execute_repository/part_six_repository/part_six_repository_impl.dart';
 import '../../../domain/execute_use_cases/get_part_six_question_list_use_case.dart';

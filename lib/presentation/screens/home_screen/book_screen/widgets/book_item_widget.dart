@@ -2,11 +2,12 @@ import 'dart:io';
 
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_toeic_quiz2/core/constants/app_dimensions.dart';
-import 'package:flutter_toeic_quiz2/data/business_models/book_info_model.dart';
+import 'package:flutter_toeic_quiz2/data/business_models/book_model.dart';
 import 'package:flutter_toeic_quiz2/presentation/router/app_router.dart';
 import 'package:flutter_toeic_quiz2/presentation/router/screen_arguments.dart';
-import 'package:flutter_toeic_quiz2/utils/misc.dart';
+
+import '../../../../../core_ui/constants/app_dimensions.dart';
+import '../../../../../core_utils/core_utils.dart';
 
 class BookItemWidget extends StatelessWidget {
   BookItemWidget({
@@ -14,7 +15,7 @@ class BookItemWidget extends StatelessWidget {
     required this.bookInfoModel,
   }) : super(key: key);
 
-  BookInfoModel bookInfoModel;
+  BookModel bookInfoModel;
 
   @override
   Widget build(BuildContext context) {
@@ -131,12 +132,6 @@ class BookItemWidget extends StatelessWidget {
                     width: 100.0,
                     height: 120.0,
                   ),
-                  // child: Image.asset(
-                  //   'assets/images/ets_book_cover.png',
-                  //   fit: BoxFit.cover,
-                  //   width: 100.0,
-                  //   height: 120.0,
-                  // ),
                 ),
               ),
             ],

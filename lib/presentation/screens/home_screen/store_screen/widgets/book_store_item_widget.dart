@@ -1,16 +1,14 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:flutter_toeic_quiz2/data/business_models/test_info_model.dart';
-import 'package:flutter_toeic_quiz2/data/data_providers/network_response_models/book_network_object.dart';
+import 'package:flutter_toeic_quiz2/data/data_providers/dtos/book_dto.dart';
 import 'package:flutter_toeic_quiz2/view_model/book_screen_cubit/book_list_cubit.dart';
 import 'package:flutter_toeic_quiz2/view_model/store_screen_cubit/store_screen_popup_cubit.dart';
 
-import '../../../../../core/constants/app_dimensions.dart';
-import '../../../../../data/business_models/book_info_model.dart';
+import '../../../../../core_ui/constants/app_dimensions.dart';
 import 'book_store_item_popup_widget.dart';
 
 class BookStoreItemWidget extends StatefulWidget {
-  final BookNetworkObject bookNetworkObject;
+  final BookDto bookNetworkObject;
   bool isBought;
   BookStoreItemWidget(
       {Key? key, required this.bookNetworkObject, this.isBought = false})
@@ -25,7 +23,6 @@ class _BookStoreItemWidgetState extends State<BookStoreItemWidget> {
 
   @override
   void initState() {
-    // TODO: implement initState
     super.initState();
     updateImageCover();
   }
@@ -41,16 +38,6 @@ class _BookStoreItemWidgetState extends State<BookStoreItemWidget> {
   Widget build(BuildContext context) {
     return GestureDetector(
       onTap: () {
-        // Navigator.push(
-        //     context,
-        //     CupertinoPageRoute(
-        //       builder: (context) => BookDetailScreen(
-        //         toeicBook: widget.toeicBook,
-        //         bookCoverLink: bookCoverLink,
-        //         bought: widget.bought,
-        //       ),
-        //     ));
-        //BlocProvider.of<StoreScreenCubit>(context).displayBookItemPopup();
         showDialog(
             barrierDismissible: false,
             context: context,

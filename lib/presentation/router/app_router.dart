@@ -3,9 +3,9 @@ import 'dart:developer';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:flutter_toeic_quiz2/utils/misc.dart';
-import '../../core/exceptions/route_exception.dart' show RouteException;
-import '../../data/business_models/book_info_model.dart';
+import 'package:flutter_toeic_quiz2/core_utils/global_configuration.dart';
+import '../../core_ui/exceptions/route_exception.dart';
+import '../../data/business_models/book_model.dart';
 import '../screens/execute_screen/part_one_screen/part_one_screen.dart';
 import '../screens/execute_screen/part_seven_screen/part_seven_screen.dart'
     show PartSevenScreen;
@@ -86,7 +86,7 @@ class AppRouter {
         );
       case test:
         final args = settings.arguments as ScreenArguments;
-        final bookInfoModel = args.otherInfo as BookInfoModel;
+        final bookInfoModel = args.otherInfo as BookModel;
         return CupertinoPageRoute(
           builder: (_) => BlocProvider.value(
             value: _testListCubit..getInitContent(bookInfoModel.testIds),
@@ -95,8 +95,9 @@ class AppRouter {
         );
       case part:
         final args = settings.arguments as ScreenArguments;
-        if (DebugLogEnable)
+        if (LogEnable) {
           log('$_logTag part: args.childIds: ${args.childIds}');
+        }
         return CupertinoPageRoute(
           builder: (_) => BlocProvider.value(
             value: _partListCubit..getInitContent(args.childIds),

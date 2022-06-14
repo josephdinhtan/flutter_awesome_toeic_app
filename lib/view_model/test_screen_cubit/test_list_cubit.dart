@@ -1,5 +1,5 @@
 import 'package:bloc/bloc.dart';
-import '../../data/business_models/test_info_model.dart';
+import '../../data/business_models/test_model.dart';
 import '../../data/repositories/test_repository/test_repository_impl.dart';
 import '../../domain/get_from_db_use_case/get_list_test_use_case.dart';
 
@@ -13,7 +13,7 @@ class TestListCubit extends Cubit<TestListState> {
   Future<void> getInitContent(List<String> hiveIds) async {
     emit(TestListLoading());
     try {
-      final List<TestInfoModel> testList = await useCase.getListInfo(hiveIds);
+      final List<TestModel> testList = await useCase.getListInfo(hiveIds);
       emit(TestListLoaded(
         testListModel: testList,
       ));

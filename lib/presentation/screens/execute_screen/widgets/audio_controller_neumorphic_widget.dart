@@ -1,10 +1,10 @@
 import 'package:audioplayers/audioplayers.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:flutter_toeic_quiz2/core/constants/app_dark_colors.dart';
-import 'package:flutter_toeic_quiz2/core/constants/app_dimensions.dart';
-import 'package:flutter_toeic_quiz2/core/constants/app_light_colors.dart';
 
+import '../../../../core_ui/constants/app_dark_colors.dart';
+import '../../../../core_ui/constants/app_dimensions.dart';
+import '../../../../core_ui/constants/app_light_colors.dart';
 import '../../../../view_model/home_screen_cubit/home_screen_cubit.dart';
 import '../../widgets/neumorphism_container.dart';
 
@@ -93,7 +93,9 @@ class _AudioControllerNeumorphicState extends State<AudioControllerNeumorphic> {
                   },
                   icon: Icon(
                     Icons.replay_5_rounded,
-                    color: isDarkMode ? AppDarkColors.kIconColor : AppLightColors.kIconColor,
+                    color: isDarkMode
+                        ? AppDarkColors.kIconColor
+                        : AppLightColors.kIconColor,
                   ),
                 ),
                 IconButton(
@@ -113,7 +115,9 @@ class _AudioControllerNeumorphicState extends State<AudioControllerNeumorphic> {
                   },
                   icon: Icon(
                     isPlaying ? Icons.pause : Icons.play_arrow_rounded,
-                    color: isDarkMode ? AppDarkColors.kIconColor : AppLightColors.kIconColor,
+                    color: isDarkMode
+                        ? AppDarkColors.kIconColor
+                        : AppLightColors.kIconColor,
                   ),
                 ),
                 IconButton(
@@ -132,7 +136,9 @@ class _AudioControllerNeumorphicState extends State<AudioControllerNeumorphic> {
                   },
                   icon: Icon(
                     Icons.forward_5_rounded,
-                    color: isDarkMode ? AppDarkColors.kIconColor : AppLightColors.kIconColor,
+                    color: isDarkMode
+                        ? AppDarkColors.kIconColor
+                        : AppLightColors.kIconColor,
                   ),
                 ),
                 const SizedBox(width: 6.0),

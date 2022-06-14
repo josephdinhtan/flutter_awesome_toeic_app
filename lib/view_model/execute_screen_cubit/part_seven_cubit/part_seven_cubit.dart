@@ -1,8 +1,8 @@
 import 'package:bloc/bloc.dart';
 import 'package:meta/meta.dart';
 
-import '../../../data/business_models/part_models/answer_enum.dart';
-import '../../../data/business_models/part_models/part_seven_model.dart';
+import '../../../data/business_models/execute_models/answer_enum.dart';
+import '../../../data/business_models/execute_models/part_seven_model.dart';
 import '../../../data/data_providers/apis/part_execute_apis/part_seven_api.dart';
 import '../../../data/repositories/execute_repository/part_seven_repository/part_seven_repository_impl.dart';
 import '../../../domain/execute_use_cases/get_part_seven_question_list_use_case.dart';
@@ -32,8 +32,8 @@ class PartSevenCubit extends Cubit<PartSevenState> {
     _userAnswerMap.clear();
     _correctAnsCheckedMap.clear();
     _questionNumberIndexMap.clear();
-    for(int i = 0; i < _questionListSize; i++) {
-      for(int questionNumber in _partSevenQuestionList[i].questionNumber) {
+    for (int i = 0; i < _questionListSize; i++) {
+      for (int questionNumber in _partSevenQuestionList[i].questionNumber) {
         _questionNumberIndexMap[questionNumber] = i;
       }
     }
@@ -56,9 +56,13 @@ class PartSevenCubit extends Cubit<PartSevenState> {
   }
 
   void userCheckAnswer() {
-    for(int i = 0; i < _partSevenQuestionList[_currentQuestionIndex].questionNumber.length; i++) {
-      int questionNumber = _partSevenQuestionList[_currentQuestionIndex].questionNumber[i];
-      _correctAnsCheckedMap[questionNumber] = UserAnswer.values[_partSevenQuestionList[_currentQuestionIndex].correctAnswer[i].index];
+    for (int i = 0;
+        i < _partSevenQuestionList[_currentQuestionIndex].questionNumber.length;
+        i++) {
+      int questionNumber =
+          _partSevenQuestionList[_currentQuestionIndex].questionNumber[i];
+      _correctAnsCheckedMap[questionNumber] = UserAnswer.values[
+          _partSevenQuestionList[_currentQuestionIndex].correctAnswer[i].index];
     }
     notifyData();
   }
@@ -71,7 +75,7 @@ class PartSevenCubit extends Cubit<PartSevenState> {
     List<UserAnswer> userAnswerList = [];
     List<UserAnswer> correctAnswer = [];
     for (int questionNumber
-    in _partSevenQuestionList[_currentQuestionIndex].questionNumber) {
+        in _partSevenQuestionList[_currentQuestionIndex].questionNumber) {
       if (!_userAnswerMap.containsKey(questionNumber)) {
         _userAnswerMap[questionNumber] = UserAnswer.notAnswer;
       }
@@ -92,11 +96,17 @@ class PartSevenCubit extends Cubit<PartSevenState> {
   List<AnswerSheetModel> getAnswerSheetData() {
     _answerSheetModel.clear();
     for (int i = 0; i < _partSevenQuestionList.length; i++) {
-      for (int j = 0; j < _partSevenQuestionList[i].questionNumber.length; j++) {
-        UserAnswer? userAns = _userAnswerMap[_partSevenQuestionList[i].questionNumber[j]];
-        UserAnswer? correctAns = _correctAnsCheckedMap[_partSevenQuestionList[i].questionNumber[j]];
-        int userAnsIdx = userAns == null ? UserAnswer.notAnswer.index : userAns.index;
-        int correctAnsIdx = correctAns == null ? UserAnswer.notAnswer.index : correctAns.index;
+      for (int j = 0;
+          j < _partSevenQuestionList[i].questionNumber.length;
+          j++) {
+        UserAnswer? userAns =
+            _userAnswerMap[_partSevenQuestionList[i].questionNumber[j]];
+        UserAnswer? correctAns =
+            _correctAnsCheckedMap[_partSevenQuestionList[i].questionNumber[j]];
+        int userAnsIdx =
+            userAns == null ? UserAnswer.notAnswer.index : userAns.index;
+        int correctAnsIdx =
+            correctAns == null ? UserAnswer.notAnswer.index : correctAns.index;
         _answerSheetModel.add(AnswerSheetModel(
             questionNumber: _partSevenQuestionList[i].questionNumber[j],
             correctAnswerIndex: correctAnsIdx,

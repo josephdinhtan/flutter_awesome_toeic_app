@@ -1,11 +1,9 @@
-import 'package:flutter_toeic_quiz2/data/business_models/book_info_model.dart';
+import 'package:flutter_toeic_quiz2/data/business_models/book_model.dart';
 
-import '../../data/repositories/store_repository/store_repository.dart';
-import '../../data/repositories/store_repository/store_repository_impl.dart';
+import '../../core_utils/core_utils.dart';
 
 import '../../data/download_manager/book_download_manager_impl.dart';
 import '../../data/download_manager/download_manager.dart';
-import '../../utils/misc.dart';
 import '../base_use_case/BaseUseCase.dart';
 
 class DownloadBookCoverUseCase implements BaseUseCase<bool, String> {

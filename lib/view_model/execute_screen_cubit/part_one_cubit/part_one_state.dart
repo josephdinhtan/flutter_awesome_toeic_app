@@ -10,16 +10,20 @@ class PartOneLoading extends PartOneState {}
 class PartOneContentLoaded extends PartOneState {
   final int currentQuestionNumber;
   final int questionListSize;
-  final PartOneModel partOneModel;
+  final List<String> answers;
   final UserAnswer userAnswer;
   final UserAnswer correctAnswer;
+  final String audioPath;
+  final String picturePath;
 
   PartOneContentLoaded({
     required this.currentQuestionNumber,
     required this.questionListSize,
     required this.correctAnswer,
-    required this.partOneModel,
     required this.userAnswer,
+    required this.answers,
+    required this.audioPath,
+    required this.picturePath,
   });
 }
 

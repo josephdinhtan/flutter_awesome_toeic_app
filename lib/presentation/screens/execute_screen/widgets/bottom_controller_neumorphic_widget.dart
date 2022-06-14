@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:flutter_toeic_quiz2/core/constants/app_dark_colors.dart';
-import 'package:flutter_toeic_quiz2/core/constants/app_light_colors.dart';
 import 'package:flutter_toeic_quiz2/presentation/screens/widgets/neumorphism_container.dart';
 
+import '../../../../core_ui/constants/app_dark_colors.dart';
+import '../../../../core_ui/constants/app_light_colors.dart';
 import '../../../../view_model/home_screen_cubit/home_screen_cubit.dart';
 
 class BottomControllerNeumorphic extends StatelessWidget {
@@ -28,10 +28,13 @@ class BottomControllerNeumorphic extends StatelessWidget {
         BlocProvider.of<HomeScreenCubit>(context).getThemeMode() ==
             ThemeMode.dark;
     return NeumorphismContainer(
-      borderRadiusGeometry: isStandAlone ? const BorderRadius.only(
-          topLeft: Radius.circular(12.0),
-          topRight: Radius.circular(12.0)) : BorderRadius.zero,
-      color: isDarkMode ? AppDarkColors.kNavigationBar : AppLightColors.kNavigationBar,
+      borderRadiusGeometry: isStandAlone
+          ? const BorderRadius.only(
+              topLeft: Radius.circular(12.0), topRight: Radius.circular(12.0))
+          : BorderRadius.zero,
+      color: isDarkMode
+          ? AppDarkColors.kNavigationBar
+          : AppLightColors.kNavigationBar,
       child: Padding(
         padding: const EdgeInsets.symmetric(horizontal: 8.0, vertical: 2.0),
         child: Row(
@@ -41,28 +44,36 @@ class BottomControllerNeumorphic extends StatelessWidget {
               onPressed: prevPressed,
               icon: Icon(
                 Icons.arrow_back_ios_rounded,
-                color: isDarkMode ? AppDarkColors.kIconColor : AppLightColors.kIconColor,
+                color: isDarkMode
+                    ? AppDarkColors.kIconColor
+                    : AppLightColors.kIconColor,
               ),
             ),
             IconButton(
               onPressed: favoritePressed,
               icon: Icon(
                 Icons.favorite_border,
-                color: isDarkMode ? AppDarkColors.kIconColor : AppLightColors.kIconColor,
+                color: isDarkMode
+                    ? AppDarkColors.kIconColor
+                    : AppLightColors.kIconColor,
               ),
             ),
             IconButton(
               onPressed: checkAnsPressed,
               icon: Icon(
                 Icons.fact_check_outlined,
-                color: isDarkMode ? AppDarkColors.kIconColor : AppLightColors.kIconColor,
+                color: isDarkMode
+                    ? AppDarkColors.kIconColor
+                    : AppLightColors.kIconColor,
               ),
             ),
             IconButton(
               onPressed: nextPressed,
               icon: Icon(
                 Icons.arrow_forward_ios_rounded,
-                color: isDarkMode ? AppDarkColors.kIconColor : AppLightColors.kIconColor,
+                color: isDarkMode
+                    ? AppDarkColors.kIconColor
+                    : AppLightColors.kIconColor,
               ),
             )
           ],

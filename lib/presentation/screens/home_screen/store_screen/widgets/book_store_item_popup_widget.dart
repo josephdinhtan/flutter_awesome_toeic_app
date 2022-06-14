@@ -2,18 +2,18 @@ import 'dart:developer';
 
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:flutter_toeic_quiz2/data/data_providers/network_response_models/book_network_object.dart';
+import '../../../../../data/data_providers/dtos/book_dto.dart';
+import '../../../../../core_ui/constants/app_light_colors.dart';
 import '../../../../../view_model/book_screen_cubit/book_list_cubit.dart';
 import '../../../../../view_model/store_screen_cubit/store_screen_popup_cubit.dart';
 
-import '../../../../../core/constants/app_light_colors.dart';
 import '../../../widgets/neumorphism_button.dart';
 
 class BookStoreItemPopupWidget extends StatelessWidget {
   BookStoreItemPopupWidget(
       {Key? key, required this.bookNetworkObject, this.isBought = false})
       : super(key: key);
-  final BookNetworkObject bookNetworkObject;
+  final BookDto bookNetworkObject;
   bool isBought;
 
   @override

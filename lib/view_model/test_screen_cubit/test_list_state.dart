@@ -7,7 +7,7 @@ class TestListInitial extends TestListState {}
 class TestListLoading extends TestListState {}
 
 class TestListLoaded extends TestListState {
-  List<TestInfoModel> testListModel;
+  List<TestModel> testListModel;
   TestListLoaded({required this.testListModel});
 }
 

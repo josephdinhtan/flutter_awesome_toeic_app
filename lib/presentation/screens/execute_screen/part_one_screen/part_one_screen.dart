@@ -3,11 +3,12 @@ import 'dart:io';
 
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:flutter_toeic_quiz2/core/constants/app_dimensions.dart';
-import 'package:flutter_toeic_quiz2/presentation/screens/execute_screen/widgets/audio_controller_neumorphic_widget.dart';
-import '../../../../core/constants/app_light_colors.dart';
-import '../../../../data/business_models/part_models/answer_enum.dart';
-import '../../../../utils/misc.dart';
+import 'package:flutter_toeic_quiz2/core_utils/global_configuration.dart';
+import '../../../../core_ui/constants/app_dimensions.dart';
+import '../../../../core_ui/constants/app_light_colors.dart';
+import '../../../../core_utils/core_utils.dart';
+import '../../../../data/business_models/execute_models/answer_enum.dart';
+import '../widgets/audio_controller_neumorphic_widget.dart';
 import '../../../../view_model/execute_screen_cubit/part_one_cubit/part_one_cubit.dart';
 import '../components/media_player.dart';
 import '../widgets/answer_board_neumorphic_widget.dart';
@@ -107,12 +108,10 @@ class PartOneScreen extends StatelessWidget {
                       child: BlocBuilder<PartOneCubit, PartOneState>(
                         builder: (context, state) {
                           if (state is PartOneContentLoaded) {
-                            final partOneModel = state.partOneModel;
                             //return Text(partOneModel.picturePath);
                             final String pictureFullPath =
-                                getApplicationDirectory() +
-                                    partOneModel.picturePath;
-                            if (DebugLogEnable) {
+                                getApplicationDirectory() + state.picturePath;
+                            if (LogEnable) {
                               log('$_logTag pictureFullPath: $pictureFullPath');
                             }
                             return ClipRRect(
@@ -141,12 +140,11 @@ class PartOneScreen extends StatelessWidget {
                 child: BlocBuilder<PartOneCubit, PartOneState>(
                   builder: (context, state) {
                     if (state is PartOneContentLoaded) {
-                      final partOneModel = state.partOneModel;
                       return AnswerBoardNeumorphic(
-                        textA: partOneModel.answers[0],
-                        textB: partOneModel.answers[1],
-                        textC: partOneModel.answers[2],
-                        textD: partOneModel.answers[3],
+                        textA: state.answers[0],
+                        textB: state.answers[1],
+                        textC: state.answers[2],
+                        textD: state.answers[3],
                         // need modify to check whether user is clicked the answer or not.
                         correctAns: state.correctAnswer.index,
                         selectedAns: state.userAnswer.index,

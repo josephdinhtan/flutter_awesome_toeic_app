@@ -1,4 +1,4 @@
-import '../../data/business_models/test_info_model.dart';
+import '../../data/business_models/test_model.dart';
 import '../../data/repositories/test_repository/test_repository.dart';
 
 class GetListTestUseCase {
@@ -8,7 +8,7 @@ class GetListTestUseCase {
     required this.repository,
   });
 
-  Future<List<TestInfoModel>> getListInfo(List<String> hiveIds) async {
+  Future<List<TestModel>> getListInfo(List<String> hiveIds) async {
     return await repository.getTestList(hiveIds);
   }
 }

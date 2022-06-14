@@ -1,37 +1,35 @@
 import 'dart:developer';
 
-import 'package:flutter_toeic_quiz2/data/base_api_dao/baseAPIDAO.dart';
-import 'package:flutter_toeic_quiz2/data/data_providers/network_response_models/network_part_object/part_one_question_network_object.dart';
-import 'package:flutter_toeic_quiz2/data/data_providers/network_response_models/part_network_object.dart';
-import 'package:flutter_toeic_quiz2/data/data_providers/network_response_models/test_network_object.dart';
-import 'package:flutter_toeic_quiz2/data/data_source/daos/book_dao.dart';
-import 'package:flutter_toeic_quiz2/data/data_source/daos/part_dao.dart';
-import 'package:flutter_toeic_quiz2/data/data_source/daos/part_execute_daos/part_one_dao.dart';
-import 'package:flutter_toeic_quiz2/data/data_source/daos/test_dao.dart';
-import 'package:flutter_toeic_quiz2/data/download_manager/download_manager.dart';
+import 'package:flutter_toeic_quiz2/data/data_providers/daos/base_dao/base_dao.dart';
+import 'package:flutter_toeic_quiz2/data/data_providers/daos/book_dao.dart';
+import 'package:flutter_toeic_quiz2/data/data_providers/daos/part_dao.dart';
+import 'package:flutter_toeic_quiz2/data/data_providers/daos/part_execute_daos/part_one_dao.dart';
+import 'package:flutter_toeic_quiz2/data/data_providers/daos/test_dao.dart';
+import 'package:flutter_toeic_quiz2/data/data_providers/dtos/book_dto.dart';
+import 'package:flutter_toeic_quiz2/data/data_providers/dtos/part_dto.dart';
+import 'package:flutter_toeic_quiz2/data/data_providers/dtos/part_dto/part_one_dto.dart';
+import 'package:flutter_toeic_quiz2/data/data_providers/dtos/test_dto.dart';
 import 'package:flutter_toeic_quiz2/data/repositories/store_repository/store_repository.dart';
 
 import '../../data_providers/apis/store_api.dart';
-import '../../data_providers/network_response_models/book_network_object.dart';
-import '../../download_manager/book_download_manager_impl.dart';
 
 class StoreRepositoryImpl implements StoreRepository {
   // dependencies
   final StoreApi _storeApi = StoreApi();
-  final BaseAPIDAO _bookDAO = BookDAO();
-  final BaseAPIDAO _testDAO = TestDAO();
-  final BaseAPIDAO _partDAO = PartDAO();
-  final BaseAPIDAO _partOneDAO = PartOneDAO();
+  final BaseDao _bookDAO = BookDao();
+  final BaseDao _testDAO = TestDao();
+  final BaseDao _partDAO = PartDao();
+  final BaseDao _partOneDAO = PartOneDao();
 
   StoreRepositoryImpl();
 
   @override
-  Future<List<BookNetworkObject>> getBookList() async {
+  Future<List<BookDto>> getBookList() async {
     return await _storeApi.getBookListNetwork();
   }
 
   @override
-  Future<bool> saveABookToDb(BookNetworkObject networkBookInfoModel) async {
+  Future<bool> saveABookToDb(BookDto networkBookInfoModel) async {
     //save bookData to database book list
     bool res = await _bookDAO.addItem(
         networkBookInfoModel.toHiveObject(), networkBookInfoModel.id);
@@ -40,9 +38,8 @@ class StoreRepositoryImpl implements StoreRepository {
   }
 
   Future<bool> _saveTestsToDb(String tests_url) async {
-    List<TestNetworkObject> testNetworkObjectList =
-        await _storeApi.getTestListNetwork(tests_url);
-    for (final testNetworkObject in testNetworkObjectList) {
+    List<TestDto> testDtoList = await _storeApi.getTestListNetwork(tests_url);
+    for (final testNetworkObject in testDtoList) {
       bool isOk = await _testDAO.addItem(
           testNetworkObject.toBusinessModel().toHiveObject(),
           testNetworkObject.id);
@@ -55,9 +52,8 @@ class StoreRepositoryImpl implements StoreRepository {
   }
 
   Future<bool> _savePartsToDb(String parts_url) async {
-    List<PartNetworkObject> partNetworkObjectList =
-        await _storeApi.getPartListNetwork(parts_url);
-    for (final partNetworkObject in partNetworkObjectList) {
+    List<PartDto> partDtoList = await _storeApi.getPartListNetwork(parts_url);
+    for (final partNetworkObject in partDtoList) {
       bool isOk = await _partDAO.addItem(
           partNetworkObject.toBusinessModel().toHiveObject(),
           partNetworkObject.id);
@@ -68,7 +64,7 @@ class StoreRepositoryImpl implements StoreRepository {
   }
 
   Future<bool> _savePartOneQuestionToDb(String part_one_question_url) async {
-    List<PartOneQuestionNetworkObject> partOneQuestionNetworkObjectList =
+    List<PartOneDto> partOneQuestionNetworkObjectList =
         await _storeApi.getPartOneListNetwork(part_one_question_url);
     for (final partOneQuestionNetworkObject
         in partOneQuestionNetworkObjectList) {

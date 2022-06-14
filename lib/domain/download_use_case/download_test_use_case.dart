@@ -1,10 +1,10 @@
 import 'dart:developer';
 import 'dart:io';
 
+import 'package:flutter_toeic_quiz2/core_utils/global_configuration.dart';
 import 'package:flutter_toeic_quiz2/domain/base_use_case/BaseUseCase.dart';
 
-import '../../utils/misc.dart';
-
+import '../../core_utils/core_utils.dart';
 import '../../data/download_manager/test_download_manager_impl.dart';
 
 import '../../data/download_manager/download_manager.dart';
@@ -23,7 +23,7 @@ class DownloadTestUseCase implements BaseUseCase<bool, String> {
     log('$LOG_TAG doDownload() downloadFile relativeUrl: $relativeUrl');
     final String localFilePath = getApplicationDirectory() + "/" + relativeUrl;
     if (await File(localFilePath).exists()) {
-      if (DebugLogEnable) {
+      if (LogEnable) {
         log('$LOG_TAG doDownload() downloadFile file already exits: $localFilePath');
       }
       return Future.value(true);

@@ -1,11 +1,11 @@
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:flutter_toeic_quiz2/core/constants/app_dark_colors.dart';
-import 'package:flutter_toeic_quiz2/core/constants/app_dimensions.dart';
-import 'package:flutter_toeic_quiz2/core/constants/app_light_colors.dart';
 
-import '../../../../core/constants/app_text_styles.dart';
+import '../../../../core_ui/constants/app_dark_colors.dart';
+import '../../../../core_ui/constants/app_dimensions.dart';
+import '../../../../core_ui/constants/app_light_colors.dart';
+import '../../../../core_ui/constants/app_text_styles.dart';
 import '../../../../view_model/home_screen_cubit/home_screen_cubit.dart';
 import '../../widgets/neumorphism_button.dart';
 
@@ -125,7 +125,10 @@ class AnswerButtonNeumorphic extends StatelessWidget {
             onPressed: callBack,
             child: Text(
               title,
-              style: isDarkMode ? AppTextStyles.kTextAnswerBoard.copyWith(color: AppDarkColors.kTextAnswerBoard) : AppTextStyles.kTextAnswerBoard,
+              style: isDarkMode
+                  ? AppTextStyles.kTextAnswerBoard
+                      .copyWith(color: AppDarkColors.kTextAnswerBoard)
+                  : AppTextStyles.kTextAnswerBoard,
             ),
             backgroundColor: isSelected.value == id
                 ? AppLightColors.kAnswerButtonColorSelected

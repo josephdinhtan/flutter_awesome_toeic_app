@@ -1,6 +1,6 @@
 import 'package:bloc/bloc.dart';
-import '../../../data/business_models/part_models/answer_enum.dart';
-import '../../../data/business_models/part_models/part_five_model.dart';
+import '../../../data/business_models/execute_models/answer_enum.dart';
+import '../../../data/business_models/execute_models/part_five_model.dart';
 import '../../../domain/execute_use_cases/get_part_five_question_list_use_case.dart';
 import '../../../presentation/screens/execute_screen/widgets/answer_sheet_panel.dart';
 

@@ -8,7 +8,7 @@ import 'package:flutter_toeic_quiz2/data/download_manager/download_constant.dart
 import 'package:flutter_toeic_quiz2/data/download_manager/download_manager.dart';
 import 'package:permission_handler/permission_handler.dart';
 
-import '../../utils/misc.dart';
+import '../../core_utils/core_utils.dart';
 
 final String LOG_TAG = "TestDownloadManagerImpl";
 

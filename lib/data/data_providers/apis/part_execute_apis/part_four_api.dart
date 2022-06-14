@@ -1,9 +1,41 @@
+import 'package:flutter_toeic_quiz2/data/data_providers/apis/base_api/base_api.dart';
+import 'package:flutter_toeic_quiz2/data/data_providers/dtos/part_dto/part_four_dto.dart';
 
-import '../../../business_models/part_models/answer_enum.dart';
-import '../../../business_models/part_models/part_four_model.dart';
+import '../../../business_models/execute_models/answer_enum.dart';
+import '../../../business_models/execute_models/part_four_model.dart';
 
-class PartFourApi {
-  Future<List<PartFourModel>> getQuestionList() async {
+class PartFourApi implements BaseApi<PartFourModel, PartFourDto> {
+  @override
+  Future<bool> addItem(PartFourDto item, String hiveId) {
+    // TODO: implement addItem
+    throw UnimplementedError();
+  }
+
+  @override
+  Future<List<PartFourModel>> getAllItems(List<String> hiveIds) {
+    // TODO: implement getAllItems
+    throw UnimplementedError();
+  }
+
+  @override
+  Future<PartFourModel?> getItem(String hiveId) {
+    // TODO: implement getItem
+    throw UnimplementedError();
+  }
+
+  @override
+  Future<bool> removeItem(String hiveId) {
+    // TODO: implement removeItem
+    throw UnimplementedError();
+  }
+
+  @override
+  Future<bool> updateItem(PartFourDto item) {
+    // TODO: implement updateItem
+    throw UnimplementedError();
+  }
+
+  Future<List<PartFourModel>> getFakeQuestionList() async {
     final List<PartFourModel> demoResult = [];
 
     demoResult.add(PartFourModel(

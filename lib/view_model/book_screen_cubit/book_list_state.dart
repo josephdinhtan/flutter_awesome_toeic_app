@@ -7,7 +7,7 @@ class BookListInitial extends BookListState {}
 class BookListLoading extends BookListState {}
 
 class BookListLoaded extends BookListState {
-  List<BookInfoModel> bookListModel;
+  List<BookModel> bookListModel;
   BookListLoaded({required this.bookListModel});
 }
 

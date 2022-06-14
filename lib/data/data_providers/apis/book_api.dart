@@ -1,25 +1,23 @@
-import 'package:flutter_toeic_quiz2/data/business_models/base_model/base_business_model.dart';
-import 'package:flutter_toeic_quiz2/data/data_providers/apis/base_api.dart';
-import 'package:flutter_toeic_quiz2/data/data_providers/network_response_models/base_network_object/network_base_object.dart';
+import 'package:flutter_toeic_quiz2/data/data_providers/apis/base_api/base_api.dart';
 
-import '../../business_models/book_info_model.dart';
-import '../network_response_models/book_network_object.dart';
+import '../../business_models/book_model.dart';
+import '../dtos/book_dto.dart';
 
-class BookApi extends BaseApi<BookInfoModel, BookNetworkObject> {
+class BookApi implements BaseApi<BookModel, BookDto> {
   @override
-  Future<bool> addItem(NetworkBaseObject item, String hiveId) {
+  Future<bool> addItem(BookDto item, String hiveId) {
     // TODO: implement addItem
     throw UnimplementedError();
   }
 
   @override
-  Future<List<BaseBusinessModel>> getAllItems(List<String> hiveIds) {
+  Future<List<BookModel>> getAllItems(List<String> hiveIds) {
     // TODO: implement getAllItems
     throw UnimplementedError();
   }
 
   @override
-  Future<BaseBusinessModel?> getItem(String hiveId) {
+  Future<BookModel?> getItem(String hiveId) {
     // TODO: implement getItem
     throw UnimplementedError();
   }
@@ -31,7 +29,7 @@ class BookApi extends BaseApi<BookInfoModel, BookNetworkObject> {
   }
 
   @override
-  Future<bool> updateItem(NetworkBaseObject item) {
+  Future<bool> updateItem(BookDto item) {
     // TODO: implement updateItem
     throw UnimplementedError();
   }
