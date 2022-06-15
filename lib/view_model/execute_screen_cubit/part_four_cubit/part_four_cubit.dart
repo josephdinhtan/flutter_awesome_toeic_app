@@ -1,11 +1,13 @@
+import 'dart:developer';
+
 import 'package:bloc/bloc.dart';
 import 'package:meta/meta.dart';
 
+import '../../../core_utils/core_utils.dart';
 import '../../../data/business_models/execute_models/answer_enum.dart';
 import '../../../data/business_models/execute_models/part_four_model.dart';
-import '../../../data/data_providers/apis/part_execute_apis/part_four_api.dart';
-import '../../../data/repositories/execute_repository/part_four_repository/part_four_repository_impl.dart';
 import '../../../domain/execute_use_cases/get_part_four_question_list_use_case.dart';
+import '../../../presentation/screens/execute_screen/components/media_player.dart';
 import '../../../presentation/screens/execute_screen/widgets/answer_sheet_panel.dart';
 
 part 'part_four_state.dart';
@@ -13,8 +15,7 @@ part 'part_four_state.dart';
 class PartFourCubit extends Cubit<PartFourState> {
   PartFourCubit() : super(PartFourInitial());
 
-  final useCase = GetPartFourQuestionListUserCase(
-      repository: PartFourRepositoryImpl(api: PartFourApi()));
+  final useCase = GetPartFourQuestionListUserCase();
 
   late List<PartFourModel> _partFourQuestionList;
   int _currentQuestionIndex = 0;
@@ -24,20 +25,26 @@ class PartFourCubit extends Cubit<PartFourState> {
   final Map _questionNumberIndexMap = <int, int>{};
   final List<AnswerSheetModel> _answerSheetModel = [];
 
-  Future<void> getInitContent() async {
+  Future<void> getInitContent(List<String> ids) async {
     emit(PartFourLoading());
-    _partFourQuestionList = await useCase.getContent();
+    _partFourQuestionList = await useCase.perform(ids);
     _currentQuestionIndex = 0;
     _questionListSize = _partFourQuestionList.length;
     _userAnswerMap.clear();
     _correctAnsCheckedMap.clear();
     _questionNumberIndexMap.clear();
     for (int i = 0; i < _questionListSize; i++) {
-      for (int questionNumber in _partFourQuestionList[i].questionNumber) {
+      for (int questionNumber in _partFourQuestionList[i].numbers) {
         _questionNumberIndexMap[questionNumber] = i;
       }
     }
+    _playAudio(_partFourQuestionList[_currentQuestionIndex].audioPath);
     notifyData();
+  }
+
+  void _playAudio(String audioRelativePath) {
+    final String audioFullPath = getApplicationDirectory() + audioRelativePath;
+    MediaPlayer().playLocal(audioFullPath);
   }
 
   Future<void> getNextContent() async {
@@ -45,6 +52,7 @@ class PartFourCubit extends Cubit<PartFourState> {
     if (_currentQuestionIndex < _partFourQuestionList.length - 1) {
       _currentQuestionIndex++;
     }
+    _playAudio(_partFourQuestionList[_currentQuestionIndex].audioPath);
     notifyData();
   }
 
@@ -52,17 +60,18 @@ class PartFourCubit extends Cubit<PartFourState> {
     if (_currentQuestionIndex > 0) {
       _currentQuestionIndex--;
     }
+    _playAudio(_partFourQuestionList[_currentQuestionIndex].audioPath);
     notifyData();
   }
 
   void userCheckAnswer() {
     for (int i = 0;
-        i < _partFourQuestionList[_currentQuestionIndex].questionNumber.length;
+        i < _partFourQuestionList[_currentQuestionIndex].numbers.length;
         i++) {
       int questionNumber =
-          _partFourQuestionList[_currentQuestionIndex].questionNumber[i];
+          _partFourQuestionList[_currentQuestionIndex].numbers[i];
       _correctAnsCheckedMap[questionNumber] = UserAnswer.values[
-          _partFourQuestionList[_currentQuestionIndex].correctAnswer[i].index];
+          _partFourQuestionList[_currentQuestionIndex].correctAns[i].index];
     }
     notifyData();
   }
@@ -75,7 +84,7 @@ class PartFourCubit extends Cubit<PartFourState> {
     List<UserAnswer> userAnswerList = [];
     List<UserAnswer> correctAnswer = [];
     for (int questionNumber
-        in _partFourQuestionList[_currentQuestionIndex].questionNumber) {
+        in _partFourQuestionList[_currentQuestionIndex].numbers) {
       if (!_userAnswerMap.containsKey(questionNumber)) {
         _userAnswerMap[questionNumber] = UserAnswer.notAnswer;
       }
@@ -96,17 +105,17 @@ class PartFourCubit extends Cubit<PartFourState> {
   List<AnswerSheetModel> getAnswerSheetData() {
     _answerSheetModel.clear();
     for (int i = 0; i < _partFourQuestionList.length; i++) {
-      for (int j = 0; j < _partFourQuestionList[i].questionNumber.length; j++) {
+      for (int j = 0; j < _partFourQuestionList[i].numbers.length; j++) {
         UserAnswer? userAns =
-            _userAnswerMap[_partFourQuestionList[i].questionNumber[j]];
+            _userAnswerMap[_partFourQuestionList[i].numbers[j]];
         UserAnswer? correctAns =
-            _correctAnsCheckedMap[_partFourQuestionList[i].questionNumber[j]];
+            _correctAnsCheckedMap[_partFourQuestionList[i].numbers[j]];
         int userAnsIdx =
             userAns == null ? UserAnswer.notAnswer.index : userAns.index;
         int correctAnsIdx =
             correctAns == null ? UserAnswer.notAnswer.index : correctAns.index;
         _answerSheetModel.add(AnswerSheetModel(
-            questionNumber: _partFourQuestionList[i].questionNumber[j],
+            questionNumber: _partFourQuestionList[i].numbers[j],
             correctAnswerIndex: correctAnsIdx,
             userSelectedIndex: userAnsIdx));
       }
@@ -115,7 +124,10 @@ class PartFourCubit extends Cubit<PartFourState> {
   }
 
   void goToQuestion(int questionNumber) {
+    //log('questionNumber: ${(questionNumber - 32) ~/ 3}, _currentQuestionIndex: $_currentQuestionIndex');
+    if ((questionNumber - 71) ~/ 3 == _currentQuestionIndex) return;
     _currentQuestionIndex = _questionNumberIndexMap[questionNumber];
+    _playAudio(_partFourQuestionList[_currentQuestionIndex].audioPath);
     notifyData();
   }
 }

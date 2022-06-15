@@ -45,7 +45,6 @@ class _AudioControllerNeumorphicState extends State<AudioControllerNeumorphic> {
   @override
   void initState() {
     isDisposing = false;
-    // TODO: implement initState
     super.initState();
     widget.audioPlayer.onAudioPositionChanged.listen((Duration positionValue) {
       if (isDisposing) return;
@@ -149,7 +148,6 @@ class _AudioControllerNeumorphicState extends State<AudioControllerNeumorphic> {
                   ),
                 ),
                 const SizedBox(width: 6.0),
-                //Text(widget.coverFormatTime(_currentDuration.toInt())),
                 Text(widget.coverFormatTime(_currentDuration.toInt())),
               ],
             ),

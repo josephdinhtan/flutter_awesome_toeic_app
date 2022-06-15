@@ -147,7 +147,7 @@ class AppRouter {
         final args = settings.arguments as ScreenArguments;
         return CupertinoPageRoute(
           builder: (_) => BlocProvider.value(
-            value: _partFourCubit..getInitContent(),
+            value: _partFourCubit..getInitContent(args.childIds),
             child: PartFourScreen(partTitle: args.title),
           ),
         );

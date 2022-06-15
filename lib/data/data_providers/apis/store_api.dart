@@ -8,6 +8,7 @@ import 'package:flutter_toeic_quiz2/data/data_providers/dtos/parts_dto/part_two_
 import 'package:flutter_toeic_quiz2/data/data_providers/dtos/test_dto.dart';
 
 import '../../download_manager/download_constant.dart';
+import '../dtos/parts_dto/part_four_dto.dart';
 import '../dtos/parts_dto/part_three_dto.dart';
 
 class StoreApi {
@@ -48,6 +49,17 @@ class StoreApi {
       partThreeDtoList.add(partThreeDto);
     }
     return partThreeDtoList;
+  }
+
+  Future<List<PartFourDto>> getPartFourListNetwork(String path) async {
+    final List<PartFourDto> partFourDtoList = [];
+    final String jsonString = await _getRawJsonFile(path);
+    List<dynamic> jsonMapList = jsonDecode(jsonString);
+    for (var jsonMap in jsonMapList) {
+      final partFourDto = PartFourDto.fromMap(jsonMap);
+      partFourDtoList.add(partFourDto);
+    }
+    return partFourDtoList;
   }
 
   Future<List<PartDto>> getPartListNetwork(String path) async {

@@ -3,10 +3,12 @@ import 'dart:developer';
 import '../../data_providers/daos/base_dao/base_dao.dart';
 import '../../data_providers/daos/book_dao.dart';
 import '../../data_providers/daos/part_dao.dart';
+import '../../data_providers/daos/part_execute_daos/part_four_dao.dart';
 import '../../data_providers/daos/part_execute_daos/part_one_dao.dart';
 import '../../data_providers/daos/test_dao.dart';
 import '../../data_providers/dtos/book_dto.dart';
 import '../../data_providers/dtos/part_dto.dart';
+import '../../data_providers/dtos/parts_dto/part_four_dto.dart';
 import '../../data_providers/dtos/parts_dto/part_one_dto.dart';
 import '../../data_providers/dtos/parts_dto/part_two_dto.dart';
 import '../../data_providers/dtos/test_dto.dart';
@@ -28,6 +30,7 @@ class StoreRepositoryImpl implements StoreRepository {
   final BaseDao _partOneDao = PartOneDao();
   final BaseDao _partTwoDao = PartTwoDao();
   final BaseDao _partThreeDao = PartThreeDao();
+  final BaseDao _partFourDao = PartFourDao();
 
   StoreRepositoryImpl();
 
@@ -82,6 +85,11 @@ class StoreRepositoryImpl implements StoreRepository {
             return Future.value(false);
           }
           break;
+        case 4:
+          if (!await _savePartFourQuestionToDb(partDto.questions_url)) {
+            return Future.value(false);
+          }
+          break;
       }
       i++;
     }
@@ -116,6 +124,17 @@ class StoreRepositoryImpl implements StoreRepository {
     for (final partThreeDto in partThreeDtoList) {
       bool isOk = await _partThreeDao.addItem(
           partThreeDto.toBusinessModel().toHiveObject(), partThreeDto.id);
+      if (!isOk) return Future.value(false);
+    }
+    return Future.value(true);
+  }
+
+  Future<bool> _savePartFourQuestionToDb(String partThreeQuestionUrl) async {
+    List<PartFourDto> partFourDtoList =
+        await _storeApi.getPartFourListNetwork(partThreeQuestionUrl);
+    for (final partFourDto in partFourDtoList) {
+      bool isOk = await _partFourDao.addItem(
+          partFourDto.toBusinessModel().toHiveObject(), partFourDto.id);
       if (!isOk) return Future.value(false);
     }
     return Future.value(true);

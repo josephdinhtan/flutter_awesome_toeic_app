@@ -6,6 +6,7 @@ abstract class PartFourState {}
 class PartFourInitial extends PartFourState {}
 
 class PartFourLoading extends PartFourState {}
+
 class PartFourContentLoaded extends PartFourState {
   final int currentQuestionNumber;
   final int questionListSize;

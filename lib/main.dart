@@ -1,5 +1,6 @@
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
+import 'data/data_providers/hive_objects/part_execute_hive_object/part_four_hive_object.dart';
 import 'presentation/router/app_router.dart';
 import 'view_model/home_screen_cubit/home_screen_cubit.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -74,6 +75,7 @@ Future<void> globalInitializerForMobile() async {
   Hive.registerAdapter(PartOneHiveObjectAdapter());
   Hive.registerAdapter(PartTwoHiveObjectAdapter());
   Hive.registerAdapter(PartThreeHiveObjectAdapter());
+  Hive.registerAdapter(PartFourHiveObjectAdapter());
   await Firebase.initializeApp(
     options: DefaultFirebaseOptions.currentPlatform,
   );

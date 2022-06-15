@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:flutter_toeic_quiz2/presentation/screens/execute_screen/widgets/audio_controller_neumorphic_widget.dart';
+import '../widgets/audio_controller_neumorphic_widget.dart';
 import '../../../../core_ui/constants/app_dimensions.dart';
 import '../../../../core_ui/constants/app_light_colors.dart';
 import '../../../../core_ui/constants/app_text_styles.dart';
@@ -28,7 +28,6 @@ class PartFourScreen extends StatelessWidget {
               onPressed: () {
                 //_showMyDialog();
                 //BlocProvider.of<PartOneCubit>(context).getContent();
-
                 showDialog(
                     context: context,
                     builder: (BuildContext buildContext) {
@@ -90,8 +89,7 @@ class PartFourScreen extends StatelessWidget {
                     );
                   }
                   return const LinearProgressIndicator(
-                    value:
-                        0.5, //quizBrain.currentQuestionNumber / quizBrain.totalQuestionNumber,
+                    value: 0.5,
                   );
                 },
               ),
@@ -103,19 +101,19 @@ class PartFourScreen extends StatelessWidget {
                       builder: (context, state) {
                         if (state is PartFourContentLoaded) {
                           final PartFourModel partFourModel =
-                              state.partFourModel as PartFourModel;
+                              state.partFourModel;
                           final correctAnswer = state.correctAnswer;
                           final userAnswer = state.userAnswer;
                           List<Widget> listWidget = [];
                           for (int i = 0;
-                              i < partFourModel.questionNumber.length;
+                              i < partFourModel.numbers.length;
                               i++) {
                             if (i != 0) {
                               listWidget.add(const SizedBox(
                                   height: AppDimensions.kPaddingDefaultDouble));
                             }
                             listWidget.add(Text(
-                              '  ${partFourModel.questionNumber[i]}: ${partFourModel.questions[i]}',
+                              '  ${partFourModel.numbers[i]}: ${partFourModel.questions[i]}',
                               style: AppTextStyles.kTextQuestion,
                             ));
                             listWidget.add(const SizedBox(
@@ -133,7 +131,7 @@ class PartFourScreen extends StatelessWidget {
                               selectChanged: (value) {
                                 BlocProvider.of<PartFourCubit>(context)
                                     .userSelectAnswerChange(
-                                        partFourModel.questionNumber[i],
+                                        partFourModel.numbers[i],
                                         UserAnswer.values[value]);
                               },
                             ));
