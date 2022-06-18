@@ -4,10 +4,11 @@ import 'dart:io';
 import 'dart:typed_data';
 
 import 'package:firebase_storage/firebase_storage.dart';
-import 'package:flutter_toeic_quiz2/core_utils/global_configuration.dart';
-import 'package:flutter_toeic_quiz2/data/download_manager/download_constant.dart';
-import 'package:flutter_toeic_quiz2/data/download_manager/download_manager.dart';
 import 'package:permission_handler/permission_handler.dart';
+
+import '../../core_utils/global_configuration.dart';
+import 'download_constant.dart';
+import 'download_manager.dart';
 
 final String logTag = "BookDownloadManagerImpl";
 
@@ -19,32 +20,32 @@ class BookDownloadManagerImpl implements DownloadManager {
     //final file = File("${appDocDir}file.jpg");
     final localDir = localFireUrl.replaceAll(islandRef.name, '');
     await _createFolder(localDir);
-    if (LogEnable) log("$logTag downloadFile() $localDir");
+    if (logEnable) log("$logTag downloadFile() $localDir");
     final file = File(localFireUrl);
     try {
       final downloadTask = islandRef.writeToFile(file);
       downloadTask.snapshotEvents.listen((taskSnapshot) {
         switch (taskSnapshot.state) {
           case TaskState.running:
-            if (LogEnable) log("$logTag downloadTask: running");
+            if (logEnable) log("$logTag downloadTask: running");
             break;
           case TaskState.paused:
-            if (LogEnable) log("$logTag downloadTask: paused");
+            if (logEnable) log("$logTag downloadTask: paused");
             break;
           case TaskState.success:
-            if (LogEnable) log("$logTag downloadTask: success");
+            if (logEnable) log("$logTag downloadTask: success");
             break;
           case TaskState.canceled:
-            if (LogEnable) log("$logTag downloadTask: canceled");
+            if (logEnable) log("$logTag downloadTask: canceled");
             break;
           case TaskState.error:
-            if (LogEnable) log("$logTag downloadTask: error");
+            if (logEnable) log("$logTag downloadTask: error");
             break;
         }
       });
     } on FirebaseException catch (e) {
       // e.g, e.code == 'canceled'
-      if (LogEnable) log('$logTag downloadFile exception ${e.code}');
+      if (logEnable) log('$logTag downloadFile exception ${e.code}');
     }
     return Future.value(true);
   }
@@ -72,10 +73,10 @@ class BookDownloadManagerImpl implements DownloadManager {
       openAppSettings();
     }
     if ((await path.exists())) {
-      if (LogEnable) log("$logTag _createFolder exist");
+      if (logEnable) log("$logTag _createFolder exist");
     } else {
       path.create(recursive: true);
-      if (LogEnable) {
+      if (logEnable) {
         log("$logTag _createFolder not exist , create path: ${path.path}");
       }
     }

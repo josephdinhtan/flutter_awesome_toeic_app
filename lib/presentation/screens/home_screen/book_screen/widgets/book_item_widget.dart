@@ -2,9 +2,9 @@ import 'dart:io';
 
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_toeic_quiz2/data/business_models/book_model.dart';
-import 'package:flutter_toeic_quiz2/presentation/router/app_router.dart';
-import 'package:flutter_toeic_quiz2/presentation/router/screen_arguments.dart';
+import '../../../../../data/business_models/book_model.dart';
+import '../../../../router/app_router.dart';
+import '../../../../router/screen_arguments.dart';
 
 import '../../../../../core_ui/constants/app_dimensions.dart';
 import '../../../../../core_utils/core_utils.dart';

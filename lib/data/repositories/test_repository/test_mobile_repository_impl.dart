@@ -1,16 +1,14 @@
-import 'package:flutter_toeic_quiz2/data/data_providers/daos/base_dao/base_dao.dart';
-import 'package:flutter_toeic_quiz2/data/data_providers/daos/test_dao.dart';
-
 import '../../business_models/test_model.dart';
+import '../../data_providers/daos/test_dao.dart';
+import '../../di/injection.dart';
 import 'test_repository.dart';
-import 'package:flutter/foundation.dart' show kIsWeb;
 
-class TestRepositoryImpl implements TestRepository {
-  BaseDao _dao = TestDao();
+class TestMobileRepositoryImpl implements TestRepository {
+  final _dao = getIt.get<TestDao>();
 
   @override
   Future<List<TestModel>> getTestList(List<String> hiveIds) async {
-    return await _dao.getAllItems(hiveIds) as List<TestModel>;
+    return await _dao.queryAll(hiveIds) as List<TestModel>;
   }
 
   @override

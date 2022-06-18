@@ -1,39 +1,40 @@
 import 'dart:developer';
 
-import 'package:flutter_toeic_quiz2/core_utils/global_configuration.dart';
 import 'package:hive/hive.dart';
+
+import '../../../../core_utils/global_configuration.dart';
 import '../../../business_models/execute_models/part_one_model.dart';
-import '../box_name.dart';
 import '../../hive_objects/part_execute_hive_object/part_one_hive_object.dart';
 import '../base_dao/base_dao.dart';
+import '../box_name.dart';
 
 const _logTag = "PartOneDAO";
 
 class PartOneDao implements BaseDao<PartOneModel, PartOneHiveObject> {
   @override
-  Future<bool> addItem(HiveObject item, String hiveId) async {
-    if (LogEnable) log("$_logTag addItem() item: $item, hiveId: $hiveId");
+  Future<bool> insert(HiveObject item, String hiveId) async {
+    if (logEnable) log("$_logTag addItem() item: $item, hiveId: $hiveId");
     try {
-      if (LogEnable) log("$_logTag addItem() openBox started");
+      if (logEnable) log("$_logTag addItem() openBox started");
       await Hive.openBox(BoxName.PART_ONE_BOX_NAME);
-      if (LogEnable) log("$_logTag addItem() openBox done");
+      if (logEnable) log("$_logTag addItem() openBox done");
     } catch (e) {
-      if (LogEnable) log("$_logTag addItem() ${e.toString()}");
+      if (logEnable) log("$_logTag addItem() ${e.toString()}");
       return false;
     }
     final partOneBox = Hive.box(BoxName.PART_ONE_BOX_NAME);
-    if (LogEnable) {
+    if (logEnable) {
       log("$_logTag addItem() partOneBox.length: ${partOneBox.length}");
     }
 
     await partOneBox.put(hiveId, item);
-    if (LogEnable) log("$_logTag addItem() partOneBox put done");
+    if (logEnable) log("$_logTag addItem() partOneBox put done");
     return true;
   }
 
   @override
-  Future<List<PartOneModel>> getAllItems(List<String> hiveIds) async {
-    if (LogEnable) log("$_logTag getAllItems() hiveId: $hiveIds");
+  Future<List<PartOneModel>> queryAll(List<String> hiveIds) async {
+    if (logEnable) log("$_logTag getAllItems() hiveId: $hiveIds");
     List<PartOneModel> partOneModelList = [];
     try {
       await Hive.openBox(BoxName.PART_ONE_BOX_NAME);
@@ -41,12 +42,12 @@ class PartOneDao implements BaseDao<PartOneModel, PartOneHiveObject> {
       return partOneModelList;
     }
     final partOneBox = Hive.box(BoxName.PART_ONE_BOX_NAME);
-    if (LogEnable) log("$_logTag getAllItems() trying get partOne...");
+    if (logEnable) log("$_logTag getAllItems() trying get partOne...");
     for (String hiveId in hiveIds) {
-      if (LogEnable) log("$_logTag getAllItems() partOneHiveId: $hiveId");
+      if (logEnable) log("$_logTag getAllItems() partOneHiveId: $hiveId");
       final partOneHiveObjectList = partOneBox.get(hiveId, defaultValue: null);
       if (partOneHiveObjectList == null) break;
-      if (LogEnable) {
+      if (logEnable) {
         log("$_logTag getAllItems() testHiveObjectList: $partOneHiveObjectList");
       }
       final partOneInfoModel = PartOneModel.fromHiveObject(
@@ -57,7 +58,7 @@ class PartOneDao implements BaseDao<PartOneModel, PartOneHiveObject> {
   }
 
   @override
-  Future<PartOneModel?> getItem(String hiveId) async {
+  Future<PartOneModel?> query(String hiveId) async {
     try {
       await Hive.openBox(BoxName.PART_ONE_BOX_NAME);
     } catch (e) {
@@ -69,7 +70,7 @@ class PartOneDao implements BaseDao<PartOneModel, PartOneHiveObject> {
   }
 
   @override
-  Future<bool> removeItem(String hiveId) async {
+  Future<bool> delete(String hiveId) async {
     try {
       await Hive.openBox(BoxName.PART_ONE_BOX_NAME);
     } catch (e) {
@@ -82,7 +83,7 @@ class PartOneDao implements BaseDao<PartOneModel, PartOneHiveObject> {
   }
 
   @override
-  Future<bool> updateItem(HiveObject item) {
+  Future<bool> update(HiveObject item) {
     // TODO: implement updateItem
     throw UnimplementedError();
   }

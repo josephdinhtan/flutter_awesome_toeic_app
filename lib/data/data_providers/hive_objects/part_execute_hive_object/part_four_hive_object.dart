@@ -16,7 +16,7 @@ class PartFourHiveObject extends HiveObject {
   @HiveField(4)
   List<int> numbers;
   @HiveField(5)
-  List<int> correctAnsIndexs;
+  List<int> correctAnsIndexes;
   @HiveField(6)
   List<String> questions;
   @HiveField(7)
@@ -28,7 +28,7 @@ class PartFourHiveObject extends HiveObject {
     required this.picturePath,
     required this.statement,
     required this.numbers,
-    required this.correctAnsIndexs,
+    required this.correctAnsIndexes,
     required this.questions,
     required this.answers,
   });

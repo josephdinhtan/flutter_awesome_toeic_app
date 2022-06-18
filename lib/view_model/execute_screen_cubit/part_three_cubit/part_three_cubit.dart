@@ -6,6 +6,7 @@ import 'package:meta/meta.dart';
 import '../../../core_utils/core_utils.dart';
 import '../../../data/business_models/execute_models/answer_enum.dart';
 import '../../../data/business_models/execute_models/part_three_model.dart';
+import '../../../data/di/injection.dart';
 import '../../../domain/execute_use_cases/get_part_three_question_list_use_case.dart';
 import '../../../presentation/screens/execute_screen/components/media_player.dart';
 import '../../../presentation/screens/execute_screen/widgets/answer_sheet_panel.dart';
@@ -15,7 +16,7 @@ part 'part_three_state.dart';
 class PartThreeCubit extends Cubit<PartThreeState> {
   PartThreeCubit() : super(PartThreeInitial());
 
-  final useCase = GetPartThreeQuestionListUserCase();
+  final useCase = getIt.get<GetPartThreeQuestionListUseCase>();
 
   late List<PartThreeModel> _partThreeQuestionList;
   int _currentQuestionIndex = 0;

@@ -1,5 +1,5 @@
-
 import 'package:flutter/material.dart';
+
 import 'download_controller.dart';
 import 'download_status.dart';
 

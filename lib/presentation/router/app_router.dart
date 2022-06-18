@@ -3,9 +3,10 @@ import 'dart:developer';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:flutter_toeic_quiz2/core_utils/global_configuration.dart';
+import '../../core_utils/global_configuration.dart';
 import '../../core_ui/exceptions/route_exception.dart';
 import '../../data/business_models/book_model.dart';
+import '../../data/di/injection.dart';
 import '../screens/execute_screen/part_one_screen/part_one_screen.dart';
 import '../screens/execute_screen/part_seven_screen/part_seven_screen.dart'
     show PartSevenScreen;
@@ -48,19 +49,19 @@ class AppRouter {
   static const String part6Exam = '/part6exam';
   static const String part7Exam = '/part7exam';
 
-  final BookListCubit _bookListCubit = BookListCubit();
-  final StoreScreenCubit _storeScreenCubit = StoreScreenCubit();
-  final TestListCubit _testListCubit = TestListCubit();
-  final TestDownloadCubit _testDownloadCubit = TestDownloadCubit();
+  final BookListCubit _bookListCubit = getIt.get<BookListCubit>();
+  final StoreScreenCubit _storeScreenCubit = getIt.get<StoreScreenCubit>();
+  final TestListCubit _testListCubit = getIt.get<TestListCubit>();
+  final TestDownloadCubit _testDownloadCubit = getIt.get<TestDownloadCubit>();
 
-  final PartListCubit _partListCubit = PartListCubit();
-  final PartOneCubit _partOneCubit = PartOneCubit();
-  final PartTwoCubit _partTwoCubit = PartTwoCubit();
-  final PartThreeCubit _partThreeCubit = PartThreeCubit();
-  final PartFourCubit _partFourCubit = PartFourCubit();
-  final PartFiveCubit _partFiveCubit = PartFiveCubit();
-  final PartSixCubit _partSixCubit = PartSixCubit();
-  final PartSevenCubit _partSevenCubit = PartSevenCubit();
+  final PartListCubit _partListCubit = getIt.get<PartListCubit>();
+  final PartOneCubit _partOneCubit = getIt.get<PartOneCubit>();
+  final PartTwoCubit _partTwoCubit = getIt.get<PartTwoCubit>();
+  final PartThreeCubit _partThreeCubit = getIt.get<PartThreeCubit>();
+  final PartFourCubit _partFourCubit = getIt.get<PartFourCubit>();
+  final PartFiveCubit _partFiveCubit = getIt.get<PartFiveCubit>();
+  final PartSixCubit _partSixCubit = getIt.get<PartSixCubit>();
+  final PartSevenCubit _partSevenCubit = getIt.get<PartSevenCubit>();
 
   //AppRouter._();
 
@@ -95,7 +96,7 @@ class AppRouter {
         );
       case part:
         final args = settings.arguments as ScreenArguments;
-        if (LogEnable) {
+        if (logEnable) {
           log('$_logTag part: args.childIds: ${args.childIds}');
         }
         return CupertinoPageRoute(
@@ -155,7 +156,7 @@ class AppRouter {
         final args = settings.arguments as ScreenArguments;
         return CupertinoPageRoute(
           builder: (_) => BlocProvider.value(
-            value: _partFiveCubit..getInitContent(),
+            value: _partFiveCubit..getInitContent(args.childIds),
             child: PartFiveScreen(partTitle: args.title),
           ),
         );
@@ -163,7 +164,7 @@ class AppRouter {
         final args = settings.arguments as ScreenArguments;
         return CupertinoPageRoute(
           builder: (_) => BlocProvider.value(
-            value: _partSixCubit..getInitContent(),
+            value: _partSixCubit..getInitContent(args.childIds),
             child: PartSixScreen(partTitle: args.title),
           ),
         );
@@ -171,7 +172,7 @@ class AppRouter {
         final args = settings.arguments as ScreenArguments;
         return CupertinoPageRoute(
           builder: (_) => BlocProvider.value(
-            value: _partSevenCubit..getInitContent(),
+            value: _partSevenCubit..getInitContent(args.childIds),
             child: PartSevenScreen(partTitle: args.title),
           ),
         );

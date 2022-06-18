@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 
-// all properties bellow is temporary, need remove all -> coppy from light colors and modify become to dark colors
+// all properties bellow is temporary, need remove all -> copy from light colors and modify become to dark colors
 class AppDarkColors {
   static const kPrimaryDarkColor = Color(0xFFC38FFF);
   static const kCircularProgressColor = Color(0xff40916c);

@@ -22,7 +22,7 @@ class PartFourHiveObjectAdapter extends TypeAdapter<PartFourHiveObject> {
       picturePath: fields[2] as String?,
       statement: fields[3] as String,
       numbers: (fields[4] as List).cast<int>(),
-      correctAnsIndexs: (fields[5] as List).cast<int>(),
+      correctAnsIndexes: (fields[5] as List).cast<int>(),
       questions: (fields[6] as List).cast<String>(),
       answers: (fields[7] as List)
           .map((dynamic e) => (e as List).cast<String>())
@@ -45,7 +45,7 @@ class PartFourHiveObjectAdapter extends TypeAdapter<PartFourHiveObject> {
       ..writeByte(4)
       ..write(obj.numbers)
       ..writeByte(5)
-      ..write(obj.correctAnsIndexs)
+      ..write(obj.correctAnsIndexes)
       ..writeByte(6)
       ..write(obj.questions)
       ..writeByte(7)

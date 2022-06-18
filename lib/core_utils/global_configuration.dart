@@ -1,1 +1,1 @@
-bool LogEnable = true;
+const bool logEnable = true;

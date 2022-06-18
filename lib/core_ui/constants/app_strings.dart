@@ -4,7 +4,7 @@ class AppStrings {
 
   // HomeScreen
   static const homeScreenTitle = 'Home Screen';
-  static const homeScreenCenterText = 'Welcome to Flutterly!';
+  static const homeScreenCenterText = 'Welcome to Flutter!';
 
   static const loading = 'Loading...';
 }

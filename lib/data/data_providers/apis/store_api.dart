@@ -1,21 +1,17 @@
 import 'dart:convert';
 import 'dart:typed_data';
 import 'package:firebase_storage/firebase_storage.dart';
-import 'package:flutter_toeic_quiz2/data/data_providers/dtos/book_dto.dart';
-import 'package:flutter_toeic_quiz2/data/data_providers/dtos/part_dto.dart';
-import 'package:flutter_toeic_quiz2/data/data_providers/dtos/parts_dto/part_one_dto.dart';
-import 'package:flutter_toeic_quiz2/data/data_providers/dtos/parts_dto/part_two_dto.dart';
-import 'package:flutter_toeic_quiz2/data/data_providers/dtos/test_dto.dart';
+import '../dtos/book_dto.dart';
+import '../dtos/part_dto.dart';
+import '../dtos/parts_dto/part_one_dto.dart';
+import '../dtos/parts_dto/part_two_dto.dart';
+import '../dtos/test_dto.dart';
 
 import '../../download_manager/download_constant.dart';
 import '../dtos/parts_dto/part_four_dto.dart';
 import '../dtos/parts_dto/part_three_dto.dart';
 
 class StoreApi {
-  static final StoreApi _singleton = StoreApi._internal();
-  StoreApi._internal();
-  factory StoreApi() => _singleton;
-
   static final List<BookDto> _bookDtoList = [];
 
   Future<List<PartOneDto>> getPartOneListNetwork(String path) async {

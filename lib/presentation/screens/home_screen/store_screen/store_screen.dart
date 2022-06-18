@@ -1,13 +1,11 @@
-import 'dart:convert';
-
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_staggered_grid_view/flutter_staggered_grid_view.dart';
-import 'package:flutter_toeic_quiz2/data/data_providers/dtos/book_dto.dart';
-import 'package:flutter_toeic_quiz2/presentation/screens/home_screen/store_screen/widgets/book_store_item_widget.dart';
-import 'package:flutter_toeic_quiz2/view_model/store_screen_cubit/store_screen_cubit.dart';
 
 import '../../../../core_ui/constants/app_dimensions.dart';
+import '../../../../data/data_providers/dtos/book_dto.dart';
+import '../../../../view_model/store_screen_cubit/store_screen_cubit.dart';
+import 'widgets/book_store_item_widget.dart';
 
 class StoreScreen extends StatelessWidget {
   StoreScreen({Key? key}) : super(key: key);

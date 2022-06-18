@@ -33,7 +33,7 @@ class PartThreeModel implements BaseBusinessModel {
       picturePath: picturePath,
       questions: questions,
       statement: statement,
-      correctAnsIndexs: _AnsToListInt(),
+      correctAnsIndexs: _ansToListInt(),
     );
   }
 
@@ -46,11 +46,11 @@ class PartThreeModel implements BaseBusinessModel {
       picturePath: hiveObject.picturePath,
       questions: hiveObject.questions,
       statement: hiveObject.statement,
-      correctAns: _ListIntToAns(hiveObject.correctAnsIndexs),
+      correctAns: _listIntToAns(hiveObject.correctAnsIndexs),
     );
   }
 
-  List<int> _AnsToListInt() {
+  List<int> _ansToListInt() {
     List<int> correctAnsList = [];
     for (Answer ans in correctAns) {
       correctAnsList.add(ans.index);
@@ -58,7 +58,7 @@ class PartThreeModel implements BaseBusinessModel {
     return correctAnsList;
   }
 
-  static List<Answer> _ListIntToAns(List<int> correctAnswers) {
+  static List<Answer> _listIntToAns(List<int> correctAnswers) {
     List<Answer> correctAnsList = [];
     for (int ans in correctAnswers) {
       correctAnsList.add(Answer.values[ans]);

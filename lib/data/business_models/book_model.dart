@@ -1,4 +1,4 @@
-import 'package:hive/src/object/hive_object.dart';
+import 'package:hive/hive.dart';
 
 import '../data_providers/hive_objects/book_hive_object/book_hive_object.dart';
 import 'base_model/base_business_model.dart';

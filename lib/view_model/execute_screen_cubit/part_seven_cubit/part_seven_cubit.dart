@@ -3,8 +3,7 @@ import 'package:meta/meta.dart';
 
 import '../../../data/business_models/execute_models/answer_enum.dart';
 import '../../../data/business_models/execute_models/part_seven_model.dart';
-import '../../../data/data_providers/apis/part_execute_apis/part_seven_api.dart';
-import '../../../data/repositories/execute_repository/part_seven_repository/part_seven_repository_impl.dart';
+import '../../../data/di/injection.dart';
 import '../../../domain/execute_use_cases/get_part_seven_question_list_use_case.dart';
 import '../../../presentation/screens/execute_screen/widgets/answer_sheet_panel.dart';
 
@@ -13,8 +12,7 @@ part 'part_seven_state.dart';
 class PartSevenCubit extends Cubit<PartSevenState> {
   PartSevenCubit() : super(PartSevenInitial());
 
-  final useCase = GetPartSevenQuestionListUserCase(
-      repository: PartSevenRepositoryImpl(api: PartSevenApi()));
+  final useCase = getIt.get<GetPartSevenQuestionListUseCase>();
 
   late List<PartSevenModel> _partSevenQuestionList;
   int _currentQuestionIndex = 0;
@@ -24,9 +22,9 @@ class PartSevenCubit extends Cubit<PartSevenState> {
   final Map _questionNumberIndexMap = <int, int>{};
   final List<AnswerSheetModel> _answerSheetModel = [];
 
-  Future<void> getInitContent() async {
+  Future<void> getInitContent(List<String> ids) async {
     emit(PartSevenLoading());
-    _partSevenQuestionList = await useCase.getContent();
+    _partSevenQuestionList = await useCase.getContent(ids);
     _currentQuestionIndex = 0;
     _questionListSize = _partSevenQuestionList.length;
     _userAnswerMap.clear();

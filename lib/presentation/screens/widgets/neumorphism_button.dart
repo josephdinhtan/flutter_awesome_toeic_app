@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+
 import 'animations/animation_scale.dart' as animationScale;
 
 class NeumorphismButton extends StatefulWidget {
@@ -55,7 +56,7 @@ class _NeumorphismButtonState extends State<NeumorphismButton> {
                         BoxShadow(
                           color: Colors.grey[500]!,
                           //color: Colors.red!,
-                          offset: const Offset(2,2),
+                          offset: const Offset(2, 2),
                           blurRadius: 6,
                           spreadRadius: 0.1,
                         ),
@@ -68,7 +69,8 @@ class _NeumorphismButtonState extends State<NeumorphismButton> {
                       ]
                     : null),
             child: Padding(
-              padding: const EdgeInsets.symmetric(horizontal: 16.0, vertical: 8),
+              padding:
+                  const EdgeInsets.symmetric(horizontal: 16.0, vertical: 8),
               child: widget.child,
             ),
           ),

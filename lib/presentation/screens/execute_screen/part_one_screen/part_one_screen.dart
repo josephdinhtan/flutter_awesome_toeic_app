@@ -3,16 +3,17 @@ import 'dart:io';
 
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import '../../../../core_utils/global_configuration.dart';
+
 import '../../../../core_ui/constants/app_dimensions.dart';
 import '../../../../core_ui/constants/app_light_colors.dart';
 import '../../../../core_utils/core_utils.dart';
+import '../../../../core_utils/global_configuration.dart';
 import '../../../../data/business_models/execute_models/answer_enum.dart';
-import '../widgets/audio_controller_neumorphic_widget.dart';
 import '../../../../view_model/execute_screen_cubit/part_one_cubit/part_one_cubit.dart';
 import '../components/media_player.dart';
 import '../widgets/answer_board_neumorphic_widget.dart';
 import '../widgets/answer_sheet_panel.dart';
+import '../widgets/audio_controller_neumorphic_widget.dart';
 import '../widgets/bottom_controller_neumorphic_widget.dart';
 
 const _logTag = "PartOneScreen";
@@ -111,7 +112,7 @@ class PartOneScreen extends StatelessWidget {
                             //return Text(partOneModel.picturePath);
                             final String pictureFullPath =
                                 getApplicationDirectory() + state.picturePath;
-                            if (LogEnable) {
+                            if (logEnable) {
                               log('$_logTag pictureFullPath: $pictureFullPath');
                             }
                             return ClipRRect(

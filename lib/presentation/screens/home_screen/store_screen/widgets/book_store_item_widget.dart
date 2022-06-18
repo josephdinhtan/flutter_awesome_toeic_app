@@ -1,39 +1,19 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:flutter_toeic_quiz2/data/data_providers/dtos/book_dto.dart';
-import 'package:flutter_toeic_quiz2/view_model/book_screen_cubit/book_list_cubit.dart';
-import 'package:flutter_toeic_quiz2/view_model/store_screen_cubit/store_screen_popup_cubit.dart';
 
 import '../../../../../core_ui/constants/app_dimensions.dart';
+import '../../../../../core_ui/constants/transparent_image.dart';
+import '../../../../../data/data_providers/dtos/book_dto.dart';
+import '../../../../../view_model/book_screen_cubit/book_list_cubit.dart';
+import '../../../../../view_model/store_screen_cubit/store_screen_popup_cubit.dart';
 import 'book_store_item_popup_widget.dart';
 
-class BookStoreItemWidget extends StatefulWidget {
+class BookStoreItemWidget extends StatelessWidget {
   final BookDto bookNetworkObject;
   bool isBought;
   BookStoreItemWidget(
       {Key? key, required this.bookNetworkObject, this.isBought = false})
       : super(key: key);
-
-  @override
-  State<BookStoreItemWidget> createState() => _BookStoreItemWidgetState();
-}
-
-class _BookStoreItemWidgetState extends State<BookStoreItemWidget> {
-  String bookCoverLink = '';
-
-  @override
-  void initState() {
-    super.initState();
-    updateImageCover();
-  }
-
-  void updateImageCover() async {
-    await Future.delayed(const Duration(milliseconds: 500));
-    setState(() {
-      bookCoverLink = widget.bookNetworkObject.full_cover_url;
-    });
-  }
-
   @override
   Widget build(BuildContext context) {
     return GestureDetector(
@@ -44,7 +24,7 @@ class _BookStoreItemWidgetState extends State<BookStoreItemWidget> {
             builder: (BuildContext buildContext) {
               return AlertDialog(
                 scrollable: true,
-                title: Center(child: Text(widget.bookNetworkObject.title)),
+                title: Center(child: Text(bookNetworkObject.title)),
                 contentPadding:
                     const EdgeInsets.symmetric(horizontal: 6.0, vertical: 16.0),
                 content: BlocProvider.value(
@@ -52,8 +32,8 @@ class _BookStoreItemWidgetState extends State<BookStoreItemWidget> {
                   child: BlocProvider.value(
                     value: BlocProvider.of<BookListCubit>(context),
                     child: BookStoreItemPopupWidget(
-                      bookNetworkObject: widget.bookNetworkObject,
-                      isBought: widget.bookNetworkObject.isBought,
+                      bookNetworkObject: bookNetworkObject,
+                      isBought: bookNetworkObject.isBought,
                     ),
                   ),
                 ),
@@ -68,31 +48,39 @@ class _BookStoreItemWidgetState extends State<BookStoreItemWidget> {
             children: [
               ClipRRect(
                 borderRadius: const BorderRadius.all(Radius.circular(8.0)),
-                child: bookCoverLink == ''
-                    ? const Center(
-                        child: Padding(
-                        padding: EdgeInsets.all(8.0),
-                        child: SizedBox(
-                            height: 200,
-                            child: Center(child: Text('Loading...'))),
-                      ))
-                    : Image.network(
-                        bookCoverLink,
-                        fit: BoxFit.cover,
-                      ),
+                child: FadeInImage.memoryNetwork(
+                  placeholder: kTransparentImage,
+                  image: bookNetworkObject.full_cover_url,
+                ),
+
+                // child: Image.network(
+                //   widget.bookNetworkObject.full_cover_url,
+                //   fit: BoxFit.cover,
+                //   loadingBuilder: (BuildContext context, Widget child,
+                //       ImageChunkEvent? loadingProgress) {
+                //     if (loadingProgress == null) return child;
+                //     return const Center(
+                //         child: Padding(
+                //       padding: EdgeInsets.all(8.0),
+                //       child: SizedBox(
+                //           height: 200,
+                //           child: Center(child: Text('Loading...'))),
+                //     ));
+                //   },
+                // ),
               ),
               Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   const SizedBox(height: AppDimensions.kPaddingDefault),
                   Text(
-                    widget.bookNetworkObject.title,
+                    bookNetworkObject.title,
                     style: Theme.of(context).textTheme.headline3,
                   ),
                   const SizedBox(height: AppDimensions.kPaddingDefault),
-                  widget.bookNetworkObject.price != 0
+                  bookNetworkObject.price != ""
                       ? Text(
-                          "${widget.bookNetworkObject.price}K",
+                          "${bookNetworkObject.price}K",
                           style: const TextStyle(
                               fontWeight: FontWeight.bold, fontSize: 18.0),
                         )
@@ -103,7 +91,7 @@ class _BookStoreItemWidgetState extends State<BookStoreItemWidget> {
                                   BorderRadius.all(Radius.circular(5.0))),
                           child: Padding(
                             padding: const EdgeInsets.all(4.0),
-                            child: widget.isBought
+                            child: isBought
                                 ? const Text(
                                     'You already get it',
                                     style: TextStyle(

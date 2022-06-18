@@ -1,38 +1,36 @@
-import 'package:flutter_toeic_quiz2/data/business_models/base_model/base_business_model.dart';
-import 'package:flutter_toeic_quiz2/data/data_providers/apis/base_api/base_api.dart';
-import 'package:flutter_toeic_quiz2/data/data_providers/dtos/base_dto/base_dto.dart';
+import '../base_api/base_api.dart';
+import '../../dtos/parts_dto/part_two_dto.dart';
 
-import '../../../business_models/execute_models/answer_enum.dart';
 import '../../../business_models/execute_models/part_two_model.dart';
 
-class PartTwoApi implements BaseApi {
+class PartTwoApi implements BaseApi<PartTwoModel, PartTwoDto> {
   @override
-  Future<bool> addItem(BaseDto<BaseBusinessModel> item, String hiveId) {
-    // TODO: implement addItem
+  Future<bool> delete(String hiveId) {
+    // TODO: implement delete
     throw UnimplementedError();
   }
 
   @override
-  Future<List<BaseBusinessModel>> getAllItems(List<String> hiveIds) {
-    // TODO: implement getAllItems
+  Future<bool> insert(PartTwoDto item, String hiveId) {
+    // TODO: implement insert
     throw UnimplementedError();
   }
 
   @override
-  Future<BaseBusinessModel?> getItem(String hiveId) {
-    // TODO: implement getItem
+  Future<PartTwoModel?> query(String hiveId) {
+    // TODO: implement query
     throw UnimplementedError();
   }
 
   @override
-  Future<bool> removeItem(String hiveId) {
-    // TODO: implement removeItem
+  Future<List<PartTwoModel>> queryAll(List<String> hiveIds) {
+    // TODO: implement queryAll
     throw UnimplementedError();
   }
 
   @override
-  Future<bool> updateItem(BaseDto<BaseBusinessModel> item) {
-    // TODO: implement updateItem
+  Future<bool> update(PartTwoDto item) {
+    // TODO: implement update
     throw UnimplementedError();
   }
 }

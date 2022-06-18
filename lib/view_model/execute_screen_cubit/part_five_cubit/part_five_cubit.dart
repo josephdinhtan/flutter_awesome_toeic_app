@@ -1,4 +1,5 @@
 import 'package:bloc/bloc.dart';
+
 import '../../../data/business_models/execute_models/answer_enum.dart';
 import '../../../data/business_models/execute_models/part_five_model.dart';
 import '../../../domain/execute_use_cases/get_part_five_question_list_use_case.dart';
@@ -18,9 +19,9 @@ class PartFiveCubit extends Cubit<PartFiveState> {
   final Map _questionNumberIndexMap = <int, int>{};
   final List<AnswerSheetModel> _answerSheetModel = [];
 
-  Future<void> getInitContent() async {
+  Future<void> getInitContent(List<String> ids) async {
     emit(PartFiveLoading());
-    _partFiveQuestionList = await useCase.perform(() {});
+    _partFiveQuestionList = await useCase.perform(ids);
     _currentQuestionIndex = 0;
     _questionListSize = _partFiveQuestionList.length;
     _userAnswerMap.clear();

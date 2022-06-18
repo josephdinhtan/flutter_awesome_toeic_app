@@ -1,8 +1,6 @@
 // ignore_for_file: public_member_api_docs, sort_constructors_first
 import 'package:hive/hive.dart';
 
-import '../../../business_models/part_model.dart';
-
 part 'part_hive_object.g.dart';
 
 @HiveType(typeId: 3)

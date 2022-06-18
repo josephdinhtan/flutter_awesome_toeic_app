@@ -2,11 +2,11 @@ import 'dart:developer';
 
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import '../../../../../data/data_providers/dtos/book_dto.dart';
+
 import '../../../../../core_ui/constants/app_light_colors.dart';
+import '../../../../../data/data_providers/dtos/book_dto.dart';
 import '../../../../../view_model/book_screen_cubit/book_list_cubit.dart';
 import '../../../../../view_model/store_screen_cubit/store_screen_popup_cubit.dart';
-
 import '../../../widgets/neumorphism_button.dart';
 
 class BookStoreItemPopupWidget extends StatelessWidget {

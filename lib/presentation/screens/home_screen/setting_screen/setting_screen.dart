@@ -1,10 +1,8 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:flutter_toeic_quiz2/view_model/home_screen_cubit/home_screen_cubit.dart';
 
-import '../../../../main.dart';
-import '../../widgets/neumorphism_button.dart';
+import '../../../../view_model/home_screen_cubit/home_screen_cubit.dart';
 
 class SettingScreen extends StatefulWidget {
   SettingScreen({Key? key}) : super(key: key);
@@ -81,10 +79,11 @@ class _SettingScreenState extends State<SettingScreen> {
                           darkModeEnable = value;
                           if (darkModeEnable) {
                             //MyApp.of(context).changeTheme(ThemeMode.dark);
-                            BlocProvider.of<HomeScreenCubit>(context).changeTheme(ThemeMode.dark);
+                            BlocProvider.of<HomeScreenCubit>(context)
+                                .changeTheme(ThemeMode.dark);
                           } else {
-
-                            BlocProvider.of<HomeScreenCubit>(context).changeTheme(ThemeMode.light);
+                            BlocProvider.of<HomeScreenCubit>(context)
+                                .changeTheme(ThemeMode.light);
                           }
                         });
                       },

@@ -1,7 +1,7 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:flutter_toeic_quiz2/presentation/screens/execute_screen/widgets/add_favorite_question_panel.dart';
+import '../widgets/add_favorite_question_panel.dart';
 import '../../../../core_ui/constants/app_dimensions.dart';
 import '../../../../core_ui/constants/app_light_colors.dart';
 import '../../../../core_ui/constants/app_text_styles.dart';

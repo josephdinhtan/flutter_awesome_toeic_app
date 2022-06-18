@@ -18,10 +18,10 @@ class PartSevenModel implements BaseBusinessModel {
 }
 
 class PartSevenStatement {
-  PartSevenStatementTyle style;
+  PartSevenStatementType style;
   String stringData;
 
   PartSevenStatement({required this.style, required this.stringData});
 }
 
-enum PartSevenStatementTyle { TEXT, IMAGE }
+enum PartSevenStatementType { TEXT, IMAGE }

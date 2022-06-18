@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:flutter_toeic_quiz2/presentation/screens/execute_screen/widgets/audio_controller_neumorphic_widget.dart';
+
 import '../../../../core_ui/constants/app_dimensions.dart';
 import '../../../../core_ui/constants/app_light_colors.dart';
 import '../../../../core_ui/constants/app_text_styles.dart';
@@ -10,6 +10,7 @@ import '../../../../view_model/execute_screen_cubit/part_two_cubit/part_two_cubi
 import '../components/media_player.dart';
 import '../widgets/answer_board_neumorphic_widget.dart';
 import '../widgets/answer_sheet_panel.dart';
+import '../widgets/audio_controller_neumorphic_widget.dart';
 import '../widgets/bottom_controller_neumorphic_widget.dart';
 
 class PartTwoScreen extends StatelessWidget {

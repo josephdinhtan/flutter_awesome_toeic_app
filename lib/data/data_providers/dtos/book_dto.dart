@@ -2,9 +2,10 @@
 import 'dart:convert';
 
 import 'package:flutter_toeic_quiz2/data/business_models/book_model.dart';
+import 'package:hive/hive.dart';
+
 import '../hive_objects/book_hive_object/book_hive_object.dart';
 import 'base_dto/base_dto.dart';
-import 'package:hive/hive.dart';
 
 class BookDto implements BaseDto<BookModel> {
   String title;

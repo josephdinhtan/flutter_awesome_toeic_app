@@ -1,8 +1,12 @@
 # About project
 
-Awesome Toeic project. Applied Clean architecture, MVVN
+Awesome Toeic project. 
 Provide a tool to learn toeic easier, no more note, audio player, book.
 Just enjoy with all in one application
+Using:
+* Clean architecture
+* MVVM (Bloc state management)
+* Dependency injection
 
 ## Getting Started
 

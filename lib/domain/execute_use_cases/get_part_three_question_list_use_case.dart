@@ -1,17 +1,12 @@
-import 'package:flutter_toeic_quiz2/data/repositories/execute_repository/part_three_repository/part_three_mobile_repository_impl.dart';
-import 'package:flutter_toeic_quiz2/data/repositories/execute_repository/part_three_repository/part_three_repository.dart';
+import '../../data/di/injection.dart';
 
 import '../../data/business_models/execute_models/part_three_model.dart';
+import '../../data/repositories/execute_repository/part_three_repository/part_three_repository.dart';
 import '../base_use_case/BaseUseCase.dart';
 
-class GetPartThreeQuestionListUserCase
+class GetPartThreeQuestionListUseCase
     implements BaseUseCase<List<PartThreeModel>, List<String>> {
-  static final GetPartThreeQuestionListUserCase _singleton =
-      GetPartThreeQuestionListUserCase._internal();
-  GetPartThreeQuestionListUserCase._internal();
-  factory GetPartThreeQuestionListUserCase() => _singleton;
-
-  final PartThreeRepository _repository = PartThreeMobileRepositoryImpl();
+  final _repository = getIt.get<PartThreeRepository>();
 
   @override
   Future<List<PartThreeModel>> perform(ids) async {

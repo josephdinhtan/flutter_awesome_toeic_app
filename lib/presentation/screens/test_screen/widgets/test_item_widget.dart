@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_toeic_quiz2/data/business_models/test_model.dart';
-import 'package:flutter_toeic_quiz2/presentation/router/app_router.dart';
-import 'package:flutter_toeic_quiz2/presentation/router/screen_arguments.dart';
-import 'package:flutter_toeic_quiz2/presentation/screens/test_screen/widgets/download_button.dart';
+import '../../../../data/business_models/test_model.dart';
+import '../../../router/app_router.dart';
+import '../../../router/screen_arguments.dart';
+import 'download_button.dart';
 import 'package:flutter/foundation.dart' show kIsWeb;
 
 import '../../../../core_ui/constants/app_dimensions.dart';

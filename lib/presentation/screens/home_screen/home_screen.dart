@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:flutter_toeic_quiz2/presentation/screens/home_screen/favorite_screen/favorite_screen.dart';
-import 'package:flutter_toeic_quiz2/presentation/screens/home_screen/setting_screen/setting_screen.dart';
-import 'package:flutter_toeic_quiz2/presentation/screens/home_screen/store_screen/store_screen.dart';
-import 'package:flutter_toeic_quiz2/view_model/book_screen_cubit/book_list_cubit.dart';
+import 'favorite_screen/favorite_screen.dart';
+import 'setting_screen/setting_screen.dart';
+import 'store_screen/store_screen.dart';
+import '../../../view_model/book_screen_cubit/book_list_cubit.dart';
 
 import 'book_screen/BookScreen.dart';
 
@@ -15,7 +15,8 @@ class HomeScreen extends StatefulWidget {
 }
 
 class _HomeScreenState extends State<HomeScreen> {
-  late Widget _bookScreen;// = BlocProvider.value(value: BlocProvider.of<BookListCubit>(context), child: const BookScreen(),);
+  late Widget
+      _bookScreen; // = BlocProvider.value(value: BlocProvider.of<BookListCubit>(context), child: const BookScreen(),);
   final Widget _favoriteScreen = const FavoriteScreen();
   final Widget _moreScreen = SettingScreen();
   int _currentIndex = 0;
@@ -25,7 +26,10 @@ class _HomeScreenState extends State<HomeScreen> {
   void initState() {
     super.initState();
     BlocProvider.of<BookListCubit>(context).getBookList();
-    _bookScreen = BlocProvider.value(value: BlocProvider.of<BookListCubit>(context), child: const BookScreen(),);
+    _bookScreen = BlocProvider.value(
+      value: BlocProvider.of<BookListCubit>(context),
+      child: const BookScreen(),
+    );
   }
 
   @override
@@ -55,7 +59,6 @@ class _HomeScreenState extends State<HomeScreen> {
           ],
         ),
       ),
-
       bottomNavigationBar: BottomNavigationBar(
         currentIndex: _currentIndex,
         onTap: (index) {

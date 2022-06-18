@@ -1,11 +1,10 @@
-import 'dart:developer';
-
 import 'package:bloc/bloc.dart';
 import 'package:meta/meta.dart';
 
 import '../../../core_utils/core_utils.dart';
 import '../../../data/business_models/execute_models/answer_enum.dart';
 import '../../../data/business_models/execute_models/part_four_model.dart';
+import '../../../data/di/injection.dart';
 import '../../../domain/execute_use_cases/get_part_four_question_list_use_case.dart';
 import '../../../presentation/screens/execute_screen/components/media_player.dart';
 import '../../../presentation/screens/execute_screen/widgets/answer_sheet_panel.dart';
@@ -15,7 +14,7 @@ part 'part_four_state.dart';
 class PartFourCubit extends Cubit<PartFourState> {
   PartFourCubit() : super(PartFourInitial());
 
-  final useCase = GetPartFourQuestionListUserCase();
+  final useCase = getIt.get<GetPartFourQuestionListUseCase>();
 
   late List<PartFourModel> _partFourQuestionList;
   int _currentQuestionIndex = 0;

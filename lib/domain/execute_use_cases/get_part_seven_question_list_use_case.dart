@@ -1,13 +1,12 @@
-import 'package:flutter_toeic_quiz2/data/repositories/execute_repository/part_seven_repository/part_seven_repository.dart';
+import '../../data/di/injection.dart';
+import '../../data/repositories/execute_repository/part_seven_repository/part_seven_repository.dart';
 
 import '../../data/business_models/execute_models/part_seven_model.dart';
 
-class GetPartSevenQuestionListUserCase {
-  PartSevenRepository repository;
+class GetPartSevenQuestionListUseCase {
+  final _repository = getIt.get<PartSevenRepository>();
 
-  GetPartSevenQuestionListUserCase({required this.repository});
-
-  Future<List<PartSevenModel>> getContent() {
-    return Future.value(repository.getPartSevenQuestionList());
+  Future<List<PartSevenModel>> getContent(List<String> ids) async {
+    return await _repository.getQuestionList(ids);
   }
 }

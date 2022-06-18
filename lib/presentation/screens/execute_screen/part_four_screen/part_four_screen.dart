@@ -1,6 +1,8 @@
+import 'dart:io';
+
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import '../widgets/audio_controller_neumorphic_widget.dart';
+
 import '../../../../core_ui/constants/app_dimensions.dart';
 import '../../../../core_ui/constants/app_light_colors.dart';
 import '../../../../core_ui/constants/app_text_styles.dart';
@@ -11,7 +13,9 @@ import '../../../../view_model/execute_screen_cubit/part_four_cubit/part_four_cu
 import '../components/media_player.dart';
 import '../widgets/answer_board_neumorphic_widget.dart';
 import '../widgets/answer_sheet_panel.dart';
+import '../widgets/audio_controller_neumorphic_widget.dart';
 import '../widgets/bottom_controller_neumorphic_widget.dart';
+import '../widgets/horizontal_split_view.dart';
 
 class PartFourScreen extends StatelessWidget {
   final String partTitle;
@@ -94,58 +98,94 @@ class PartFourScreen extends StatelessWidget {
                 },
               ),
               Expanded(
-                child: SingleChildScrollView(
-                  child: Padding(
-                    padding: const EdgeInsets.all(16.0),
-                    child: BlocBuilder<PartFourCubit, PartFourState>(
-                      builder: (context, state) {
-                        if (state is PartFourContentLoaded) {
-                          final PartFourModel partFourModel =
-                              state.partFourModel;
-                          final correctAnswer = state.correctAnswer;
-                          final userAnswer = state.userAnswer;
-                          List<Widget> listWidget = [];
-                          for (int i = 0;
-                              i < partFourModel.numbers.length;
-                              i++) {
-                            if (i != 0) {
-                              listWidget.add(const SizedBox(
-                                  height: AppDimensions.kPaddingDefaultDouble));
-                            }
-                            listWidget.add(Text(
-                              '  ${partFourModel.numbers[i]}: ${partFourModel.questions[i]}',
-                              style: AppTextStyles.kTextQuestion,
-                            ));
+                child: Padding(
+                  padding: const EdgeInsets.symmetric(vertical: 16.0),
+                  child: BlocBuilder<PartFourCubit, PartFourState>(
+                    builder: (context, state) {
+                      if (state is PartFourContentLoaded) {
+                        final PartFourModel partFourModel = state.partFourModel;
+                        final correctAnswer = state.correctAnswer;
+                        final userAnswer = state.userAnswer;
+                        List<Widget> listWidget = [];
+                        for (int i = 0; i < partFourModel.numbers.length; i++) {
+                          if (i != 0) {
                             listWidget.add(const SizedBox(
-                                height: AppDimensions.kPaddingDefault));
-                            listWidget.add(AnswerBoardNeumorphic(
-                              textA: partFourModel.answers[i][0],
-                              textB: partFourModel.answers[i][1],
-                              textC: partFourModel.answers[i][2],
-                              textD: partFourModel.answers[i].length > 3
-                                  ? partFourModel.answers[i][3]
-                                  : null,
-                              // need modify to check whether user is clicked the answer or not.
-                              correctAns: correctAnswer[i].index,
-                              selectedAns: userAnswer[i].index,
-                              selectChanged: (value) {
-                                BlocProvider.of<PartFourCubit>(context)
-                                    .userSelectAnswerChange(
-                                        partFourModel.numbers[i],
-                                        UserAnswer.values[value]);
-                              },
-                            ));
+                                height: AppDimensions.kPaddingDefaultDouble));
                           }
-                          return Column(
-                            children: listWidget,
-                            crossAxisAlignment: CrossAxisAlignment.start,
+                          listWidget.add(Text(
+                            '  ${partFourModel.numbers[i]}: ${partFourModel.questions[i]}',
+                            style: AppTextStyles.kTextQuestion,
+                          ));
+                          listWidget.add(const SizedBox(
+                              height: AppDimensions.kPaddingDefault));
+                          listWidget.add(AnswerBoardNeumorphic(
+                            textA: partFourModel.answers[i][0],
+                            textB: partFourModel.answers[i][1],
+                            textC: partFourModel.answers[i][2],
+                            textD: partFourModel.answers[i].length > 3
+                                ? partFourModel.answers[i][3]
+                                : null,
+                            // need modify to check whether user is clicked the answer or not.
+                            correctAns: correctAnswer[i].index,
+                            selectedAns: userAnswer[i].index,
+                            selectChanged: (value) {
+                              BlocProvider.of<PartFourCubit>(context)
+                                  .userSelectAnswerChange(
+                                      partFourModel.numbers[i],
+                                      UserAnswer.values[value]);
+                            },
+                          ));
+                        }
+                        if (partFourModel.picturePath != null) {
+                          final String pictureFullPath =
+                              getApplicationDirectory() +
+                                  partFourModel.picturePath!;
+                          return HorizontalSplitView(
+                            color: AppLightColors.kSplitBar,
+                            up: SingleChildScrollView(
+                              child: Padding(
+                                padding: const EdgeInsets.symmetric(
+                                    horizontal: 16.0),
+                                child: Center(
+                                  child: ClipRRect(
+                                    borderRadius: const BorderRadius.all(
+                                        Radius.circular(8.0)),
+                                    child: Image.file(
+                                      fit: BoxFit.contain,
+                                      File(pictureFullPath),
+                                    ),
+                                  ),
+                                ),
+                              ),
+                            ),
+                            bottom: SingleChildScrollView(
+                              child: Padding(
+                                padding: const EdgeInsets.symmetric(
+                                    horizontal: 16.0),
+                                child: Column(
+                                  children: listWidget,
+                                  crossAxisAlignment: CrossAxisAlignment.start,
+                                ),
+                              ),
+                            ),
+                            ratio: 0.3,
                           );
                         }
-                        return const Center(
-                          child: Text('Loading ...'),
+                        return SingleChildScrollView(
+                          child: Padding(
+                            padding:
+                                const EdgeInsets.symmetric(horizontal: 16.0),
+                            child: Column(
+                              children: listWidget,
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                            ),
+                          ),
                         );
-                      },
-                    ),
+                      }
+                      return const Center(
+                        child: Text('Loading ...'),
+                      );
+                    },
                   ),
                 ),
               ),

@@ -1,9 +1,9 @@
-import 'dart:developer';
-
 import 'package:bloc/bloc.dart';
-import 'package:flutter_toeic_quiz2/core_utils/core_utils.dart';
+
+import '../../../core_utils/core_utils.dart';
 import '../../../data/business_models/execute_models/answer_enum.dart';
 import '../../../data/business_models/execute_models/part_two_model.dart';
+import '../../../data/di/injection.dart';
 import '../../../domain/execute_use_cases/get_part_two_question_list_use_case.dart';
 import '../../../presentation/screens/execute_screen/components/media_player.dart';
 import '../../../presentation/screens/execute_screen/widgets/answer_sheet_panel.dart';
@@ -12,7 +12,7 @@ part 'part_two_state.dart';
 
 class PartTwoCubit extends Cubit<PartTwoState> {
   PartTwoCubit() : super(PartTwoInitial());
-  final useCase = GetPartTwoQuestionListUseCase();
+  final useCase = getIt.get<GetPartTwoQuestionListUseCase>();
 
   late List<PartTwoModel> _partTwoQuestionList;
   int _currentQuestionIndex = 0;
