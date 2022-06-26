@@ -1,10 +1,9 @@
 import 'dart:developer';
 
 import 'package:bloc/bloc.dart';
+import 'package:get_it/get_it.dart';
 
-import '../../data/business_models/book_model.dart';
 import '../../data/data_providers/dtos/book_dto.dart';
-import '../../data/di/injection.dart';
 import '../../domain/get_book_detail_use_case/get_list_book_use_case.dart';
 import '../../domain/get_from_network_use_case/get_store_item_list_use_case.dart';
 
@@ -14,8 +13,8 @@ const _logTag = "StoreScreenCubit";
 
 class StoreScreenCubit extends Cubit<StoreScreenState> {
   StoreScreenCubit() : super(StoreScreenInitial());
-  final _getFromStoreBookListUseCase = getIt.get<GetStoreItemListUseCase>();
-  final _getBookListUserCase = getIt.get<GetListBookUseCase>();
+  final _getFromStoreBookListUseCase = GetIt.I.get<GetStoreItemListUseCase>();
+  final _getBookListUserCase = GetIt.I.get<GetListBookUseCase>();
 
   Future<void> getInitContent() async {
     emit(StoreScreenBooksLoading());

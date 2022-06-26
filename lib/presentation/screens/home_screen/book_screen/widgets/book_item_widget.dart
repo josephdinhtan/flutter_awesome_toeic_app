@@ -2,6 +2,9 @@ import 'dart:io';
 
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_toeic_quiz2/core_ui/constants/app_colors/app_color.dart';
+import 'package:flutter_toeic_quiz2/core_ui/constants/app_text_styles.dart';
+import 'package:get_it/get_it.dart';
 import '../../../../../data/business_models/book_model.dart';
 import '../../../../router/app_router.dart';
 import '../../../../router/screen_arguments.dart';
@@ -34,97 +37,23 @@ class BookItemWidget extends StatelessWidget {
             id: bookInfoModel.id,
             childIds: bookInfoModel.testIds,
             otherInfo: bookInfoModel,
-            //id: widget.bookInfoModel.boxId!,
           ),
         );
-        // Navigator.push(
-        //     context,
-        //     CupertinoPageRoute(
-        //       builder: (context) =>
-        //           TestScreen(bookId: toeicBook.id, bookTitle: toeicBook.title),
-        //     ));
       },
       child: Center(
         child: SizedBox(
-          height: 150,
+          height: 130,
           width: width > AppDimensions.maxWidthForMobileMode
               ? AppDimensions.maxWidthForMobileMode
               : null,
-          child: Stack(
-            alignment: Alignment.bottomLeft,
-            children: [
-              Card(
-                child: Container(
-                  color: Colors.transparent,
-                  child: Padding(
-                    padding: const EdgeInsets.only(bottom: 8.0, top: 8.0),
-                    child: Row(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        // SizedBox(width: kPaddingDefault),
-                        // ClipRRect(
-                        //   borderRadius: BorderRadius.all(
-                        //       Radius.circular(kCardRadiusDefault / 2)),
-                        //   child: Image.asset(
-                        //     'assets/images/ets_book_cover.png',
-                        //     fit: BoxFit.cover,
-                        //     width: 80.0,
-                        //     height: 100.0,
-                        //   ),
-                        // ),
-                        Padding(
-                          padding: const EdgeInsets.only(left: 130.0),
-                          child: Container(
-                            height: 100.0,
-                            child: Column(
-                              crossAxisAlignment: CrossAxisAlignment.start,
-                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                              children: [
-                                Column(
-                                  crossAxisAlignment: CrossAxisAlignment.start,
-                                  children: [
-                                    Text('${bookInfoModel.title}',
-                                        style: Theme.of(context)
-                                            .textTheme
-                                            .headline3),
-                                    Text('${bookInfoModel.des}',
-                                        style: Theme.of(context)
-                                            .textTheme
-                                            .headline5),
-                                    Text('5% 887 B',
-                                        style: Theme.of(context)
-                                            .textTheme
-                                            .headline4),
-                                  ],
-                                ),
-                                Container(
-                                  decoration: const BoxDecoration(
-                                      color: Colors.black45,
-                                      borderRadius: BorderRadius.all(
-                                          Radius.circular(5.0))),
-                                  child: const Padding(
-                                    padding: EdgeInsets.all(4.0),
-                                    child: Text(
-                                      'Toeic practice book',
-                                      style: TextStyle(
-                                          fontSize: 10.0, color: Colors.white),
-                                    ),
-                                  ),
-                                ),
-                              ],
-                            ),
-                          ),
-                        ),
-                      ],
-                    ),
-                  ),
-                ),
-              ),
-              Positioned(
-                bottom: 16.0,
-                left: 16.0,
-                child: ClipRRect(
-                  borderRadius: BorderRadius.all(
+          child: Card(
+            child: Row(
+              crossAxisAlignment: CrossAxisAlignment.center,
+              mainAxisAlignment: MainAxisAlignment.start,
+              children: [
+                const SizedBox(width: 16.0),
+                ClipRRect(
+                  borderRadius: const BorderRadius.all(
                       Radius.circular(AppDimensions.kCardRadiusDefault)),
                   child: Image.file(
                     File(_bookCoverPath),
@@ -133,8 +62,54 @@ class BookItemWidget extends StatelessWidget {
                     height: 120.0,
                   ),
                 ),
-              ),
-            ],
+                const SizedBox(
+                  width: 8.0,
+                ),
+                SizedBox(
+                  height: 120.0,
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      Text(
+                        bookInfoModel.title,
+                        style: AppTextStyles.kOnSurfaceTextPrimary.copyWith(
+                            color: Theme.of(context).colorScheme.onSurface),
+                      ),
+                      const SizedBox(height: 4.0),
+                      Text(
+                        bookInfoModel.des,
+                        style: AppTextStyles.kOnSurfaceTextSecondary.copyWith(
+                            color:
+                                Theme.of(context).colorScheme.onSurfaceVariant),
+                      ),
+                      const SizedBox(height: 4.0),
+                      Text(
+                        '5% 887 M',
+                        style: AppTextStyles.kOnSurfaceTextSecondary.copyWith(
+                            color:
+                                Theme.of(context).colorScheme.onSurfaceVariant),
+                      ),
+                      const SizedBox(height: 4.0),
+                      Container(
+                        decoration: const BoxDecoration(
+                            color: Colors.black45,
+                            borderRadius:
+                                BorderRadius.all(Radius.circular(5.0))),
+                        child: const Padding(
+                          padding: EdgeInsets.all(4.0),
+                          child: Text(
+                            'Toeic practice book',
+                            style:
+                                TextStyle(fontSize: 10.0, color: Colors.white),
+                          ),
+                        ),
+                      ),
+                    ],
+                  ),
+                ),
+              ],
+            ),
           ),
         ),
       ),

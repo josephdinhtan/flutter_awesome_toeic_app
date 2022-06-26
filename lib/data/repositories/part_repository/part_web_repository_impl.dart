@@ -1,8 +1,9 @@
 import 'dart:developer';
 
+import 'package:get_it/get_it.dart';
+
 import '../../../core_utils/global_configuration.dart';
 import '../../data_providers/apis/part_api.dart';
-import '../../di/injection.dart';
 
 import '../../business_models/part_model.dart';
 import 'part_repository.dart';
@@ -10,7 +11,7 @@ import 'part_repository.dart';
 const _logTag = "PartRepositoryImpl";
 
 class PartWebRepositoryImpl implements PartRepository {
-  final _api = getIt.get<PartApi>();
+  final _api = GetIt.I.get<PartApi>();
 
   @override
   Future<List<PartModel>> getPartList(List<String> ids) async {

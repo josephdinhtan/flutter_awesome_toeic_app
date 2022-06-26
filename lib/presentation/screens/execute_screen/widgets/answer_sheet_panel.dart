@@ -1,5 +1,6 @@
 // ignore_for_file: must_be_immutable
 
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
 class AnswerSheetPanel extends StatelessWidget {
@@ -32,7 +33,10 @@ class AnswerSheetPanel extends StatelessWidget {
     _displayList.clear();
     for (AnswerSheetModel answerSheetModel in answerSheetData) {
       _displayList.add(
-        const Divider(height: 0.5, thickness: 1, color: Color(0x1000001B)),
+        const Divider(
+            height: 0.5,
+            thickness: 1,
+            color: Color.fromARGB(40, 129, 129, 129)),
       );
       _displayList.add(
         AnswerSheetItem(
@@ -44,43 +48,23 @@ class AnswerSheetPanel extends StatelessWidget {
             onPressed: onPressedGoToQuestion),
       );
     }
-    return SizedBox(
-      width: currentWidth > maxWidthForMobile
-          ? 0.7 * maxWidthForMobile
-          : 0.7 * currentWidth,
-      height: 0.7 * currentHeight,
-      child: Column(
-        children: [
-          Expanded(
-            child: SingleChildScrollView(
-              child: Padding(
-                padding: const EdgeInsets.all(8.0),
-                child: ListBody(
-                  children: _displayList,
-                ),
-              ),
-            ),
+    return Column(
+      children: [
+        const Text('Answer sheet'),
+        const SizedBox(height: 16.0),
+        SizedBox(
+          // width: currentWidth > maxWidthForMobile
+          //     ? 0.7 * maxWidthForMobile
+          //     : 0.7 * currentWidth,
+          height: 0.7 * currentHeight,
+          child: ListView.builder(
+            itemBuilder: (context, index) {
+              return _displayList[index];
+            },
+            itemCount: _displayList.length,
           ),
-          const SizedBox(height: 8.0),
-          Row(
-            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-            children: [
-              TextButton(
-                child: const Text('CANCEL'),
-                onPressed: () {
-                  onPressedCancel();
-                },
-              ),
-              TextButton(
-                child: const Text('SUBMIT'),
-                onPressed: () {
-                  onPressedSubmit();
-                },
-              )
-            ],
-          )
-        ],
-      ),
+        ),
+      ],
     );
   }
 }
@@ -128,21 +112,12 @@ class AnswerSheetItem extends StatelessWidget {
     final colorText = (correctAns != 4 &&
             userSelectedAns != 4 &&
             userSelectedAns == correctAns)
-        ? Theme.of(context)
-            .textTheme
-            .headline4
-            ?.copyWith(color: Colors.green, fontWeight: FontWeight.bold)
+        ? const TextStyle(color: Colors.green, fontWeight: FontWeight.bold)
         : (correctAns != 4 &&
                 userSelectedAns != 4 &&
                 userSelectedAns != correctAns)
-            ? Theme.of(context)
-                .textTheme
-                .headline4
-                ?.copyWith(color: Colors.orange, fontWeight: FontWeight.bold)
-            : Theme.of(context)
-                .textTheme
-                .headline4
-                ?.copyWith(fontWeight: FontWeight.normal);
+            ? const TextStyle(color: Colors.orange, fontWeight: FontWeight.bold)
+            : const TextStyle(fontWeight: FontWeight.normal);
     return GestureDetector(
       onTap: () {
         onPressed!(questionNumber);
@@ -161,10 +136,10 @@ class AnswerSheetItem extends StatelessWidget {
                 ),
                 width: 40.0,
               ),
-              AnswerBox('A', colorA),
-              AnswerBox('B', colorB),
-              AnswerBox('C', colorC),
-              AnswerBox('D', colorD),
+              AnswerBox(userSelectedAns == 0 || correctAns == 0, 'A', colorA),
+              AnswerBox(userSelectedAns == 1 || correctAns == 1, 'B', colorB),
+              AnswerBox(userSelectedAns == 2 || correctAns == 2, 'C', colorC),
+              AnswerBox(userSelectedAns == 3 || correctAns == 3, 'D', colorD),
             ],
           ),
         ),
@@ -175,6 +150,7 @@ class AnswerSheetItem extends StatelessWidget {
 
 class AnswerBox extends StatelessWidget {
   AnswerBox(
+    this.isHighLight,
     this.text,
     this.color, {
     Key? key,
@@ -182,6 +158,7 @@ class AnswerBox extends StatelessWidget {
 
   String text;
   Color color;
+  bool isHighLight;
 
   double sizeBox = 25.0;
 
@@ -192,13 +169,16 @@ class AnswerBox extends StatelessWidget {
       height: sizeBox,
       decoration: BoxDecoration(
           color: color,
-          border: Border.all(color: Colors.black12),
+          border: Border.all(color: Colors.grey),
           borderRadius: const BorderRadius.all(Radius.circular(1000))),
       child: Center(
           child: Text(
         text,
         textAlign: TextAlign.center,
-        style: const TextStyle(fontSize: 12.0),
+        style: TextStyle(
+          fontSize: 12.0,
+          color: isHighLight ? Colors.black : Colors.grey,
+        ),
       )),
     );
   }

@@ -4,7 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
 import '../../../core_ui/constants/app_dimensions.dart';
-import '../../../core_ui/constants/app_light_colors.dart';
+import '../../../core_ui/constants/app_colors/app_light_color_impl.dart';
 import '../../../core_utils/global_configuration.dart';
 import '../../../view_model/part_screen_cubit/part_list_cubit.dart';
 import 'widgets/part_item_widget.dart';
@@ -27,17 +27,17 @@ class PartScreen extends StatelessWidget {
         label: Row(
           mainAxisAlignment: MainAxisAlignment.center,
           mainAxisSize: MainAxisSize.min,
-          children: const [
+          children: [
             Icon(
               Icons.play_arrow_rounded,
-              color: AppLightColors.kButtonTextPrimary,
+              color: Theme.of(context).textTheme.button!.color,
             ),
-            SizedBox(
+            const SizedBox(
               width: AppDimensions.kPaddingDefault,
             ),
             Text(
               'START FULL TEST',
-              style: TextStyle(color: AppLightColors.kButtonTextPrimary),
+              style: TextStyle(color: Theme.of(context).colorScheme.secondary),
             ),
           ],
         ),

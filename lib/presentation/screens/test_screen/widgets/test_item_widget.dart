@@ -1,4 +1,6 @@
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_toeic_quiz2/core_ui/constants/app_text_styles.dart';
 import '../../../../data/business_models/test_model.dart';
 import '../../../router/app_router.dart';
 import '../../../router/screen_arguments.dart';
@@ -6,7 +8,7 @@ import 'download_button.dart';
 import 'package:flutter/foundation.dart' show kIsWeb;
 
 import '../../../../core_ui/constants/app_dimensions.dart';
-import '../../../../core_ui/constants/app_light_colors.dart';
+import '../../../../core_ui/constants/app_colors/app_light_color_impl.dart';
 import 'download_handler/database_download_controller.dart';
 import 'download_handler/download_controller.dart';
 import 'download_handler/download_status.dart';
@@ -89,15 +91,16 @@ class _TestItemWidgetState extends State<TestItemWidget> {
                           widget.testInfoModel.memorySize != ''
                               ? '${widget.testInfoModel.numOfQuestion} QUESTIONS - ${widget.testInfoModel.memorySize}'
                               : '${widget.testInfoModel.numOfQuestion} QUESTIONS',
-                          style: Theme.of(context).textTheme.headline5,
+                          style: AppTextStyles.kOnSurfaceTextSecondary.copyWith(
+                              color: Theme.of(context)
+                                  .colorScheme
+                                  .onSurfaceVariant),
                         ),
                         const SizedBox(height: AppDimensions.kPaddingDefault),
                         Text(
                           widget.testInfoModel.title,
-                          style: Theme.of(context)
-                              .textTheme
-                              .headline3
-                              ?.copyWith(color: Colors.black54),
+                          style: AppTextStyles.kOnSurfaceTextPrimary.copyWith(
+                              color: Theme.of(context).colorScheme.onSurface),
                         ),
                       ],
                     ),
@@ -143,7 +146,6 @@ class _TestItemWidgetState extends State<TestItemWidget> {
                               left: AppDimensions.kPaddingDefault),
                           child: LinearProgressIndicator(
                             value: widget.testInfoModel.actualScore! / maxScore,
-                            color: AppLightColors.kCircularProgressColor,
                             backgroundColor: const Color(0xffb7e4c7),
                           ),
                         ),
@@ -153,12 +155,14 @@ class _TestItemWidgetState extends State<TestItemWidget> {
                 else
                   Row(
                     children: [
-                      const Icon(Icons.help_outline_outlined,
-                          color: AppLightColors.kIconColor),
+                      //Icons.help_outline_outlined
+                      const Icon(CupertinoIcons.question_circle),
                       const SizedBox(width: AppDimensions.kPaddingDefault),
                       Text(
                         'You have not studied this test',
-                        style: Theme.of(context).textTheme.headline4,
+                        style: AppTextStyles.kOnSurfaceTextSecondary.copyWith(
+                            color:
+                                Theme.of(context).colorScheme.onSurfaceVariant),
                       ),
                       const SizedBox(width: AppDimensions.kPaddingDefault),
                     ],

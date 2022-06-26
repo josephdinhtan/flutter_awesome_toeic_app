@@ -26,8 +26,8 @@ class _BookScreenState extends State<BookScreen> {
           IconButton(
               onPressed: () {
                 Navigator.pushNamed(context, AppRouter.store);
-              },
-              icon: const Icon(Icons.shopping_cart_outlined)),
+              }, //Icons.shopping_cart_outlined
+              icon: const Icon(CupertinoIcons.cart_badge_plus)),
         ],
       ),
       body: BlocConsumer<BookListCubit, BookListState>(

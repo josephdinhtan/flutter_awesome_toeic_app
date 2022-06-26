@@ -57,8 +57,7 @@ class StoreScreen extends StatelessWidget {
                     return BlocProvider.value(
                       value: BlocProvider.of<StoreScreenCubit>(context),
                       child: BookStoreItemWidget(
-                        bookNetworkObject: bookDtoList[index],
-                        isBought: bookDtoList[index].isBought,
+                        bookDto: bookDtoList[index],
                       ),
                     );
                   },

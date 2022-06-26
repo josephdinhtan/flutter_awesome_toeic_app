@@ -1,7 +1,5 @@
 import 'package:flutter/material.dart';
 
-import 'app_light_colors.dart';
-
 class AppTextStyles {
   static const kTempTextStyle = TextStyle(
     fontFamily: 'Spartan MB',
@@ -23,31 +21,25 @@ class AppTextStyles {
   );
 
   //TextPrimary
-  static const kTextPrimary = TextStyle(
-    color: AppLightColors.kTextPrimary,
+  static const kOnSurfaceTextPrimary = TextStyle(
     fontWeight: FontWeight.bold,
     fontSize: 20.0,
   );
 
   //TextSecondary
-  static const kTextSecondary = TextStyle(
-    color: AppLightColors.kTextSecondary,
-    fontWeight: FontWeight.bold,
+  static const kOnSurfaceTextSecondary = TextStyle(
+    fontWeight: FontWeight.normal,
     fontSize: 15.0,
   );
   static const kTextSecondaryThin = TextStyle(
-    color: AppLightColors.kTextSecondary,
     fontWeight: FontWeight.normal,
     fontSize: 12.0,
   );
 
   //execute test
-  static const kTextAnswerBoard = TextStyle(
-      color: AppLightColors.kTextAnswerBoard,
-      fontSize: 16.0,
-      fontWeight: FontWeight.w400);
+  static const kTextAnswerBoard =
+      TextStyle(fontSize: 16.0, fontWeight: FontWeight.w400);
   static const kTextQuestion = TextStyle(
-    color: AppLightColors.kTextQuestion,
     fontWeight: FontWeight.bold,
     fontSize: 16.0,
   );

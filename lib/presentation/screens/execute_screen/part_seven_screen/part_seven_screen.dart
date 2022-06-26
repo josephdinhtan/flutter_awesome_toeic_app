@@ -1,16 +1,19 @@
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:get_it/get_it.dart';
 
+import '../../../../core_ui/constants/app_colors/app_color.dart';
 import '../../../../core_ui/constants/app_dimensions.dart';
-import '../../../../core_ui/constants/app_light_colors.dart';
+import '../../../../core_ui/constants/app_colors/app_light_color_impl.dart';
 import '../../../../core_ui/constants/app_text_styles.dart';
 import '../../../../core_utils/core_utils.dart';
 import '../../../../data/business_models/execute_models/answer_enum.dart';
 import '../../../../data/business_models/execute_models/part_seven_model.dart';
 import '../../../../view_model/execute_screen_cubit/part_seven_cubit/part_seven_cubit.dart';
-import '../widgets/answer_board_neumorphic_widget.dart';
+import '../widgets/answer_board_widget.dart';
 import '../widgets/answer_sheet_panel.dart';
-import '../widgets/bottom_controller_neumorphic_widget.dart';
+import '../widgets/bottom_controller_widget.dart';
 import '../widgets/horizontal_split_view.dart';
 
 class PartSevenScreen extends StatelessWidget {
@@ -26,42 +29,58 @@ class PartSevenScreen extends StatelessWidget {
         actions: [
           IconButton(
               onPressed: () {
-                //_showMyDialog();
-                //BlocProvider.of<PartSevenCubit>(context).getContent();
-                showDialog(
+                showCupertinoModalPopup(
                     context: context,
+                    //barrierDismissible: false,
                     builder: (BuildContext buildContext) {
-                      return AlertDialog(
-                        scrollable: true,
-                        title: const Center(child: Text('Answer sheet')),
-                        contentPadding: const EdgeInsets.symmetric(
-                            horizontal: 6.0, vertical: 16.0),
-                        content: AnswerSheetPanel(
-                          selectedColor:
-                              AppLightColors.kAnswerButtonColorSelected,
-                          answerColor:
-                              AppLightColors.kAnswerButtonColorCorrectAns,
-                          answerSheetData:
+                      return SizedBox(
+                        width: width > AppDimensions.maxWidthForMobileMode
+                            ? 0.7 * AppDimensions.maxWidthForMobileMode
+                            : 0.9 * width,
+                        child: CupertinoActionSheet(
+                          cancelButton: CupertinoDialogAction(
+                            /// This parameter indicates the action would perform
+                            /// a destructive action such as delete or exit and turns
+                            /// the action's text color to red.
+                            isDestructiveAction: true,
+                            onPressed: () {
+                              Navigator.pop(context);
+                            },
+                            child: const Text('Cancel'),
+                          ),
+                          message: AnswerSheetPanel(
+                            selectedColor: GetIt.I.get<AppColor>().answerActive,
+                            answerColor: GetIt.I.get<AppColor>().answerCorrect,
+                            answerSheetData:
+                                BlocProvider.of<PartSevenCubit>(context)
+                                    .getAnswerSheetData(),
+                            maxWidthForMobile:
+                                AppDimensions.maxWidthForMobileMode,
+                            onPressedSubmit: () {},
+                            onPressedCancel: () {
+                              Navigator.pop(buildContext);
+                            },
+                            onPressedGoToQuestion: (questionNumber) {
                               BlocProvider.of<PartSevenCubit>(context)
-                                  .getAnswerSheetData(),
-                          maxWidthForMobile:
-                              AppDimensions.maxWidthForMobileMode,
-                          onPressedSubmit: () {},
-                          onPressedCancel: () {
-                            Navigator.pop(buildContext);
-                          },
-                          onPressedGoToQuestion: (questionNumber) {
-                            BlocProvider.of<PartSevenCubit>(context)
-                                .goToQuestion(questionNumber);
-                            Navigator.pop(buildContext);
-                          },
-                          currentWidth: width,
-                          currentHeight: height,
+                                  .goToQuestion(questionNumber);
+                              Navigator.pop(buildContext);
+                            },
+                            currentWidth: width,
+                            currentHeight: height,
+                          ),
+                          actions: <CupertinoDialogAction>[
+                            CupertinoDialogAction(
+                              onPressed: () {
+                                Navigator.pop(context);
+                              },
+                              child: const Text('Submit'),
+                            ),
+                          ],
                         ),
                       );
                     });
               },
-              icon: const Icon(Icons.format_list_numbered_outlined))
+              icon: const Icon(CupertinoIcons.list_number))
         ],
         title: BlocBuilder<PartSevenCubit, PartSevenState>(
           builder: (context, state) {
@@ -108,7 +127,7 @@ class PartSevenScreen extends StatelessWidget {
                   ),
                 ),
               ),
-              BottomControllerNeumorphic(
+              BottomController(
                 isStandAlone: true,
                 prevPressed: () {
                   BlocProvider.of<PartSevenCubit>(context).getPrevContent();
@@ -143,7 +162,7 @@ class PartSevenScreen extends StatelessWidget {
         style: AppTextStyles.kTextQuestion,
       ));
       listWidget.add(const SizedBox(height: AppDimensions.kPaddingDefault));
-      listWidget.add(AnswerBoardNeumorphic(
+      listWidget.add(AnswerBoard(
         textA: partSevenModel.answers[i][0],
         textB: partSevenModel.answers[i][1],
         textC: partSevenModel.answers[i][2],
@@ -161,7 +180,7 @@ class PartSevenScreen extends StatelessWidget {
     }
     listWidget.add(const SizedBox(height: AppDimensions.kPaddingDefaultDouble));
     return HorizontalSplitView(
-      color: AppLightColors.kSplitBar,
+      color: GetIt.I.get<AppColor>().splitBar,
       up: SingleChildScrollView(
         child: Text(
           partSevenModel.statement[0].stringData,

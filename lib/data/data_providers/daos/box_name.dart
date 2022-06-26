@@ -1,6 +1,7 @@
 // ignore_for_file: constant_identifier_names
 
 class BoxName {
+  static const USER_SETTINGS_BOX_NAME = "USER_SETTINGS_NAME";
   static const BOOK_BOX_NAME = "BOOK_BOX_NAME";
   static const TEST_BOX_NAME = "TEST_BOX_NAME";
   static const PART_BOX_NAME = "PART_BOX_NAME";

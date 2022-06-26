@@ -1,7 +1,8 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:get_it/get_it.dart';
 
-import '../../../../core_ui/constants/app_light_colors.dart';
+import '../../../../core_ui/constants/app_colors/app_color.dart';
 import 'download_handler/download_status.dart';
 
 class DownloadButton extends StatelessWidget {
@@ -52,15 +53,17 @@ class DownloadButton extends StatelessWidget {
       child: Stack(
         children: [
           _buildButtonShape(
+            context: context,
             child: _buildText(context),
           ),
-          _buildDownloadingProgress(),
+          _buildDownloadingProgress(context),
         ],
       ),
     );
   }
 
   Widget _buildButtonShape({
+    required BuildContext context,
     required Widget child,
   }) {
     return AnimatedContainer(
@@ -72,9 +75,9 @@ class DownloadButton extends StatelessWidget {
               shape: CircleBorder(),
               color: Colors.transparent,
             )
-          : const ShapeDecoration(
-              shape: StadiumBorder(),
-              color: AppLightColors.kButtonPrimary,
+          : ShapeDecoration(
+              shape: const StadiumBorder(),
+              color: Theme.of(context).colorScheme.secondary,
             ),
       child: child,
     );
@@ -93,13 +96,13 @@ class DownloadButton extends StatelessWidget {
         child: Text(
           text,
           textAlign: TextAlign.center,
-          style: Theme.of(context).textTheme.button,
+          style: TextStyle(color: Theme.of(context).colorScheme.onSecondary),
         ),
       ),
     );
   }
 
-  Widget _buildDownloadingProgress() {
+  Widget _buildDownloadingProgress(BuildContext context) {
     return Positioned.fill(
       child: AnimatedOpacity(
         duration: transitionDuration,
@@ -110,10 +113,10 @@ class DownloadButton extends StatelessWidget {
           children: [
             _buildProgressIndicator(),
             if (_isDownloading)
-              const Icon(
+              Icon(
                 Icons.stop,
                 size: 14.0,
-                color: CupertinoColors.activeBlue,
+                color: Theme.of(context).textTheme.button!.color,
               ),
           ],
         ),
@@ -134,7 +137,7 @@ class DownloadButton extends StatelessWidget {
                 : Colors.white.withOpacity(0.0),
             valueColor: AlwaysStoppedAnimation(_isFetching
                 ? CupertinoColors.lightBackgroundGray
-                : CupertinoColors.activeBlue),
+                : Theme.of(context).textTheme.button!.backgroundColor),
             strokeWidth: 2.0,
             value: _isFetching ? null : progress,
           );

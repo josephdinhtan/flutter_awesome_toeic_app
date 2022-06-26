@@ -1,13 +1,13 @@
 import 'package:bloc/bloc.dart';
+import 'package:get_it/get_it.dart';
 
 import '../../data/business_models/test_model.dart';
-import '../../data/di/injection.dart';
 import '../../domain/get_book_detail_use_case/get_list_test_use_case.dart';
 
 part 'test_list_state.dart';
 
 class TestListCubit extends Cubit<TestListState> {
-  final useCase = getIt.get<GetListTestUseCase>();
+  final useCase = GetIt.I.get<GetListTestUseCase>();
 
   TestListCubit() : super(TestListInitial());
 

@@ -1,20 +1,22 @@
 import 'dart:developer';
 import 'dart:io';
 
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:get_it/get_it.dart';
 
+import '../../../../core_ui/constants/app_colors/app_color.dart';
 import '../../../../core_ui/constants/app_dimensions.dart';
-import '../../../../core_ui/constants/app_light_colors.dart';
 import '../../../../core_utils/core_utils.dart';
 import '../../../../core_utils/global_configuration.dart';
 import '../../../../data/business_models/execute_models/answer_enum.dart';
 import '../../../../view_model/execute_screen_cubit/part_one_cubit/part_one_cubit.dart';
 import '../components/media_player.dart';
-import '../widgets/answer_board_neumorphic_widget.dart';
+import '../widgets/answer_board_widget.dart';
 import '../widgets/answer_sheet_panel.dart';
-import '../widgets/audio_controller_neumorphic_widget.dart';
-import '../widgets/bottom_controller_neumorphic_widget.dart';
+import '../widgets/audio_controller_widget.dart';
+import '../widgets/bottom_controller_widget.dart';
 
 const _logTag = "PartOneScreen";
 
@@ -32,42 +34,58 @@ class PartOneScreen extends StatelessWidget {
         actions: [
           IconButton(
               onPressed: () {
-                //_showMyDialog();
-                //BlocProvider.of<PartOneCubit>(context).getContent();
-                showDialog(
+                showCupertinoModalPopup(
                     context: context,
+                    //barrierDismissible: false,
                     builder: (BuildContext buildContext) {
-                      return AlertDialog(
-                        scrollable: true,
-                        title: const Center(child: Text('Answer sheet')),
-                        contentPadding: const EdgeInsets.symmetric(
-                            horizontal: 6.0, vertical: 16.0),
-                        content: AnswerSheetPanel(
-                          selectedColor:
-                              AppLightColors.kAnswerButtonColorSelected,
-                          answerColor:
-                              AppLightColors.kAnswerButtonColorCorrectAns,
-                          answerSheetData:
+                      return SizedBox(
+                        width: width > AppDimensions.maxWidthForMobileMode
+                            ? 0.7 * AppDimensions.maxWidthForMobileMode
+                            : 0.9 * width,
+                        child: CupertinoActionSheet(
+                          cancelButton: CupertinoDialogAction(
+                            /// This parameter indicates the action would perform
+                            /// a destructive action such as delete or exit and turns
+                            /// the action's text color to red.
+                            isDestructiveAction: true,
+                            onPressed: () {
+                              Navigator.pop(context);
+                            },
+                            child: const Text('Cancel'),
+                          ),
+                          message: AnswerSheetPanel(
+                            selectedColor: GetIt.I.get<AppColor>().answerActive,
+                            answerColor: GetIt.I.get<AppColor>().answerCorrect,
+                            answerSheetData:
+                                BlocProvider.of<PartOneCubit>(context)
+                                    .getAnswerSheetData(),
+                            maxWidthForMobile:
+                                AppDimensions.maxWidthForMobileMode,
+                            onPressedSubmit: () {},
+                            onPressedCancel: () {
+                              Navigator.pop(buildContext);
+                            },
+                            onPressedGoToQuestion: (questionNumber) {
                               BlocProvider.of<PartOneCubit>(context)
-                                  .getAnswerSheetData(),
-                          maxWidthForMobile:
-                              AppDimensions.maxWidthForMobileMode,
-                          onPressedSubmit: () {},
-                          onPressedCancel: () {
-                            Navigator.pop(buildContext);
-                          },
-                          onPressedGoToQuestion: (questionNumber) {
-                            BlocProvider.of<PartOneCubit>(context)
-                                .goToQuestion(questionNumber);
-                            Navigator.pop(buildContext);
-                          },
-                          currentWidth: width,
-                          currentHeight: height,
+                                  .goToQuestion(questionNumber);
+                              Navigator.pop(buildContext);
+                            },
+                            currentWidth: width,
+                            currentHeight: height,
+                          ),
+                          actions: <CupertinoDialogAction>[
+                            CupertinoDialogAction(
+                              onPressed: () {
+                                Navigator.pop(context);
+                              },
+                              child: const Text('Submit'),
+                            ),
+                          ],
                         ),
                       );
                     });
               },
-              icon: const Icon(Icons.format_list_numbered_outlined))
+              icon: const Icon(CupertinoIcons.list_number))
         ],
         title: BlocBuilder<PartOneCubit, PartOneState>(
           builder: (context, state) {
@@ -137,7 +155,7 @@ class PartOneScreen extends StatelessWidget {
                 child: BlocBuilder<PartOneCubit, PartOneState>(
                   builder: (context, state) {
                     if (state is PartOneContentLoaded) {
-                      return AnswerBoardNeumorphic(
+                      return AnswerBoard(
                         textA: state.answers[0],
                         textB: state.answers[1],
                         textC: state.answers[2],
@@ -152,7 +170,7 @@ class PartOneScreen extends StatelessWidget {
                         },
                       );
                     }
-                    return AnswerBoardNeumorphic(
+                    return AnswerBoard(
                       textA: '...',
                       textB: '...',
                       textC: '...',
@@ -163,7 +181,7 @@ class PartOneScreen extends StatelessWidget {
                   },
                 ),
               ),
-              AudioControllerNeumorphic(
+              AudioController(
                 changeToDurationCallBack: (timestamp) {
                   MediaPlayer().seekTo(seconds: timestamp.toInt());
                 },
@@ -175,7 +193,7 @@ class PartOneScreen extends StatelessWidget {
                 },
                 audioPlayer: MediaPlayer().audioPlayer,
               ),
-              BottomControllerNeumorphic(
+              BottomController(
                 prevPressed: () {
                   BlocProvider.of<PartOneCubit>(context).getPrevContent();
                 },

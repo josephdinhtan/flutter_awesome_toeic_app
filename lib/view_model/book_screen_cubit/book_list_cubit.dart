@@ -1,10 +1,10 @@
 import 'dart:developer';
 
 import 'package:bloc/bloc.dart';
+import 'package:get_it/get_it.dart';
 
 import '../../core_utils/global_configuration.dart';
 import '../../data/business_models/book_model.dart';
-import '../../data/di/injection.dart';
 import '../../domain/get_book_detail_use_case/get_list_book_use_case.dart';
 
 part 'book_list_state.dart';
@@ -12,7 +12,7 @@ part 'book_list_state.dart';
 const logTag = "BookListCubit";
 
 class BookListCubit extends Cubit<BookListState> {
-  final useCase = getIt.get<GetListBookUseCase>();
+  final useCase = GetIt.I.get<GetListBookUseCase>();
 
   BookListCubit() : super(BookListInitial());
 

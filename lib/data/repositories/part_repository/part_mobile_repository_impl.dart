@@ -1,15 +1,16 @@
 import 'dart:developer';
 
+import 'package:get_it/get_it.dart';
+
 import '../../../core_utils/global_configuration.dart';
 import '../../business_models/part_model.dart';
 import '../../data_providers/daos/part_dao.dart';
-import '../../di/injection.dart';
 import 'part_repository.dart';
 
 const _logTag = "PartRepositoryImpl";
 
 class PartMobileRepositoryImpl implements PartRepository {
-  final _dao = getIt.get<PartDao>();
+  final _dao = GetIt.I.get<PartDao>();
 
   @override
   Future<List<PartModel>> getPartList(List<String> ids) async {

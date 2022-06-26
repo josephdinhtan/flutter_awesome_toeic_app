@@ -1,12 +1,11 @@
 import 'dart:developer';
 
 import 'package:flutter/cupertino.dart';
-import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:get_it/get_it.dart';
 import '../../core_utils/global_configuration.dart';
 import '../../core_ui/exceptions/route_exception.dart';
 import '../../data/business_models/book_model.dart';
-import '../../data/di/injection.dart';
 import '../screens/execute_screen/part_one_screen/part_one_screen.dart';
 import '../screens/execute_screen/part_seven_screen/part_seven_screen.dart'
     show PartSevenScreen;
@@ -49,19 +48,19 @@ class AppRouter {
   static const String part6Exam = '/part6exam';
   static const String part7Exam = '/part7exam';
 
-  final BookListCubit _bookListCubit = getIt.get<BookListCubit>();
-  final StoreScreenCubit _storeScreenCubit = getIt.get<StoreScreenCubit>();
-  final TestListCubit _testListCubit = getIt.get<TestListCubit>();
-  final TestDownloadCubit _testDownloadCubit = getIt.get<TestDownloadCubit>();
+  final BookListCubit _bookListCubit = GetIt.I.get<BookListCubit>();
+  final StoreScreenCubit _storeScreenCubit = GetIt.I.get<StoreScreenCubit>();
+  final TestListCubit _testListCubit = GetIt.I.get<TestListCubit>();
+  final TestDownloadCubit _testDownloadCubit = GetIt.I.get<TestDownloadCubit>();
 
-  final PartListCubit _partListCubit = getIt.get<PartListCubit>();
-  final PartOneCubit _partOneCubit = getIt.get<PartOneCubit>();
-  final PartTwoCubit _partTwoCubit = getIt.get<PartTwoCubit>();
-  final PartThreeCubit _partThreeCubit = getIt.get<PartThreeCubit>();
-  final PartFourCubit _partFourCubit = getIt.get<PartFourCubit>();
-  final PartFiveCubit _partFiveCubit = getIt.get<PartFiveCubit>();
-  final PartSixCubit _partSixCubit = getIt.get<PartSixCubit>();
-  final PartSevenCubit _partSevenCubit = getIt.get<PartSevenCubit>();
+  final PartListCubit _partListCubit = GetIt.I.get<PartListCubit>();
+  final PartOneCubit _partOneCubit = GetIt.I.get<PartOneCubit>();
+  final PartTwoCubit _partTwoCubit = GetIt.I.get<PartTwoCubit>();
+  final PartThreeCubit _partThreeCubit = GetIt.I.get<PartThreeCubit>();
+  final PartFourCubit _partFourCubit = GetIt.I.get<PartFourCubit>();
+  final PartFiveCubit _partFiveCubit = GetIt.I.get<PartFiveCubit>();
+  final PartSixCubit _partSixCubit = GetIt.I.get<PartSixCubit>();
+  final PartSevenCubit _partSevenCubit = GetIt.I.get<PartSevenCubit>();
 
   //AppRouter._();
 

@@ -1,8 +1,12 @@
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_toeic_quiz2/core_ui/constants/app_colors/app_color.dart';
+import 'package:get_it/get_it.dart';
 import 'package:percent_indicator/percent_indicator.dart';
 
 import '../../../../core_ui/constants/app_dimensions.dart';
-import '../../../../core_ui/constants/app_light_colors.dart';
+import '../../../../core_ui/constants/app_colors/app_light_color_impl.dart';
+import '../../../../core_ui/constants/app_text_styles.dart';
 import '../../../../data/business_models/part_model.dart';
 import '../../../router/app_router.dart';
 import '../../../router/screen_arguments.dart';
@@ -116,7 +120,8 @@ class PartItem extends StatelessWidget {
                         Row(
                           children: [
                             Icon(testIconData[partBusinessModel.partType.index],
-                                size: 30.0, color: AppLightColors.kIconColor),
+                                size: 30.0,
+                                color: GetIt.I.get<AppColor>().iconInactive),
                             Padding(
                               padding: const EdgeInsets.only(left: 12.0),
                               child: Column(
@@ -124,45 +129,56 @@ class PartItem extends StatelessWidget {
                                 children: [
                                   Text(
                                     partBusinessModel.title,
-                                    style:
-                                        Theme.of(context).textTheme.headline3,
+                                    style: AppTextStyles.kOnSurfaceTextPrimary
+                                        .copyWith(
+                                            color: Theme.of(context)
+                                                .colorScheme
+                                                .onSurface),
                                   ),
                                   const SizedBox(height: 4.0),
                                   Row(
                                     children: [
                                       Text(
-                                          partBusinessModel.numOfQuestion < 10
-                                              ? '0${partBusinessModel.numOfQuestion}'
-                                              : '${partBusinessModel.numOfQuestion}',
-                                          style: const TextStyle(
-                                              fontSize: 15.0,
-                                              color: AppLightColors
-                                                  .kIconSelectedColor,
-                                              fontWeight: FontWeight.bold)),
+                                        partBusinessModel.numOfQuestion < 10
+                                            ? '0${partBusinessModel.numOfQuestion}'
+                                            : '${partBusinessModel.numOfQuestion}',
+                                        style: AppTextStyles
+                                            .kOnSurfaceTextSecondary
+                                            .copyWith(
+                                                color: Theme.of(context)
+                                                    .colorScheme
+                                                    .secondary),
+                                      ),
                                       Text(
                                         ' question',
-                                        style: Theme.of(context)
-                                            .textTheme
-                                            .headline4,
+                                        style: AppTextStyles
+                                            .kOnSurfaceTextSecondary
+                                            .copyWith(
+                                                color: Theme.of(context)
+                                                    .colorScheme
+                                                    .onSurfaceVariant),
                                       ),
                                       const SizedBox(
                                         width: 12.0,
                                       ),
                                       Text(
-                                          correctAns < 10
-                                              ? '0$correctAns'
-                                              : '$correctAns',
-                                          style: const TextStyle(
-                                              fontSize: 15.0,
-                                              color: AppLightColors
-                                                  .kIconSelectedColor,
-                                              fontWeight: FontWeight.bold)),
-                                      Text(
-                                        ' Correct',
-                                        style: Theme.of(context)
-                                            .textTheme
-                                            .headline4,
+                                        correctAns < 10
+                                            ? '0$correctAns'
+                                            : '$correctAns',
+                                        style: AppTextStyles
+                                            .kOnSurfaceTextSecondary
+                                            .copyWith(
+                                                color: Theme.of(context)
+                                                    .colorScheme
+                                                    .secondary),
                                       ),
+                                      Text(' Correct',
+                                          style: AppTextStyles
+                                              .kOnSurfaceTextSecondary
+                                              .copyWith(
+                                                  color: Theme.of(context)
+                                                      .colorScheme
+                                                      .onSurfaceVariant)),
                                     ],
                                   ),
                                   const SizedBox(height: 4.0),
@@ -190,8 +206,13 @@ class PartItem extends StatelessWidget {
                         CircularPercentIndicator(
                           radius: 50.0,
                           percent: correctPercent,
-                          center: Text('${(correctPercent * 100).toInt()}%'),
-                          progressColor: AppLightColors.kCircularProgressColor,
+                          center: Text(
+                            '${(correctPercent * 100).toInt()}%',
+                            style: TextStyle(
+                                color: Theme.of(context).colorScheme.onSurface),
+                          ),
+                          progressColor:
+                              GetIt.I.get<AppColor>().circularProgress,
                         ),
                       ],
                     ),

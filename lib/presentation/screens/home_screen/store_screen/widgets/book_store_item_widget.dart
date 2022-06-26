@@ -1,3 +1,4 @@
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
@@ -9,36 +10,92 @@ import '../../../../../view_model/store_screen_cubit/store_screen_popup_cubit.da
 import 'book_store_item_popup_widget.dart';
 
 class BookStoreItemWidget extends StatelessWidget {
-  final BookDto bookNetworkObject;
-  bool isBought;
-  BookStoreItemWidget(
-      {Key? key, required this.bookNetworkObject, this.isBought = false})
-      : super(key: key);
+  final BookDto bookDto;
+  BookStoreItemWidget({Key? key, required this.bookDto}) : super(key: key);
   @override
   Widget build(BuildContext context) {
+    double width = MediaQuery.of(context).size.width;
     return GestureDetector(
       onTap: () {
-        showDialog(
-            barrierDismissible: false,
-            context: context,
-            builder: (BuildContext buildContext) {
-              return AlertDialog(
-                scrollable: true,
-                title: Center(child: Text(bookNetworkObject.title)),
-                contentPadding:
-                    const EdgeInsets.symmetric(horizontal: 6.0, vertical: 16.0),
-                content: BlocProvider.value(
-                  value: StoreScreenPopupCubit()..displayBookItemPopup(),
-                  child: BlocProvider.value(
-                    value: BlocProvider.of<BookListCubit>(context),
-                    child: BookStoreItemPopupWidget(
-                      bookNetworkObject: bookNetworkObject,
-                      isBought: bookNetworkObject.isBought,
+        showCupertinoModalPopup(
+          barrierDismissible: false,
+          context: context,
+          builder: (BuildContext buildContext) {
+            return SizedBox(
+              width: width > AppDimensions.maxWidthForMobileMode
+                  ? 0.7 * AppDimensions.maxWidthForMobileMode
+                  : 0.85 * width,
+              child: BlocProvider<StoreScreenPopupCubit>(
+                create: (context) =>
+                    StoreScreenPopupCubit()..displayBookItemPopup(),
+                child: Builder(builder: (contextBuilder) {
+                  return CupertinoActionSheet(
+                    title: Text(
+                      bookDto.title,
                     ),
-                  ),
-                ),
-              );
-            });
+                    message: BlocProvider.value(
+                      value: BlocProvider.of<BookListCubit>(context),
+                      child: BookStoreItemPopupWidget(
+                        title: bookDto.title,
+                        bookNetworkObject: bookDto,
+                        isBought: bookDto.isBought,
+                      ),
+                    ),
+                    actions: [
+                      BlocBuilder<StoreScreenPopupCubit, StoreScreenPopupState>(
+                        builder: (context3, state) {
+                          if (state is StoreScreenPopupItemDisplay) {
+                            return CupertinoDialogAction(
+                              onPressed: () {
+                                BlocProvider.of<StoreScreenPopupCubit>(
+                                        contextBuilder)
+                                    .buyABookItem(bookDto);
+                              },
+                              child: Text('Get'),
+                            );
+                          } else if (state is StoreScreenPopupItemBuying) {
+                            return CupertinoDialogAction(
+                              onPressed: () {},
+                              child: Text('Buying ...'),
+                            );
+                          } else if (state is StoreScreenPopupItemBuyFail) {
+                            return CupertinoDialogAction(
+                              onPressed: () {},
+                              child: Text('Buy Fail'),
+                            );
+                          } else if (state is StoreScreenPopupItemBought) {
+                            return CupertinoDialogAction(
+                              onPressed: () {
+                                BlocProvider.of<BookListCubit>(context)
+                                    .getBookList();
+                                Navigator.pop(contextBuilder);
+                              },
+                              child: Text('OK'),
+                            );
+                          }
+                          return CupertinoDialogAction(
+                            onPressed: () {},
+                            child: Text('Should not return this'),
+                          );
+                        },
+                      ),
+                    ],
+                    cancelButton: CupertinoDialogAction(
+                      /// This parameter indicates the action would perform
+                      /// a destructive action such as delete or exit and turns
+                      /// the action's text color to red.
+                      isDestructiveAction: true,
+                      onPressed: () {
+                        Navigator.pop(context);
+                      },
+                      child: const Text('Cancel'),
+                    ),
+                  );
+                }),
+              ),
+            );
+          },
+        );
       },
       child: Card(
         child: Padding(
@@ -50,7 +107,7 @@ class BookStoreItemWidget extends StatelessWidget {
                 borderRadius: const BorderRadius.all(Radius.circular(8.0)),
                 child: FadeInImage.memoryNetwork(
                   placeholder: kTransparentImage,
-                  image: bookNetworkObject.full_cover_url,
+                  image: bookDto.full_cover_url,
                 ),
 
                 // child: Image.network(
@@ -74,15 +131,12 @@ class BookStoreItemWidget extends StatelessWidget {
                 children: [
                   const SizedBox(height: AppDimensions.kPaddingDefault),
                   Text(
-                    bookNetworkObject.title,
-                    style: Theme.of(context).textTheme.headline3,
+                    bookDto.title,
                   ),
                   const SizedBox(height: AppDimensions.kPaddingDefault),
-                  bookNetworkObject.price != ""
+                  bookDto.price != ""
                       ? Text(
-                          "${bookNetworkObject.price}K",
-                          style: const TextStyle(
-                              fontWeight: FontWeight.bold, fontSize: 18.0),
+                          bookDto.price,
                         )
                       : Container(
                           decoration: const BoxDecoration(
@@ -91,7 +145,7 @@ class BookStoreItemWidget extends StatelessWidget {
                                   BorderRadius.all(Radius.circular(5.0))),
                           child: Padding(
                             padding: const EdgeInsets.all(4.0),
-                            child: isBought
+                            child: bookDto.isBought
                                 ? const Text(
                                     'You already get it',
                                     style: TextStyle(

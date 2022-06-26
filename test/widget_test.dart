@@ -7,6 +7,7 @@
 
 import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
+import 'package:flutter_toeic_quiz2/app.dart';
 
 import 'package:flutter_toeic_quiz2/main.dart';
 

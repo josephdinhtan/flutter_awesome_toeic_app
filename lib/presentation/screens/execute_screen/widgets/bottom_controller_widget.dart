@@ -1,13 +1,10 @@
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_bloc/flutter_bloc.dart';
 
-import '../../../../core_ui/constants/app_dark_colors.dart';
-import '../../../../core_ui/constants/app_light_colors.dart';
-import '../../../../view_model/home_screen_cubit/home_screen_cubit.dart';
 import '../../widgets/neumorphism_container.dart';
 
-class BottomControllerNeumorphic extends StatelessWidget {
-  BottomControllerNeumorphic({
+class BottomController extends StatelessWidget {
+  BottomController({
     Key? key,
     this.isStandAlone = false,
     required this.checkAnsPressed,
@@ -24,17 +21,13 @@ class BottomControllerNeumorphic extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    bool isDarkMode =
-        BlocProvider.of<HomeScreenCubit>(context).getThemeMode() ==
-            ThemeMode.dark;
     return NeumorphismContainer(
+      removeShadow: isStandAlone ? false : true,
       borderRadiusGeometry: isStandAlone
           ? const BorderRadius.only(
               topLeft: Radius.circular(12.0), topRight: Radius.circular(12.0))
           : BorderRadius.zero,
-      color: isDarkMode
-          ? AppDarkColors.kNavigationBar
-          : AppLightColors.kNavigationBar,
+      color: Theme.of(context).bottomNavigationBarTheme.backgroundColor!,
       child: Padding(
         padding: const EdgeInsets.symmetric(horizontal: 8.0, vertical: 2.0),
         child: Row(
@@ -43,37 +36,37 @@ class BottomControllerNeumorphic extends StatelessWidget {
             IconButton(
               onPressed: prevPressed,
               icon: Icon(
-                Icons.arrow_back_ios_rounded,
-                color: isDarkMode
-                    ? AppDarkColors.kIconColor
-                    : AppLightColors.kIconColor,
+                CupertinoIcons.back,
+                color: Theme.of(context)
+                    .bottomNavigationBarTheme
+                    .unselectedItemColor,
               ),
             ),
             IconButton(
               onPressed: favoritePressed,
               icon: Icon(
-                Icons.favorite_border,
-                color: isDarkMode
-                    ? AppDarkColors.kIconColor
-                    : AppLightColors.kIconColor,
+                CupertinoIcons.heart,
+                color: Theme.of(context)
+                    .bottomNavigationBarTheme
+                    .unselectedItemColor,
               ),
             ),
             IconButton(
               onPressed: checkAnsPressed,
               icon: Icon(
-                Icons.fact_check_outlined,
-                color: isDarkMode
-                    ? AppDarkColors.kIconColor
-                    : AppLightColors.kIconColor,
+                CupertinoIcons.doc_checkmark,
+                color: Theme.of(context)
+                    .bottomNavigationBarTheme
+                    .unselectedItemColor,
               ),
             ),
             IconButton(
               onPressed: nextPressed,
               icon: Icon(
-                Icons.arrow_forward_ios_rounded,
-                color: isDarkMode
-                    ? AppDarkColors.kIconColor
-                    : AppLightColors.kIconColor,
+                CupertinoIcons.forward,
+                color: Theme.of(context)
+                    .bottomNavigationBarTheme
+                    .unselectedItemColor,
               ),
             )
           ],

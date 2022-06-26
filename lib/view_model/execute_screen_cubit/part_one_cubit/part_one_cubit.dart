@@ -1,9 +1,9 @@
 import 'package:bloc/bloc.dart';
+import 'package:get_it/get_it.dart';
 
 import '../../../core_utils/core_utils.dart';
 import '../../../data/business_models/execute_models/answer_enum.dart';
 import '../../../data/business_models/execute_models/part_one_model.dart';
-import '../../../data/di/injection.dart';
 import '../../../domain/execute_use_cases/get_part_one_question_list_use_case.dart';
 import '../../../presentation/screens/execute_screen/components/media_player.dart';
 import '../../../presentation/screens/execute_screen/widgets/answer_sheet_panel.dart';
@@ -13,7 +13,7 @@ part 'part_one_state.dart';
 class PartOneCubit extends Cubit<PartOneState> {
   PartOneCubit() : super(PartOneInitial());
   //final useCase = GetPartOneQuestionListUseCase();
-  final useCase = getIt.get<GetPartOneQuestionListUseCase>();
+  final useCase = GetIt.I.get<GetPartOneQuestionListUseCase>();
 
   late List<PartOneModel> _partOneQuestionList;
   int _currentQuestionIndex = 0;

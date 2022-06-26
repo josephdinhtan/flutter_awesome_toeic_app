@@ -1,10 +1,10 @@
 import 'dart:developer';
 
 import 'package:bloc/bloc.dart';
+import 'package:get_it/get_it.dart';
 
 import '../../core_utils/global_configuration.dart';
 import '../../data/business_models/part_model.dart';
-import '../../data/di/injection.dart';
 import '../../domain/get_book_detail_use_case/get_list_part_use_case.dart';
 
 part 'part_list_state.dart';
@@ -12,7 +12,7 @@ part 'part_list_state.dart';
 const _logTag = "PartListCubit";
 
 class PartListCubit extends Cubit<PartListState> {
-  final useCase = getIt.get<GetListPartUseCase>();
+  final useCase = GetIt.I.get<GetListPartUseCase>();
 
   PartListCubit() : super(PartListInitial());
 

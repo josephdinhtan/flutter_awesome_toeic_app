@@ -1,20 +1,17 @@
-import 'dart:developer';
-
 import 'package:flutter/material.dart';
-import 'package:flutter_bloc/flutter_bloc.dart';
 
-import '../../../../../core_ui/constants/app_light_colors.dart';
 import '../../../../../data/data_providers/dtos/book_dto.dart';
-import '../../../../../view_model/book_screen_cubit/book_list_cubit.dart';
-import '../../../../../view_model/store_screen_cubit/store_screen_popup_cubit.dart';
-import '../../../widgets/neumorphism_button.dart';
 
 class BookStoreItemPopupWidget extends StatelessWidget {
   BookStoreItemPopupWidget(
-      {Key? key, required this.bookNetworkObject, this.isBought = false})
+      {Key? key,
+      required this.bookNetworkObject,
+      this.isBought = false,
+      required this.title})
       : super(key: key);
   final BookDto bookNetworkObject;
   bool isBought;
+  final String title;
 
   @override
   Widget build(BuildContext context) {
@@ -40,11 +37,13 @@ class BookStoreItemPopupWidget extends StatelessWidget {
             children: [
               const SizedBox(height: 8.0),
               const SizedBox(height: 8.0),
-              bookNetworkObject.price != 0
+              bookNetworkObject.price != ""
                   ? Text(
-                      "${bookNetworkObject.price}K",
+                      bookNetworkObject.price,
                       style: const TextStyle(
-                          fontWeight: FontWeight.bold, fontSize: 18.0),
+                          fontWeight: FontWeight.bold,
+                          fontSize: 18.0,
+                          color: Colors.grey),
                     )
                   : Container(
                       decoration: BoxDecoration(
@@ -71,106 +70,10 @@ class BookStoreItemPopupWidget extends StatelessWidget {
                   style: const TextStyle(
                       color: Color(0xff2a9d8f), fontWeight: FontWeight.bold)),
               const SizedBox(height: 8.0),
-              Text(bookNetworkObject.des),
-              const SizedBox(height: 16.0),
-              isBought
-                  ? Center(
-                      child: NeumorphismButton(
-                          boderRadius: 8.0,
-                          onPressed: () {
-                            Navigator.pop(context);
-                          },
-                          child: const Text(
-                            'OK',
-                            style:
-                                TextStyle(color: AppLightColors.kButtonPrimary),
-                          )),
-                    )
-                  : BlocBuilder<StoreScreenPopupCubit, StoreScreenPopupState>(
-                      builder: (builderContext, state) {
-                        log("state $state");
-                        if (state is StoreScreenPopupItemDisplay) {
-                          return Row(
-                            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                            children: [
-                              NeumorphismButton(
-                                  boderRadius: 8.0,
-                                  onPressed: () {
-                                    Navigator.pop(builderContext);
-                                  },
-                                  child: const Text(
-                                    'CANCEL',
-                                    style: TextStyle(
-                                        color: AppLightColors.kButtonPrimary),
-                                  )),
-                              NeumorphismButton(
-                                boderRadius: 8.0,
-                                onPressed: () {
-                                  BlocProvider.of<StoreScreenPopupCubit>(
-                                          builderContext)
-                                      .buyABookItem(bookNetworkObject);
-                                },
-                                child: const Text('GET',
-                                    style: TextStyle(
-                                        color: AppLightColors.kButtonPrimary)),
-                              ),
-                            ],
-                          );
-                        }
-                        if (state is StoreScreenPopupItemBuying) {
-                          return const Center(
-                            child: Text('Buying...'),
-                          );
-                        }
-                        if (state is StoreScreenPopupItemBuyFail) {
-                          return Column(
-                            children: [
-                              const Center(
-                                child: Text('Buy Fail'),
-                              ),
-                              NeumorphismButton(
-                                  boderRadius: 8.0,
-                                  onPressed: () {
-                                    Navigator.pop(builderContext);
-                                  },
-                                  child: const Text(
-                                    'Buy Fail OK',
-                                    style: TextStyle(
-                                        color: AppLightColors.kButtonPrimary),
-                                  )),
-                            ],
-                          );
-                        }
-                        if (state is StoreScreenPopupItemBought) {
-                          return Center(
-                            child: NeumorphismButton(
-                                boderRadius: 8.0,
-                                onPressed: () {
-                                  Navigator.pop(builderContext);
-                                  BlocProvider.of<BookListCubit>(builderContext)
-                                      .getBookList();
-                                },
-                                child: const Text(
-                                  'OK',
-                                  style: TextStyle(
-                                      color: AppLightColors.kButtonPrimary),
-                                )),
-                          );
-                        }
-                        return Center(
-                          child: NeumorphismButton(
-                              boderRadius: 8.0,
-                              onPressed: () {
-                                Navigator.pop(builderContext);
-                              },
-                              child: const Text(
-                                'OK Default',
-                                style: TextStyle(
-                                    color: AppLightColors.kButtonPrimary),
-                              )),
-                        );
-                      },
-                    ),
+              Text(
+                bookNetworkObject.des,
+                style: const TextStyle(color: Colors.blueGrey),
+              ),
             ],
           ),
         ],

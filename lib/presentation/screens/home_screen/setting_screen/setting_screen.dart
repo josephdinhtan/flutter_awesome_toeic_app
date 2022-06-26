@@ -1,8 +1,9 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_bloc/flutter_bloc.dart';
 
-import '../../../../view_model/home_screen_cubit/home_screen_cubit.dart';
+import '../../../../core_utils/core_utils.dart';
+import 'widgets/brightness_toggle.dart';
+import 'widgets/color_picker.dart';
 
 class SettingScreen extends StatefulWidget {
   SettingScreen({Key? key}) : super(key: key);
@@ -13,12 +14,20 @@ class SettingScreen extends StatefulWidget {
 
 class _SettingScreenState extends State<SettingScreen> {
   bool darkModeEnable = false;
+  List<bool> isSelected = [false, false, false];
+
+  @override
+  void initState() {
+    super.initState();
+    final themeMode = getApplicationThemeMode();
+    isSelected[themeMode.index] = true;
+  }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: const Text('Menu'),
+        title: const Text('Settings'),
       ),
       body: SingleChildScrollView(
         child: Column(
@@ -61,49 +70,39 @@ class _SettingScreenState extends State<SettingScreen> {
             SettingCard(
               children: [
                 Text('User interface' /*, style: kTextStyleSettingsH1*/),
-                const SizedBox(height: 8.0),
+                const SizedBox(height: 4.0),
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: const [
+                    Text('Theme mode'),
+                    BrightnessToggle(),
+                  ],
+                ),
+                const SizedBox(height: 4.0),
                 Row(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
-                    Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        Text('Dark mode' /*, style: kTextStyleSettingsH2*/),
-                        const Text('Enable dark mode'),
-                      ],
-                    ),
-                    Switch(
-                      value: darkModeEnable,
-                      onChanged: (value) {
-                        setState(() {
-                          darkModeEnable = value;
-                          if (darkModeEnable) {
-                            //MyApp.of(context).changeTheme(ThemeMode.dark);
-                            BlocProvider.of<HomeScreenCubit>(context)
-                                .changeTheme(ThemeMode.dark);
-                          } else {
-                            BlocProvider.of<HomeScreenCubit>(context)
-                                .changeTheme(ThemeMode.light);
-                          }
-                        });
-                      },
-                    ),
+                    const Text('Color'),
+                    ColorPicker(),
                   ],
                 ),
-                const SizedBox(height: 8.0),
-                TextButton(
-                  onPressed: () {},
-                  style: TextButton.styleFrom(
-                      padding: EdgeInsets.zero,
-                      alignment: Alignment.centerLeft),
-                  child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: const [
-                      Text(
-                          'Application language' /*, style: kTextStyleSettingsH2*/),
-                      Text('English'),
-                    ],
-                  ),
+                const SizedBox(height: 4.0),
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: [
+                    Text('Application language'),
+                    DropdownButton<String>(
+                      value: 'English',
+                      items:
+                          <String>['English', 'Vietnamese'].map((String value) {
+                        return DropdownMenuItem<String>(
+                          value: value,
+                          child: Text(value),
+                        );
+                      }).toList(),
+                      onChanged: (_) {},
+                    ),
+                  ],
                 ),
                 const SizedBox(height: 8.0),
                 TextButton(

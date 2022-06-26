@@ -1,12 +1,12 @@
 import 'package:bloc/bloc.dart';
-import '../../data/di/injection.dart';
+import 'package:get_it/get_it.dart';
 import '../../domain/download_use_case/download_test_use_case.dart';
 
 part 'test_download_state.dart';
 
 class TestDownloadCubit extends Cubit<TestDownloadState> {
   TestDownloadCubit() : super(TestNotDownload());
-  final testDownloadUseCase = getIt.get<DownloadTestUseCase>();
+  final testDownloadUseCase = GetIt.I.get<DownloadTestUseCase>();
 
   Future<void> startDownload(String downloadUrl) async {
     emit(TestFetchingDownload());

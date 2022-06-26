@@ -1,9 +1,9 @@
 import 'package:bloc/bloc.dart';
+import 'package:get_it/get_it.dart';
 import 'package:meta/meta.dart';
 
 import '../../../data/business_models/execute_models/answer_enum.dart';
 import '../../../data/business_models/execute_models/part_six_model.dart';
-import '../../../data/di/injection.dart';
 import '../../../domain/execute_use_cases/get_part_six_question_list_use_case.dart';
 import '../../../domain/execute_use_cases/save_question_to_favorite_use_case.dart';
 import '../../../presentation/screens/execute_screen/widgets/answer_sheet_panel.dart';
@@ -13,9 +13,9 @@ part 'part_six_state.dart';
 class PartSixCubit extends Cubit<PartSixState> {
   PartSixCubit() : super(PartSixInitial());
 
-  final getQuestionListUseCase = getIt.get<GetPartSixQuestionListUseCase>();
+  final getQuestionListUseCase = GetIt.I.get<GetPartSixQuestionListUseCase>();
   final saveQuestionToFavoriteUseCase =
-      getIt.get<SaveQuestionToFavoriteUseCase>();
+      GetIt.I.get<SaveQuestionToFavoriteUseCase>();
 
   late List<PartSixModel> _partSixQuestionList;
   int _currentQuestionIndex = 0;

@@ -1,3 +1,5 @@
+import 'package:get_it/get_it.dart';
+
 import '../../data_providers/apis/store_api.dart';
 import '../../data_providers/daos/book_dao.dart';
 import '../../data_providers/daos/part_dao.dart';
@@ -13,7 +15,6 @@ import '../../data_providers/dtos/parts_dto/part_one_dto.dart';
 import '../../data_providers/dtos/parts_dto/part_three_dto.dart';
 import '../../data_providers/dtos/parts_dto/part_two_dto.dart';
 import '../../data_providers/dtos/test_dto.dart';
-import '../../di/injection.dart';
 import 'store_repository.dart';
 
 const _logTag = "StoreRepositoryImpl";
@@ -21,13 +22,13 @@ const _logTag = "StoreRepositoryImpl";
 class StoreRepositoryImpl implements StoreRepository {
   // dependencies
   final StoreApi _storeApi = StoreApi();
-  final _bookDao = getIt.get<BookDao>();
-  final _testDao = getIt.get<TestDao>();
-  final _partDao = getIt.get<PartDao>();
-  final _partOneDao = getIt.get<PartOneDao>();
-  final _partTwoDao = getIt.get<PartTwoDao>();
-  final _partThreeDao = getIt.get<PartThreeDao>();
-  final _partFourDao = getIt.get<PartFourDao>();
+  final _bookDao = GetIt.I.get<BookDao>();
+  final _testDao = GetIt.I.get<TestDao>();
+  final _partDao = GetIt.I.get<PartDao>();
+  final _partOneDao = GetIt.I.get<PartOneDao>();
+  final _partTwoDao = GetIt.I.get<PartTwoDao>();
+  final _partThreeDao = GetIt.I.get<PartThreeDao>();
+  final _partFourDao = GetIt.I.get<PartFourDao>();
 
   StoreRepositoryImpl();
 

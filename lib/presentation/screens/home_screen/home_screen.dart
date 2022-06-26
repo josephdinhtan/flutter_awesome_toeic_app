@@ -1,11 +1,43 @@
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+
+import '../../../view_model/book_screen_cubit/book_list_cubit.dart';
+import 'book_screen/BookScreen.dart';
 import 'favorite_screen/favorite_screen.dart';
 import 'setting_screen/setting_screen.dart';
-import 'store_screen/store_screen.dart';
-import '../../../view_model/book_screen_cubit/book_list_cubit.dart';
 
-import 'book_screen/BookScreen.dart';
+const List<NavigationDestination> destinations = [
+  NavigationDestination(
+    label: 'Home',
+    icon: Icon(Icons.home),
+    route: '/',
+  ),
+  NavigationDestination(
+    label: 'Playlists',
+    icon: Icon(Icons.playlist_add_check),
+    route: '/playlists',
+  ),
+  NavigationDestination(
+    label: 'Artists',
+    icon: Icon(Icons.people),
+    route: '/artists',
+  ),
+];
+
+class NavigationDestination {
+  const NavigationDestination({
+    required this.route,
+    required this.label,
+    required this.icon,
+    this.child,
+  });
+
+  final String route;
+  final String label;
+  final Icon icon;
+  final Widget? child;
+}
 
 class HomeScreen extends StatefulWidget {
   const HomeScreen({Key? key}) : super(key: key);
@@ -40,8 +72,8 @@ class _HomeScreenState extends State<HomeScreen> {
 
   @override
   Widget build(BuildContext context) {
-    double height = MediaQuery.of(context).size.height;
-    double width = MediaQuery.of(context).size.width;
+    //double height = MediaQuery.of(context).size.height;
+    //double width = MediaQuery.of(context).size.width;
     int _selectedIndex = 0;
     return Scaffold(
       body: SizedBox.expand(
@@ -68,15 +100,15 @@ class _HomeScreenState extends State<HomeScreen> {
         items: const <BottomNavigationBarItem>[
           BottomNavigationBarItem(
             label: 'Books',
-            icon: Icon(Icons.my_library_books_sharp),
+            icon: Icon(CupertinoIcons.book),
           ),
           BottomNavigationBarItem(
             label: 'Favorite',
-            icon: Icon(Icons.favorite),
+            icon: Icon(CupertinoIcons.square_favorites_alt),
           ),
           BottomNavigationBarItem(
             label: 'More',
-            icon: Icon(Icons.storage_rounded),
+            icon: Icon(CupertinoIcons.settings),
           ),
         ],
       ),

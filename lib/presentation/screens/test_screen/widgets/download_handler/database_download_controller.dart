@@ -1,9 +1,9 @@
 import 'dart:developer';
 
 import 'package:flutter/material.dart';
+import 'package:get_it/get_it.dart';
 
 import '../../../../../core_utils/global_configuration.dart';
-import '../../../../../data/di/injection.dart';
 import '../../../../../domain/download_use_case/download_test_use_case.dart';
 import '../../../../../domain/download_use_case/test_fetching_data_use_case.dart';
 import '../../../../../domain/save_to_db_use_cases/update_test_is_downloaded_to_db.dart';
@@ -30,7 +30,7 @@ class DataBaseDownloadController extends DownloadController
   String audioPath;
   String picturePath;
   DownloadStatus _downloadStatus;
-  final testFetchingDataUseCase = getIt.get<TestFetchingDataUseCase>();
+  final testFetchingDataUseCase = GetIt.I.get<TestFetchingDataUseCase>();
 
   @override
   DownloadStatus get downloadStatus => _downloadStatus;
@@ -73,7 +73,7 @@ class DataBaseDownloadController extends DownloadController
         allFileCount =
             itemAudioUrls.length.toDouble() + itemPictureUrls.length.toDouble();
 
-    final downloadTestUseCase = getIt.get<DownloadTestUseCase>();
+    final downloadTestUseCase = GetIt.I.get<DownloadTestUseCase>();
     for (final itemAudioUrl in itemAudioUrls) {
       await downloadTestUseCase.perform(itemAudioUrl);
       _progress = count / allFileCount;

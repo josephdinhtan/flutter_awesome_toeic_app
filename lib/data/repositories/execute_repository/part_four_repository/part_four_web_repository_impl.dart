@@ -1,6 +1,6 @@
 import '../../../business_models/execute_models/part_four_model.dart';
 import '../../../data_providers/apis/part_execute_apis/part_four_api.dart';
-import '../../../di/injection.dart';
+import '../../../di/cubit_injection.dart';
 import 'part_four_repository.dart';
 
 class PartFourWebRepositoryImpl implements PartFourRepository {

@@ -1,15 +1,13 @@
 import 'package:audioplayers/audioplayers.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_bloc/flutter_bloc.dart';
 
-import '../../../../core_ui/constants/app_dark_colors.dart';
 import '../../../../core_ui/constants/app_dimensions.dart';
-import '../../../../core_ui/constants/app_light_colors.dart';
-import '../../../../view_model/home_screen_cubit/home_screen_cubit.dart';
+import '../../../../core_ui/constants/app_colors/app_light_color_impl.dart';
 import '../../widgets/neumorphism_container.dart';
 
-class AudioControllerNeumorphic extends StatefulWidget {
-  AudioControllerNeumorphic({
+class AudioController extends StatefulWidget {
+  AudioController({
     Key? key,
     this.durationTime = 70,
     required this.changeToDurationCallBack,
@@ -31,11 +29,10 @@ class AudioControllerNeumorphic extends StatefulWidget {
   }
 
   @override
-  State<AudioControllerNeumorphic> createState() =>
-      _AudioControllerNeumorphicState();
+  State<AudioController> createState() => _AudioControllerState();
 }
 
-class _AudioControllerNeumorphicState extends State<AudioControllerNeumorphic> {
+class _AudioControllerState extends State<AudioController> {
   bool sliderIsSliding = false;
   double _currentDuration = 1.0; // for both text and slider
   double _currentSliderValue = 1.0; // just for slider for slide only
@@ -60,6 +57,7 @@ class _AudioControllerNeumorphicState extends State<AudioControllerNeumorphic> {
     });
 
     widget.audioPlayer.onDurationChanged.listen((Duration d) {
+      widget.durationTime = d.inSeconds;
       if (isDisposing) return;
       setState(() => widget.durationTime = d.inSeconds);
     });
@@ -74,13 +72,9 @@ class _AudioControllerNeumorphicState extends State<AudioControllerNeumorphic> {
 
   @override
   Widget build(BuildContext context) {
-    bool isDarkMode =
-        BlocProvider.of<HomeScreenCubit>(context).getThemeMode() ==
-            ThemeMode.dark;
     return NeumorphismContainer(
-      color: isDarkMode
-          ? AppDarkColors.kNavigationBar
-          : AppLightColors.kNavigationBar,
+      removeShadow: true,
+      color: Theme.of(context).bottomNavigationBarTheme.backgroundColor!,
       child: Padding(
         padding: const EdgeInsets.symmetric(horizontal: 8.0, vertical: 2.0),
         child: Row(
@@ -101,10 +95,10 @@ class _AudioControllerNeumorphicState extends State<AudioControllerNeumorphic> {
                     });
                   },
                   icon: Icon(
-                    Icons.replay_5_rounded,
-                    color: isDarkMode
-                        ? AppDarkColors.kIconColor
-                        : AppLightColors.kIconColor,
+                    Icons.replay_5_outlined,
+                    color: Theme.of(context)
+                        .bottomNavigationBarTheme
+                        .unselectedItemColor!,
                   ),
                 ),
                 IconButton(
@@ -120,10 +114,10 @@ class _AudioControllerNeumorphicState extends State<AudioControllerNeumorphic> {
                     }
                   },
                   icon: Icon(
-                    isPlaying ? Icons.pause : Icons.play_arrow_rounded,
-                    color: isDarkMode
-                        ? AppDarkColors.kIconColor
-                        : AppLightColors.kIconColor,
+                    isPlaying ? CupertinoIcons.pause : CupertinoIcons.play,
+                    color: Theme.of(context)
+                        .bottomNavigationBarTheme
+                        .unselectedItemColor!,
                   ),
                 ),
                 IconButton(
@@ -141,27 +135,25 @@ class _AudioControllerNeumorphicState extends State<AudioControllerNeumorphic> {
                     });
                   },
                   icon: Icon(
-                    Icons.forward_5_rounded,
-                    color: isDarkMode
-                        ? AppDarkColors.kIconColor
-                        : AppLightColors.kIconColor,
+                    Icons.forward_5_outlined,
+                    color: Theme.of(context)
+                        .bottomNavigationBarTheme
+                        .unselectedItemColor!,
                   ),
                 ),
                 const SizedBox(width: 6.0),
-                Text(widget.coverFormatTime(_currentDuration.toInt())),
+                Text(
+                  widget.coverFormatTime(_currentDuration.toInt()),
+                  style: const TextStyle(color: Colors.white),
+                ),
               ],
             ),
             Expanded(
               child: SliderTheme(
-                data: const SliderThemeData(
-                    //thumbColor: Colors.green,
-                    trackShape: RectangularSliderTrackShape(),
-                    activeTrackColor: AppLightColors.kSliderActiveColor,
-                    inactiveTrackColor: AppLightColors.kSliderInactiveColor,
-                    thumbColor: AppLightColors.kSliderActiveColor,
-                    inactiveTickMarkColor: Colors.transparent,
-                    activeTickMarkColor: Colors.transparent,
-                    thumbShape: RoundSliderThumbShape(enabledThumbRadius: 7)),
+                data: SliderTheme.of(context).copyWith(
+                  inactiveTickMarkColor: Colors.transparent,
+                  activeTickMarkColor: Colors.transparent,
+                ),
                 child: Slider(
                   value: _currentSliderValue,
                   label: widget.coverFormatTime(_currentSliderValue.toInt()),
