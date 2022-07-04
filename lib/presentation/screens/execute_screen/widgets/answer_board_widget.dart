@@ -5,7 +5,6 @@ import 'package:get_it/get_it.dart';
 import '../../../../core_ui/constants/app_colors/app_color.dart';
 import '../../../../core_ui/constants/app_dimensions.dart';
 import '../../../../core_ui/constants/app_text_styles.dart';
-import '../../../../core_utils/core_utils.dart';
 import '../../widgets/neumorphism_button.dart';
 
 class AnswerBoard extends StatelessWidget {

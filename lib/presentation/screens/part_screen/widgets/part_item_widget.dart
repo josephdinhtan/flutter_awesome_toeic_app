@@ -1,12 +1,11 @@
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_toeic_quiz2/core_ui/constants/app_colors/app_color.dart';
 import 'package:get_it/get_it.dart';
 import 'package:percent_indicator/percent_indicator.dart';
 
+import '../../../../core_ui/constants/app_colors/app_color.dart';
 import '../../../../core_ui/constants/app_dimensions.dart';
-import '../../../../core_ui/constants/app_colors/app_light_color_impl.dart';
 import '../../../../core_ui/constants/app_text_styles.dart';
+import '../../../../core_ui/extensions/extensions.dart';
 import '../../../../data/business_models/part_model.dart';
 import '../../../router/app_router.dart';
 import '../../../router/screen_arguments.dart';
@@ -34,71 +33,71 @@ List<IconData> testIconData = [
 class PartItem extends StatelessWidget {
   PartItem({
     Key? key,
-    required this.partBusinessModel,
+    required this.partModel,
   }) : super(key: key);
-  final PartModel partBusinessModel;
+  final PartModel partModel;
   int correctAns = 0;
 
   @override
   Widget build(BuildContext context) {
     //double height = MediaQuery.of(context).size.height;
     double width = MediaQuery.of(context).size.width;
-    if (partBusinessModel.numOfCorrect != null) {
-      correctAns = partBusinessModel.numOfCorrect!;
+    if (partModel.numOfCorrect != null) {
+      correctAns = partModel.numOfCorrect!;
     }
     double correctPercent =
-        (correctAns * 100 / partBusinessModel.numOfQuestion).toDouble() / 100;
+        (correctAns * 100 / partModel.numOfQuestion).toDouble() / 100;
     return GestureDetector(
       onTap: () {
-        switch (partBusinessModel.partType) {
+        switch (partModel.partType) {
           case PartType.part1:
             Navigator.pushNamed(context, AppRouter.part1Exam,
                 arguments: ScreenArguments(
-                    title: partBusinessModel.title,
-                    id: partBusinessModel.id,
-                    childIds: partBusinessModel.questionIds));
+                    title: partModel.title,
+                    id: partModel.id,
+                    childIds: partModel.questionIds));
             break;
           case PartType.part2:
             Navigator.pushNamed(context, AppRouter.part2Exam,
                 arguments: ScreenArguments(
-                    title: partBusinessModel.title,
-                    id: partBusinessModel.id,
-                    childIds: partBusinessModel.questionIds));
+                    title: partModel.title,
+                    id: partModel.id,
+                    childIds: partModel.questionIds));
             break;
           case PartType.part3:
             Navigator.pushNamed(context, AppRouter.part3Exam,
                 arguments: ScreenArguments(
-                    title: partBusinessModel.title,
-                    id: partBusinessModel.id,
-                    childIds: partBusinessModel.questionIds));
+                    title: partModel.title,
+                    id: partModel.id,
+                    childIds: partModel.questionIds));
             break;
           case PartType.part4:
             Navigator.pushNamed(context, AppRouter.part4Exam,
                 arguments: ScreenArguments(
-                    title: partBusinessModel.title,
-                    id: partBusinessModel.id,
-                    childIds: partBusinessModel.questionIds));
+                    title: partModel.title,
+                    id: partModel.id,
+                    childIds: partModel.questionIds));
             break;
           case PartType.part5:
             Navigator.pushNamed(context, AppRouter.part5Exam,
                 arguments: ScreenArguments(
-                    title: partBusinessModel.title,
-                    id: partBusinessModel.id,
-                    childIds: partBusinessModel.questionIds));
+                    title: partModel.title,
+                    id: partModel.id,
+                    childIds: partModel.questionIds));
             break;
           case PartType.part6:
             Navigator.pushNamed(context, AppRouter.part6Exam,
                 arguments: ScreenArguments(
-                    title: partBusinessModel.title,
-                    id: partBusinessModel.id,
-                    childIds: partBusinessModel.questionIds));
+                    title: partModel.title,
+                    id: partModel.id,
+                    childIds: partModel.questionIds));
             break;
           case PartType.part7:
             Navigator.pushNamed(context, AppRouter.part7Exam,
                 arguments: ScreenArguments(
-                    title: partBusinessModel.title,
-                    id: partBusinessModel.id,
-                    childIds: partBusinessModel.questionIds));
+                    title: partModel.title,
+                    id: partModel.id,
+                    childIds: partModel.questionIds));
             break;
         }
       },
@@ -119,58 +118,84 @@ class PartItem extends StatelessWidget {
                       children: [
                         Row(
                           children: [
-                            Icon(testIconData[partBusinessModel.partType.index],
-                                size: 30.0,
-                                color: GetIt.I.get<AppColor>().iconInactive),
+                            Container(
+                              decoration: BoxDecoration(
+                                color: context.colors.secondary,
+                                shape: BoxShape.circle,
+                              ),
+                              margin: const EdgeInsets.all(2.0),
+                              child: Padding(
+                                padding: const EdgeInsets.all(12.0),
+                                child: Icon(
+                                    testIconData[partModel.partType.index],
+                                    size: 20.0,
+                                    color: context.colors.onSecondary),
+                              ),
+                            ),
                             Padding(
                               padding: const EdgeInsets.only(left: 12.0),
                               child: Column(
                                 crossAxisAlignment: CrossAxisAlignment.start,
                                 children: [
-                                  Text(
-                                    partBusinessModel.title,
-                                    style: AppTextStyles.kOnSurfaceTextPrimary
-                                        .copyWith(
-                                            color: Theme.of(context)
-                                                .colorScheme
-                                                .onSurface),
-                                  ),
-                                  const SizedBox(height: 4.0),
                                   Row(
                                     children: [
                                       Text(
-                                        partBusinessModel.numOfQuestion < 10
-                                            ? '0${partBusinessModel.numOfQuestion}'
-                                            : '${partBusinessModel.numOfQuestion}',
-                                        style: AppTextStyles
-                                            .kOnSurfaceTextSecondary
-                                            .copyWith(
-                                                color: Theme.of(context)
-                                                    .colorScheme
-                                                    .secondary),
+                                        '${partModel.title}: ',
+                                        style: context.titleMedium!.copyWith(
+                                            color: context.colors.onSurface,
+                                            fontWeight: FontWeight.w600),
+                                      ),
+                                      const SizedBox(width: 2.0),
+                                      Text(
+                                        testDescription[
+                                            partModel.partType.index],
+                                        style: context.titleSmall!.copyWith(
+                                          color: context.colors.onSurface,
+                                        ),
+                                      ),
+                                      // Container(
+                                      //   decoration: const BoxDecoration(
+                                      //       color: Colors.black45,
+                                      //       borderRadius: BorderRadius.all(
+                                      //           Radius.circular(5.0))),
+                                      //   child: Padding(
+                                      //     padding: const EdgeInsets.all(4.0),
+                                      //     child: Text(
+                                      //       testDescription[
+                                      //           partModel.partType.index],
+                                      //       style: const TextStyle(
+                                      //           fontSize: 10.0,
+                                      //           color: Colors.white),
+                                      //     ),
+                                      //   ),
+                                      // ),
+                                    ],
+                                  ),
+                                  const SizedBox(height: 2.0),
+                                  Row(
+                                    children: [
+                                      Text(
+                                        partModel.numOfQuestion < 10
+                                            ? '0${partModel.numOfQuestion}'
+                                            : '${partModel.numOfQuestion}',
+                                        style: context.titleSmall!.copyWith(
+                                          color: context.colors.primary,
+                                        ),
                                       ),
                                       Text(
                                         ' question',
-                                        style: AppTextStyles
-                                            .kOnSurfaceTextSecondary
-                                            .copyWith(
-                                                color: Theme.of(context)
-                                                    .colorScheme
-                                                    .onSurfaceVariant),
+                                        style: context.titleSmall!.copyWith(
+                                          color: context.colors.onSurface,
+                                        ),
                                       ),
-                                      const SizedBox(
-                                        width: 12.0,
-                                      ),
+                                      const SizedBox(width: 12.0),
                                       Text(
                                         correctAns < 10
                                             ? '0$correctAns'
                                             : '$correctAns',
-                                        style: AppTextStyles
-                                            .kOnSurfaceTextSecondary
-                                            .copyWith(
-                                                color: Theme.of(context)
-                                                    .colorScheme
-                                                    .secondary),
+                                        style: context.titleSmall!.copyWith(
+                                          color: context.colors.primary,
+                                        ),
                                       ),
                                       Text(' Correct',
                                           style: AppTextStyles
@@ -181,38 +206,19 @@ class PartItem extends StatelessWidget {
                                                       .onSurfaceVariant)),
                                     ],
                                   ),
-                                  const SizedBox(height: 4.0),
-                                  Container(
-                                    decoration: const BoxDecoration(
-                                        color: Colors.black45,
-                                        borderRadius: BorderRadius.all(
-                                            Radius.circular(5.0))),
-                                    child: Padding(
-                                      padding: const EdgeInsets.all(4.0),
-                                      child: Text(
-                                        testDescription[
-                                            partBusinessModel.partType.index],
-                                        style: const TextStyle(
-                                            fontSize: 10.0,
-                                            color: Colors.white),
-                                      ),
-                                    ),
-                                  ),
                                 ],
                               ),
                             ),
                           ],
                         ),
                         CircularPercentIndicator(
-                          radius: 50.0,
+                          radius: 45.0,
                           percent: correctPercent,
                           center: Text(
                             '${(correctPercent * 100).toInt()}%',
-                            style: TextStyle(
-                                color: Theme.of(context).colorScheme.onSurface),
+                            style: TextStyle(color: context.colors.onSurface),
                           ),
-                          progressColor:
-                              GetIt.I.get<AppColor>().circularProgress,
+                          progressColor: context.colors.secondary,
                         ),
                       ],
                     ),

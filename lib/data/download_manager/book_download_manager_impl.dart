@@ -10,7 +10,7 @@ import '../../core_utils/global_configuration.dart';
 import 'download_constant.dart';
 import 'download_manager.dart';
 
-final String logTag = "BookDownloadManagerImpl";
+const _logTag = "BookDownloadManagerImpl";
 
 class BookDownloadManagerImpl implements DownloadManager {
   @override
@@ -20,32 +20,32 @@ class BookDownloadManagerImpl implements DownloadManager {
     //final file = File("${appDocDir}file.jpg");
     final localDir = localFireUrl.replaceAll(islandRef.name, '');
     await _createFolder(localDir);
-    if (logEnable) log("$logTag downloadFile() $localDir");
+    if (logEnable) log("$_logTag downloadFile() $localDir");
     final file = File(localFireUrl);
     try {
       final downloadTask = islandRef.writeToFile(file);
       downloadTask.snapshotEvents.listen((taskSnapshot) {
         switch (taskSnapshot.state) {
           case TaskState.running:
-            if (logEnable) log("$logTag downloadTask: running");
+            if (logEnable) log("$_logTag downloadTask: running");
             break;
           case TaskState.paused:
-            if (logEnable) log("$logTag downloadTask: paused");
+            if (logEnable) log("$_logTag downloadTask: paused");
             break;
           case TaskState.success:
-            if (logEnable) log("$logTag downloadTask: success");
+            if (logEnable) log("$_logTag downloadTask: success");
             break;
           case TaskState.canceled:
-            if (logEnable) log("$logTag downloadTask: canceled");
+            if (logEnable) log("$_logTag downloadTask: canceled");
             break;
           case TaskState.error:
-            if (logEnable) log("$logTag downloadTask: error");
+            if (logEnable) log("$_logTag downloadTask: error");
             break;
         }
       });
     } on FirebaseException catch (e) {
       // e.g, e.code == 'canceled'
-      if (logEnable) log('$logTag downloadFile exception ${e.code}');
+      if (logEnable) log('$_logTag downloadFile exception ${e.code}');
     }
     return Future.value(true);
   }
@@ -73,11 +73,11 @@ class BookDownloadManagerImpl implements DownloadManager {
       openAppSettings();
     }
     if ((await path.exists())) {
-      if (logEnable) log("$logTag _createFolder exist");
+      if (logEnable) log("$_logTag _createFolder exist");
     } else {
       path.create(recursive: true);
       if (logEnable) {
-        log("$logTag _createFolder not exist , create path: ${path.path}");
+        log("$_logTag _createFolder not exist , create path: ${path.path}");
       }
     }
   }

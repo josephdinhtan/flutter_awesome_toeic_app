@@ -46,7 +46,7 @@ class StoreScreen extends StatelessWidget {
                 padding: const EdgeInsets.all(8.0),
                 child: MasonryGridView.count(
                   itemCount: bookDtoList.length,
-                  // extern for display purpose, shoudl remove 4
+                  // extern for display purpose, should remove 4
                   crossAxisCount:
                       width > AppDimensions.maxWidthForMobileMode ? 3 : 2,
                   itemBuilder: (context, index) {

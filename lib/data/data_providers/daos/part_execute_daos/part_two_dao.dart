@@ -27,7 +27,7 @@ class PartTwoDao implements BaseDao<PartTwoModel, PartTwoHiveObject> {
     }
 
     await partTwoBox.put(hiveId, item);
-    if (logEnable) log("$_logTag addItem() partTwoBox put dtwo");
+    if (logEnable) log("$_logTag addItem() partTwoBox put two");
     return true;
   }
 

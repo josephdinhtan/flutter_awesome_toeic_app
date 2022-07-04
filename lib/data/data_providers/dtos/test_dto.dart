@@ -1,7 +1,7 @@
 // ignore_for_file: public_member_api_docs, sort_constructors_first
 import 'dart:convert';
 
-import 'package:flutter_toeic_quiz2/data/data_providers/dtos/base_dto/base_dto.dart';
+import 'base_dto/base_dto.dart';
 
 import '../../business_models/test_model.dart';
 

@@ -17,55 +17,62 @@ import '../../domain/get_book_detail_use_case/get_list_test_use_case.dart';
 import '../../domain/get_from_network_use_case/get_store_item_list_use_case.dart';
 import '../../domain/save_to_db_use_cases/save_book_to_db_use_case.dart';
 import '../../domain/save_to_db_use_cases/update_test_is_downloaded_to_db.dart';
+import '../../domain/user_settings_use_case/get_theme_color_use_case.dart';
 import '../../domain/user_settings_use_case/get_theme_enable_use_case.dart';
-import '../../domain/user_settings_use_case/set_theme_enable_use_case.dart';
-
-final getIt = GetIt.instance;
+import '../../domain/user_settings_use_case/set_theme_color_use_case.dart';
+import '../../domain/user_settings_use_case/set_theme_mode_use_case.dart';
 
 class UseCaseInjection {
   static configureDependencies() {
     // use cases
-    getIt.registerLazySingleton<GetListBookUseCase>(() => GetListBookUseCase());
-    getIt.registerLazySingleton<GetListTestUseCase>(() => GetListTestUseCase());
-    getIt.registerLazySingleton<GetListPartUseCase>(() => GetListPartUseCase());
+    GetIt.I
+        .registerLazySingleton<GetListBookUseCase>(() => GetListBookUseCase());
+    GetIt.I
+        .registerLazySingleton<GetListTestUseCase>(() => GetListTestUseCase());
+    GetIt.I
+        .registerLazySingleton<GetListPartUseCase>(() => GetListPartUseCase());
 
     // settings use cases
-    getIt.registerLazySingleton<GetThemeEnableUseCase>(
+    GetIt.I.registerLazySingleton<GetThemeColorUseCase>(
+        () => GetThemeColorUseCase());
+    GetIt.I.registerLazySingleton<GetThemeEnableUseCase>(
         () => GetThemeEnableUseCase());
-    getIt.registerLazySingleton<SetThemeEnableUseCase>(
-        () => SetThemeEnableUseCase());
+    GetIt.I.registerLazySingleton<SetThemeModeUseCase>(
+        () => SetThemeModeUseCase());
+    GetIt.I.registerLazySingleton<SetThemeColorUseCase>(
+        () => SetThemeColorUseCase());
 
     // store use cases
-    getIt.registerLazySingleton<GetStoreItemListUseCase>(
+    GetIt.I.registerLazySingleton<GetStoreItemListUseCase>(
         () => GetStoreItemListUseCase());
-    getIt.registerLazySingleton<SaveBookToDbUseCase>(
+    GetIt.I.registerLazySingleton<SaveBookToDbUseCase>(
         () => SaveBookToDbUseCase());
-    getIt.registerLazySingleton<UpdateTestIsDownloadedToDB>(
+    GetIt.I.registerLazySingleton<UpdateTestIsDownloadedToDB>(
         () => UpdateTestIsDownloadedToDB());
 
     // download use cases
-    getIt.registerLazySingleton<DownloadBookCoverUseCase>(
+    GetIt.I.registerLazySingleton<DownloadBookCoverUseCase>(
         () => DownloadBookCoverUseCase());
-    getIt.registerLazySingleton<DownloadTestUseCase>(
+    GetIt.I.registerLazySingleton<DownloadTestUseCase>(
         () => DownloadTestUseCase());
-    getIt.registerLazySingleton<TestFetchingDataUseCase>(
+    GetIt.I.registerLazySingleton<TestFetchingDataUseCase>(
         () => TestFetchingDataUseCase());
 
-    getIt.registerLazySingleton<GetPartOneQuestionListUseCase>(
+    GetIt.I.registerLazySingleton<GetPartOneQuestionListUseCase>(
         () => GetPartOneQuestionListUseCase());
-    getIt.registerLazySingleton<GetPartTwoQuestionListUseCase>(
+    GetIt.I.registerLazySingleton<GetPartTwoQuestionListUseCase>(
         () => GetPartTwoQuestionListUseCase());
-    getIt.registerLazySingleton<GetPartThreeQuestionListUseCase>(
+    GetIt.I.registerLazySingleton<GetPartThreeQuestionListUseCase>(
         () => GetPartThreeQuestionListUseCase());
-    getIt.registerLazySingleton<GetPartFourQuestionListUseCase>(
+    GetIt.I.registerLazySingleton<GetPartFourQuestionListUseCase>(
         () => GetPartFourQuestionListUseCase());
-    getIt.registerLazySingleton<GetPartFiveQuestionListUseCase>(
+    GetIt.I.registerLazySingleton<GetPartFiveQuestionListUseCase>(
         () => GetPartFiveQuestionListUseCase());
-    getIt.registerLazySingleton<GetPartSixQuestionListUseCase>(
+    GetIt.I.registerLazySingleton<GetPartSixQuestionListUseCase>(
         () => GetPartSixQuestionListUseCase());
-    getIt.registerLazySingleton<GetPartSevenQuestionListUseCase>(
+    GetIt.I.registerLazySingleton<GetPartSevenQuestionListUseCase>(
         () => GetPartSevenQuestionListUseCase());
-    getIt.registerLazySingleton<SaveQuestionToFavoriteUseCase>(
+    GetIt.I.registerLazySingleton<SaveQuestionToFavoriteUseCase>(
         () => SaveQuestionToFavoriteUseCase());
   }
 }

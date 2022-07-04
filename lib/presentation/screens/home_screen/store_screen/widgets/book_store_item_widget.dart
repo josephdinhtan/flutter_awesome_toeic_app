@@ -7,6 +7,7 @@ import '../../../../../core_ui/constants/transparent_image.dart';
 import '../../../../../data/data_providers/dtos/book_dto.dart';
 import '../../../../../view_model/book_screen_cubit/book_list_cubit.dart';
 import '../../../../../view_model/store_screen_cubit/store_screen_popup_cubit.dart';
+import '../../../../widgets/image_tile.dart';
 import 'book_store_item_popup_widget.dart';
 
 class BookStoreItemWidget extends StatelessWidget {
@@ -97,71 +98,12 @@ class BookStoreItemWidget extends StatelessWidget {
           },
         );
       },
-      child: Card(
-        child: Padding(
-          padding: const EdgeInsets.all(8.0),
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              ClipRRect(
-                borderRadius: const BorderRadius.all(Radius.circular(8.0)),
-                child: FadeInImage.memoryNetwork(
-                  placeholder: kTransparentImage,
-                  image: bookDto.full_cover_url,
-                ),
-
-                // child: Image.network(
-                //   widget.bookNetworkObject.full_cover_url,
-                //   fit: BoxFit.cover,
-                //   loadingBuilder: (BuildContext context, Widget child,
-                //       ImageChunkEvent? loadingProgress) {
-                //     if (loadingProgress == null) return child;
-                //     return const Center(
-                //         child: Padding(
-                //       padding: EdgeInsets.all(8.0),
-                //       child: SizedBox(
-                //           height: 200,
-                //           child: Center(child: Text('Loading...'))),
-                //     ));
-                //   },
-                // ),
-              ),
-              Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  const SizedBox(height: AppDimensions.kPaddingDefault),
-                  Text(
-                    bookDto.title,
-                  ),
-                  const SizedBox(height: AppDimensions.kPaddingDefault),
-                  bookDto.price != ""
-                      ? Text(
-                          bookDto.price,
-                        )
-                      : Container(
-                          decoration: const BoxDecoration(
-                              color: Colors.green,
-                              borderRadius:
-                                  BorderRadius.all(Radius.circular(5.0))),
-                          child: Padding(
-                            padding: const EdgeInsets.all(4.0),
-                            child: bookDto.isBought
-                                ? const Text(
-                                    'You already get it',
-                                    style: TextStyle(
-                                        fontSize: 16.0, color: Colors.white),
-                                  )
-                                : const Text(
-                                    'Free',
-                                    style: TextStyle(
-                                        fontSize: 16.0, color: Colors.white),
-                                  ),
-                          ),
-                        ),
-                ],
-              ),
-            ],
-          ),
+      child: Padding(
+        padding: const EdgeInsets.all(8.0),
+        child: ImageTile(
+          image: bookDto.full_cover_url,
+          title: bookDto.title,
+          subtitle: bookDto.des,
         ),
       ),
     );

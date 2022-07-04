@@ -5,8 +5,8 @@ import 'package:get_it/get_it.dart';
 
 import '../../../../core_ui/constants/app_colors/app_color.dart';
 import '../../../../core_ui/constants/app_dimensions.dart';
-import '../../../../core_ui/constants/app_colors/app_light_color_impl.dart';
 import '../../../../core_ui/constants/app_text_styles.dart';
+import '../../../../core_ui/extensions/extensions.dart';
 import '../../../../core_utils/core_utils.dart';
 import '../../../../data/business_models/execute_models/answer_enum.dart';
 import '../../../../view_model/execute_screen_cubit/part_two_cubit/part_two_cubit.dart';
@@ -134,9 +134,7 @@ class PartTwoScreen extends StatelessWidget {
                               Flexible(
                                 child: Text(state.question,
                                     style: AppTextStyles.kTextQuestion.copyWith(
-                                        color: Theme.of(context)
-                                            .colorScheme
-                                            .onBackground)),
+                                        color: context.colors.onBackground)),
                               ),
                             ],
                           );

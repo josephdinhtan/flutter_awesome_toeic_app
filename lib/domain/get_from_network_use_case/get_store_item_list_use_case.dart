@@ -8,7 +8,7 @@ class GetStoreItemListUseCase implements BaseUseCase<List<BookDto>, void> {
   final _repository = GetIt.I.get<StoreRepository>();
 
   @override
-  Future<List<BookDto>> perform(_) async {
+  Future<List<BookDto>> perform([_]) async {
     return await _repository.getBookList();
   }
 }

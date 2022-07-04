@@ -2,15 +2,13 @@ import 'dart:io';
 
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_toeic_quiz2/core_ui/constants/app_colors/app_color.dart';
-import 'package:flutter_toeic_quiz2/core_ui/constants/app_text_styles.dart';
-import 'package:get_it/get_it.dart';
+
+import '../../../../../core_ui/constants/app_dimensions.dart';
+import '../../../../../core_ui/extensions/typography_utils.dart';
+import '../../../../../core_utils/core_utils.dart';
 import '../../../../../data/business_models/book_model.dart';
 import '../../../../router/app_router.dart';
 import '../../../../router/screen_arguments.dart';
-
-import '../../../../../core_ui/constants/app_dimensions.dart';
-import '../../../../../core_utils/core_utils.dart';
 
 class BookItemWidget extends StatelessWidget {
   BookItemWidget({
@@ -24,6 +22,7 @@ class BookItemWidget extends StatelessWidget {
   Widget build(BuildContext context) {
     double height = MediaQuery.of(context).size.height;
     double width = MediaQuery.of(context).size.width;
+    final colors = context.theme.colorScheme;
     final _bookCoverPath =
         getApplicationDirectory() + '/' + bookInfoModel.coverPath;
     //print("BookItem widget rebuild $height, $width");
@@ -53,13 +52,12 @@ class BookItemWidget extends StatelessWidget {
               children: [
                 const SizedBox(width: 16.0),
                 ClipRRect(
-                  borderRadius: const BorderRadius.all(
-                      Radius.circular(AppDimensions.kCardRadiusDefault)),
+                  borderRadius: const BorderRadius.all(Radius.circular(8.0)),
                   child: Image.file(
                     File(_bookCoverPath),
                     fit: BoxFit.cover,
-                    width: 100.0,
-                    height: 120.0,
+                    width: 80.0,
+                    height: 100.0,
                   ),
                 ),
                 const SizedBox(
@@ -73,22 +71,26 @@ class BookItemWidget extends StatelessWidget {
                     children: [
                       Text(
                         bookInfoModel.title,
-                        style: AppTextStyles.kOnSurfaceTextPrimary.copyWith(
-                            color: Theme.of(context).colorScheme.onSurface),
+                        style: context.titleMedium!.copyWith(
+                            color: colors.primary, fontWeight: FontWeight.w600),
+                        // style: AppTextStyles.kOnSurfaceTextPrimary.copyWith(
+                        //     color: Theme.of(context).colorScheme.onSurface),
                       ),
                       const SizedBox(height: 4.0),
                       Text(
                         bookInfoModel.des,
-                        style: AppTextStyles.kOnSurfaceTextSecondary.copyWith(
-                            color:
-                                Theme.of(context).colorScheme.onSurfaceVariant),
+                        style: context.titleSmall!
+                            .copyWith(color: colors.secondary),
+                        // style: AppTextStyles.kOnSurfaceTextSecondary.copyWith(
+                        //     color: Theme.of(context).colorScheme.onSurfaceVariant),
                       ),
                       const SizedBox(height: 4.0),
                       Text(
                         '5% 887 M',
-                        style: AppTextStyles.kOnSurfaceTextSecondary.copyWith(
-                            color:
-                                Theme.of(context).colorScheme.onSurfaceVariant),
+                        style: context.titleSmall!
+                            .copyWith(color: colors.onBackground),
+                        // style: AppTextStyles.kOnSurfaceTextSecondary.copyWith(
+                        //     color: Theme.of(context).colorScheme.onSurfaceVariant),
                       ),
                       const SizedBox(height: 4.0),
                       Container(

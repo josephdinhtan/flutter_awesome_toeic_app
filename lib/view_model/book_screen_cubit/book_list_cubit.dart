@@ -19,7 +19,7 @@ class BookListCubit extends Cubit<BookListState> {
   Future<void> getBookList() async {
     emit(BookListLoading());
     try {
-      final List<BookModel> listBook = await useCase.perform(() {});
+      final List<BookModel> listBook = await useCase.perform();
       if (logEnable) {
         log("$logTag listBook Loaded: listBook ${listBook[0].toString()}");
       }

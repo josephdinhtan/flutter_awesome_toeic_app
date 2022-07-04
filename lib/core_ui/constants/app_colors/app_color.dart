@@ -1,7 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:flutter/widgets.dart';
-import 'package:flutter_toeic_quiz2/core_ui/constants/app_colors/app_dark_color_impl.dart';
-import 'package:flutter_toeic_quiz2/core_ui/constants/app_colors/app_light_color_impl.dart';
 
 abstract class AppColor {
   // factory AppColor(ThemeMode themeMode) {

@@ -3,7 +3,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
 import '../../../../core_ui/constants/app_dimensions.dart';
-import '../../../../core_ui/constants/app_colors/app_light_color_impl.dart';
+import '../../../../core_ui/extensions/extensions.dart';
 import '../../widgets/neumorphism_container.dart';
 
 class AudioController extends StatefulWidget {
@@ -74,7 +74,7 @@ class _AudioControllerState extends State<AudioController> {
   Widget build(BuildContext context) {
     return NeumorphismContainer(
       removeShadow: true,
-      color: Theme.of(context).bottomNavigationBarTheme.backgroundColor!,
+      color: context.colors.surfaceVariant,
       child: Padding(
         padding: const EdgeInsets.symmetric(horizontal: 8.0, vertical: 2.0),
         child: Row(
@@ -114,7 +114,9 @@ class _AudioControllerState extends State<AudioController> {
                     }
                   },
                   icon: Icon(
-                    isPlaying ? CupertinoIcons.pause : CupertinoIcons.play,
+                    isPlaying
+                        ? CupertinoIcons.pause_circle
+                        : CupertinoIcons.play_circle,
                     color: Theme.of(context)
                         .bottomNavigationBarTheme
                         .unselectedItemColor!,
@@ -144,36 +146,31 @@ class _AudioControllerState extends State<AudioController> {
                 const SizedBox(width: 6.0),
                 Text(
                   widget.coverFormatTime(_currentDuration.toInt()),
-                  style: const TextStyle(color: Colors.white),
                 ),
               ],
             ),
             Expanded(
-              child: SliderTheme(
-                data: SliderTheme.of(context).copyWith(
-                  inactiveTickMarkColor: Colors.transparent,
-                  activeTickMarkColor: Colors.transparent,
-                ),
-                child: Slider(
-                  value: _currentSliderValue,
-                  label: widget.coverFormatTime(_currentSliderValue.toInt()),
-                  divisions: widget.durationTime,
-                  min: 0.0,
-                  max: widget.durationTime.toDouble(),
-                  onChanged: (val) {
-                    sliderIsSliding = true;
-                    setState(() {
-                      _currentSliderValue = val;
-                    });
-                  },
-                  onChangeEnd: (val) {
-                    sliderIsSliding = false;
-                    setState(() {
-                      _currentDuration = val;
-                    });
-                    widget.changeToDurationCallBack!(val);
-                  },
-                ),
+              child: Slider(
+                value: _currentSliderValue > widget.durationTime.toDouble()
+                    ? widget.durationTime.toDouble()
+                    : _currentSliderValue,
+                label: widget.coverFormatTime(_currentSliderValue.toInt()),
+                divisions: widget.durationTime,
+                min: 0.0,
+                max: widget.durationTime.toDouble(),
+                onChanged: (val) {
+                  sliderIsSliding = true;
+                  setState(() {
+                    _currentSliderValue = val;
+                  });
+                },
+                onChangeEnd: (val) {
+                  sliderIsSliding = false;
+                  setState(() {
+                    _currentDuration = val;
+                  });
+                  widget.changeToDurationCallBack!(val);
+                },
               ),
             )
           ],

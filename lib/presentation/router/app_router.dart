@@ -2,6 +2,7 @@ import 'dart:developer';
 
 import 'package:flutter/cupertino.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:flutter_toeic_quiz2/view_model/settings_screen_cubit/settings_screen_cubit.dart';
 import 'package:get_it/get_it.dart';
 import '../../core_utils/global_configuration.dart';
 import '../../core_ui/exceptions/route_exception.dart';
@@ -49,6 +50,7 @@ class AppRouter {
   static const String part7Exam = '/part7exam';
 
   final BookListCubit _bookListCubit = GetIt.I.get<BookListCubit>();
+  final SettingsScreenCubit _settingsCubit = GetIt.I.get<SettingsScreenCubit>();
   final StoreScreenCubit _storeScreenCubit = GetIt.I.get<StoreScreenCubit>();
   final TestListCubit _testListCubit = GetIt.I.get<TestListCubit>();
   final TestDownloadCubit _testDownloadCubit = GetIt.I.get<TestDownloadCubit>();
@@ -81,7 +83,10 @@ class AppRouter {
         return CupertinoPageRoute(
           builder: (_) => BlocProvider.value(
             value: _bookListCubit,
-            child: const HomeScreen(),
+            child: BlocProvider.value(
+              value: _settingsCubit,
+              child: const HomeScreen(),
+            ),
           ),
         );
       case test:

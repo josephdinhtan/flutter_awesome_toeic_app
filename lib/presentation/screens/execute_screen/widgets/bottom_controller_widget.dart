@@ -1,6 +1,7 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
+import '../../../../core_ui/extensions/extensions.dart';
 import '../../widgets/neumorphism_container.dart';
 
 class BottomController extends StatelessWidget {
@@ -27,7 +28,7 @@ class BottomController extends StatelessWidget {
           ? const BorderRadius.only(
               topLeft: Radius.circular(12.0), topRight: Radius.circular(12.0))
           : BorderRadius.zero,
-      color: Theme.of(context).bottomNavigationBarTheme.backgroundColor!,
+      color: context.colors.surfaceVariant,
       child: Padding(
         padding: const EdgeInsets.symmetric(horizontal: 8.0, vertical: 2.0),
         child: Row(
@@ -54,7 +55,7 @@ class BottomController extends StatelessWidget {
             IconButton(
               onPressed: checkAnsPressed,
               icon: Icon(
-                CupertinoIcons.doc_checkmark,
+                CupertinoIcons.checkmark_seal,
                 color: Theme.of(context)
                     .bottomNavigationBarTheme
                     .unselectedItemColor,

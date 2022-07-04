@@ -7,10 +7,9 @@ class DownloadBookCoverUseCase implements BaseUseCase<bool, String> {
   final DownloadManager _bookDownloadManager = BookDownloadManagerImpl();
 
   @override
-  Future<bool> perform(bookRelativeCoverUrl) async {
+  Future<bool> perform(relativeCoverUrl) async {
     final appDocDir = getApplicationDirectory();
-    final filePath = appDocDir + '/' + bookRelativeCoverUrl;
-    return await _bookDownloadManager.downloadFile(
-        bookRelativeCoverUrl, filePath);
+    final filePath = appDocDir + '/' + relativeCoverUrl;
+    return await _bookDownloadManager.downloadFile(relativeCoverUrl, filePath);
   }
 }

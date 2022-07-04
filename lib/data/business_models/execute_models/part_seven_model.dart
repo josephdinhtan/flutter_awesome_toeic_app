@@ -24,4 +24,4 @@ class PartSevenStatement {
   PartSevenStatement({required this.style, required this.stringData});
 }
 
-enum PartSevenStatementType { TEXT, IMAGE }
+enum PartSevenStatementType { text, image }

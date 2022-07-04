@@ -8,7 +8,7 @@ class GetListBookUseCase implements BaseUseCase<List<BookModel>, void> {
   final repository = GetIt.I.get<BookRepository>();
 
   @override
-  Future<List<BookModel>> perform(_) async {
+  Future<List<BookModel>> perform([_]) async {
     return Future.value(repository.getBookList());
   }
 }

@@ -14,10 +14,8 @@ class TestMobileRepositoryImpl implements TestRepository {
 
   @override
   Future<bool> updateATestDataDownloadedToDB(String testHiveId) async {
-    // TestsInfoModel testInfoModel
-    //      await _apidao.getItem(testHiveId) as TestsInfoModel;
-    // testInfoModel.isResourceDownloaded = true;
-    // return await _apidao.addItem(testInfoModel.toHiveObject(), testHiveId);
-    return true;
+    TestModel? testModel = await _dao.query(testHiveId);
+    testModel!.isResourceDownloaded = true;
+    return await _dao.insert(testModel.toHiveObject(), testHiveId);
   }
 }

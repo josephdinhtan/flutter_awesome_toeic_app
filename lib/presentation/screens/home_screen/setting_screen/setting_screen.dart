@@ -1,213 +1,138 @@
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:flutter_toeic_quiz2/core_ui/extensions/extensions.dart';
+import 'package:flutter_toeic_quiz2/view_model/settings_screen_cubit/settings_screen_cubit.dart';
 
+import '../../../../core_ui/theme/theme.dart';
 import '../../../../core_utils/core_utils.dart';
-import 'widgets/brightness_toggle.dart';
 import 'widgets/color_picker.dart';
+import 'widgets/language_picker.dart';
+import 'widgets/notification_date_picker.dart';
+import 'widgets/notification_time_picker.dart';
+import 'widgets/settings_container.dart';
+import 'widgets/theme_picker.dart';
 
-class SettingScreen extends StatefulWidget {
+class SettingScreen extends StatelessWidget {
   SettingScreen({Key? key}) : super(key: key);
-
-  @override
-  State<SettingScreen> createState() => _SettingScreenState();
-}
-
-class _SettingScreenState extends State<SettingScreen> {
   bool darkModeEnable = false;
   List<bool> isSelected = [false, false, false];
 
   @override
-  void initState() {
-    super.initState();
+  Widget build(BuildContext context) {
     final themeMode = getApplicationThemeMode();
     isSelected[themeMode.index] = true;
-  }
-
-  @override
-  Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
         title: const Text('Settings'),
       ),
       body: SingleChildScrollView(
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.stretch,
-          children: [
-            const SizedBox(height: 4.0),
-            SettingCard(
-              children: [
-                Text(
-                  'Account',
-                  //style: kTextStyleTestItemH2,
-                ),
-                const SizedBox(height: 15.0),
-                Row(
-                  children: [
-                    Container(
-                      width: 70.0,
-                      height: 70.0,
-                      decoration: BoxDecoration(
-                          borderRadius:
-                              const BorderRadius.all(Radius.circular(50.0)),
-                          border: Border.all(color: Colors.yellow)),
-                    ),
-                    const SizedBox(width: 20.0),
-                    Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        const Text('Littlepea'),
-                        const Text('View your profile')
-                      ],
-                    )
-                  ],
-                ),
-                TextButton.icon(
-                    onPressed: () {},
-                    icon: const Icon(Icons.shopping_cart_outlined),
-                    label: Text('Purchase' /*, style: kTextStyleSettingsH2*/)),
-              ],
-            ),
-            SettingCard(
-              children: [
-                Text('User interface' /*, style: kTextStyleSettingsH1*/),
-                const SizedBox(height: 4.0),
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  children: const [
-                    Text('Theme mode'),
-                    BrightnessToggle(),
-                  ],
-                ),
-                const SizedBox(height: 4.0),
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  children: [
-                    const Text('Color'),
-                    ColorPicker(),
-                  ],
-                ),
-                const SizedBox(height: 4.0),
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  children: [
-                    Text('Application language'),
-                    DropdownButton<String>(
-                      value: 'English',
-                      items:
-                          <String>['English', 'Vietnamese'].map((String value) {
-                        return DropdownMenuItem<String>(
-                          value: value,
-                          child: Text(value),
-                        );
-                      }).toList(),
-                      onChanged: (_) {},
-                    ),
-                  ],
-                ),
-                const SizedBox(height: 8.0),
-                TextButton(
-                  onPressed: () {},
-                  style: TextButton.styleFrom(
-                      padding: EdgeInsets.zero,
-                      alignment: Alignment.centerLeft),
-                  child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: const [
-                      Text('Native language' /*, style: kTextStyleSettingsH2*/),
-                      Text('English'),
-                    ],
-                  ),
-                ),
-              ],
-            ),
-            SettingCard(
-              children: [
-                Text(
-                  'Setting notification',
-                  /* style: kTextStyleSettingsH2,*/
-                ),
-                const SizedBox(height: 20.0),
-                const Text('Setting daily notification'),
-                const SizedBox(height: 10.0),
-                const Text('08:15 PM'),
-              ],
-            ),
-            SettingCard(
-              children: [
-                Text(
-                  'Community',
-                  /*style: kTextStyleSettingsH1,*/
-                ),
-                TextButton.icon(
-                  onPressed: () {},
-                  icon: const Icon(Icons.star_rate_outlined),
-                  label: Text(
-                    'Rate us 5 star', /* style: kTextStyleSettingsH1*/
-                  ),
-                ),
-                TextButton.icon(
-                  onPressed: () {},
-                  icon: const Icon(Icons.speaker_notes_rounded),
-                  label: Text(
-                    'Feedback', /*style: kTextStyleSettingsH1*/
-                  ),
-                ),
-                TextButton.icon(
-                  onPressed: () {},
-                  icon: const Icon(Icons.share_rounded),
-                  label: Text(
-                    'Share', /* style: kTextStyleSettingsH1*/
-                  ),
-                ),
-                SizedBox(
-                  width: double.infinity,
-                  child: ElevatedButton.icon(
-                    onPressed: () {
-                      // Navigator.push(
-                      //     context,
-                      //     CupertinoPageRoute(
-                      //       builder: (context) => FirebaseScreen(),
-                      //     ));
-                    },
-                    icon: const Icon(Icons.data_saver_off),
-                    label: const Text(
-                      'Check firebase Storage (Admin only)',
-                      style: TextStyle(color: Colors.white),
-                    ),
-                  ),
-                ),
-              ],
-            ),
-            const SizedBox(height: 4.0),
-          ],
-        ),
-      ),
-    );
-  }
-}
-
-class SettingCard extends StatelessWidget {
-  SettingCard({
-    Key? key,
-    required this.children,
-  }) : super(key: key);
-
-  List<Widget> children;
-
-  @override
-  Widget build(BuildContext context) {
-    return Padding(
-      padding:
-          const EdgeInsets.only(left: 8.0, right: 8.0, bottom: 0.0, top: 2.0),
-      child: Card(
-        shape: RoundedRectangleBorder(
-          borderRadius: BorderRadius.circular(10.0),
-        ),
         child: Padding(
-          padding: const EdgeInsets.all(16.0),
+          padding: const EdgeInsets.symmetric(horizontal: 16.0),
           child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: children,
+            crossAxisAlignment: CrossAxisAlignment.stretch,
+            children: [
+              const SizedBox(height: 12.0),
+              Text('Appearance', style: context.labelMedium),
+              const SizedBox(height: 4.0),
+              SettingContainer(
+                children: [
+                  ThemePicker(
+                    themeMode:
+                        ThemeProvider.of(context).settings.value.themeMode,
+                    themeModeChange: (themeMode) {
+                      final themeProvider = ThemeProvider.of(context);
+                      final settings = themeProvider.settings.value;
+                      final newSettings =
+                          settings.copyWith(themeMode: themeMode);
+                      ThemeSettingChange(settings: newSettings)
+                          .dispatch(context);
+
+                      BlocProvider.of<SettingsScreenCubit>(context)
+                          .saveThemeMode(themeMode);
+                    },
+                  ),
+                  ColorPicker(
+                    themeColor:
+                        ThemeProvider.of(context).settings.value.themeColor,
+                    themeColorChange: (themeColor) {
+                      final themeProvider = ThemeProvider.of(context);
+                      final settings = themeProvider.settings.value;
+                      final newSettings =
+                          settings.copyWith(themeColor: themeColor);
+                      ThemeSettingChange(settings: newSettings)
+                          .dispatch(context);
+
+                      BlocProvider.of<SettingsScreenCubit>(context)
+                          .saveThemeColor(themeColor);
+                    },
+                  ),
+                ],
+              ),
+              const SizedBox(height: 12.0),
+              Text('Language', style: context.labelMedium),
+              const SizedBox(height: 4.0),
+              SettingContainer(
+                children: const [
+                  LanguagePicker(),
+                ],
+              ),
+              const SizedBox(height: 12.0),
+              Text('Notification', style: context.labelMedium),
+              const SizedBox(height: 4.0),
+              SettingContainer(
+                children: [
+                  NotificationDatePicker(),
+                  NotificationTimePicker(),
+                ],
+              ),
+              const SizedBox(height: 12.0),
+              Text('Community', style: context.labelMedium),
+              const SizedBox(height: 4.0),
+              SettingContainer(
+                children: [
+                  TextButton.icon(
+                    onPressed: () {},
+                    icon: const Icon(Icons.star_rate_outlined),
+                    label: Text(
+                      'Rate us 5 star', /* style: kTextStyleSettingsH1*/
+                    ),
+                  ),
+                  TextButton.icon(
+                    onPressed: () {},
+                    icon: const Icon(Icons.speaker_notes_rounded),
+                    label: Text(
+                      'Feedback', /*style: kTextStyleSettingsH1*/
+                    ),
+                  ),
+                  TextButton.icon(
+                    onPressed: () {},
+                    icon: const Icon(Icons.share_rounded),
+                    label: Text(
+                      'Share', /* style: kTextStyleSettingsH1*/
+                    ),
+                  ),
+                  Padding(
+                    padding: const EdgeInsets.symmetric(horizontal: 32.0),
+                    child: SizedBox(
+                      width: double.infinity,
+                      child: ElevatedButton.icon(
+                        onPressed: () {
+                          // Navigator.push(
+                          //     context,
+                          //     CupertinoPageRoute(
+                          //       builder: (context) => FirebaseScreen(),
+                          //     ));
+                        },
+                        icon: const Icon(Icons.data_saver_off),
+                        label:
+                            const Text('Check firebase Storage (Admin only)'),
+                      ),
+                    ),
+                  ),
+                ],
+              ),
+              const SizedBox(height: 4.0),
+            ],
           ),
         ),
       ),

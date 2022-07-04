@@ -1,6 +1,7 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:flutter_toeic_quiz2/view_model/settings_screen_cubit/settings_screen_cubit.dart';
 
 import '../../../view_model/book_screen_cubit/book_list_cubit.dart';
 import 'book_screen/BookScreen.dart';
@@ -50,7 +51,7 @@ class _HomeScreenState extends State<HomeScreen> {
   late Widget
       _bookScreen; // = BlocProvider.value(value: BlocProvider.of<BookListCubit>(context), child: const BookScreen(),);
   final Widget _favoriteScreen = const FavoriteScreen();
-  final Widget _moreScreen = SettingScreen();
+  late Widget _moreScreen;
   int _currentIndex = 0;
   final PageController _pageController = PageController();
 
@@ -61,6 +62,11 @@ class _HomeScreenState extends State<HomeScreen> {
     _bookScreen = BlocProvider.value(
       value: BlocProvider.of<BookListCubit>(context),
       child: const BookScreen(),
+    );
+
+    _moreScreen = BlocProvider.value(
+      value: BlocProvider.of<SettingsScreenCubit>(context),
+      child: SettingScreen(),
     );
   }
 

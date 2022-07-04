@@ -17,7 +17,7 @@ void configureDependencies() {
   GetIt.I.registerLazySingleton<AppDarkColorImpl>(() => AppDarkColorImpl());
   GetIt.I.registerLazySingleton<AppLightColorImpl>(() => AppLightColorImpl());
   GetIt.I.registerFactory<AppColor>(() =>
-      getApplicationActiveThemeMode() == ThemeMode.dark
+      getApplicationBrightness() == ThemeMode.dark
           ? GetIt.I.get<AppDarkColorImpl>()
           : GetIt.I.get<AppLightColorImpl>());
 

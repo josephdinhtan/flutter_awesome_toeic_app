@@ -1,6 +1,7 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_toeic_quiz2/core_ui/constants/app_text_styles.dart';
+import 'package:flutter_toeic_quiz2/core_ui/extensions/extensions.dart';
 import '../../../../data/business_models/test_model.dart';
 import '../../../router/app_router.dart';
 import '../../../router/screen_arguments.dart';
@@ -88,24 +89,31 @@ class _TestItemWidgetState extends State<TestItemWidget> {
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
                         Text(
+                          widget.testInfoModel.title,
+                          style: context.titleMedium!.copyWith(
+                              color: context.colors.primary,
+                              fontWeight: FontWeight.w600),
+                          // style: AppTextStyles.kOnSurfaceTextPrimary.copyWith(
+                          //     color: Theme.of(context).colorScheme.onSurface),
+                        ),
+                        const SizedBox(height: 4.0),
+                        Text(
                           widget.testInfoModel.memorySize != ''
                               ? '${widget.testInfoModel.numOfQuestion} QUESTIONS - ${widget.testInfoModel.memorySize}'
                               : '${widget.testInfoModel.numOfQuestion} QUESTIONS',
-                          style: AppTextStyles.kOnSurfaceTextSecondary.copyWith(
-                              color: Theme.of(context)
-                                  .colorScheme
-                                  .onSurfaceVariant),
-                        ),
-                        const SizedBox(height: AppDimensions.kPaddingDefault),
-                        Text(
-                          widget.testInfoModel.title,
-                          style: AppTextStyles.kOnSurfaceTextPrimary.copyWith(
-                              color: Theme.of(context).colorScheme.onSurface),
+
+                          style: context.titleSmall!.copyWith(
+                            color: context.colors.onBackground,
+                          ),
+                          // style: AppTextStyles.kOnSurfaceTextSecondary.copyWith(
+                          //     color: Theme.of(context)
+                          //         .colorScheme
+                          //         .onSurfaceVariant),
                         ),
                       ],
                     ),
                     SizedBox(
-                      width: 76.0,
+                      width: 70.0,
                       child: AnimatedBuilder(
                         animation: _downloadController,
                         builder: (BuildContext context, Widget? child) {
@@ -121,7 +129,7 @@ class _TestItemWidgetState extends State<TestItemWidget> {
                     )
                   ],
                 ),
-                const SizedBox(height: AppDimensions.kPaddingDefault),
+                const SizedBox(height: 4.0),
                 if (widget.testInfoModel.isResourceDownloaded &&
                     widget.testInfoModel.actualScore != null)
                   Row(
@@ -160,9 +168,7 @@ class _TestItemWidgetState extends State<TestItemWidget> {
                       const SizedBox(width: AppDimensions.kPaddingDefault),
                       Text(
                         'You have not studied this test',
-                        style: AppTextStyles.kOnSurfaceTextSecondary.copyWith(
-                            color:
-                                Theme.of(context).colorScheme.onSurfaceVariant),
+                        style: context.titleSmall,
                       ),
                       const SizedBox(width: AppDimensions.kPaddingDefault),
                     ],

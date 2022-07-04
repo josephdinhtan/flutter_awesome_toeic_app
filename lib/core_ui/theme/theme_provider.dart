@@ -1,35 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:material_color_utilities/material_color_utilities.dart';
 
-class NoAnimationPageTransitionsBuilder extends PageTransitionsBuilder {
-  const NoAnimationPageTransitionsBuilder();
-
-  @override
-  Widget buildTransitions<T>(
-    PageRoute<T> route,
-    BuildContext context,
-    Animation<double> animation,
-    Animation<double> secondaryAnimation,
-    Widget child,
-  ) {
-    return child;
-  }
-}
-
-class ThemeSettings {
-  ThemeSettings({
-    required this.sourceColor,
-    required this.themeMode,
-  });
-
-  final Color sourceColor;
-  final ThemeMode themeMode;
-}
-
-class ThemeSettingChange extends Notification {
-  ThemeSettingChange({required this.settings});
-  final ThemeSettings settings;
-}
+import '../animations/no_animation_page_transitions_builder.dart';
+import 'theme_settings.dart';
 
 class ThemeProvider extends InheritedWidget {
   const ThemeProvider(
@@ -64,12 +37,12 @@ class ThemeProvider extends InheritedWidget {
   }
 
   Color blend(Color targetColor) {
-    return Color(
-        Blend.harmonize(targetColor.value, settings.value.sourceColor.value));
+    return Color(Blend.harmonize(
+        targetColor.value, settings.value.themeColor.color.value));
   }
 
   Color source(Color? target) {
-    Color source = settings.value.sourceColor;
+    Color source = settings.value.themeColor.color;
     if (target != null) {
       source = blend(target);
     }
@@ -98,6 +71,7 @@ class ThemeProvider extends InheritedWidget {
       navigationRailTheme: navigationRailTheme(_colors),
       tabBarTheme: tabBarTheme(_colors),
       drawerTheme: drawerTheme(_colors),
+      sliderTheme: sliderTheme(_colors),
       scaffoldBackgroundColor: _colors.background,
       useMaterial3: true,
     );
@@ -116,6 +90,7 @@ class ThemeProvider extends InheritedWidget {
       navigationRailTheme: navigationRailTheme(_colors),
       tabBarTheme: tabBarTheme(_colors),
       drawerTheme: drawerTheme(_colors),
+      sliderTheme: sliderTheme(_colors),
       scaffoldBackgroundColor: _colors.background,
       useMaterial3: true,
     );
@@ -123,6 +98,13 @@ class ThemeProvider extends InheritedWidget {
 
   ThemeMode themeMode() {
     return settings.value.themeMode;
+  }
+
+  SliderThemeData sliderTheme(ColorScheme colors) {
+    return const SliderThemeData(
+      inactiveTickMarkColor: Colors.transparent,
+      activeTickMarkColor: Colors.transparent,
+    );
   }
 
   DrawerThemeData drawerTheme(ColorScheme colors) {
@@ -139,7 +121,7 @@ class ThemeProvider extends InheritedWidget {
     return BottomNavigationBarThemeData(
       type: BottomNavigationBarType.fixed,
       backgroundColor: colors.surfaceVariant,
-      selectedItemColor: colors.onSurface,
+      selectedItemColor: colors.primary,
       unselectedItemColor: colors.onSurfaceVariant,
       elevation: 0,
       landscapeLayout: BottomNavigationBarLandscapeLayout.centered,

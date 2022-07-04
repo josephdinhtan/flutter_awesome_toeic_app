@@ -1,7 +1,7 @@
 // ignore_for_file: must_be_immutable
 
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_toeic_quiz2/core_ui/extensions/extensions.dart';
 
 class AnswerSheetPanel extends StatelessWidget {
   double maxWidthForMobile;
@@ -50,7 +50,11 @@ class AnswerSheetPanel extends StatelessWidget {
     }
     return Column(
       children: [
-        const Text('Answer sheet'),
+        Text(
+          'Answer sheet',
+          style: context.titleMedium!.copyWith(
+              fontWeight: FontWeight.w600, color: context.colors.onSurface),
+        ),
         const SizedBox(height: 16.0),
         SizedBox(
           // width: currentWidth > maxWidthForMobile

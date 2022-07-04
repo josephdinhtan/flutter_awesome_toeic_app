@@ -18,9 +18,9 @@ class StoreScreenCubit extends Cubit<StoreScreenState> {
 
   Future<void> getInitContent() async {
     emit(StoreScreenBooksLoading());
-    final storeBookInfoList = await _getFromStoreBookListUseCase.perform(() {});
+    final storeBookInfoList = await _getFromStoreBookListUseCase.perform();
 
-    // final dbBookList = await _getBookListUserCase.perform(() {});
+    // final dbBookList = await _getBookListUserCase.perform();
     // for (BookDto storeBook in storeBookInfoList) {
     //   log('$_logTag storeBookInfoModel: ${storeBook.id}');
     //   for (BookModel bookInfoModel in dbBookList) {

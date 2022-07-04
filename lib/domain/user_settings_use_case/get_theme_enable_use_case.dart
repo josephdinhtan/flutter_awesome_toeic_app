@@ -8,7 +8,7 @@ class GetThemeEnableUseCase implements BaseUseCase<ThemeMode, void> {
   final _repository = GetIt.I.get<SettingsRepository>();
 
   @override
-  Future<ThemeMode> perform(_) async {
+  Future<ThemeMode> perform([_]) async {
     return await _repository.getThemeMode();
   }
 }

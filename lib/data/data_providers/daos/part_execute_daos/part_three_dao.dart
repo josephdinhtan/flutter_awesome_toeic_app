@@ -28,7 +28,7 @@ class PartThreeDao implements BaseDao<PartThreeModel, PartThreeHiveObject> {
     }
 
     await partThreeBox.put(hiveId, item);
-    if (logEnable) log("$_logTag addItem() partThreeBox put dthree");
+    if (logEnable) log("$_logTag addItem() partThreeBox put");
     return true;
   }
 

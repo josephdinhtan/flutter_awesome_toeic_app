@@ -59,7 +59,7 @@ class PartScreen extends StatelessWidget {
             for (var element in partListModel) {
               partItems.add(
                 PartItem(
-                  partBusinessModel: element,
+                  partModel: element,
                 ),
               );
             }
