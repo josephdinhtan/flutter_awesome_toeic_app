@@ -7,7 +7,8 @@ extension HumanizedDuration on Duration {
     }
     String value = '$_minutes:$_seconds';
     if (inHours > 0) {
-      value = '$inHours:$_minutes:$_seconds';
+      value = '$inHours:$_minutes';
+      //value = '$inHours:$_minutes:$_seconds';
     }
     return value;
   }

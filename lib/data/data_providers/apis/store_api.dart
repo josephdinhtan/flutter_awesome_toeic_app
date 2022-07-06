@@ -98,13 +98,13 @@ class StoreApi {
     List<dynamic> jsonMapList = jsonDecode(jsonString);
     for (var jsonMap in jsonMapList) {
       final bookDto = BookDto.fromMap(jsonMap);
-      bookDto.full_cover_url = await _getDownloadUrlFromPath(bookDto.cover_url);
+      bookDto.fullCoverUrl = await _getDownloadUrlFromPath(bookDto.coverUrl);
       _bookDtoList.add(bookDto);
     }
   }
 
   static Future<String> _getRawBooksJsonFile() async {
-    const path = DownloadConstant.BooksJsonFileBaseRelativePath;
+    const path = DownloadConstant.booksJsonFileBaseRelativePath;
     final ref = FirebaseStorage.instance.ref(path);
     final Uint8List? downloadedData = await ref.getData();
     final res = utf8.decode(downloadedData!);

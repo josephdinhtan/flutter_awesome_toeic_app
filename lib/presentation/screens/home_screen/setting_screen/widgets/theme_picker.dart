@@ -1,3 +1,4 @@
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_toeic_quiz2/core_ui/extensions/extensions.dart';
 
@@ -31,19 +32,28 @@ class _ThemePickerState extends State<ThemePicker> {
   Widget build(BuildContext context) {
     return GestureDetector(
       onTap: () {
-        showModalBottomSheet(
+        showCupertinoModalPopup(
             context: context,
             builder: (context) {
-              return ThemePickerPanel(
-                themeMode: widget.themeMode,
-                themeModeChange: themeModeChange,
+              return CupertinoActionSheet(
+                message: ThemePickerPanel(
+                  themeMode: widget.themeMode,
+                  themeModeChange: themeModeChange,
+                ),
+                cancelButton: CupertinoDialogAction(
+                  isDestructiveAction: true,
+                  onPressed: () {
+                    Navigator.pop(context);
+                  },
+                  child: const Text('Cancel'),
+                ),
               );
             });
       },
       child: Container(
         color: Colors.transparent,
         child: Padding(
-          padding: const EdgeInsets.all(16.0),
+          padding: EdgeInsets.symmetric(horizontal: 16.w, vertical: 16.h),
           child: Row(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
@@ -54,10 +64,10 @@ class _ThemePickerState extends State<ThemePicker> {
                     _themeModeStr[widget.themeMode.index],
                     style: context.labelMedium!.copyWith(color: Colors.grey),
                   ),
-                  const SizedBox(width: 8.0),
-                  const Icon(
+                  SizedBox(width: 8.w),
+                  Icon(
                     Icons.arrow_forward_ios,
-                    size: 16.0,
+                    size: 10.w,
                     color: Colors.grey,
                   ),
                 ],
@@ -102,56 +112,102 @@ class _ThemePickerPanelState extends State<ThemePickerPanel> {
 
   @override
   Widget build(BuildContext context) {
-    return Container(
-      height: 200.0,
-      //decoration: BoxDecoration(
-      //color: Colors.red,
-      // borderRadius: BorderRadius.only(
-      //   topLeft: Radius.circular(8.0),
-      //   topRight: Radius.circular(8.0),
-      // ),
-      //),
-      child: Row(
-          mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-          crossAxisAlignment: CrossAxisAlignment.center,
-          children: [
-            Column(
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: [
-                Icon(Icons.system_security_update_good_outlined),
-                Text('Follow system'),
-                Radio<ThemeModeEnum>(
-                  value: ThemeModeEnum.followSystem,
-                  groupValue: _themeModeEnum,
-                  onChanged: _handleRadioValueChanged,
-                )
-              ],
-            ),
-            Column(
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: [
-                Icon(Icons.light_mode),
-                Text('Light'),
-                Radio<ThemeModeEnum>(
-                  value: ThemeModeEnum.light,
-                  groupValue: _themeModeEnum,
-                  onChanged: _handleRadioValueChanged,
-                )
-              ],
-            ),
-            Column(
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: [
-                Icon(Icons.dark_mode),
-                Text('Dark'),
-                Radio<ThemeModeEnum>(
-                  value: ThemeModeEnum.dark,
-                  groupValue: _themeModeEnum,
-                  onChanged: _handleRadioValueChanged,
-                )
-              ],
-            )
-          ]),
+    return Material(
+      color: Colors.transparent,
+      child: SizedBox(
+        height: 200.h,
+        child: Row(
+            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+            crossAxisAlignment: CrossAxisAlignment.center,
+            children: [
+              Column(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  Row(
+                    children: [
+                      Container(
+                        width: 25.w,
+                        height: 70.w,
+                        decoration: BoxDecoration(
+                          color: Colors.white70,
+                          shape: BoxShape.rectangle,
+                          border: Border.all(color: Colors.grey),
+                          borderRadius: BorderRadius.only(
+                            topLeft: Radius.circular(8.r),
+                            bottomLeft: Radius.circular(8.r),
+                          ),
+                        ),
+                      ),
+                      Container(
+                        width: 25.w,
+                        height: 70.w,
+                        decoration: BoxDecoration(
+                          color: Colors.black54,
+                          shape: BoxShape.rectangle,
+                          border: Border.all(color: Colors.grey),
+                          borderRadius: BorderRadius.only(
+                            topRight: Radius.circular(8.r),
+                            bottomRight: Radius.circular(8.r),
+                          ),
+                        ),
+                      ),
+                    ],
+                  ),
+                  SizedBox(height: 8.h),
+                  const Text('Follow system'),
+                  Radio<ThemeModeEnum>(
+                    value: ThemeModeEnum.followSystem,
+                    groupValue: _themeModeEnum,
+                    onChanged: _handleRadioValueChanged,
+                  )
+                ],
+              ),
+              Column(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  Container(
+                    width: 50.w,
+                    height: 70.w,
+                    decoration: BoxDecoration(
+                      color: Colors.white,
+                      border: Border.all(color: Colors.grey),
+                      shape: BoxShape.rectangle,
+                      borderRadius: BorderRadius.all(Radius.circular(8.r)),
+                    ),
+                  ),
+                  SizedBox(height: 8.h),
+                  const Text('Light'),
+                  Radio<ThemeModeEnum>(
+                    value: ThemeModeEnum.light,
+                    groupValue: _themeModeEnum,
+                    onChanged: _handleRadioValueChanged,
+                  )
+                ],
+              ),
+              Column(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  Container(
+                    width: 50.w,
+                    height: 70.w,
+                    decoration: BoxDecoration(
+                      color: Colors.black87,
+                      shape: BoxShape.rectangle,
+                      border: Border.all(color: Colors.grey),
+                      borderRadius: BorderRadius.all(Radius.circular(8.r)),
+                    ),
+                  ),
+                  SizedBox(height: 8.h),
+                  const Text('Dark'),
+                  Radio<ThemeModeEnum>(
+                    value: ThemeModeEnum.dark,
+                    groupValue: _themeModeEnum,
+                    onChanged: _handleRadioValueChanged,
+                  )
+                ],
+              )
+            ]),
+      ),
     );
   }
 }

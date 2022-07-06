@@ -6,64 +6,64 @@ import '../../../business_models/execute_models/part_three_model.dart';
 
 class PartThreeDto implements BaseDto<PartThreeModel> {
   String id;
-  String audio_url;
-  String? picture_url;
+  String audioUrl;
+  String? pictureUrl;
   String statement;
   List<int> number;
-  List<String> correct_ans;
+  List<String> correctAns;
   List<String> question;
-  List<String> ans_a;
-  List<String> ans_b;
-  List<String> ans_c;
-  List<String> ans_d;
+  List<String> ansA;
+  List<String> ansB;
+  List<String> ansC;
+  List<String> ansD;
 
   PartThreeDto({
     required this.id,
-    required this.audio_url,
-    required this.picture_url,
+    required this.audioUrl,
+    required this.pictureUrl,
     required this.statement,
     required this.number,
-    required this.correct_ans,
+    required this.correctAns,
     required this.question,
-    required this.ans_a,
-    required this.ans_b,
-    required this.ans_c,
-    required this.ans_d,
+    required this.ansA,
+    required this.ansB,
+    required this.ansC,
+    required this.ansD,
   });
 
   @override
   PartThreeModel toBusinessModel() {
     return PartThreeModel(
-      audioPath: audio_url,
-      picturePath: picture_url,
-      correctAns: _strToCorrectAns(correct_ans),
+      audioPath: audioUrl,
+      picturePath: pictureUrl,
+      correctAns: _strToCorrectAns(correctAns),
       id: id,
       numbers: number,
-      answers: _StrToListAns(),
+      answers: _strToListAns(),
       questions: question,
       statement: statement,
     );
   }
 
-  List<List<String>> _StrToListAns() {
+  List<List<String>> _strToListAns() {
     List<List<String>> ansList = [];
     List<String> ansQuestion1 = [];
     List<String> ansQuestion2 = [];
     List<String> ansQuestion3 = [];
-    ansQuestion1.add(ans_a[0]);
-    ansQuestion1.add(ans_b[0]);
-    ansQuestion1.add(ans_c[0]);
-    ansQuestion1.add(ans_d[0]);
+    ansQuestion1.add(ansA[0]);
+    ansQuestion1.add(ansB[0]);
+    ansQuestion1.add(ansC[0]);
+    ansQuestion1.add(ansD[0]);
 
-    ansQuestion2.add(ans_a[1]);
-    ansQuestion2.add(ans_b[1]);
-    ansQuestion2.add(ans_c[1]);
-    ansQuestion2.add(ans_d[1]);
+    ansQuestion2.add(ansA[1]);
+    ansQuestion2.add(ansB[1]);
+    ansQuestion2.add(ansC[1]);
+    ansQuestion2.add(ansD[1]);
 
-    ansQuestion3.add(ans_a[2]);
-    ansQuestion3.add(ans_b[2]);
-    ansQuestion3.add(ans_c[2]);
-    ansQuestion3.add(ans_d[2]);
+    ansQuestion3.add(ansA[2]);
+    ansQuestion3.add(ansB[2]);
+    ansQuestion3.add(ansC[2]);
+    ansQuestion3.add(ansD[2]);
     ansList.add(ansQuestion1);
     ansList.add(ansQuestion2);
     ansList.add(ansQuestion3);
@@ -94,35 +94,35 @@ class PartThreeDto implements BaseDto<PartThreeModel> {
   }
 
   factory PartThreeDto.fromMap(Map<String, dynamic> map) {
-    List<dynamic> question_group = map['question_group'];
+    List<dynamic> questionGroup = map['question_group'];
     List<int> number = [];
-    List<String> correct_ans = [];
+    List<String> correctAns = [];
     List<String> question = [];
-    List<String> ans_a = [];
-    List<String> ans_b = [];
-    List<String> ans_c = [];
-    List<String> ans_d = [];
-    for (dynamic mapQuestion in question_group) {
+    List<String> ansA = [];
+    List<String> ansB = [];
+    List<String> ansC = [];
+    List<String> ansD = [];
+    for (dynamic mapQuestion in questionGroup) {
       number.add(mapQuestion['number'] as int);
-      correct_ans.add(mapQuestion['correct_ans'] as String);
+      correctAns.add(mapQuestion['correct_ans'] as String);
       question.add(mapQuestion['question'] as String);
-      ans_a.add(mapQuestion['ans_a'] as String);
-      ans_b.add(mapQuestion['ans_b'] as String);
-      ans_c.add(mapQuestion['ans_c'] as String);
-      ans_d.add(mapQuestion['ans_d'] as String);
+      ansA.add(mapQuestion['ans_a'] as String);
+      ansB.add(mapQuestion['ans_b'] as String);
+      ansC.add(mapQuestion['ans_c'] as String);
+      ansD.add(mapQuestion['ans_d'] as String);
     }
     return PartThreeDto(
       id: map['id'] as String,
-      audio_url: map['audio_url'] as String,
-      picture_url: map['picture_url'] as String?,
+      audioUrl: map['audio_url'] as String,
+      pictureUrl: map['picture_url'] as String?,
       statement: map['statement'] as String,
       number: number,
-      correct_ans: correct_ans,
+      correctAns: correctAns,
       question: question,
-      ans_a: ans_a,
-      ans_b: ans_b,
-      ans_c: ans_c,
-      ans_d: ans_d,
+      ansA: ansA,
+      ansB: ansB,
+      ansC: ansC,
+      ansD: ansD,
     );
   }
 }

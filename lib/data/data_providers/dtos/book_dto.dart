@@ -12,11 +12,11 @@ class BookDto implements BaseDto<BookModel> {
   String id;
   String des;
   String author;
-  String cover_url;
-  String full_cover_url;
+  String coverUrl;
+  String fullCoverUrl;
   String price;
-  String tests_url;
-  List<String> tests_ids;
+  String testUrls;
+  List<String> testIds;
   bool isBought;
 
   BookDto({
@@ -24,23 +24,23 @@ class BookDto implements BaseDto<BookModel> {
     required this.id,
     required this.des,
     required this.author,
-    required this.cover_url,
+    required this.coverUrl,
     required this.price,
-    required this.tests_url,
-    required this.tests_ids,
+    required this.testUrls,
+    required this.testIds,
     this.isBought = false,
-    this.full_cover_url = "",
+    this.fullCoverUrl = "",
   });
 
   @override
   BookModel toBusinessModel() {
     return BookModel(
       id: id,
-      testIds: tests_ids,
+      testIds: testIds,
       title: title,
       des: des,
       author: author,
-      coverPath: cover_url,
+      coverPath: coverUrl,
       price: price,
     );
   }
@@ -51,8 +51,8 @@ class BookDto implements BaseDto<BookModel> {
       title: title,
       des: des,
       author: author,
-      coverPath: cover_url,
-      testIds: tests_ids,
+      coverPath: coverUrl,
+      testIds: testIds,
       price: price,
     );
   }
@@ -63,10 +63,10 @@ class BookDto implements BaseDto<BookModel> {
       'id': id,
       'des': des,
       'author': author,
-      'cover_url': cover_url,
+      'cover_url': coverUrl,
       'price': price,
-      'tests_url': tests_url,
-      'tests_ids': tests_ids,
+      'tests_url': testUrls,
+      'tests_ids': testIds,
     };
   }
 
@@ -76,10 +76,10 @@ class BookDto implements BaseDto<BookModel> {
       id: map['id'] as String,
       des: map['des'] as String,
       author: map['author'] as String,
-      cover_url: map['cover_url'] as String,
+      coverUrl: map['cover_url'] as String,
       price: map['price'] as String,
-      tests_url: map['tests_url'] as String,
-      tests_ids: List<String>.from((map['tests_ids'] as List<dynamic>)),
+      testUrls: map['tests_url'] as String,
+      testIds: List<String>.from((map['tests_ids'] as List<dynamic>)),
     );
   }
 

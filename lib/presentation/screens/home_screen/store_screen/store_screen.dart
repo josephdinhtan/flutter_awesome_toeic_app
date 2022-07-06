@@ -23,7 +23,6 @@ class StoreScreen extends StatelessWidget {
   }
 
   Widget _buildList(String jsonString, BuildContext context) {
-    double height = MediaQuery.of(context).size.height;
     double width = MediaQuery.of(context).size.width;
 
     return Center(
@@ -64,7 +63,7 @@ class StoreScreen extends StatelessWidget {
                 ),
               );
             } else {
-              return Center(child: Text('unknow state ${state}'));
+              return Center(child: Text('unknown state $state'));
             }
           },
         ),

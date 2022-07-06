@@ -1,5 +1,6 @@
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_toeic_quiz2/core_ui/extensions/extensions.dart';
 import 'package:get_it/get_it.dart';
 
 import '../../../../core_ui/constants/app_colors/app_color.dart';
@@ -134,17 +135,15 @@ class AnswerButtonNeumorphic extends StatelessWidget {
                 Text(
                   title,
                   style: isSelected.value == id
-                      ? AppTextStyles.kTextAnswerBoard
-                          .copyWith(color: Colors.black)
-                      : AppTextStyles.kTextAnswerBoard,
+                      ? context.labelLarge!.copyWith(color: Colors.black)
+                      : context.labelLarge,
                 ),
                 Flexible(
                   child: Text(
                     content,
                     style: isSelected.value == id
-                        ? AppTextStyles.kTextAnswerBoard
-                            .copyWith(color: Colors.black)
-                        : AppTextStyles.kTextAnswerBoard,
+                        ? context.labelLarge!.copyWith(color: Colors.black)
+                        : context.labelLarge,
                   ),
                 ),
               ],
@@ -156,7 +155,7 @@ class AnswerButtonNeumorphic extends StatelessWidget {
         ),
         isCorrectAns
             ? Padding(
-                padding: const EdgeInsets.only(right: 8.0),
+                padding: EdgeInsets.only(right: 8.w),
                 child: Icon(
                   Icons.check_circle_rounded,
                   color: GetIt.I.get<AppColor>().answerCorrect,

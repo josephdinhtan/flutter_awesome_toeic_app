@@ -8,39 +8,39 @@ import '../../business_models/test_model.dart';
 class TestDto implements BaseDto<TestModel> {
   String title;
   String id;
-  String memory_size;
-  int num_of_question;
-  int? actual_score;
-  String pictures_url;
-  String audios_url;
-  String parts_url;
+  String memorySize;
+  int numOfQuestion;
+  int? actualScore;
+  String pictureUrl;
+  String audioUrl;
+  String partUrl;
   int ver;
-  List<String> part_ids;
+  List<String> partIds;
   TestDto({
     required this.title,
     required this.id,
-    required this.memory_size,
-    required this.num_of_question,
-    required this.actual_score,
-    required this.pictures_url,
-    required this.audios_url,
-    required this.parts_url,
+    required this.memorySize,
+    required this.numOfQuestion,
+    required this.actualScore,
+    required this.pictureUrl,
+    required this.audioUrl,
+    required this.partUrl,
     required this.ver,
-    required this.part_ids,
+    required this.partIds,
   });
 
   Map<String, dynamic> toMap() {
     return <String, dynamic>{
       'title': title,
       'id': id,
-      'memory_size': memory_size,
-      'num_of_question': num_of_question,
-      'actual_score': actual_score,
-      'pictures_url': pictures_url,
-      'audios_url': audios_url,
-      'parts_url': parts_url,
+      'memory_size': memorySize,
+      'num_of_question': numOfQuestion,
+      'actual_score': actualScore,
+      'pictures_url': pictureUrl,
+      'audios_url': audioUrl,
+      'parts_url': partUrl,
       'ver': ver,
-      'part_ids': part_ids,
+      'part_ids': partIds,
     };
   }
 
@@ -48,15 +48,15 @@ class TestDto implements BaseDto<TestModel> {
     return TestDto(
       title: map['title'] as String,
       id: map['id'] as String,
-      memory_size: map['memory_size'] as String,
-      num_of_question: map['num_of_question'] as int,
-      actual_score:
+      memorySize: map['memory_size'] as String,
+      numOfQuestion: map['num_of_question'] as int,
+      actualScore:
           map['actual_score'] != null ? map['actual_score'] as int : null,
-      pictures_url: map['pictures_url'] as String,
-      audios_url: map['audios_url'] as String,
-      parts_url: map['parts_url'] as String,
+      pictureUrl: map['pictures_url'] as String,
+      audioUrl: map['audios_url'] as String,
+      partUrl: map['parts_url'] as String,
       ver: map['ver'] as int,
-      part_ids: List<String>.from((map['part_ids'] as List<dynamic>)),
+      partIds: List<String>.from((map['part_ids'] as List<dynamic>)),
     );
   }
 
@@ -70,13 +70,13 @@ class TestDto implements BaseDto<TestModel> {
     return TestModel(
       id: id,
       title: title,
-      memorySize: memory_size,
-      numOfQuestion: num_of_question,
+      memorySize: memorySize,
+      numOfQuestion: numOfQuestion,
       ver: ver,
-      picturePath: pictures_url,
-      partIds: part_ids,
-      actualScore: actual_score,
-      audioPath: audios_url,
+      picturePath: pictureUrl,
+      partIds: partIds,
+      actualScore: actualScore,
+      audioPath: audioUrl,
     );
   }
 }

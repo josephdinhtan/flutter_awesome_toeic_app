@@ -1,19 +1,10 @@
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_toeic_quiz2/core_ui/extensions/extensions.dart';
 
+import '../../../../../core_ui/extensions/extensions.dart';
 import '../../../../../core_ui/theme/theme.dart';
 
-enum ColorEnum {
-  grey,
-  pink,
-  blue,
-  green,
-  orange,
-  purple,
-}
-
 List<ThemeColor> _themeColorList = [
-  ThemeColor(name: 'Black', color: Colors.black),
   ThemeColor(name: 'Grey', color: Colors.grey),
   ThemeColor(name: 'Pink', color: Colors.pink),
   ThemeColor(name: 'Blue', color: Colors.blue),
@@ -48,22 +39,34 @@ class _ColorPickerState extends State<ColorPicker> {
   Widget build(BuildContext context) {
     return GestureDetector(
       onTap: () {
-        showModalBottomSheet(
+        showCupertinoModalPopup(
             context: context,
             builder: (context) {
-              return ColorPickerPanel(
-                availableColors: _themeColorList,
-                initialColor: widget.themeColor.color,
-                onSelectColor: (value) {
-                  _colorChange(value);
-                },
+              return CupertinoActionSheet(
+                cancelButton: CupertinoDialogAction(
+                  /// This parameter indicates the action would perform
+                  /// a destructive action such as delete or exit and turns
+                  /// the action's text color to red.
+                  isDestructiveAction: true,
+                  onPressed: () {
+                    Navigator.pop(context);
+                  },
+                  child: const Text('Cancel'),
+                ),
+                message: ColorPickerPanel(
+                  availableColors: _themeColorList,
+                  initialColor: widget.themeColor.color,
+                  onSelectColor: (value) {
+                    _colorChange(value);
+                  },
+                ),
               );
             });
       },
       child: Container(
         color: Colors.transparent,
         child: Padding(
-          padding: const EdgeInsets.all(16.0),
+          padding: EdgeInsets.symmetric(horizontal: 16.w, vertical: 16.h),
           child: Row(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
@@ -74,10 +77,10 @@ class _ColorPickerState extends State<ColorPicker> {
                     widget.themeColor.name,
                     style: context.labelMedium!.copyWith(color: Colors.grey),
                   ),
-                  const SizedBox(width: 8.0),
-                  const Icon(
+                  SizedBox(width: 8.w),
+                  Icon(
                     Icons.arrow_forward_ios,
-                    size: 16.0,
+                    size: 10.w,
                     color: Colors.grey,
                   ),
                 ],
@@ -109,7 +112,6 @@ class ColorPickerPanel extends StatefulWidget {
 }
 
 class _ColorPickerPanelState extends State<ColorPickerPanel> {
-  ColorEnum? _colorEnum;
   late Color _pickedColor;
 
   @override
@@ -121,21 +123,20 @@ class _ColorPickerPanelState extends State<ColorPickerPanel> {
   @override
   Widget build(BuildContext context) {
     return SizedBox(
-      width: double.infinity,
-      height: 100.0,
+      height: 100.h,
       child: Center(
         child: ListView.separated(
           shrinkWrap: true,
-          separatorBuilder: (context, index) => const SizedBox(width: 8.0),
+          separatorBuilder: (context, index) => SizedBox(width: 12.w),
           scrollDirection: Axis.horizontal,
           itemCount: widget.availableColors.length,
-          padding: const EdgeInsets.symmetric(horizontal: 8.0),
+          padding: EdgeInsets.symmetric(horizontal: 8.w),
           itemBuilder: (context, index) {
             final itemColor = widget.availableColors[index];
             return Column(
               mainAxisAlignment: MainAxisAlignment.spaceEvenly,
               children: [
-                InkWell(
+                GestureDetector(
                   onTap: () {
                     widget.onSelectColor(itemColor);
                     setState(() {
@@ -143,8 +144,8 @@ class _ColorPickerPanelState extends State<ColorPickerPanel> {
                     });
                   },
                   child: Container(
-                    width: 50,
-                    height: 50,
+                    width: 40.w,
+                    height: 40.w,
                     decoration: BoxDecoration(
                       color: itemColor.color,
                       shape: widget.circleItem == true
@@ -152,16 +153,20 @@ class _ColorPickerPanelState extends State<ColorPickerPanel> {
                           : BoxShape.rectangle,
                     ),
                     child: itemColor.color == _pickedColor
-                        ? const Center(
+                        ? Center(
                             child: Icon(
                               Icons.check,
                               color: Colors.white,
+                              size: 20.w,
                             ),
                           )
                         : Container(),
                   ),
                 ),
-                Text(itemColor.name),
+                Text(
+                  itemColor.name,
+                  style: context.labelMedium,
+                ),
               ],
             );
           },

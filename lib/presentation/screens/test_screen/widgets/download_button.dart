@@ -1,8 +1,7 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:get_it/get_it.dart';
 
-import '../../../../core_ui/constants/app_colors/app_color.dart';
+import '../../../../core_ui/extensions/extensions.dart';
 import 'download_handler/download_status.dart';
 
 class DownloadButton extends StatelessWidget {
@@ -10,8 +9,8 @@ class DownloadButton extends StatelessWidget {
     Key? key,
     required this.status,
     this.downloadProgress = 0.0,
-    required this.onDownload,
     required this.onCancel,
+    required this.onDownload,
     required this.onOpen,
     this.transitionDuration = const Duration(milliseconds: 500),
   }) : super(key: key);
@@ -88,7 +87,7 @@ class DownloadButton extends StatelessWidget {
     final opacity = _isDownloading || _isFetching ? 0.0 : 1.0;
 
     return Padding(
-      padding: const EdgeInsets.symmetric(vertical: 6),
+      padding: EdgeInsets.symmetric(vertical: 6.h),
       child: AnimatedOpacity(
         duration: transitionDuration,
         opacity: opacity,
@@ -96,7 +95,9 @@ class DownloadButton extends StatelessWidget {
         child: Text(
           text,
           textAlign: TextAlign.center,
-          style: TextStyle(color: Theme.of(context).colorScheme.onSecondary),
+          style: TextStyle(
+              fontSize: 12.sp,
+              color: Theme.of(context).colorScheme.onSecondary),
         ),
       ),
     );
@@ -115,7 +116,7 @@ class DownloadButton extends StatelessWidget {
             if (_isDownloading)
               Icon(
                 Icons.stop,
-                size: 14.0,
+                size: 14.w,
                 color: Theme.of(context).textTheme.button!.color,
               ),
           ],

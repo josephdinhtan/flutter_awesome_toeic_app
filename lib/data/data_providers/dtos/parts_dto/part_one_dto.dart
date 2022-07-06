@@ -9,24 +9,24 @@ import '../../../business_models/execute_models/part_one_model.dart';
 class PartOneDto implements BaseDto<PartOneModel> {
   int number;
   String id;
-  String audio_url;
-  String picture_url;
-  String correct_ans;
-  String transcript_a;
-  String transcript_b;
-  String transcript_c;
-  String transcript_d;
+  String audioUrl;
+  String pictureUrl;
+  String correctAns;
+  String transcriptA;
+  String transcriptB;
+  String transcriptC;
+  String transcriptD;
 
   PartOneDto({
     required this.number,
     required this.id,
-    required this.audio_url,
-    required this.picture_url,
-    required this.correct_ans,
-    required this.transcript_a,
-    required this.transcript_b,
-    required this.transcript_c,
-    required this.transcript_d,
+    required this.audioUrl,
+    required this.pictureUrl,
+    required this.correctAns,
+    required this.transcriptA,
+    required this.transcriptB,
+    required this.transcriptC,
+    required this.transcriptD,
   });
 
   @override
@@ -34,9 +34,9 @@ class PartOneDto implements BaseDto<PartOneModel> {
     return PartOneModel(
       number: number,
       id: id,
-      audioPath: audio_url,
-      picturePath: picture_url,
-      correctAnswer: _strToAns(correct_ans),
+      audioPath: audioUrl,
+      picturePath: pictureUrl,
+      correctAnswer: _strToAns(correctAns),
       answers: _ansStrToList(),
     );
   }
@@ -62,10 +62,10 @@ class PartOneDto implements BaseDto<PartOneModel> {
 
   List<String> _ansStrToList() {
     List<String> ans = [];
-    ans.add(transcript_a);
-    ans.add(transcript_b);
-    ans.add(transcript_c);
-    ans.add(transcript_d);
+    ans.add(transcriptA);
+    ans.add(transcriptB);
+    ans.add(transcriptC);
+    ans.add(transcriptD);
     return ans;
   }
 
@@ -73,13 +73,13 @@ class PartOneDto implements BaseDto<PartOneModel> {
     return <String, dynamic>{
       'number': number,
       'id': id,
-      'audio_url': audio_url,
-      'picture_url': picture_url,
-      'correct_ans': correct_ans,
-      'transcript_a': transcript_a,
-      'transcript_b': transcript_b,
-      'transcript_c': transcript_c,
-      'transcript_d': transcript_d,
+      'audio_url': audioUrl,
+      'picture_url': pictureUrl,
+      'correct_ans': correctAns,
+      'transcript_a': transcriptA,
+      'transcript_b': transcriptB,
+      'transcript_c': transcriptC,
+      'transcript_d': transcriptD,
     };
   }
 
@@ -87,18 +87,17 @@ class PartOneDto implements BaseDto<PartOneModel> {
     return PartOneDto(
       number: map['number'] as int,
       id: map['id'] as String,
-      audio_url: map['audio_url'] as String,
-      picture_url: map['picture_url'] as String,
-      correct_ans: map['correct_ans'] as String,
-      transcript_a: map['transcript_a'] as String,
-      transcript_b: map['transcript_b'] as String,
-      transcript_c: map['transcript_c'] as String,
-      transcript_d: map['transcript_d'] as String,
+      audioUrl: map['audio_url'] as String,
+      pictureUrl: map['picture_url'] as String,
+      correctAns: map['correct_ans'] as String,
+      transcriptA: map['transcript_a'] as String,
+      transcriptB: map['transcript_b'] as String,
+      transcriptC: map['transcript_c'] as String,
+      transcriptD: map['transcript_d'] as String,
     );
   }
 
   String toJson() => json.encode(toMap());
   factory PartOneDto.fromJson(String source) =>
-      PartOneDto.fromMap(
-          json.decode(source) as Map<String, dynamic>);
+      PartOneDto.fromMap(json.decode(source) as Map<String, dynamic>);
 }

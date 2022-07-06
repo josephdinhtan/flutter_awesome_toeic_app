@@ -15,7 +15,10 @@ import '../../domain/get_book_detail_use_case/get_list_book_use_case.dart';
 import '../../domain/get_book_detail_use_case/get_list_part_use_case.dart';
 import '../../domain/get_book_detail_use_case/get_list_test_use_case.dart';
 import '../../domain/get_from_network_use_case/get_store_item_list_use_case.dart';
+import '../../domain/question_note_use_case/read_all_question_note_use_case.dart';
+import '../../domain/question_note_use_case/read_question_note_use_case.dart';
 import '../../domain/save_to_db_use_cases/save_book_to_db_use_case.dart';
+import '../../domain/question_note_use_case/save_question_note_use_case.dart';
 import '../../domain/save_to_db_use_cases/update_test_is_downloaded_to_db.dart';
 import '../../domain/user_settings_use_case/get_theme_color_use_case.dart';
 import '../../domain/user_settings_use_case/get_theme_enable_use_case.dart';
@@ -31,6 +34,14 @@ class UseCaseInjection {
         .registerLazySingleton<GetListTestUseCase>(() => GetListTestUseCase());
     GetIt.I
         .registerLazySingleton<GetListPartUseCase>(() => GetListPartUseCase());
+
+    // save use case
+    GetIt.I.registerLazySingleton<SaveQuestionNoteUseCase>(
+        () => SaveQuestionNoteUseCase());
+    GetIt.I.registerLazySingleton<ReadAllQuestionNoteUseCase>(
+        () => ReadAllQuestionNoteUseCase());
+    GetIt.I.registerLazySingleton<ReadQuestionNoteUseCase>(
+        () => ReadQuestionNoteUseCase());
 
     // settings use cases
     GetIt.I.registerLazySingleton<GetThemeColorUseCase>(

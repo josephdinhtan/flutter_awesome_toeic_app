@@ -32,7 +32,7 @@ class StoreScreenPopupCubit extends Cubit<StoreScreenPopupState> {
       saveOk = false;
     } else {
       final downloadOK =
-          await _downloadBookCoverUseCase.perform(bookDto.cover_url);
+          await _downloadBookCoverUseCase.perform(bookDto.coverUrl);
       if (logEnable) {
         log("$logTag buyABookItem() download bookCover done downloadOK: $downloadOK");
       }

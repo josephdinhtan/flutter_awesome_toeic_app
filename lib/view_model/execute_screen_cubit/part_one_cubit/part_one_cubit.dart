@@ -1,19 +1,30 @@
+import 'dart:developer';
+
 import 'package:bloc/bloc.dart';
+import 'package:flutter_toeic_quiz2/data/business_models/part_model.dart';
+import 'package:flutter_toeic_quiz2/data/business_models/question_note_model.dart';
+import 'package:flutter_toeic_quiz2/domain/question_note_use_case/read_all_question_note_use_case.dart';
+import 'package:flutter_toeic_quiz2/domain/question_note_use_case/save_question_note_use_case.dart';
 import 'package:get_it/get_it.dart';
 
 import '../../../core_utils/core_utils.dart';
 import '../../../data/business_models/execute_models/answer_enum.dart';
 import '../../../data/business_models/execute_models/part_one_model.dart';
 import '../../../domain/execute_use_cases/get_part_one_question_list_use_case.dart';
+import '../../../domain/question_note_use_case/read_question_note_use_case.dart';
 import '../../../presentation/screens/execute_screen/components/media_player.dart';
 import '../../../presentation/screens/execute_screen/widgets/answer_sheet_panel.dart';
 
 part 'part_one_state.dart';
 
+const _logTag = 'PartOneCubit';
+
 class PartOneCubit extends Cubit<PartOneState> {
   PartOneCubit() : super(PartOneInitial());
   //final useCase = GetPartOneQuestionListUseCase();
-  final useCase = GetIt.I.get<GetPartOneQuestionListUseCase>();
+  final partOneUseCase = GetIt.I.get<GetPartOneQuestionListUseCase>();
+  final saveQuestionNoteUseCase = GetIt.I.get<SaveQuestionNoteUseCase>();
+  final readQuestionNoteUseCase = GetIt.I.get<ReadQuestionNoteUseCase>();
 
   late List<PartOneModel> _partOneQuestionList;
   int _currentQuestionIndex = 0;
@@ -21,18 +32,23 @@ class PartOneCubit extends Cubit<PartOneState> {
   final Map _userAnswerMap = <int, UserAnswer>{};
   final Map _correctAnsCheckedMap = <int, UserAnswer>{};
   final Map _questionNumberIndexMap = <int, int>{};
+  final Map _questionNoteIndexMap = <int, String?>{};
   final List<AnswerSheetModel> _answerSheetModel = [];
 
   Future<void> getInitContent(List<String> ids) async {
     emit(PartOneLoading());
-    _partOneQuestionList = await useCase.perform(ids);
+    _partOneQuestionList = await partOneUseCase.perform(ids);
     _currentQuestionIndex = 0;
     _questionListSize = _partOneQuestionList.length;
     _userAnswerMap.clear();
     _correctAnsCheckedMap.clear();
     _questionNumberIndexMap.clear();
+    _questionNoteIndexMap.clear();
     for (int i = 0; i < _questionListSize; i++) {
       _questionNumberIndexMap[_partOneQuestionList[i].number] = i;
+      final note =
+          await readQuestionNoteUseCase.perform(_partOneQuestionList[i].id);
+      _questionNoteIndexMap[_partOneQuestionList[i].number] = note?.note;
     }
     _playAudio(_partOneQuestionList[_currentQuestionIndex].audioPath);
     _notifyData();
@@ -55,6 +71,26 @@ class PartOneCubit extends Cubit<PartOneState> {
   void userSelectAnswerChange(UserAnswer userAnswer) {
     final int key = _partOneQuestionList[_currentQuestionIndex].number;
     _userAnswerMap[key] = userAnswer;
+  }
+
+  Future<void> saveQuestionIdToDB(String message) async {
+    //_partOneQuestionList[_currentQuestionIndex].id;
+    log('$_logTag saveQuestionIdToDB() message: $message');
+
+    // final list = await GetIt.I.get<ReadAllQuestionNoteUseCase>().perform();
+    // log('$_logTag saveQuestionIdToDB() list: ${list!.length}');
+
+    final result = await saveQuestionNoteUseCase.perform(
+      QuestionNoteModel(
+        partType: PartType.part1,
+        id: _partOneQuestionList[_currentQuestionIndex].id,
+        note: message,
+      ),
+    );
+    if (result) {
+      _questionNoteIndexMap[
+          _partOneQuestionList[_currentQuestionIndex].number] = message;
+    }
   }
 
   void userCheckAnswer() {
@@ -86,6 +122,7 @@ class PartOneCubit extends Cubit<PartOneState> {
       needHideAns = true;
     }
     emit(PartOneContentLoaded(
+        note: _questionNoteIndexMap[key],
         answers: needHideAns
             ? ["", "", "", ""]
             : _partOneQuestionList[_currentQuestionIndex].answers,

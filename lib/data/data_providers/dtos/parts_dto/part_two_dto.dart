@@ -9,22 +9,22 @@ import '../../../business_models/execute_models/part_two_model.dart';
 class PartTwoDto implements BaseDto<PartTwoModel> {
   int number;
   String id;
-  String audio_url;
-  String correct_ans;
+  String audioUrl;
+  String correctAns;
   String question;
-  String transcript_a;
-  String transcript_b;
-  String transcript_c;
+  String transcriptA;
+  String transcriptB;
+  String transcriptC;
 
   PartTwoDto({
     required this.number,
     required this.id,
-    required this.audio_url,
-    required this.correct_ans,
+    required this.audioUrl,
+    required this.correctAns,
     required this.question,
-    required this.transcript_a,
-    required this.transcript_b,
-    required this.transcript_c,
+    required this.transcriptA,
+    required this.transcriptB,
+    required this.transcriptC,
   });
 
   @override
@@ -32,9 +32,9 @@ class PartTwoDto implements BaseDto<PartTwoModel> {
     return PartTwoModel(
       number: number,
       id: id,
-      audioPath: audio_url,
+      audioPath: audioUrl,
       question: question,
-      correctAnswer: _strToAns(correct_ans),
+      correctAnswer: _strToAns(correctAns),
       answers: _ansStrToList(),
     );
   }
@@ -57,9 +57,9 @@ class PartTwoDto implements BaseDto<PartTwoModel> {
 
   List<String> _ansStrToList() {
     List<String> ans = [];
-    ans.add(transcript_a);
-    ans.add(transcript_b);
-    ans.add(transcript_c);
+    ans.add(transcriptA);
+    ans.add(transcriptB);
+    ans.add(transcriptC);
     return ans;
   }
 
@@ -67,12 +67,12 @@ class PartTwoDto implements BaseDto<PartTwoModel> {
     return <String, dynamic>{
       'number': number,
       'id': id,
-      'audio_url': audio_url,
+      'audio_url': audioUrl,
       'question': question,
-      'correct_ans': correct_ans,
-      'transcript_a': transcript_a,
-      'transcript_b': transcript_b,
-      'transcript_c': transcript_c,
+      'correct_ans': correctAns,
+      'transcript_a': transcriptA,
+      'transcript_b': transcriptB,
+      'transcript_c': transcriptC,
     };
   }
 
@@ -80,12 +80,12 @@ class PartTwoDto implements BaseDto<PartTwoModel> {
     return PartTwoDto(
       number: map['number'] as int,
       id: map['id'] as String,
-      audio_url: map['audio_url'] as String,
+      audioUrl: map['audio_url'] as String,
       question: map['question'] as String,
-      correct_ans: map['correct_ans'] as String,
-      transcript_a: map['transcript_a'] as String,
-      transcript_b: map['transcript_b'] as String,
-      transcript_c: map['transcript_c'] as String,
+      correctAns: map['correct_ans'] as String,
+      transcriptA: map['transcript_a'] as String,
+      transcriptB: map['transcript_b'] as String,
+      transcriptC: map['transcript_c'] as String,
     );
   }
 

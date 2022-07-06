@@ -43,7 +43,7 @@ class StoreRepositoryImpl implements StoreRepository {
     bool res = await _bookDao.insert(
         networkBookInfoModel.toHiveObject(), networkBookInfoModel.id);
     if (!res) return Future.value(false);
-    return await _saveTestsToDb(networkBookInfoModel.tests_url);
+    return await _saveTestsToDb(networkBookInfoModel.testUrls);
   }
 
   Future<bool> _saveTestsToDb(String tests_url) async {
@@ -53,7 +53,7 @@ class StoreRepositoryImpl implements StoreRepository {
           testNetworkObject.toBusinessModel().toHiveObject(),
           testNetworkObject.id);
       if (!isOk) return Future.value(false);
-      if (!await _savePartsToDb(testNetworkObject.parts_url)) {
+      if (!await _savePartsToDb(testNetworkObject.partUrl)) {
         return Future.value(false);
       }
     }
@@ -69,22 +69,22 @@ class StoreRepositoryImpl implements StoreRepository {
       if (!isOk) return Future.value(false);
       switch (i) {
         case 1:
-          if (!await _savePartOneQuestionToDb(partDto.questions_url)) {
+          if (!await _savePartOneQuestionToDb(partDto.questionsUrl)) {
             return Future.value(false);
           }
           break;
         case 2:
-          if (!await _savePartTwoQuestionToDb(partDto.questions_url)) {
+          if (!await _savePartTwoQuestionToDb(partDto.questionsUrl)) {
             return Future.value(false);
           }
           break;
         case 3:
-          if (!await _savePartThreeQuestionToDb(partDto.questions_url)) {
+          if (!await _savePartThreeQuestionToDb(partDto.questionsUrl)) {
             return Future.value(false);
           }
           break;
         case 4:
-          if (!await _savePartFourQuestionToDb(partDto.questions_url)) {
+          if (!await _savePartFourQuestionToDb(partDto.questionsUrl)) {
             return Future.value(false);
           }
           break;

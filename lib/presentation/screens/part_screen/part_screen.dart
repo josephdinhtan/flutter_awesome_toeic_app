@@ -2,6 +2,7 @@ import 'dart:developer';
 
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:flutter_toeic_quiz2/core_ui/extensions/extensions.dart';
 
 import '../../../core_ui/constants/app_dimensions.dart';
 import '../../../core_ui/constants/app_colors/app_light_color_impl.dart';
@@ -37,7 +38,7 @@ class PartScreen extends StatelessWidget {
             ),
             Text(
               'START FULL TEST',
-              style: TextStyle(color: Theme.of(context).colorScheme.secondary),
+              style: context.titleSmall,
             ),
           ],
         ),

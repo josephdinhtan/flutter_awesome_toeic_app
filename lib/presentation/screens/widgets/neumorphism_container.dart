@@ -1,19 +1,27 @@
 import 'package:flutter/material.dart';
 
+import '../../../core_ui/extensions/extensions.dart';
+
 class NeumorphismContainer extends StatelessWidget {
   final Color color;
-  final BorderRadiusGeometry borderRadiusGeometry;
   final Widget? child;
   final bool removeShadow;
+  final bool removeBorder;
 
-  const NeumorphismContainer(
-      {Key? key,
-      this.removeShadow = false,
-      this.color = Colors.white,
-      this.borderRadiusGeometry = const BorderRadius.only(
-          topLeft: Radius.circular(12.0), topRight: Radius.circular(12.0)),
-      this.child})
-      : super(key: key);
+  BorderRadiusGeometry borderRadiusGeometry = BorderRadius.only(
+      topLeft: Radius.circular(12.r), topRight: Radius.circular(12.r));
+
+  NeumorphismContainer({
+    Key? key,
+    this.removeShadow = false,
+    this.color = Colors.white,
+    this.removeBorder = false,
+    this.child,
+  }) : super(key: key) {
+    if (removeBorder) {
+      borderRadiusGeometry = BorderRadius.zero;
+    }
+  }
 
   @override
   Widget build(BuildContext context) {

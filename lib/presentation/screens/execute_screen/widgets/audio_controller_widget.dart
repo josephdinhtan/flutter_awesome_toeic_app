@@ -38,6 +38,7 @@ class _AudioControllerState extends State<AudioController> {
   double _currentSliderValue = 1.0; // just for slider for slide only
   bool isPlaying = true;
   bool isDisposing = false;
+  double iconSize = 26.w;
 
   @override
   void initState() {
@@ -76,14 +77,14 @@ class _AudioControllerState extends State<AudioController> {
       removeShadow: true,
       color: context.colors.surfaceVariant,
       child: Padding(
-        padding: const EdgeInsets.symmetric(horizontal: 8.0, vertical: 2.0),
+        padding: EdgeInsets.symmetric(horizontal: 8.w, vertical: 2.h),
         child: Row(
           children: [
             Row(
               children: [
                 IconButton(
-                  padding:
-                      const EdgeInsets.all(AppDimensions.kPaddingIconButton),
+                  padding: EdgeInsets.all(6.w),
+                  iconSize: iconSize,
                   constraints: const BoxConstraints(),
                   onPressed: () {
                     setState(() {
@@ -103,6 +104,7 @@ class _AudioControllerState extends State<AudioController> {
                 ),
                 IconButton(
                   // play
+                  iconSize: iconSize,
                   padding:
                       const EdgeInsets.all(AppDimensions.kPaddingIconButton),
                   constraints: const BoxConstraints(),
@@ -126,6 +128,7 @@ class _AudioControllerState extends State<AudioController> {
                   padding:
                       const EdgeInsets.all(AppDimensions.kPaddingIconButton),
                   constraints: const BoxConstraints(),
+                  iconSize: iconSize,
                   onPressed: () {
                     setState(() {
                       _currentDuration =

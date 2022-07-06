@@ -1,20 +1,20 @@
 import 'package:flutter/material.dart';
 
+import '../../../core_ui/extensions/extensions.dart';
 import 'animations/animation_scale.dart' as animationScale;
 
 class NeumorphismButton extends StatefulWidget {
   static const double PRESSED_SCALE = 0.98;
   static const double UNPRESSED_SCALE = 1.0;
   final Widget? child;
-  final double borderRadius;
   final Function() onPressed;
   final Color backgroundColor;
   final bool isDarkMode;
+  double borderRadius = 12.r;
 
-  const NeumorphismButton({
+  NeumorphismButton({
     Key? key,
     this.child,
-    this.borderRadius = 12,
     this.backgroundColor = Colors.white,
     this.isDarkMode = false,
     required this.onPressed,
@@ -53,43 +53,9 @@ class _NeumorphismButtonState extends State<NeumorphismButton> {
             decoration: BoxDecoration(
               color: widget.backgroundColor,
               borderRadius: BorderRadius.circular(widget.borderRadius),
-              // boxShadow: !_pressed
-              //     ? !widget.isDarkMode
-              //         ? [
-              //             BoxShadow(
-              //               color: Colors.grey[500]!,
-              //               //color: Colors.red!,
-              //               offset: const Offset(2, 2),
-              //               blurRadius: 6,
-              //               spreadRadius: 0.1,
-              //             ),
-              //             const BoxShadow(
-              //               color: Colors.white,
-              //               offset: Offset(-2, -2),
-              //               blurRadius: 6,
-              //               spreadRadius: 1,
-              //             )
-              //           ]
-              //         : const [
-              //             BoxShadow(
-              //               color: Color(0xFF001018),
-              //               //color: Colors.red!,
-              //               offset: Offset(2, 2),
-              //               blurRadius: 6,
-              //               spreadRadius: 0.1,
-              //             ),
-              //             BoxShadow(
-              //               color: Color(0xFF001018),
-              //               offset: Offset(-2, -2),
-              //               blurRadius: 6,
-              //               spreadRadius: 1,
-              //             )
-              //           ]
-              //     : null,
             ),
             child: Padding(
-              padding:
-                  const EdgeInsets.symmetric(horizontal: 16.0, vertical: 8),
+              padding: EdgeInsets.symmetric(horizontal: 16.w, vertical: 8.w),
               child: widget.child,
             ),
           ),

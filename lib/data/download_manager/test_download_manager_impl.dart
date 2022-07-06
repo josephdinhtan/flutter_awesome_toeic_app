@@ -10,7 +10,7 @@ import 'package:permission_handler/permission_handler.dart';
 
 import '../../core_utils/core_utils.dart';
 
-final String LOG_TAG = "TestDownloadManagerImpl";
+const _logTag = "TestDownloadManagerImpl";
 
 class TestDownloadManagerImpl implements DownloadManager {
   @override
@@ -21,7 +21,7 @@ class TestDownloadManagerImpl implements DownloadManager {
     //final file = File("${appDocDir}file.jpg");
     final localDir = localFireUrl.replaceAll(islandRef.name, '');
     await _createFolder(localDir);
-    log("$LOG_TAG downloadFile() localFireUrl: $localFireUrl");
+    log("$_logTag downloadFile() localFireUrl: $localFireUrl");
     final file = File(localFireUrl);
     try {
       final downloadTask = await islandRef.writeToFile(file);
@@ -51,7 +51,7 @@ class TestDownloadManagerImpl implements DownloadManager {
       // });
     } on FirebaseException catch (e) {
       // e.g, e.code == 'canceled'
-      log('$LOG_TAG downloadFile exception ${e.code}');
+      log('$_logTag downloadFile exception ${e.code}');
     }
     return Future.value(true);
   }
@@ -78,7 +78,7 @@ class TestDownloadManagerImpl implements DownloadManager {
   }
 
   static Future<String> _getRawMainFileItemList() async {
-    const path = DownloadConstant.BooksJsonFileBaseRelativePath;
+    const path = DownloadConstant.booksJsonFileBaseRelativePath;
     final ref = FirebaseStorage.instance.ref(path);
     final Uint8List? downloadedData = await ref.getData();
     final res = utf8.decode(downloadedData!);
@@ -95,12 +95,10 @@ class TestDownloadManagerImpl implements DownloadManager {
       openAppSettings();
     }
     if ((await path.exists())) {
-      // TODO:
-      print("$LOG_TAG _createFolder exist");
+      log("$_logTag _createFolder exist");
     } else {
-      // TODO:
       path.create(recursive: true);
-      print("$LOG_TAG _createFolder not exist , create path: ${path.path}");
+      log("$_logTag _createFolder not exist , create path: ${path.path}");
     }
   }
 }

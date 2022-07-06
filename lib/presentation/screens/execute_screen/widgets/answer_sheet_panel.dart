@@ -33,10 +33,10 @@ class AnswerSheetPanel extends StatelessWidget {
     _displayList.clear();
     for (AnswerSheetModel answerSheetModel in answerSheetData) {
       _displayList.add(
-        const Divider(
-            height: 0.5,
+        Divider(
+            height: 0.5.h,
             thickness: 1,
-            color: Color.fromARGB(40, 129, 129, 129)),
+            color: const Color.fromARGB(40, 129, 129, 129)),
       );
       _displayList.add(
         AnswerSheetItem(
@@ -53,9 +53,12 @@ class AnswerSheetPanel extends StatelessWidget {
         Text(
           'Answer sheet',
           style: context.titleMedium!.copyWith(
-              fontWeight: FontWeight.w600, color: context.colors.onSurface),
+            fontSize: 12.sp,
+            fontWeight: FontWeight.w600,
+            color: context.colors.onSurface,
+          ),
         ),
-        const SizedBox(height: 16.0),
+        SizedBox(height: 16.h),
         SizedBox(
           // width: currentWidth > maxWidthForMobile
           //     ? 0.7 * maxWidthForMobile
@@ -129,16 +132,16 @@ class AnswerSheetItem extends StatelessWidget {
       child: Container(
         color: Colors.transparent,
         child: Padding(
-          padding: const EdgeInsets.symmetric(vertical: 12.0, horizontal: 16.0),
+          padding: EdgeInsets.symmetric(vertical: 12.h, horizontal: 16.w),
           child: Row(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
               SizedBox(
                 child: Text(
                   '$questionNumber.',
-                  style: colorText,
+                  style: colorText.copyWith(fontSize: 12.sp),
                 ),
-                width: 40.0,
+                width: 30.w,
               ),
               AnswerBox(userSelectedAns == 0 || correctAns == 0, 'A', colorA),
               AnswerBox(userSelectedAns == 1 || correctAns == 1, 'B', colorB),
@@ -164,7 +167,7 @@ class AnswerBox extends StatelessWidget {
   Color color;
   bool isHighLight;
 
-  double sizeBox = 25.0;
+  double sizeBox = 25.w;
 
   @override
   Widget build(BuildContext context) {
@@ -174,13 +177,13 @@ class AnswerBox extends StatelessWidget {
       decoration: BoxDecoration(
           color: color,
           border: Border.all(color: Colors.grey),
-          borderRadius: const BorderRadius.all(Radius.circular(1000))),
+          borderRadius: BorderRadius.all(Radius.circular(1000.r))),
       child: Center(
           child: Text(
         text,
         textAlign: TextAlign.center,
         style: TextStyle(
-          fontSize: 12.0,
+          fontSize: 12.sp,
           color: isHighLight ? Colors.black : Colors.grey,
         ),
       )),

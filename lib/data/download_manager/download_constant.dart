@@ -1,4 +1,4 @@
 class DownloadConstant {
-  static const BooksJsonFileBaseRelativePath =
+  static const booksJsonFileBaseRelativePath =
       "/resource_files/toeic_books/books.json";
 }

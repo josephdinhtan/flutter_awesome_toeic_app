@@ -1,5 +1,6 @@
 import 'package:dynamic_color/dynamic_color.dart';
 import 'package:flutter/material.dart';
+import 'core_ui/extensions/extensions.dart';
 import 'package:get_it/get_it.dart';
 
 import 'core_ui/constants/app_strings.dart';
@@ -44,22 +45,32 @@ class _MyAppState extends State<MyApp> {
             valueListenable: settings,
             builder: (context, value, _) {
               final theme = ThemeProvider.of(context);
-              return MaterialApp(
-                debugShowCheckedModeBanner: false,
-                title: AppStrings.appTitle,
-                // theme:
-                //     GetIt.I.get<AppTheme>(param1: ThemeMode.light).themeData,
-                // darkTheme:
-                //     GetIt.I.get<AppTheme>(param1: ThemeMode.dark).themeData,
-                // themeMode: state is HomeScreenThemeModeChange
-                //     ? state.themeMode
-                //     : ThemeMode.light,
-                theme: theme.light(settings.value.themeColor.color),
-                darkTheme: theme.dark(settings.value.themeColor.color),
-                themeMode: theme.themeMode(),
-                initialRoute: AppRouter.home,
-                onGenerateRoute: _appRouter.onGenerateRoute,
-              );
+              return LayoutBuilder(builder: (context, constraints) {
+                return ScreenUtilInit(
+                  // designSize: constraints.isTablet
+                  //     ? const Size(800, 1280)
+                  //     : const Size(360, 690),
+                  designSize: const Size(360, 690),
+                  builder: (BuildContext context, Widget? child) {
+                    return MaterialApp(
+                      debugShowCheckedModeBanner: false,
+                      title: AppStrings.appTitle,
+                      // theme:
+                      //     GetIt.I.get<AppTheme>(param1: ThemeMode.light).themeData,
+                      // darkTheme:
+                      //     GetIt.I.get<AppTheme>(param1: ThemeMode.dark).themeData,
+                      // themeMode: state is HomeScreenThemeModeChange
+                      //     ? state.themeMode
+                      //     : ThemeMode.light,
+                      theme: theme.light(settings.value.themeColor.color),
+                      darkTheme: theme.dark(settings.value.themeColor.color),
+                      themeMode: theme.themeMode(),
+                      initialRoute: AppRouter.home,
+                      onGenerateRoute: _appRouter.onGenerateRoute,
+                    );
+                  },
+                );
+              });
             },
           ),
         ),

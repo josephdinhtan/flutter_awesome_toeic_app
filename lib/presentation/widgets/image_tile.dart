@@ -1,5 +1,3 @@
-import 'dart:io';
-
 import 'package:flutter/material.dart';
 
 import '../../core_ui/extensions/extensions.dart';
@@ -33,22 +31,23 @@ class ImageTile extends StatelessWidget {
           crossAxisAlignment: CrossAxisAlignment.center,
           children: [
             Padding(
-                padding: const EdgeInsets.fromLTRB(10, 5, 10, 5),
-                child: Text(
-                  title,
-                  textAlign: TextAlign.center,
-                  style: context.titleSmall!.copyWith(
-                    fontWeight: FontWeight.bold,
-                  ),
-                  overflow: TextOverflow.ellipsis,
-                  maxLines: 1,
-                )),
+              padding: EdgeInsets.symmetric(vertical: 5.h, horizontal: 10.w),
+              child: Text(
+                title,
+                textAlign: TextAlign.center,
+                style: context.titleSmall!.copyWith(
+                  fontWeight: FontWeight.bold,
+                ),
+                overflow: TextOverflow.ellipsis,
+                maxLines: 1,
+              ),
+            ),
             Padding(
-              padding: const EdgeInsets.symmetric(vertical: 5, horizontal: 10),
+              padding: EdgeInsets.symmetric(vertical: 5.h, horizontal: 10.w),
               child: Text(
                 subtitle,
                 overflow: TextOverflow.ellipsis,
-                style: context.labelSmall,
+                style: context.labelMedium,
                 maxLines: 2,
                 textAlign: TextAlign.center,
               ),

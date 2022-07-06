@@ -1,13 +1,10 @@
-import 'dart:convert';
 import 'dart:developer';
 import 'dart:io';
-import 'dart:typed_data';
 
 import 'package:firebase_storage/firebase_storage.dart';
 import 'package:permission_handler/permission_handler.dart';
 
 import '../../core_utils/global_configuration.dart';
-import 'download_constant.dart';
 import 'download_manager.dart';
 
 const _logTag = "BookDownloadManagerImpl";
@@ -50,18 +47,18 @@ class BookDownloadManagerImpl implements DownloadManager {
     return Future.value(true);
   }
 
-  Future<String> _getDownloadUrlFromPath(String path) async {
-    final ref = FirebaseStorage.instance.ref(path);
-    return await ref.getDownloadURL();
-  }
+  // Future<String> _getDownloadUrlFromPath(String path) async {
+  //   final ref = FirebaseStorage.instance.ref(path);
+  //   return await ref.getDownloadURL();
+  // }
 
-  static Future<String> _getRawMainFileItemList() async {
-    const path = DownloadConstant.BooksJsonFileBaseRelativePath;
-    final ref = FirebaseStorage.instance.ref(path);
-    final Uint8List? downloadedData = await ref.getData();
-    final res = utf8.decode(downloadedData!);
-    return res;
-  }
+  // static Future<String> _getRawMainFileItemList() async {
+  //   const path = DownloadConstant.BooksJsonFileBaseRelativePath;
+  //   final ref = FirebaseStorage.instance.ref(path);
+  //   final Uint8List? downloadedData = await ref.getData();
+  //   final res = utf8.decode(downloadedData!);
+  //   return res;
+  // }
 
   Future<void> _createFolder(String pathStr) async {
     final path = Directory(pathStr);

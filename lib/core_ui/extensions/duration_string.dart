@@ -6,8 +6,8 @@ extension DurationString on String {
       throw Exception('Invalid duration string: $this');
     } else if (chunks.length == 2) {
       return Duration(
-        minutes: int.parse(chunks[0].trim()),
-        seconds: int.parse(chunks[1].trim()),
+        hours: int.parse(chunks[0].trim()),
+        minutes: int.parse(chunks[1].trim()),
       );
     } else if (chunks.length == 3) {
       return Duration(

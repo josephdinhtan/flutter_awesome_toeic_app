@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'extensions.dart';
 
 extension TypographyUtils on BuildContext {
   ThemeData get theme => Theme.of(this);
@@ -24,22 +25,32 @@ extension TypographyUtils on BuildContext {
         color: colors.onSurface,
       );
   TextStyle? get titleLarge => textTheme.titleLarge?.copyWith(
+        fontSize: 16.sp,
         color: colors.onSurface,
       );
   TextStyle? get titleMedium => textTheme.titleMedium?.copyWith(
+        fontSize: 14.sp,
         color: colors.onSurface,
       );
   TextStyle? get titleSmall => textTheme.titleSmall?.copyWith(
+        overflow: TextOverflow.ellipsis,
         color: colors.onSurface,
+        fontSize: 12.sp,
       );
   TextStyle? get labelLarge => textTheme.labelLarge?.copyWith(
+        overflow: TextOverflow.ellipsis,
         color: colors.onSurface,
+        fontSize: 12.sp,
       );
   TextStyle? get labelMedium => textTheme.labelMedium?.copyWith(
+        overflow: TextOverflow.ellipsis,
         color: colors.onSurface,
+        fontSize: 10.sp,
       );
   TextStyle? get labelSmall => textTheme.labelSmall?.copyWith(
+        overflow: TextOverflow.ellipsis,
         color: colors.onSurface,
+        fontSize: 8.sp,
       );
   TextStyle? get bodyLarge => textTheme.bodyLarge?.copyWith(
         color: colors.onSurface,

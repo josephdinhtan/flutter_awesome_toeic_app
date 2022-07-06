@@ -1,15 +1,13 @@
 import 'package:flutter/cupertino.dart';
+import 'package:flutter/foundation.dart' show kIsWeb;
 import 'package:flutter/material.dart';
-import 'package:flutter_toeic_quiz2/core_ui/constants/app_text_styles.dart';
-import 'package:flutter_toeic_quiz2/core_ui/extensions/extensions.dart';
+
+import '../../../../core_ui/constants/app_dimensions.dart';
+import '../../../../core_ui/extensions/extensions.dart';
 import '../../../../data/business_models/test_model.dart';
 import '../../../router/app_router.dart';
 import '../../../router/screen_arguments.dart';
 import 'download_button.dart';
-import 'package:flutter/foundation.dart' show kIsWeb;
-
-import '../../../../core_ui/constants/app_dimensions.dart';
-import '../../../../core_ui/constants/app_colors/app_light_color_impl.dart';
 import 'download_handler/database_download_controller.dart';
 import 'download_handler/download_controller.dart';
 import 'download_handler/download_status.dart';
@@ -72,7 +70,7 @@ class _TestItemWidgetState extends State<TestItemWidget> {
             ? AppDimensions.maxWidthForMobileMode
             : null,
         child: Card(
-          margin: const EdgeInsets.symmetric(horizontal: 8.0, vertical: 4.0),
+          margin: EdgeInsets.symmetric(horizontal: 8.w, vertical: 4.h),
           child: Padding(
             padding: const EdgeInsets.only(
                 left: AppDimensions.kPaddingDefaultDouble,
@@ -96,7 +94,7 @@ class _TestItemWidgetState extends State<TestItemWidget> {
                           // style: AppTextStyles.kOnSurfaceTextPrimary.copyWith(
                           //     color: Theme.of(context).colorScheme.onSurface),
                         ),
-                        const SizedBox(height: 4.0),
+                        SizedBox(height: 4.h),
                         Text(
                           widget.testInfoModel.memorySize != ''
                               ? '${widget.testInfoModel.numOfQuestion} QUESTIONS - ${widget.testInfoModel.memorySize}'
@@ -113,7 +111,7 @@ class _TestItemWidgetState extends State<TestItemWidget> {
                       ],
                     ),
                     SizedBox(
-                      width: 70.0,
+                      width: 70.w,
                       child: AnimatedBuilder(
                         animation: _downloadController,
                         builder: (BuildContext context, Widget? child) {
@@ -129,7 +127,7 @@ class _TestItemWidgetState extends State<TestItemWidget> {
                     )
                   ],
                 ),
-                const SizedBox(height: 4.0),
+                SizedBox(height: 4.h),
                 if (widget.testInfoModel.isResourceDownloaded &&
                     widget.testInfoModel.actualScore != null)
                   Row(
@@ -140,7 +138,8 @@ class _TestItemWidgetState extends State<TestItemWidget> {
                                 BorderRadius.all(Radius.circular(8.0)),
                             color: Colors.green),
                         child: Padding(
-                          padding: const EdgeInsets.all(8.0),
+                          padding: EdgeInsets.symmetric(
+                              horizontal: 8.w, vertical: 8.h),
                           child: Text(
                             '${widget.testInfoModel.actualScore}/$maxScore',
                             style: const TextStyle(color: Colors.white),

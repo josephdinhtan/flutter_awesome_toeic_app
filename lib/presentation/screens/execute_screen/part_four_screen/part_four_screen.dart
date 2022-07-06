@@ -7,8 +7,7 @@ import 'package:get_it/get_it.dart';
 
 import '../../../../core_ui/constants/app_colors/app_color.dart';
 import '../../../../core_ui/constants/app_dimensions.dart';
-import '../../../../core_ui/constants/app_colors/app_light_color_impl.dart';
-import '../../../../core_ui/constants/app_text_styles.dart';
+import '../../../../core_ui/extensions/extensions.dart';
 import '../../../../core_utils/core_utils.dart';
 import '../../../../data/business_models/execute_models/answer_enum.dart';
 import '../../../../data/business_models/execute_models/part_four_model.dart';
@@ -118,7 +117,7 @@ class PartFourScreen extends StatelessWidget {
               ),
               Expanded(
                 child: Padding(
-                  padding: const EdgeInsets.symmetric(vertical: 16.0),
+                  padding: EdgeInsets.symmetric(vertical: 16.w),
                   child: BlocBuilder<PartFourCubit, PartFourState>(
                     builder: (context, state) {
                       if (state is PartFourContentLoaded) {
@@ -131,12 +130,31 @@ class PartFourScreen extends StatelessWidget {
                             listWidget.add(const SizedBox(
                                 height: AppDimensions.kPaddingDefaultDouble));
                           }
-                          listWidget.add(Text(
-                            '  ${partFourModel.numbers[i]}: ${partFourModel.questions[i]}',
-                            style: AppTextStyles.kTextQuestion.copyWith(
-                                color: Theme.of(context)
-                                    .colorScheme
-                                    .onSurfaceVariant),
+
+                          listWidget.add(Row(
+                            mainAxisAlignment: MainAxisAlignment.start,
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: [
+                              Text(
+                                '${partFourModel.numbers[i]}. ',
+                                style: context.labelLarge!.copyWith(
+                                  fontWeight: FontWeight.w700,
+                                ),
+                                maxLines: 3,
+                                // style: AppTextStyles.kTextQuestion.copyWith(
+                                //     color: Theme.of(context)
+                                //         .colorScheme
+                                //         .onBackground),
+                              ),
+                              Flexible(
+                                child: Text(
+                                  state.partFourModel.questions[i],
+                                  style: context.labelLarge!
+                                      .copyWith(fontWeight: FontWeight.w700),
+                                  maxLines: 3,
+                                ),
+                              ),
+                            ],
                           ));
                           listWidget.add(const SizedBox(
                               height: AppDimensions.kPaddingDefault));
@@ -166,12 +184,11 @@ class PartFourScreen extends StatelessWidget {
                             color: GetIt.I.get<AppColor>().splitBar,
                             up: SingleChildScrollView(
                               child: Padding(
-                                padding: const EdgeInsets.symmetric(
-                                    horizontal: 16.0),
+                                padding: EdgeInsets.symmetric(horizontal: 16.w),
                                 child: Center(
                                   child: ClipRRect(
-                                    borderRadius: const BorderRadius.all(
-                                        Radius.circular(8.0)),
+                                    borderRadius:
+                                        BorderRadius.all(Radius.circular(8.r)),
                                     child: Image.file(
                                       fit: BoxFit.contain,
                                       File(pictureFullPath),
@@ -182,8 +199,7 @@ class PartFourScreen extends StatelessWidget {
                             ),
                             bottom: SingleChildScrollView(
                               child: Padding(
-                                padding: const EdgeInsets.symmetric(
-                                    horizontal: 16.0),
+                                padding: EdgeInsets.symmetric(horizontal: 16.w),
                                 child: Column(
                                   children: listWidget,
                                   crossAxisAlignment: CrossAxisAlignment.start,
@@ -195,8 +211,7 @@ class PartFourScreen extends StatelessWidget {
                         }
                         return SingleChildScrollView(
                           child: Padding(
-                            padding:
-                                const EdgeInsets.symmetric(horizontal: 16.0),
+                            padding: EdgeInsets.symmetric(horizontal: 16.w),
                             child: Column(
                               children: listWidget,
                               crossAxisAlignment: CrossAxisAlignment.start,

@@ -8,6 +8,7 @@ import 'package:get_it/get_it.dart';
 
 import '../../../../core_ui/constants/app_colors/app_color.dart';
 import '../../../../core_ui/constants/app_dimensions.dart';
+import '../../../../core_ui/extensions/extensions.dart';
 import '../../../../core_utils/core_utils.dart';
 import '../../../../core_utils/global_configuration.dart';
 import '../../../../data/business_models/execute_models/answer_enum.dart';
@@ -30,6 +31,7 @@ class PartOneScreen extends StatelessWidget {
     double height = MediaQuery.of(context).size.height;
     double width = MediaQuery.of(context).size.width;
     return Scaffold(
+      resizeToAvoidBottomInset: false,
       appBar: AppBar(
         actions: [
           IconButton(
@@ -119,39 +121,37 @@ class PartOneScreen extends StatelessWidget {
                 },
               ),
               Expanded(
-                child: Container(
-                  alignment: Alignment.centerLeft,
-                  child: Padding(
-                    padding: const EdgeInsets.all(16.0),
-                    child: Center(
-                      child: BlocBuilder<PartOneCubit, PartOneState>(
-                        builder: (context, state) {
-                          if (state is PartOneContentLoaded) {
-                            //return Text(partOneModel.picturePath);
-                            final String pictureFullPath =
-                                getApplicationDirectory() + state.picturePath;
-                            if (logEnable) {
-                              log('$_logTag pictureFullPath: $pictureFullPath');
-                            }
-                            return ClipRRect(
-                              borderRadius: const BorderRadius.all(
-                                  Radius.circular(
-                                      AppDimensions.kCardRadiusDefault)),
-                              child: Image.file(
-                                File(pictureFullPath),
-                                fit: BoxFit.contain,
-                              ),
-                            );
+                child: Padding(
+                  padding:
+                      EdgeInsets.symmetric(horizontal: 16.w, vertical: 16.h),
+                  child: Center(
+                    child: BlocBuilder<PartOneCubit, PartOneState>(
+                      builder: (context, state) {
+                        if (state is PartOneContentLoaded) {
+                          //return Text(partOneModel.picturePath);
+                          final String pictureFullPath =
+                              getApplicationDirectory() + state.picturePath;
+                          if (logEnable) {
+                            log('$_logTag pictureFullPath: $pictureFullPath');
                           }
-                          return const Text('...');
-                        },
-                      ),
+                          return ClipRRect(
+                            borderRadius: const BorderRadius.all(
+                                Radius.circular(
+                                    AppDimensions.kCardRadiusDefault)),
+                            child: Image.file(
+                              File(pictureFullPath),
+                              fit: BoxFit.contain,
+                            ),
+                          );
+                        }
+                        return const Text('...');
+                      },
                     ),
                   ),
                 ),
               ),
               Padding(
-                padding: const EdgeInsets.all(16.0),
+                padding: EdgeInsets.symmetric(horizontal: 16.w, vertical: 16.h),
                 child: BlocBuilder<PartOneCubit, PartOneState>(
                   builder: (context, state) {
                     if (state is PartOneContentLoaded) {
@@ -193,17 +193,114 @@ class PartOneScreen extends StatelessWidget {
                 },
                 audioPlayer: MediaPlayer().audioPlayer,
               ),
-              BottomController(
-                prevPressed: () {
-                  BlocProvider.of<PartOneCubit>(context).getPrevContent();
+              BlocBuilder<PartOneCubit, PartOneState>(
+                builder: (context, state) {
+                  if (state is PartOneContentLoaded && state.note != null) {
+                    log('$_logTag PartOneHasQuestionNote: state.note: ${state.note}');
+                    return BottomController(
+                      hasNote: true,
+                      prevPressed: () {
+                        BlocProvider.of<PartOneCubit>(context).getPrevContent();
+                      },
+                      nextPressed: () {
+                        BlocProvider.of<PartOneCubit>(context).getNextContent();
+                      },
+                      checkAnsPressed: () {
+                        BlocProvider.of<PartOneCubit>(context)
+                            .userCheckAnswer();
+                      },
+                      favoritePressed: () {
+                        showCupertinoDialog(
+                            builder: (BuildContext buildContext) {
+                              TextEditingController _textController =
+                                  TextEditingController(text: state.note);
+                              return CupertinoAlertDialog(
+                                title: Text(
+                                  "Save question to favorite",
+                                  style: context.labelLarge,
+                                ),
+                                content: Padding(
+                                  padding: EdgeInsets.symmetric(vertical: 8.h),
+                                  child: CupertinoTextField(
+                                    placeholder: 'Add a note',
+                                    style: context.labelLarge,
+                                    controller: _textController,
+                                  ),
+                                ),
+                                actions: [
+                                  CupertinoDialogAction(
+                                      child: const Text("SAVE"),
+                                      onPressed: () {
+                                        Navigator.of(context).pop();
+                                        BlocProvider.of<PartOneCubit>(context)
+                                            .saveQuestionIdToDB(
+                                                _textController.text);
+                                      }),
+                                  CupertinoDialogAction(
+                                      isDestructiveAction: true,
+                                      child: const Text("CANCEL"),
+                                      onPressed: () {
+                                        Navigator.of(context).pop();
+                                      })
+                                ],
+                              );
+                            },
+                            context: context);
+                      },
+                    );
+                  } else {
+                    return BottomController(
+                      prevPressed: () {
+                        BlocProvider.of<PartOneCubit>(context).getPrevContent();
+                      },
+                      nextPressed: () {
+                        BlocProvider.of<PartOneCubit>(context).getNextContent();
+                      },
+                      checkAnsPressed: () {
+                        BlocProvider.of<PartOneCubit>(context)
+                            .userCheckAnswer();
+                      },
+                      favoritePressed: () {
+                        showCupertinoDialog(
+                            builder: (BuildContext buildContext) {
+                              TextEditingController _textController =
+                                  TextEditingController(text: '');
+                              return CupertinoAlertDialog(
+                                title: Text(
+                                  "Save question to favorite",
+                                  style: context.labelLarge,
+                                ),
+                                content: Padding(
+                                  padding: EdgeInsets.symmetric(vertical: 8.h),
+                                  child: CupertinoTextField(
+                                    placeholder: 'Add a note',
+                                    style: context.labelLarge,
+                                    controller: _textController,
+                                  ),
+                                ),
+                                actions: [
+                                  CupertinoDialogAction(
+                                      child: const Text("SAVE"),
+                                      onPressed: () {
+                                        Navigator.of(context).pop();
+                                        BlocProvider.of<PartOneCubit>(context)
+                                            .saveQuestionIdToDB(
+                                                _textController.text);
+                                      }),
+                                  CupertinoDialogAction(
+                                      isDestructiveAction: true,
+                                      child: const Text("CANCEL"),
+                                      onPressed: () {
+                                        Navigator.of(context).pop();
+                                      })
+                                ],
+                              );
+                            },
+                            context: context);
+                      },
+                    );
+                  }
                 },
-                nextPressed: () {
-                  BlocProvider.of<PartOneCubit>(context).getNextContent();
-                },
-                checkAnsPressed: () {
-                  BlocProvider.of<PartOneCubit>(context).userCheckAnswer();
-                },
-                favoritePressed: () {},
               ),
             ],
           ),

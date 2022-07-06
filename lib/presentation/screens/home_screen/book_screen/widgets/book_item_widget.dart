@@ -1,10 +1,9 @@
 import 'dart:io';
 
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
 import '../../../../../core_ui/constants/app_dimensions.dart';
-import '../../../../../core_ui/extensions/typography_utils.dart';
+import '../../../../../core_ui/extensions/extensions.dart';
 import '../../../../../core_utils/core_utils.dart';
 import '../../../../../data/business_models/book_model.dart';
 import '../../../../router/app_router.dart';
@@ -41,7 +40,7 @@ class BookItemWidget extends StatelessWidget {
       },
       child: Center(
         child: SizedBox(
-          height: 130,
+          height: 130.h,
           width: width > AppDimensions.maxWidthForMobileMode
               ? AppDimensions.maxWidthForMobileMode
               : null,
@@ -50,21 +49,21 @@ class BookItemWidget extends StatelessWidget {
               crossAxisAlignment: CrossAxisAlignment.center,
               mainAxisAlignment: MainAxisAlignment.start,
               children: [
-                const SizedBox(width: 16.0),
+                SizedBox(width: 16.w),
                 ClipRRect(
-                  borderRadius: const BorderRadius.all(Radius.circular(8.0)),
+                  borderRadius: BorderRadius.all(Radius.circular(8.r)),
                   child: Image.file(
                     File(_bookCoverPath),
                     fit: BoxFit.cover,
-                    width: 80.0,
-                    height: 100.0,
+                    width: 80.w,
+                    height: 100.h,
                   ),
                 ),
-                const SizedBox(
-                  width: 8.0,
+                SizedBox(
+                  width: 8.w,
                 ),
                 SizedBox(
-                  height: 120.0,
+                  height: 120.h,
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     mainAxisAlignment: MainAxisAlignment.center,
@@ -76,15 +75,16 @@ class BookItemWidget extends StatelessWidget {
                         // style: AppTextStyles.kOnSurfaceTextPrimary.copyWith(
                         //     color: Theme.of(context).colorScheme.onSurface),
                       ),
-                      const SizedBox(height: 4.0),
+                      SizedBox(height: 4.h),
                       Text(
                         bookInfoModel.des,
+                        textAlign: TextAlign.start,
+                        overflow: TextOverflow.ellipsis,
                         style: context.titleSmall!
                             .copyWith(color: colors.secondary),
-                        // style: AppTextStyles.kOnSurfaceTextSecondary.copyWith(
-                        //     color: Theme.of(context).colorScheme.onSurfaceVariant),
+                        maxLines: 1,
                       ),
-                      const SizedBox(height: 4.0),
+                      SizedBox(height: 4.h),
                       Text(
                         '5% 887 M',
                         style: context.titleSmall!
@@ -92,18 +92,20 @@ class BookItemWidget extends StatelessWidget {
                         // style: AppTextStyles.kOnSurfaceTextSecondary.copyWith(
                         //     color: Theme.of(context).colorScheme.onSurfaceVariant),
                       ),
-                      const SizedBox(height: 4.0),
+                      SizedBox(height: 4.h),
                       Container(
-                        decoration: const BoxDecoration(
+                        decoration: BoxDecoration(
                             color: Colors.black45,
                             borderRadius:
-                                BorderRadius.all(Radius.circular(5.0))),
-                        child: const Padding(
-                          padding: EdgeInsets.all(4.0),
+                                BorderRadius.all(Radius.circular(5.r))),
+                        child: Padding(
+                          padding: EdgeInsets.all(4.r),
                           child: Text(
                             'Toeic practice book',
-                            style:
-                                TextStyle(fontSize: 10.0, color: Colors.white),
+                            style: TextStyle(
+                              fontSize: 10.sp,
+                              color: Colors.white,
+                            ),
                           ),
                         ),
                       ),

@@ -1,10 +1,7 @@
 import 'package:flutter/material.dart';
-import 'package:get_it/get_it.dart';
 import 'package:percent_indicator/percent_indicator.dart';
 
-import '../../../../core_ui/constants/app_colors/app_color.dart';
 import '../../../../core_ui/constants/app_dimensions.dart';
-import '../../../../core_ui/constants/app_text_styles.dart';
 import '../../../../core_ui/extensions/extensions.dart';
 import '../../../../data/business_models/part_model.dart';
 import '../../../router/app_router.dart';
@@ -123,12 +120,13 @@ class PartItem extends StatelessWidget {
                                 color: context.colors.secondary,
                                 shape: BoxShape.circle,
                               ),
-                              margin: const EdgeInsets.all(2.0),
+                              margin: EdgeInsets.all(2.w),
                               child: Padding(
-                                padding: const EdgeInsets.all(12.0),
+                                padding: EdgeInsets.symmetric(
+                                    horizontal: 12.h, vertical: 12.w),
                                 child: Icon(
                                     testIconData[partModel.partType.index],
-                                    size: 20.0,
+                                    size: 15.w,
                                     color: context.colors.onSecondary),
                               ),
                             ),
@@ -197,13 +195,12 @@ class PartItem extends StatelessWidget {
                                           color: context.colors.primary,
                                         ),
                                       ),
-                                      Text(' Correct',
-                                          style: AppTextStyles
-                                              .kOnSurfaceTextSecondary
-                                              .copyWith(
-                                                  color: Theme.of(context)
-                                                      .colorScheme
-                                                      .onSurfaceVariant)),
+                                      Text(
+                                        ' Correct',
+                                        style: context.titleSmall!.copyWith(
+                                          color: context.colors.onSurface,
+                                        ),
+                                      ),
                                     ],
                                   ),
                                 ],
@@ -212,11 +209,12 @@ class PartItem extends StatelessWidget {
                           ],
                         ),
                         CircularPercentIndicator(
-                          radius: 45.0,
+                          radius: 45.r,
                           percent: correctPercent,
                           center: Text(
                             '${(correctPercent * 100).toInt()}%',
-                            style: TextStyle(color: context.colors.onSurface),
+                            style: context.labelMedium!
+                                .copyWith(color: context.colors.onSurface),
                           ),
                           progressColor: context.colors.secondary,
                         ),

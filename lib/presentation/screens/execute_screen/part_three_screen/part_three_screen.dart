@@ -3,11 +3,11 @@ import 'dart:io';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:flutter_toeic_quiz2/core_ui/extensions/extensions.dart';
 import 'package:get_it/get_it.dart';
 
 import '../../../../core_ui/constants/app_colors/app_color.dart';
 import '../../../../core_ui/constants/app_dimensions.dart';
-import '../../../../core_ui/constants/app_colors/app_light_color_impl.dart';
 import '../../../../core_ui/constants/app_text_styles.dart';
 import '../../../../core_utils/core_utils.dart';
 import '../../../../data/business_models/execute_models/answer_enum.dart';
@@ -134,12 +134,30 @@ class PartThreeScreen extends StatelessWidget {
                             listWidget.add(const SizedBox(
                                 height: AppDimensions.kPaddingDefaultDouble));
                           }
-                          listWidget.add(Text(
-                            '  ${partThreeModel.numbers[i]}: ${partThreeModel.questions[i]}',
-                            style: AppTextStyles.kTextQuestion.copyWith(
-                                color: Theme.of(context)
-                                    .colorScheme
-                                    .onSurfaceVariant),
+                          listWidget.add(Row(
+                            mainAxisAlignment: MainAxisAlignment.start,
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: [
+                              Text(
+                                '${partThreeModel.numbers[i]}. ',
+                                style: context.labelLarge!.copyWith(
+                                  fontWeight: FontWeight.w700,
+                                ),
+                                maxLines: 3,
+                                // style: AppTextStyles.kTextQuestion.copyWith(
+                                //     color: Theme.of(context)
+                                //         .colorScheme
+                                //         .onBackground),
+                              ),
+                              Flexible(
+                                child: Text(
+                                  state.partThreeModel.questions[i],
+                                  style: context.labelLarge!
+                                      .copyWith(fontWeight: FontWeight.w700),
+                                  maxLines: 3,
+                                ),
+                              ),
+                            ],
                           ));
                           listWidget.add(const SizedBox(
                               height: AppDimensions.kPaddingDefault));

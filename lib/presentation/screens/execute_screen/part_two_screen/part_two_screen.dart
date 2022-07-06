@@ -126,15 +126,24 @@ class PartTwoScreen extends StatelessWidget {
                             mainAxisAlignment: MainAxisAlignment.center,
                             crossAxisAlignment: CrossAxisAlignment.start,
                             children: [
-                              Text('${state.currentQuestionNumber}. ',
-                                  style: AppTextStyles.kTextQuestion.copyWith(
-                                      color: Theme.of(context)
-                                          .colorScheme
-                                          .onBackground)),
+                              Text(
+                                '${state.currentQuestionNumber}. ',
+                                style: context.labelLarge!.copyWith(
+                                  fontWeight: FontWeight.w700,
+                                ),
+                                maxLines: 3,
+                                // style: AppTextStyles.kTextQuestion.copyWith(
+                                //     color: Theme.of(context)
+                                //         .colorScheme
+                                //         .onBackground),
+                              ),
                               Flexible(
-                                child: Text(state.question,
-                                    style: AppTextStyles.kTextQuestion.copyWith(
-                                        color: context.colors.onBackground)),
+                                child: Text(
+                                  state.question,
+                                  style: context.labelLarge!
+                                      .copyWith(fontWeight: FontWeight.w700),
+                                  maxLines: 3,
+                                ),
                               ),
                             ],
                           );

@@ -72,6 +72,7 @@ class ThemeProvider extends InheritedWidget {
       tabBarTheme: tabBarTheme(_colors),
       drawerTheme: drawerTheme(_colors),
       sliderTheme: sliderTheme(_colors),
+      floatingActionButtonTheme: floatingActionButtonTheme(_colors),
       scaffoldBackgroundColor: _colors.background,
       useMaterial3: true,
     );
@@ -91,6 +92,7 @@ class ThemeProvider extends InheritedWidget {
       tabBarTheme: tabBarTheme(_colors),
       drawerTheme: drawerTheme(_colors),
       sliderTheme: sliderTheme(_colors),
+      floatingActionButtonTheme: floatingActionButtonTheme(_colors),
       scaffoldBackgroundColor: _colors.background,
       useMaterial3: true,
     );
@@ -98,6 +100,10 @@ class ThemeProvider extends InheritedWidget {
 
   ThemeMode themeMode() {
     return settings.value.themeMode;
+  }
+
+  FloatingActionButtonThemeData floatingActionButtonTheme(ColorScheme colors) {
+    return const FloatingActionButtonThemeData();
   }
 
   SliderThemeData sliderTheme(ColorScheme colors) {

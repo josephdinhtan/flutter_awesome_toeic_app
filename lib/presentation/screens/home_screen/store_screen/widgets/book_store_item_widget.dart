@@ -1,9 +1,7 @@
 import 'package:flutter/cupertino.dart';
-import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
 import '../../../../../core_ui/constants/app_dimensions.dart';
-import '../../../../../core_ui/constants/transparent_image.dart';
 import '../../../../../data/data_providers/dtos/book_dto.dart';
 import '../../../../../view_model/book_screen_cubit/book_list_cubit.dart';
 import '../../../../../view_model/store_screen_cubit/store_screen_popup_cubit.dart';
@@ -12,7 +10,8 @@ import 'book_store_item_popup_widget.dart';
 
 class BookStoreItemWidget extends StatelessWidget {
   final BookDto bookDto;
-  BookStoreItemWidget({Key? key, required this.bookDto}) : super(key: key);
+  const BookStoreItemWidget({Key? key, required this.bookDto})
+      : super(key: key);
   @override
   Widget build(BuildContext context) {
     double width = MediaQuery.of(context).size.width;
@@ -101,7 +100,7 @@ class BookStoreItemWidget extends StatelessWidget {
       child: Padding(
         padding: const EdgeInsets.all(8.0),
         child: ImageTile(
-          image: bookDto.full_cover_url,
+          image: bookDto.fullCoverUrl,
           title: bookDto.title,
           subtitle: bookDto.des,
         ),

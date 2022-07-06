@@ -1,5 +1,8 @@
+// ignore_for_file: must_be_immutable
+
 import 'package:flutter/material.dart';
 
+import '../../../../../core_ui/extensions/extensions.dart';
 import '../../../../../data/data_providers/dtos/book_dto.dart';
 
 class BookStoreItemPopupWidget extends StatelessWidget {
@@ -16,17 +19,17 @@ class BookStoreItemPopupWidget extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Padding(
-      padding: const EdgeInsets.all(8.0),
+      padding: EdgeInsets.symmetric(horizontal: 8.w, vertical: 8.h),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           Center(
             child: Padding(
-              padding: const EdgeInsets.all(8.0),
+              padding: EdgeInsets.symmetric(horizontal: 8.w, vertical: 8.h),
               child: ClipRRect(
-                borderRadius: const BorderRadius.all(Radius.circular(8.0)),
+                borderRadius: BorderRadius.all(Radius.circular(8.r)),
                 child: Image.network(
-                  bookNetworkObject.full_cover_url,
+                  bookNetworkObject.fullCoverUrl,
                   fit: BoxFit.cover,
                 ),
               ),
@@ -35,44 +38,44 @@ class BookStoreItemPopupWidget extends StatelessWidget {
           Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              const SizedBox(height: 8.0),
-              const SizedBox(height: 8.0),
+              SizedBox(height: 16.h),
               bookNetworkObject.price != ""
                   ? Text(
                       bookNetworkObject.price,
-                      style: const TextStyle(
+                      style: context.labelLarge!.copyWith(
                           fontWeight: FontWeight.bold,
-                          fontSize: 18.0,
+                          fontSize: 18.sp,
                           color: Colors.grey),
                     )
                   : Container(
                       decoration: BoxDecoration(
                           color: isBought ? Colors.grey : Colors.green,
-                          borderRadius:
-                              const BorderRadius.all(Radius.circular(5.0))),
+                          borderRadius: BorderRadius.all(Radius.circular(5.r))),
                       child: Padding(
-                        padding: const EdgeInsets.all(4.0),
+                        padding: EdgeInsets.all(4.r),
                         child: isBought
-                            ? const Text(
+                            ? Text(
                                 'You already get it',
                                 style: TextStyle(
-                                    fontSize: 16.0, color: Colors.white),
+                                    fontSize: 16.sp, color: Colors.white),
                               )
-                            : const Text(
+                            : Text(
                                 'Free',
                                 style: TextStyle(
-                                    fontSize: 16.0, color: Colors.white),
+                                    fontSize: 16.sp, color: Colors.white),
                               ),
                       ),
                     ),
-              const SizedBox(height: 8.0),
-              Text(bookNetworkObject.author,
-                  style: const TextStyle(
-                      color: Color(0xff2a9d8f), fontWeight: FontWeight.bold)),
-              const SizedBox(height: 8.0),
+              SizedBox(height: 8.h),
+              Text(
+                bookNetworkObject.author,
+                style:
+                    context.labelLarge!.copyWith(fontWeight: FontWeight.bold),
+              ),
+              SizedBox(height: 8.h),
               Text(
                 bookNetworkObject.des,
-                style: const TextStyle(color: Colors.blueGrey),
+                style: context.labelMedium!.copyWith(color: Colors.blueGrey),
               ),
             ],
           ),

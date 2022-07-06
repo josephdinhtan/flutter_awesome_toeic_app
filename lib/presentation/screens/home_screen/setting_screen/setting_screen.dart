@@ -27,13 +27,13 @@ class SettingScreen extends StatelessWidget {
       ),
       body: SingleChildScrollView(
         child: Padding(
-          padding: const EdgeInsets.symmetric(horizontal: 16.0),
+          padding: EdgeInsets.symmetric(horizontal: 16.w),
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.stretch,
             children: [
-              const SizedBox(height: 12.0),
+              SizedBox(height: 12.h),
               Text('Appearance', style: context.labelMedium),
-              const SizedBox(height: 4.0),
+              SizedBox(height: 4.h),
               SettingContainer(
                 children: [
                   ThemePicker(
@@ -68,51 +68,72 @@ class SettingScreen extends StatelessWidget {
                   ),
                 ],
               ),
-              const SizedBox(height: 12.0),
-              Text('Language', style: context.labelMedium),
-              const SizedBox(height: 4.0),
+              SizedBox(height: 12.h),
               SettingContainer(
-                children: const [
-                  LanguagePicker(),
+                children: [
+                  LanguagePicker(
+                    language: 'en',
+                    languageChange: (language) {},
+                  ),
                 ],
               ),
-              const SizedBox(height: 12.0),
+              SizedBox(height: 12.h),
               Text('Notification', style: context.labelMedium),
-              const SizedBox(height: 4.0),
+              SizedBox(height: 4.h),
               SettingContainer(
                 children: [
-                  NotificationDatePicker(),
-                  NotificationTimePicker(),
+                  NotificationDatePicker(
+                      initFrequency: 'daily', frequencyChange: (frequency) {}),
+                  NotificationTimePicker(
+                      initTime: '8:20', timeChange: (duration) {}),
                 ],
               ),
-              const SizedBox(height: 12.0),
+              SizedBox(height: 12.h),
               Text('Community', style: context.labelMedium),
-              const SizedBox(height: 4.0),
+              SizedBox(height: 4.h),
               SettingContainer(
                 children: [
                   TextButton.icon(
                     onPressed: () {},
-                    icon: const Icon(Icons.star_rate_outlined),
-                    label: Text(
-                      'Rate us 5 star', /* style: kTextStyleSettingsH1*/
+                    icon: Padding(
+                      padding: EdgeInsets.only(left: 8.w),
+                      child: Icon(Icons.star_rate_outlined),
+                    ),
+                    label: SizedBox(
+                      width: double.infinity,
+                      child: Text(
+                        'Rate us 5 star', /* style: kTextStyleSettingsH1*/
+                      ),
                     ),
                   ),
                   TextButton.icon(
                     onPressed: () {},
-                    icon: const Icon(Icons.speaker_notes_rounded),
-                    label: Text(
-                      'Feedback', /*style: kTextStyleSettingsH1*/
+                    icon: Padding(
+                      padding: EdgeInsets.only(left: 8.w),
+                      child: Icon(Icons.speaker_notes_rounded),
+                    ),
+                    label: SizedBox(
+                      width: double.infinity,
+                      child: Text(
+                        'Feedback', /*style: kTextStyleSettingsH1*/
+                      ),
                     ),
                   ),
                   TextButton.icon(
                     onPressed: () {},
-                    icon: const Icon(Icons.share_rounded),
-                    label: Text(
-                      'Share', /* style: kTextStyleSettingsH1*/
+                    icon: Padding(
+                      padding: EdgeInsets.only(left: 8.w),
+                      child: Icon(Icons.share_rounded),
+                    ),
+                    label: SizedBox(
+                      width: double.infinity,
+                      child: Text(
+                        'Share', /* style: kTextStyleSettingsH1*/
+                      ),
                     ),
                   ),
                   Padding(
-                    padding: const EdgeInsets.symmetric(horizontal: 32.0),
+                    padding: EdgeInsets.symmetric(horizontal: 32.h),
                     child: SizedBox(
                       width: double.infinity,
                       child: ElevatedButton.icon(
@@ -124,14 +145,13 @@ class SettingScreen extends StatelessWidget {
                           //     ));
                         },
                         icon: const Icon(Icons.data_saver_off),
-                        label:
-                            const Text('Check firebase Storage (Admin only)'),
+                        label: const Text('Check Server Storage (Admin only)'),
                       ),
                     ),
                   ),
                 ],
               ),
-              const SizedBox(height: 4.0),
+              SizedBox(height: 4.h),
             ],
           ),
         ),

@@ -13,6 +13,7 @@ import 'data/data_providers/hive_objects/part_execute_hive_object/part_one_hive_
 import 'data/data_providers/hive_objects/part_execute_hive_object/part_three_hive_object.dart';
 import 'data/data_providers/hive_objects/part_execute_hive_object/part_two_hive_object.dart';
 import 'data/data_providers/hive_objects/part_hive_object/part_hive_object.dart';
+import 'data/data_providers/hive_objects/question_note_hive_object/question_note_hive_object.dart';
 import 'data/data_providers/hive_objects/test_hive_object/test_hive_object.dart';
 import 'data/di/injection.dart';
 import 'domain/user_settings_use_case/get_theme_color_use_case.dart';
@@ -54,6 +55,7 @@ Future<void> globalInitializerForMobile() async {
   Hive.registerAdapter(PartTwoHiveObjectAdapter());
   Hive.registerAdapter(PartThreeHiveObjectAdapter());
   Hive.registerAdapter(PartFourHiveObjectAdapter());
+  Hive.registerAdapter(QuestionNoteHiveObjectAdapter());
   await Firebase.initializeApp(
     options: DefaultFirebaseOptions.currentPlatform,
   );
