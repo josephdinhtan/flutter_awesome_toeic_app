@@ -11,10 +11,13 @@ class QuestionNoteHiveObject extends HiveObject {
   String id;
   @HiveField(2)
   String note;
+  @HiveField(3)
+  int questionNum;
 
   QuestionNoteHiveObject({
     required this.partType,
     required this.id,
     required this.note,
+    required this.questionNum,
   });
 }

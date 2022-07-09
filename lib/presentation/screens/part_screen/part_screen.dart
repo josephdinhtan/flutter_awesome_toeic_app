@@ -31,10 +31,11 @@ class PartScreen extends StatelessWidget {
           children: [
             Icon(
               Icons.play_arrow_rounded,
+              size: 16.sp,
               color: Theme.of(context).textTheme.button!.color,
             ),
-            const SizedBox(
-              width: AppDimensions.kPaddingDefault,
+            SizedBox(
+              width: 8.w,
             ),
             Text(
               'START FULL TEST',

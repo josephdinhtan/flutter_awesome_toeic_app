@@ -7,7 +7,7 @@ import '../../../../data/business_models/part_model.dart';
 import '../../../router/app_router.dart';
 import '../../../router/screen_arguments.dart';
 
-List<String> testDescription = [
+List<String> _testDescription = [
   'Photographs',
   'Question-Response',
   'Conversations',
@@ -17,7 +17,7 @@ List<String> testDescription = [
   'Reading Comprehension',
 ];
 
-List<IconData> testIconData = [
+List<IconData> _testIconData = [
   Icons.image_search,
   Icons.sms_outlined,
   Icons.question_answer_outlined,
@@ -125,7 +125,7 @@ class PartItem extends StatelessWidget {
                                 padding: EdgeInsets.symmetric(
                                     horizontal: 12.h, vertical: 12.w),
                                 child: Icon(
-                                    testIconData[partModel.partType.index],
+                                    _testIconData[partModel.partType.index],
                                     size: 15.w,
                                     color: context.colors.onSecondary),
                               ),
@@ -145,7 +145,7 @@ class PartItem extends StatelessWidget {
                                       ),
                                       const SizedBox(width: 2.0),
                                       Text(
-                                        testDescription[
+                                        _testDescription[
                                             partModel.partType.index],
                                         style: context.titleSmall!.copyWith(
                                           color: context.colors.onSurface,

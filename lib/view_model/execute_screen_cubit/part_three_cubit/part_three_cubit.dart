@@ -1,3 +1,5 @@
+import 'dart:developer';
+
 import 'package:bloc/bloc.dart';
 import 'package:get_it/get_it.dart';
 import 'package:meta/meta.dart';
@@ -5,16 +7,24 @@ import 'package:meta/meta.dart';
 import '../../../core_utils/core_utils.dart';
 import '../../../data/business_models/execute_models/answer_enum.dart';
 import '../../../data/business_models/execute_models/part_three_model.dart';
+import '../../../data/business_models/part_model.dart';
+import '../../../data/business_models/question_note_model.dart';
 import '../../../domain/execute_use_cases/get_part_three_question_list_use_case.dart';
+import '../../../domain/question_note_use_case/read_question_note_use_case.dart';
+import '../../../domain/question_note_use_case/save_question_note_use_case.dart';
 import '../../../presentation/screens/execute_screen/components/media_player.dart';
 import '../../../presentation/screens/execute_screen/widgets/answer_sheet_panel.dart';
 
 part 'part_three_state.dart';
 
+const _logTag = "PartThreeCubit";
+
 class PartThreeCubit extends Cubit<PartThreeState> {
   PartThreeCubit() : super(PartThreeInitial());
 
   final useCase = GetIt.I.get<GetPartThreeQuestionListUseCase>();
+  final saveQuestionNoteUseCase = GetIt.I.get<SaveQuestionNoteUseCase>();
+  final readQuestionNoteUseCase = GetIt.I.get<ReadQuestionNoteUseCase>();
 
   late List<PartThreeModel> _partThreeQuestionList;
   int _currentQuestionIndex = 0;
@@ -22,6 +32,7 @@ class PartThreeCubit extends Cubit<PartThreeState> {
   final Map _userAnswerMap = <int, UserAnswer>{};
   final Map _correctAnsCheckedMap = <int, UserAnswer>{};
   final Map _questionNumberIndexMap = <int, int>{};
+  final Map _questionNoteIndexMap = <int, String?>{};
   final List<AnswerSheetModel> _answerSheetModel = [];
 
   Future<void> getInitContent(List<String> ids) async {
@@ -32,10 +43,14 @@ class PartThreeCubit extends Cubit<PartThreeState> {
     _userAnswerMap.clear();
     _correctAnsCheckedMap.clear();
     _questionNumberIndexMap.clear();
+    _questionNoteIndexMap.clear();
     for (int i = 0; i < _questionListSize; i++) {
       for (int questionNumber in _partThreeQuestionList[i].numbers) {
         _questionNumberIndexMap[questionNumber] = i;
       }
+      final note =
+          await readQuestionNoteUseCase.perform(_partThreeQuestionList[i].id);
+      _questionNoteIndexMap[_partThreeQuestionList[i].numbers[0]] = note?.note;
     }
     _playAudio(_partThreeQuestionList[_currentQuestionIndex].audioPath);
     notifyData();
@@ -61,6 +76,27 @@ class PartThreeCubit extends Cubit<PartThreeState> {
     }
     _playAudio(_partThreeQuestionList[_currentQuestionIndex].audioPath);
     notifyData();
+  }
+
+  Future<void> saveQuestionIdToDB(String message) async {
+    //_partOneQuestionList[_currentQuestionIndex].id;
+    log('$_logTag saveQuestionIdToDB() message: $message');
+
+    // final list = await GetIt.I.get<ReadAllQuestionNoteUseCase>().perform();
+    // log('$_logTag saveQuestionIdToDB() list: ${list!.length}');
+
+    final result = await saveQuestionNoteUseCase.perform(
+      QuestionNoteModel(
+        partType: PartType.part3,
+        id: _partThreeQuestionList[_currentQuestionIndex].id,
+        note: message,
+        questionNum: _partThreeQuestionList[_currentQuestionIndex].numbers[0],
+      ),
+    );
+    if (result) {
+      _questionNoteIndexMap[
+          _partThreeQuestionList[_currentQuestionIndex].numbers[0]] = message;
+    }
   }
 
   void userCheckAnswer() {
@@ -94,6 +130,8 @@ class PartThreeCubit extends Cubit<PartThreeState> {
       correctAnswer.add(_correctAnsCheckedMap[questionNumber]);
     }
     emit(PartThreeContentLoaded(
+        note: _questionNoteIndexMap[
+            _partThreeQuestionList[_currentQuestionIndex].numbers[0]],
         partThreeModel: _partThreeQuestionList[_currentQuestionIndex],
         userAnswer: userAnswerList,
         correctAnswer: correctAnswer,

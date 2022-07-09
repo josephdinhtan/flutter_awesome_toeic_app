@@ -8,6 +8,7 @@ import '../../view_model/execute_screen_cubit/part_seven_cubit/part_seven_cubit.
 import '../../view_model/execute_screen_cubit/part_six_cubit/part_six_cubit.dart';
 import '../../view_model/execute_screen_cubit/part_three_cubit/part_three_cubit.dart';
 import '../../view_model/execute_screen_cubit/part_two_cubit/part_two_cubit.dart';
+import '../../view_model/favorite_screen_cubit/cubit/favorite_screen_cubit.dart';
 import '../../view_model/home_screen_cubit/home_screen_cubit.dart';
 import '../../view_model/part_screen_cubit/part_list_cubit.dart';
 import '../../view_model/settings_screen_cubit/settings_screen_cubit.dart';
@@ -19,6 +20,7 @@ final getIt = GetIt.instance;
 
 class CubitInjection {
   static void configureDependencies() {
+    getIt.registerFactory<FavoriteScreenCubit>(() => FavoriteScreenCubit());
     getIt.registerFactory<HomeScreenCubit>(() => HomeScreenCubit());
     getIt.registerFactory<SettingsScreenCubit>(() => SettingsScreenCubit());
     getIt.registerFactory<StoreScreenCubit>(() => StoreScreenCubit());

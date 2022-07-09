@@ -4,7 +4,11 @@ import 'package:get_it/get_it.dart';
 import '../../../core_utils/core_utils.dart';
 import '../../../data/business_models/execute_models/answer_enum.dart';
 import '../../../data/business_models/execute_models/part_two_model.dart';
+import '../../../data/business_models/part_model.dart';
+import '../../../data/business_models/question_note_model.dart';
 import '../../../domain/execute_use_cases/get_part_two_question_list_use_case.dart';
+import '../../../domain/question_note_use_case/read_question_note_use_case.dart';
+import '../../../domain/question_note_use_case/save_question_note_use_case.dart';
 import '../../../presentation/screens/execute_screen/components/media_player.dart';
 import '../../../presentation/screens/execute_screen/widgets/answer_sheet_panel.dart';
 
@@ -13,6 +17,8 @@ part 'part_two_state.dart';
 class PartTwoCubit extends Cubit<PartTwoState> {
   PartTwoCubit() : super(PartTwoInitial());
   final useCase = GetIt.I.get<GetPartTwoQuestionListUseCase>();
+  final saveQuestionNoteUseCase = GetIt.I.get<SaveQuestionNoteUseCase>();
+  final readQuestionNoteUseCase = GetIt.I.get<ReadQuestionNoteUseCase>();
 
   late List<PartTwoModel> _partTwoQuestionList;
   int _currentQuestionIndex = 0;
@@ -20,6 +26,7 @@ class PartTwoCubit extends Cubit<PartTwoState> {
   final Map _userAnswerMap = <int, UserAnswer>{};
   final Map _correctAnsCheckedMap = <int, UserAnswer>{};
   final Map _questionNumberIndexMap = <int, int>{};
+  final Map _questionNoteIndexMap = <int, String?>{};
   final List<AnswerSheetModel> _answerSheetModel = [];
 
   Future<void> getInitContent(List<String> ids) async {
@@ -30,8 +37,12 @@ class PartTwoCubit extends Cubit<PartTwoState> {
     _userAnswerMap.clear();
     _correctAnsCheckedMap.clear();
     _questionNumberIndexMap.clear();
+    _questionNoteIndexMap.clear();
     for (int i = 0; i < _questionListSize; i++) {
       _questionNumberIndexMap[_partTwoQuestionList[i].number] = i;
+      final note =
+          await readQuestionNoteUseCase.perform(_partTwoQuestionList[i].id);
+      _questionNoteIndexMap[_partTwoQuestionList[i].number] = note?.note;
     }
     _playAudio(_partTwoQuestionList[_currentQuestionIndex].audioPath);
     _notifyData();
@@ -54,6 +65,21 @@ class PartTwoCubit extends Cubit<PartTwoState> {
   void userSelectAnswerChange(UserAnswer userAnswer) {
     final int key = _partTwoQuestionList[_currentQuestionIndex].number;
     _userAnswerMap[key] = userAnswer;
+  }
+
+  Future<void> saveQuestionIdToDB(String noteMessage) async {
+    final result = await saveQuestionNoteUseCase.perform(
+      QuestionNoteModel(
+        partType: PartType.part2,
+        id: _partTwoQuestionList[_currentQuestionIndex].id,
+        note: noteMessage,
+        questionNum: _partTwoQuestionList[_currentQuestionIndex].number,
+      ),
+    );
+    if (result) {
+      _questionNoteIndexMap[
+          _partTwoQuestionList[_currentQuestionIndex].number] = noteMessage;
+    }
   }
 
   void userCheckAnswer() {
@@ -85,6 +111,7 @@ class PartTwoCubit extends Cubit<PartTwoState> {
       needHideAns = true;
     }
     emit(PartTwoContentLoaded(
+        note: _questionNoteIndexMap[key],
         answers: needHideAns
             ? ["", "", ""]
             : _partTwoQuestionList[_currentQuestionIndex].answers,

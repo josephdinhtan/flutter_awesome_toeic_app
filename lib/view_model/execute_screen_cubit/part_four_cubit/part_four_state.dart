@@ -13,8 +13,10 @@ class PartFourContentLoaded extends PartFourState {
   final PartFourModel partFourModel;
   final List<UserAnswer> userAnswer;
   final List<UserAnswer> correctAnswer;
+  final String? note;
 
   PartFourContentLoaded({
+    this.note,
     required this.currentQuestionNumber,
     required this.questionListSize,
     required this.correctAnswer,

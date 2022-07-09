@@ -1,3 +1,4 @@
+import 'dart:developer';
 import 'dart:io';
 
 import 'package:flutter/cupertino.dart';
@@ -8,7 +9,6 @@ import 'package:get_it/get_it.dart';
 
 import '../../../../core_ui/constants/app_colors/app_color.dart';
 import '../../../../core_ui/constants/app_dimensions.dart';
-import '../../../../core_ui/constants/app_text_styles.dart';
 import '../../../../core_utils/core_utils.dart';
 import '../../../../data/business_models/execute_models/answer_enum.dart';
 import '../../../../data/business_models/execute_models/part_three_model.dart';
@@ -19,6 +19,8 @@ import '../widgets/answer_sheet_panel.dart';
 import '../widgets/audio_controller_widget.dart';
 import '../widgets/bottom_controller_widget.dart';
 import '../widgets/horizontal_split_view.dart';
+
+const _logTag = "PartThreeScreen";
 
 class PartThreeScreen extends StatelessWidget {
   final String partTitle;
@@ -245,17 +247,31 @@ class PartThreeScreen extends StatelessWidget {
                 },
                 audioPlayer: MediaPlayer().audioPlayer,
               ),
-              BottomController(
-                prevPressed: () {
-                  BlocProvider.of<PartThreeCubit>(context).getPrevContent();
+              BlocBuilder<PartThreeCubit, PartThreeState>(
+                builder: (context, state) {
+                  if (state is PartThreeContentLoaded) {
+                    return BottomController(
+                      note: state.note,
+                      prevPressed: () {
+                        BlocProvider.of<PartThreeCubit>(context)
+                            .getPrevContent();
+                      },
+                      nextPressed: () {
+                        BlocProvider.of<PartThreeCubit>(context)
+                            .getNextContent();
+                      },
+                      checkAnsPressed: () {
+                        BlocProvider.of<PartThreeCubit>(context)
+                            .userCheckAnswer();
+                      },
+                      favoriteAddNoteChange: (note) {
+                        BlocProvider.of<PartThreeCubit>(context)
+                            .saveQuestionIdToDB(note);
+                      },
+                    );
+                  }
+                  return Container();
                 },
-                nextPressed: () {
-                  BlocProvider.of<PartThreeCubit>(context).getNextContent();
-                },
-                checkAnsPressed: () {
-                  BlocProvider.of<PartThreeCubit>(context).userCheckAnswer();
-                },
-                favoritePressed: () {},
               ),
             ],
           ),

@@ -1,3 +1,4 @@
+import 'dart:developer';
 import 'dart:io';
 
 import 'package:flutter/cupertino.dart';
@@ -18,6 +19,8 @@ import '../widgets/answer_sheet_panel.dart';
 import '../widgets/audio_controller_widget.dart';
 import '../widgets/bottom_controller_widget.dart';
 import '../widgets/horizontal_split_view.dart';
+
+const _logTag = "PartFourScreen";
 
 class PartFourScreen extends StatelessWidget {
   final String partTitle;
@@ -239,17 +242,31 @@ class PartFourScreen extends StatelessWidget {
                 },
                 audioPlayer: MediaPlayer().audioPlayer,
               ),
-              BottomController(
-                prevPressed: () {
-                  BlocProvider.of<PartFourCubit>(context).getPrevContent();
+              BlocBuilder<PartFourCubit, PartFourState>(
+                builder: (context, state) {
+                  if (state is PartFourContentLoaded) {
+                    return BottomController(
+                      note: state.note,
+                      prevPressed: () {
+                        BlocProvider.of<PartFourCubit>(context)
+                            .getPrevContent();
+                      },
+                      nextPressed: () {
+                        BlocProvider.of<PartFourCubit>(context)
+                            .getNextContent();
+                      },
+                      checkAnsPressed: () {
+                        BlocProvider.of<PartFourCubit>(context)
+                            .userCheckAnswer();
+                      },
+                      favoriteAddNoteChange: (note) {
+                        BlocProvider.of<PartFourCubit>(context)
+                            .saveQuestionIdToDB(note);
+                      },
+                    );
+                  }
+                  return Container();
                 },
-                nextPressed: () {
-                  BlocProvider.of<PartFourCubit>(context).getNextContent();
-                },
-                checkAnsPressed: () {
-                  BlocProvider.of<PartFourCubit>(context).userCheckAnswer();
-                },
-                favoritePressed: () {},
               ),
             ],
           ),

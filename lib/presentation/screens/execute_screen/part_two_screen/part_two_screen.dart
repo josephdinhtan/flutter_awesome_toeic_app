@@ -1,3 +1,5 @@
+import 'dart:developer';
+
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -5,7 +7,6 @@ import 'package:get_it/get_it.dart';
 
 import '../../../../core_ui/constants/app_colors/app_color.dart';
 import '../../../../core_ui/constants/app_dimensions.dart';
-import '../../../../core_ui/constants/app_text_styles.dart';
 import '../../../../core_ui/extensions/extensions.dart';
 import '../../../../core_utils/core_utils.dart';
 import '../../../../data/business_models/execute_models/answer_enum.dart';
@@ -15,6 +16,8 @@ import '../widgets/answer_board_widget.dart';
 import '../widgets/answer_sheet_panel.dart';
 import '../widgets/audio_controller_widget.dart';
 import '../widgets/bottom_controller_widget.dart';
+
+const _logTag = "PartTwoScreen";
 
 class PartTwoScreen extends StatelessWidget {
   final String partTitle;
@@ -197,17 +200,29 @@ class PartTwoScreen extends StatelessWidget {
                 },
                 audioPlayer: MediaPlayer().audioPlayer,
               ),
-              BottomController(
-                prevPressed: () {
-                  BlocProvider.of<PartTwoCubit>(context).getPrevContent();
+              BlocBuilder<PartTwoCubit, PartTwoState>(
+                builder: (context, state) {
+                  if (state is PartTwoContentLoaded) {
+                    return BottomController(
+                      note: state.note,
+                      prevPressed: () {
+                        BlocProvider.of<PartTwoCubit>(context).getPrevContent();
+                      },
+                      nextPressed: () {
+                        BlocProvider.of<PartTwoCubit>(context).getNextContent();
+                      },
+                      checkAnsPressed: () {
+                        BlocProvider.of<PartTwoCubit>(context)
+                            .userCheckAnswer();
+                      },
+                      favoriteAddNoteChange: (note) {
+                        BlocProvider.of<PartTwoCubit>(context)
+                            .saveQuestionIdToDB(note);
+                      },
+                    );
+                  }
+                  return Container();
                 },
-                nextPressed: () {
-                  BlocProvider.of<PartTwoCubit>(context).getNextContent();
-                },
-                checkAnsPressed: () {
-                  BlocProvider.of<PartTwoCubit>(context).userCheckAnswer();
-                },
-                favoritePressed: () {},
               ),
             ],
           ),

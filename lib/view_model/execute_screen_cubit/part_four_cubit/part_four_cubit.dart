@@ -1,3 +1,5 @@
+import 'dart:developer';
+
 import 'package:bloc/bloc.dart';
 import 'package:get_it/get_it.dart';
 import 'package:meta/meta.dart';
@@ -5,16 +7,24 @@ import 'package:meta/meta.dart';
 import '../../../core_utils/core_utils.dart';
 import '../../../data/business_models/execute_models/answer_enum.dart';
 import '../../../data/business_models/execute_models/part_four_model.dart';
+import '../../../data/business_models/part_model.dart';
+import '../../../data/business_models/question_note_model.dart';
 import '../../../domain/execute_use_cases/get_part_four_question_list_use_case.dart';
+import '../../../domain/question_note_use_case/read_question_note_use_case.dart';
+import '../../../domain/question_note_use_case/save_question_note_use_case.dart';
 import '../../../presentation/screens/execute_screen/components/media_player.dart';
 import '../../../presentation/screens/execute_screen/widgets/answer_sheet_panel.dart';
 
 part 'part_four_state.dart';
 
+const _logTag = "PartFourCubit";
+
 class PartFourCubit extends Cubit<PartFourState> {
   PartFourCubit() : super(PartFourInitial());
 
   final useCase = GetIt.I.get<GetPartFourQuestionListUseCase>();
+  final saveQuestionNoteUseCase = GetIt.I.get<SaveQuestionNoteUseCase>();
+  final readQuestionNoteUseCase = GetIt.I.get<ReadQuestionNoteUseCase>();
 
   late List<PartFourModel> _partFourQuestionList;
   int _currentQuestionIndex = 0;
@@ -22,6 +32,7 @@ class PartFourCubit extends Cubit<PartFourState> {
   final Map _userAnswerMap = <int, UserAnswer>{};
   final Map _correctAnsCheckedMap = <int, UserAnswer>{};
   final Map _questionNumberIndexMap = <int, int>{};
+  final Map _questionNoteIndexMap = <int, String?>{};
   final List<AnswerSheetModel> _answerSheetModel = [];
 
   Future<void> getInitContent(List<String> ids) async {
@@ -36,6 +47,9 @@ class PartFourCubit extends Cubit<PartFourState> {
       for (int questionNumber in _partFourQuestionList[i].numbers) {
         _questionNumberIndexMap[questionNumber] = i;
       }
+      final note =
+          await readQuestionNoteUseCase.perform(_partFourQuestionList[i].id);
+      _questionNoteIndexMap[_partFourQuestionList[i].numbers[0]] = note?.note;
     }
     _playAudio(_partFourQuestionList[_currentQuestionIndex].audioPath);
     notifyData();
@@ -61,6 +75,27 @@ class PartFourCubit extends Cubit<PartFourState> {
     }
     _playAudio(_partFourQuestionList[_currentQuestionIndex].audioPath);
     notifyData();
+  }
+
+  Future<void> saveQuestionIdToDB(String message) async {
+    //_partOneQuestionList[_currentQuestionIndex].id;
+    log('$_logTag saveQuestionIdToDB() message: $message');
+
+    // final list = await GetIt.I.get<ReadAllQuestionNoteUseCase>().perform();
+    // log('$_logTag saveQuestionIdToDB() list: ${list!.length}');
+
+    final result = await saveQuestionNoteUseCase.perform(
+      QuestionNoteModel(
+        partType: PartType.part4,
+        id: _partFourQuestionList[_currentQuestionIndex].id,
+        note: message,
+        questionNum: _partFourQuestionList[_currentQuestionIndex].numbers[0],
+      ),
+    );
+    if (result) {
+      _questionNoteIndexMap[
+          _partFourQuestionList[_currentQuestionIndex].numbers[0]] = message;
+    }
   }
 
   void userCheckAnswer() {
@@ -94,6 +129,8 @@ class PartFourCubit extends Cubit<PartFourState> {
       correctAnswer.add(_correctAnsCheckedMap[questionNumber]);
     }
     emit(PartFourContentLoaded(
+        note: _questionNoteIndexMap[
+            _partFourQuestionList[_currentQuestionIndex].numbers[0]],
         partFourModel: _partFourQuestionList[_currentQuestionIndex],
         userAnswer: userAnswerList,
         correctAnswer: correctAnswer,

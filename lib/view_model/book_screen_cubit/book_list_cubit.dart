@@ -9,7 +9,7 @@ import '../../domain/get_book_detail_use_case/get_list_book_use_case.dart';
 
 part 'book_list_state.dart';
 
-const logTag = "BookListCubit";
+const _logTag = "BookListCubit";
 
 class BookListCubit extends Cubit<BookListState> {
   final useCase = GetIt.I.get<GetListBookUseCase>();
@@ -21,7 +21,7 @@ class BookListCubit extends Cubit<BookListState> {
     try {
       final List<BookModel> listBook = await useCase.perform();
       if (logEnable) {
-        log("$logTag listBook Loaded: listBook ${listBook[0].toString()}");
+        log("$_logTag listBook Loaded: listBook ${listBook[0].toString()}");
       }
       emit(BookListLoaded(bookListModel: listBook));
     } catch (error) {

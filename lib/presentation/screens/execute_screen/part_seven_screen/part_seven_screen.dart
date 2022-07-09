@@ -5,7 +5,6 @@ import 'package:get_it/get_it.dart';
 
 import '../../../../core_ui/constants/app_colors/app_color.dart';
 import '../../../../core_ui/constants/app_dimensions.dart';
-import '../../../../core_ui/constants/app_colors/app_light_color_impl.dart';
 import '../../../../core_ui/constants/app_text_styles.dart';
 import '../../../../core_utils/core_utils.dart';
 import '../../../../data/business_models/execute_models/answer_enum.dart';
@@ -127,18 +126,31 @@ class PartSevenScreen extends StatelessWidget {
                   ),
                 ),
               ),
-              BottomController(
-                isStandAlone: true,
-                prevPressed: () {
-                  BlocProvider.of<PartSevenCubit>(context).getPrevContent();
+              BlocBuilder<PartSevenCubit, PartSevenState>(
+                builder: (context, state) {
+                  if (state is PartSevenContentLoaded) {
+                    return BottomController(
+                      note: state.note,
+                      prevPressed: () {
+                        BlocProvider.of<PartSevenCubit>(context)
+                            .getPrevContent();
+                      },
+                      nextPressed: () {
+                        BlocProvider.of<PartSevenCubit>(context)
+                            .getNextContent();
+                      },
+                      checkAnsPressed: () {
+                        BlocProvider.of<PartSevenCubit>(context)
+                            .userCheckAnswer();
+                      },
+                      favoriteAddNoteChange: (note) {
+                        BlocProvider.of<PartSevenCubit>(context)
+                            .saveQuestionIdToDB(note);
+                      },
+                    );
+                  }
+                  return Container();
                 },
-                nextPressed: () {
-                  BlocProvider.of<PartSevenCubit>(context).getNextContent();
-                },
-                checkAnsPressed: () {
-                  BlocProvider.of<PartSevenCubit>(context).userCheckAnswer();
-                },
-                favoritePressed: () {},
               ),
             ],
           ),
@@ -154,11 +166,11 @@ class PartSevenScreen extends StatelessWidget {
         state.partSevenModel as PartSevenModel;
     final correctAnswer = state.correctAnswer;
     final userAnswer = state.userAnswer;
-    for (int i = 0; i < partSevenModel.questionNumber.length; i++) {
+    for (int i = 0; i < partSevenModel.numbers.length; i++) {
       listWidget
           .add(const SizedBox(height: AppDimensions.kPaddingDefaultDouble));
       listWidget.add(Text(
-        '  ${partSevenModel.questionNumber[i]}: ${partSevenModel.questions[i]}',
+        '  ${partSevenModel.numbers[i]}: ${partSevenModel.questions[i]}',
         style: AppTextStyles.kTextQuestion,
       ));
       listWidget.add(const SizedBox(height: AppDimensions.kPaddingDefault));
@@ -174,7 +186,7 @@ class PartSevenScreen extends StatelessWidget {
         selectedAns: userAnswer[i].index,
         selectChanged: (value) {
           BlocProvider.of<PartSevenCubit>(context).userSelectAnswerChange(
-              partSevenModel.questionNumber[i], UserAnswer.values[value]);
+              partSevenModel.numbers[i], UserAnswer.values[value]);
         },
       ));
     }

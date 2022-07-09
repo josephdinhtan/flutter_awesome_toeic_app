@@ -3,7 +3,6 @@ import 'dart:developer';
 import 'package:bloc/bloc.dart';
 import 'package:flutter_toeic_quiz2/data/business_models/part_model.dart';
 import 'package:flutter_toeic_quiz2/data/business_models/question_note_model.dart';
-import 'package:flutter_toeic_quiz2/domain/question_note_use_case/read_all_question_note_use_case.dart';
 import 'package:flutter_toeic_quiz2/domain/question_note_use_case/save_question_note_use_case.dart';
 import 'package:get_it/get_it.dart';
 
@@ -85,6 +84,7 @@ class PartOneCubit extends Cubit<PartOneState> {
         partType: PartType.part1,
         id: _partOneQuestionList[_currentQuestionIndex].id,
         note: message,
+        questionNum: _partOneQuestionList[_currentQuestionIndex].number,
       ),
     );
     if (result) {

@@ -5,7 +5,6 @@ import 'package:get_it/get_it.dart';
 import '../../../../core_ui/constants/app_colors/app_color.dart';
 import '../widgets/add_favorite_question_panel.dart';
 import '../../../../core_ui/constants/app_dimensions.dart';
-import '../../../../core_ui/constants/app_colors/app_light_color_impl.dart';
 import '../../../../core_ui/constants/app_text_styles.dart';
 import '../../../../core_utils/core_utils.dart';
 import '../../../../data/business_models/execute_models/answer_enum.dart';
@@ -126,41 +125,28 @@ class PartSixScreen extends StatelessWidget {
                   ),
                 ),
               ),
-              BottomController(
-                isStandAlone: true,
-                prevPressed: () {
-                  BlocProvider.of<PartSixCubit>(context).getPrevContent();
-                },
-                nextPressed: () {
-                  BlocProvider.of<PartSixCubit>(context).getNextContent();
-                },
-                checkAnsPressed: () {
-                  BlocProvider.of<PartSixCubit>(context).userCheckAnswer();
-                },
-                favoritePressed: () {
-                  showDialog(
-                      barrierDismissible: false,
-                      context: context,
-                      builder: (BuildContext buildContext) {
-                        return AlertDialog(
-                          scrollable: true,
-                          title: const Center(
-                              child: Text('Add a question to favorite')),
-                          contentPadding: const EdgeInsets.symmetric(
-                              horizontal: 6.0, vertical: 16.0),
-                          content: AddFavoriteQuestionPanel(
-                            maxWidth: AppDimensions.maxWidthForMobileMode,
-                            onPressedCancel: () {
-                              Navigator.pop(buildContext);
-                            },
-                            onPressedOk: (inputStr) {
-                              BlocProvider.of<PartSixCubit>(context)
-                                  .saveCurrentQuestionToFavorite(inputStr);
-                              Navigator.pop(buildContext);
-                            },
-                          ),
-                        );
-                      });
+              BlocBuilder<PartSixCubit, PartSixState>(
+                builder: (context, state) {
+                  if (state is PartSixContentLoaded) {
+                    return BottomController(
+                      note: state.note,
+                      prevPressed: () {
+                        BlocProvider.of<PartSixCubit>(context).getPrevContent();
+                      },
+                      nextPressed: () {
+                        BlocProvider.of<PartSixCubit>(context).getNextContent();
+                      },
+                      checkAnsPressed: () {
+                        BlocProvider.of<PartSixCubit>(context)
+                            .userCheckAnswer();
+                      },
+                      favoriteAddNoteChange: (note) {
+                        BlocProvider.of<PartSixCubit>(context)
+                            .saveQuestionIdToDB(note);
+                      },
+                    );
+                  }
+                  return Container();
                 },
               ),
             ],
@@ -176,11 +162,11 @@ class PartSixScreen extends StatelessWidget {
     final PartSixModel partSixModel = state.partSixModel as PartSixModel;
     final correctAnswer = state.correctAnswer;
     final userAnswer = state.userAnswer;
-    for (int i = 0; i < partSixModel.questionNumber.length; i++) {
+    for (int i = 0; i < partSixModel.numbers.length; i++) {
       listWidget
           .add(const SizedBox(height: AppDimensions.kPaddingDefaultDouble));
       listWidget.add(Text(
-        '  ${partSixModel.questionNumber[i]}: ${partSixModel.questions[i]}',
+        '  ${partSixModel.numbers[i]}: ${partSixModel.questions[i]}',
         style: AppTextStyles.kTextQuestion,
       ));
       listWidget.add(const SizedBox(height: AppDimensions.kPaddingDefault));
@@ -196,7 +182,7 @@ class PartSixScreen extends StatelessWidget {
         selectedAns: userAnswer[i].index,
         selectChanged: (value) {
           BlocProvider.of<PartSixCubit>(context).userSelectAnswerChange(
-              partSixModel.questionNumber[i], UserAnswer.values[value]);
+              partSixModel.numbers[i], UserAnswer.values[value]);
         },
       ));
     }

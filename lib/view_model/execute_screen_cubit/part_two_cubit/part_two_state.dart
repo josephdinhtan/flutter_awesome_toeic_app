@@ -16,8 +16,10 @@ class PartTwoContentLoaded extends PartTwoState {
   final UserAnswer userAnswer;
   final UserAnswer correctAnswer;
   final String audioPath;
+  final String? note;
 
   PartTwoContentLoaded({
+    this.note,
     required this.currentQuestionNumber,
     required this.currentQuestionIndex,
     required this.questionListSize,

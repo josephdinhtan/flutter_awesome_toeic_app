@@ -7,12 +7,14 @@ import 'part_model.dart';
 
 class QuestionNoteModel extends BaseBusinessModel {
   final PartType partType;
+  final int questionNum;
   final String id;
   final String note;
   QuestionNoteModel({
     required this.partType,
     required this.id,
     required this.note,
+    required this.questionNum,
   });
 
   HiveObject toHiveObject() {
@@ -20,6 +22,7 @@ class QuestionNoteModel extends BaseBusinessModel {
       id: id,
       note: note,
       partType: partType.index,
+      questionNum: questionNum,
     );
   }
 
@@ -28,6 +31,7 @@ class QuestionNoteModel extends BaseBusinessModel {
       id: hiveObject.id,
       note: hiveObject.note,
       partType: PartType.values[hiveObject.partType],
+      questionNum: hiveObject.questionNum,
     );
   }
 }

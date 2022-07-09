@@ -2,11 +2,13 @@ import 'dart:developer';
 
 import 'package:flutter/cupertino.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:flutter_toeic_quiz2/data/business_models/part_model.dart';
 import 'package:flutter_toeic_quiz2/view_model/settings_screen_cubit/settings_screen_cubit.dart';
 import 'package:get_it/get_it.dart';
 import '../../core_utils/global_configuration.dart';
 import '../../core_ui/exceptions/route_exception.dart';
 import '../../data/business_models/book_model.dart';
+import '../../view_model/favorite_screen_cubit/cubit/favorite_screen_cubit.dart';
 import '../screens/execute_screen/part_one_screen/part_one_screen.dart';
 import '../screens/execute_screen/part_seven_screen/part_seven_screen.dart'
     show PartSevenScreen;
@@ -37,6 +39,25 @@ import '../screens/execute_screen/part_six_screen/part_six_screen.dart';
 const _logTag = "AppRouter";
 
 class AppRouter {
+  static String fromPartType(PartType partType) {
+    switch (partType) {
+      case PartType.part1:
+        return part1Exam;
+      case PartType.part2:
+        return part2Exam;
+      case PartType.part3:
+        return part3Exam;
+      case PartType.part4:
+        return part4Exam;
+      case PartType.part5:
+        return part5Exam;
+      case PartType.part6:
+        return part6Exam;
+      default:
+        return part7Exam;
+    }
+  }
+
   static const String home = '/';
   static const String test = '/tests';
   static const String store = '/store';
@@ -50,6 +71,8 @@ class AppRouter {
   static const String part7Exam = '/part7exam';
 
   final BookListCubit _bookListCubit = GetIt.I.get<BookListCubit>();
+  final FavoriteScreenCubit _favoriteScreenCubit =
+      GetIt.I.get<FavoriteScreenCubit>();
   final SettingsScreenCubit _settingsCubit = GetIt.I.get<SettingsScreenCubit>();
   final StoreScreenCubit _storeScreenCubit = GetIt.I.get<StoreScreenCubit>();
   final TestListCubit _testListCubit = GetIt.I.get<TestListCubit>();
@@ -85,7 +108,10 @@ class AppRouter {
             value: _bookListCubit,
             child: BlocProvider.value(
               value: _settingsCubit,
-              child: const HomeScreen(),
+              child: BlocProvider.value(
+                value: _favoriteScreenCubit,
+                child: const HomeScreen(),
+              ),
             ),
           ),
         );

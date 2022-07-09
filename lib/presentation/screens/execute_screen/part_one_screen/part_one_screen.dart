@@ -195,10 +195,9 @@ class PartOneScreen extends StatelessWidget {
               ),
               BlocBuilder<PartOneCubit, PartOneState>(
                 builder: (context, state) {
-                  if (state is PartOneContentLoaded && state.note != null) {
-                    log('$_logTag PartOneHasQuestionNote: state.note: ${state.note}');
+                  if (state is PartOneContentLoaded) {
                     return BottomController(
-                      hasNote: true,
+                      note: state.note,
                       prevPressed: () {
                         BlocProvider.of<PartOneCubit>(context).getPrevContent();
                       },
@@ -209,97 +208,13 @@ class PartOneScreen extends StatelessWidget {
                         BlocProvider.of<PartOneCubit>(context)
                             .userCheckAnswer();
                       },
-                      favoritePressed: () {
-                        showCupertinoDialog(
-                            builder: (BuildContext buildContext) {
-                              TextEditingController _textController =
-                                  TextEditingController(text: state.note);
-                              return CupertinoAlertDialog(
-                                title: Text(
-                                  "Save question to favorite",
-                                  style: context.labelLarge,
-                                ),
-                                content: Padding(
-                                  padding: EdgeInsets.symmetric(vertical: 8.h),
-                                  child: CupertinoTextField(
-                                    placeholder: 'Add a note',
-                                    style: context.labelLarge,
-                                    controller: _textController,
-                                  ),
-                                ),
-                                actions: [
-                                  CupertinoDialogAction(
-                                      child: const Text("SAVE"),
-                                      onPressed: () {
-                                        Navigator.of(context).pop();
-                                        BlocProvider.of<PartOneCubit>(context)
-                                            .saveQuestionIdToDB(
-                                                _textController.text);
-                                      }),
-                                  CupertinoDialogAction(
-                                      isDestructiveAction: true,
-                                      child: const Text("CANCEL"),
-                                      onPressed: () {
-                                        Navigator.of(context).pop();
-                                      })
-                                ],
-                              );
-                            },
-                            context: context);
-                      },
-                    );
-                  } else {
-                    return BottomController(
-                      prevPressed: () {
-                        BlocProvider.of<PartOneCubit>(context).getPrevContent();
-                      },
-                      nextPressed: () {
-                        BlocProvider.of<PartOneCubit>(context).getNextContent();
-                      },
-                      checkAnsPressed: () {
+                      favoriteAddNoteChange: (note) {
                         BlocProvider.of<PartOneCubit>(context)
-                            .userCheckAnswer();
-                      },
-                      favoritePressed: () {
-                        showCupertinoDialog(
-                            builder: (BuildContext buildContext) {
-                              TextEditingController _textController =
-                                  TextEditingController(text: '');
-                              return CupertinoAlertDialog(
-                                title: Text(
-                                  "Save question to favorite",
-                                  style: context.labelLarge,
-                                ),
-                                content: Padding(
-                                  padding: EdgeInsets.symmetric(vertical: 8.h),
-                                  child: CupertinoTextField(
-                                    placeholder: 'Add a note',
-                                    style: context.labelLarge,
-                                    controller: _textController,
-                                  ),
-                                ),
-                                actions: [
-                                  CupertinoDialogAction(
-                                      child: const Text("SAVE"),
-                                      onPressed: () {
-                                        Navigator.of(context).pop();
-                                        BlocProvider.of<PartOneCubit>(context)
-                                            .saveQuestionIdToDB(
-                                                _textController.text);
-                                      }),
-                                  CupertinoDialogAction(
-                                      isDestructiveAction: true,
-                                      child: const Text("CANCEL"),
-                                      onPressed: () {
-                                        Navigator.of(context).pop();
-                                      })
-                                ],
-                              );
-                            },
-                            context: context);
+                            .saveQuestionIdToDB(note);
                       },
                     );
                   }
+                  return Container();
                 },
               ),
             ],

@@ -5,7 +5,6 @@ import 'package:flutter_toeic_quiz2/core_ui/constants/app_colors/app_color.dart'
 import 'package:get_it/get_it.dart';
 
 import '../../../../core_ui/constants/app_dimensions.dart';
-import '../../../../core_ui/constants/app_colors/app_light_color_impl.dart';
 import '../../../../core_ui/constants/app_text_styles.dart';
 import '../../../../core_utils/core_utils.dart';
 import '../../../../data/business_models/execute_models/answer_enum.dart';
@@ -180,18 +179,31 @@ class PartFiveScreen extends StatelessWidget {
                   },
                 ),
               ),
-              BottomController(
-                isStandAlone: true,
-                prevPressed: () {
-                  BlocProvider.of<PartFiveCubit>(context).getPrevContent();
+              BlocBuilder<PartFiveCubit, PartFiveState>(
+                builder: (context, state) {
+                  if (state is PartFiveContentLoaded) {
+                    return BottomController(
+                      note: state.note,
+                      prevPressed: () {
+                        BlocProvider.of<PartFiveCubit>(context)
+                            .getPrevContent();
+                      },
+                      nextPressed: () {
+                        BlocProvider.of<PartFiveCubit>(context)
+                            .getNextContent();
+                      },
+                      checkAnsPressed: () {
+                        BlocProvider.of<PartFiveCubit>(context)
+                            .userCheckAnswer();
+                      },
+                      favoriteAddNoteChange: (note) {
+                        BlocProvider.of<PartFiveCubit>(context)
+                            .saveQuestionIdToDB(note);
+                      },
+                    );
+                  }
+                  return Container();
                 },
-                nextPressed: () {
-                  BlocProvider.of<PartFiveCubit>(context).getNextContent();
-                },
-                checkAnsPressed: () {
-                  BlocProvider.of<PartFiveCubit>(context).userCheckAnswer();
-                },
-                favoritePressed: () {},
               ),
             ],
           ),

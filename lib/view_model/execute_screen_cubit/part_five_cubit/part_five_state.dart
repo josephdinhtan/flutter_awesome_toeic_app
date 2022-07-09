@@ -13,8 +13,10 @@ class PartFiveContentLoaded extends PartFiveState {
   final PartFiveModel partFiveModel;
   final UserAnswer userAnswer;
   final UserAnswer correctAnswer;
+  final String? note;
 
   PartFiveContentLoaded({
+    this.note,
     required this.currentQuestionNumber,
     required this.questionListSize,
     required this.correctAnswer,
