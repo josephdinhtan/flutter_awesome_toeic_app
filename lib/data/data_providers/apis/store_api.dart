@@ -1,6 +1,8 @@
 import 'dart:convert';
+import 'dart:developer';
 import 'dart:typed_data';
 import 'package:firebase_storage/firebase_storage.dart';
+import 'package:flutter_toeic_quiz2/data/data_providers/dtos/question_group_dto.dart';
 import '../dtos/book_dto.dart';
 import '../dtos/part_dto.dart';
 import '../dtos/parts_dto/part_one_dto.dart';
@@ -11,8 +13,25 @@ import '../../download_manager/download_constant.dart';
 import '../dtos/parts_dto/part_four_dto.dart';
 import '../dtos/parts_dto/part_three_dto.dart';
 
+const _logTag = "StoreApi";
+
 class StoreApi {
   static final List<BookDto> _bookDtoList = [];
+
+  Future<List<QuestionGroupDto>> getQuestionsNetwork(String path) async {
+    final List<QuestionGroupDto> questionDtos = [];
+    final String jsonString = await _getRawJsonFile(path);
+    List<dynamic> jsonMapPartList = jsonDecode(jsonString);
+    for (var jsonMapPart in jsonMapPartList) {
+      int partTypeIdx = (jsonMapPart['part'] as int) - 1;
+      for (var jsonMapQuesGroup in jsonMapPart['content']) {
+        final questionDto =
+            QuestionGroupDto.fromMap(jsonMapQuesGroup, partTypeIdx);
+        questionDtos.add(questionDto);
+      }
+    }
+    return questionDtos;
+  }
 
   Future<List<PartOneDto>> getPartOneListNetwork(String path) async {
     final List<PartOneDto> partOneDtoList = [];

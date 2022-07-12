@@ -1,11 +1,10 @@
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_toeic_quiz2/core_ui/extensions/extensions.dart';
 import 'package:get_it/get_it.dart';
 
 import '../../../../core_ui/constants/app_colors/app_color.dart';
 import '../../../../core_ui/constants/app_dimensions.dart';
-import '../../../../core_ui/constants/app_text_styles.dart';
+import '../../../../core_ui/extensions/extensions.dart';
 import '../../widgets/neumorphism_button.dart';
 
 class AnswerBoard extends StatelessWidget {
@@ -141,6 +140,7 @@ class AnswerButtonNeumorphic extends StatelessWidget {
                 Flexible(
                   child: Text(
                     content,
+                    maxLines: 3,
                     style: isSelected.value == id
                         ? context.labelLarge!.copyWith(color: Colors.black)
                         : context.labelLarge,

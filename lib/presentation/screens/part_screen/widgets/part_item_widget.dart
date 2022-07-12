@@ -31,9 +31,11 @@ class PartItem extends StatelessWidget {
   PartItem({
     Key? key,
     required this.partModel,
+    required this.onTap,
   }) : super(key: key);
   final PartModel partModel;
   int correctAns = 0;
+  Function() onTap;
 
   @override
   Widget build(BuildContext context) {
@@ -45,59 +47,7 @@ class PartItem extends StatelessWidget {
     double correctPercent =
         (correctAns * 100 / partModel.numOfQuestion).toDouble() / 100;
     return GestureDetector(
-      onTap: () {
-        switch (partModel.partType) {
-          case PartType.part1:
-            Navigator.pushNamed(context, AppRouter.part1Exam,
-                arguments: ScreenArguments(
-                    title: partModel.title,
-                    id: partModel.id,
-                    childIds: partModel.questionIds));
-            break;
-          case PartType.part2:
-            Navigator.pushNamed(context, AppRouter.part2Exam,
-                arguments: ScreenArguments(
-                    title: partModel.title,
-                    id: partModel.id,
-                    childIds: partModel.questionIds));
-            break;
-          case PartType.part3:
-            Navigator.pushNamed(context, AppRouter.part3Exam,
-                arguments: ScreenArguments(
-                    title: partModel.title,
-                    id: partModel.id,
-                    childIds: partModel.questionIds));
-            break;
-          case PartType.part4:
-            Navigator.pushNamed(context, AppRouter.part4Exam,
-                arguments: ScreenArguments(
-                    title: partModel.title,
-                    id: partModel.id,
-                    childIds: partModel.questionIds));
-            break;
-          case PartType.part5:
-            Navigator.pushNamed(context, AppRouter.part5Exam,
-                arguments: ScreenArguments(
-                    title: partModel.title,
-                    id: partModel.id,
-                    childIds: partModel.questionIds));
-            break;
-          case PartType.part6:
-            Navigator.pushNamed(context, AppRouter.part6Exam,
-                arguments: ScreenArguments(
-                    title: partModel.title,
-                    id: partModel.id,
-                    childIds: partModel.questionIds));
-            break;
-          case PartType.part7:
-            Navigator.pushNamed(context, AppRouter.part7Exam,
-                arguments: ScreenArguments(
-                    title: partModel.title,
-                    id: partModel.id,
-                    childIds: partModel.questionIds));
-            break;
-        }
-      },
+      onTap: onTap,
       child: Center(
         child: SizedBox(
           width: width > AppDimensions.maxWidthForMobileMode
@@ -151,22 +101,6 @@ class PartItem extends StatelessWidget {
                                           color: context.colors.onSurface,
                                         ),
                                       ),
-                                      // Container(
-                                      //   decoration: const BoxDecoration(
-                                      //       color: Colors.black45,
-                                      //       borderRadius: BorderRadius.all(
-                                      //           Radius.circular(5.0))),
-                                      //   child: Padding(
-                                      //     padding: const EdgeInsets.all(4.0),
-                                      //     child: Text(
-                                      //       testDescription[
-                                      //           partModel.partType.index],
-                                      //       style: const TextStyle(
-                                      //           fontSize: 10.0,
-                                      //           color: Colors.white),
-                                      //     ),
-                                      //   ),
-                                      // ),
                                     ],
                                   ),
                                   const SizedBox(height: 2.0),

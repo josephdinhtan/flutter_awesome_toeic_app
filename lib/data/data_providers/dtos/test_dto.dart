@@ -13,7 +13,8 @@ class TestDto implements BaseDto<TestModel> {
   int? actualScore;
   String pictureUrl;
   String audioUrl;
-  String partUrl;
+  String partsUrl;
+  String questionsUrl;
   int ver;
   List<String> partIds;
   TestDto({
@@ -24,9 +25,10 @@ class TestDto implements BaseDto<TestModel> {
     required this.actualScore,
     required this.pictureUrl,
     required this.audioUrl,
-    required this.partUrl,
+    required this.partsUrl,
     required this.ver,
     required this.partIds,
+    required this.questionsUrl,
   });
 
   Map<String, dynamic> toMap() {
@@ -38,7 +40,7 @@ class TestDto implements BaseDto<TestModel> {
       'actual_score': actualScore,
       'pictures_url': pictureUrl,
       'audios_url': audioUrl,
-      'parts_url': partUrl,
+      'parts_url': partsUrl,
       'ver': ver,
       'part_ids': partIds,
     };
@@ -54,13 +56,12 @@ class TestDto implements BaseDto<TestModel> {
           map['actual_score'] != null ? map['actual_score'] as int : null,
       pictureUrl: map['pictures_url'] as String,
       audioUrl: map['audios_url'] as String,
-      partUrl: map['parts_url'] as String,
+      partsUrl: map['parts_url'] as String,
+      questionsUrl: map['questions_url'] as String,
       ver: map['ver'] as int,
       partIds: List<String>.from((map['part_ids'] as List<dynamic>)),
     );
   }
-
-  String toJson() => json.encode(toMap());
 
   factory TestDto.fromJson(String source) =>
       TestDto.fromMap(json.decode(source) as Map<String, dynamic>);

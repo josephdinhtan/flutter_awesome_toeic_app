@@ -10,6 +10,7 @@ import '../data_providers/daos/part_execute_daos/part_seven_dao.dart';
 import '../data_providers/daos/part_execute_daos/part_six_dao.dart';
 import '../data_providers/daos/part_execute_daos/part_three_dao.dart';
 import '../data_providers/daos/part_execute_daos/part_two_dao.dart';
+import '../data_providers/daos/question_group_dao.dart';
 import '../data_providers/daos/question_note_dao.dart';
 import '../data_providers/daos/test_dao.dart';
 
@@ -23,6 +24,7 @@ class DaoInjection {
     getIt.registerLazySingleton<BookDao>(() => BookDao());
     getIt.registerLazySingleton<TestDao>(() => TestDao());
     getIt.registerLazySingleton<PartDao>(() => PartDao());
+    getIt.registerLazySingleton<QuestionGroupDao>(() => QuestionGroupDao());
 
     getIt.registerLazySingleton<PartOneDao>(() => PartOneDao());
     getIt.registerLazySingleton<PartTwoDao>(() => PartTwoDao());

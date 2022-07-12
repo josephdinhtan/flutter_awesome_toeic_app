@@ -3,6 +3,8 @@ import 'dart:developer';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_toeic_quiz2/data/business_models/part_model.dart';
+import 'package:flutter_toeic_quiz2/presentation/screens/execute_screen/execute_screen.dart';
+import 'package:flutter_toeic_quiz2/view_model/execute_screen_cubit/execute_screen_cubit.dart';
 import 'package:flutter_toeic_quiz2/view_model/settings_screen_cubit/settings_screen_cubit.dart';
 import 'package:get_it/get_it.dart';
 import '../../core_utils/global_configuration.dart';
@@ -10,8 +12,7 @@ import '../../core_ui/exceptions/route_exception.dart';
 import '../../data/business_models/book_model.dart';
 import '../../view_model/favorite_screen_cubit/cubit/favorite_screen_cubit.dart';
 import '../screens/execute_screen/part_one_screen/part_one_screen.dart';
-import '../screens/execute_screen/part_seven_screen/part_seven_screen.dart'
-    show PartSevenScreen;
+import '../screens/execute_screen/part_seven_screen/part_seven_screen.dart';
 import '../screens/execute_screen/part_three_screen/part_three_screen.dart';
 import '../screens/execute_screen/part_two_screen/part_two_screen.dart';
 import '../screens/home_screen/home_screen.dart';
@@ -42,13 +43,13 @@ class AppRouter {
   static String fromPartType(PartType partType) {
     switch (partType) {
       case PartType.part1:
-        return part1Exam;
+        return execute;
       case PartType.part2:
-        return part2Exam;
+        return execute;
       case PartType.part3:
-        return part3Exam;
+        return execute;
       case PartType.part4:
-        return part4Exam;
+        return execute;
       case PartType.part5:
         return part5Exam;
       case PartType.part6:
@@ -62,6 +63,7 @@ class AppRouter {
   static const String test = '/tests';
   static const String store = '/store';
   static const String part = '/parts';
+  static const String execute = '/execute';
   static const String part1Exam = '/part1exam';
   static const String part2Exam = '/part2exam';
   static const String part3Exam = '/part3exam';
@@ -78,6 +80,7 @@ class AppRouter {
   final TestListCubit _testListCubit = GetIt.I.get<TestListCubit>();
   final TestDownloadCubit _testDownloadCubit = GetIt.I.get<TestDownloadCubit>();
 
+  final ExecuteScreenCubit _executeCubit = GetIt.I.get<ExecuteScreenCubit>();
   final PartListCubit _partListCubit = GetIt.I.get<PartListCubit>();
   final PartOneCubit _partOneCubit = GetIt.I.get<PartOneCubit>();
   final PartTwoCubit _partTwoCubit = GetIt.I.get<PartTwoCubit>();
@@ -133,6 +136,17 @@ class AppRouter {
           builder: (_) => BlocProvider.value(
             value: _partListCubit..getInitContent(args.childIds),
             child: PartScreen(testTitle: args.title),
+          ),
+        );
+      case execute:
+        final args = settings.arguments as ScreenArguments;
+        if (logEnable) {
+          log('$_logTag execute: args.childIds: ${args.childIds}');
+        }
+        return CupertinoPageRoute(
+          builder: (_) => BlocProvider.value(
+            value: _executeCubit..getInitContent(args.childIds),
+            child: ExecuteScreen(appBarTitle: args.title),
           ),
         );
       case part1Exam:

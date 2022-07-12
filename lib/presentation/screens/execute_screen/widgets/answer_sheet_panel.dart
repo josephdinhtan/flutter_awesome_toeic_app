@@ -14,6 +14,9 @@ class AnswerSheetPanel extends StatelessWidget {
   Function(int questionNumber) onPressedGoToQuestion;
   List<AnswerSheetModel> answerSheetData;
   final List<Widget> _displayList = [];
+  int currentIndex;
+
+  final ScrollController _controller = ScrollController();
 
   AnswerSheetPanel({
     Key? key,
@@ -26,6 +29,7 @@ class AnswerSheetPanel extends StatelessWidget {
     required this.onPressedSubmit,
     required this.onPressedCancel,
     required this.onPressedGoToQuestion,
+    required this.currentIndex,
   }) : super(key: key);
 
   @override
@@ -65,6 +69,8 @@ class AnswerSheetPanel extends StatelessWidget {
           //     : 0.7 * currentWidth,
           height: 0.7 * currentHeight,
           child: ListView.builder(
+            controller: _controller,
+            physics: const BouncingScrollPhysics(),
             itemBuilder: (context, index) {
               return _displayList[index];
             },

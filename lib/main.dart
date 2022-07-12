@@ -12,6 +12,9 @@ import 'data/data_providers/hive_objects/part_execute_hive_object/part_four_hive
 import 'data/data_providers/hive_objects/part_execute_hive_object/part_one_hive_object.dart';
 import 'data/data_providers/hive_objects/part_execute_hive_object/part_three_hive_object.dart';
 import 'data/data_providers/hive_objects/part_execute_hive_object/part_two_hive_object.dart';
+import 'data/data_providers/hive_objects/part_execute_hive_object/question_group_hive.dart';
+import 'data/data_providers/hive_objects/part_execute_hive_object/question_hive.dart';
+import 'data/data_providers/hive_objects/part_execute_hive_object/statement_hive.dart';
 import 'data/data_providers/hive_objects/part_hive_object/part_hive_object.dart';
 import 'data/data_providers/hive_objects/question_note_hive_object/question_note_hive_object.dart';
 import 'data/data_providers/hive_objects/test_hive_object/test_hive_object.dart';
@@ -56,6 +59,11 @@ Future<void> globalInitializerForMobile() async {
   Hive.registerAdapter(PartThreeHiveObjectAdapter());
   Hive.registerAdapter(PartFourHiveObjectAdapter());
   Hive.registerAdapter(QuestionNoteHiveObjectAdapter());
+
+  Hive.registerAdapter(QuestionGroupHiveAdapter());
+  Hive.registerAdapter(QuestionHiveAdapter());
+  Hive.registerAdapter(StatementHiveAdapter());
+
   await Firebase.initializeApp(
     options: DefaultFirebaseOptions.currentPlatform,
   );

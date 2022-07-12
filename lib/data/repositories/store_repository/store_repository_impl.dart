@@ -3,17 +3,11 @@ import 'package:get_it/get_it.dart';
 import '../../data_providers/apis/store_api.dart';
 import '../../data_providers/daos/book_dao.dart';
 import '../../data_providers/daos/part_dao.dart';
-import '../../data_providers/daos/part_execute_daos/part_four_dao.dart';
-import '../../data_providers/daos/part_execute_daos/part_one_dao.dart';
-import '../../data_providers/daos/part_execute_daos/part_three_dao.dart';
-import '../../data_providers/daos/part_execute_daos/part_two_dao.dart';
+import '../../data_providers/daos/question_group_dao.dart';
 import '../../data_providers/daos/test_dao.dart';
 import '../../data_providers/dtos/book_dto.dart';
 import '../../data_providers/dtos/part_dto.dart';
-import '../../data_providers/dtos/parts_dto/part_four_dto.dart';
-import '../../data_providers/dtos/parts_dto/part_one_dto.dart';
-import '../../data_providers/dtos/parts_dto/part_three_dto.dart';
-import '../../data_providers/dtos/parts_dto/part_two_dto.dart';
+import '../../data_providers/dtos/question_group_dto.dart';
 import '../../data_providers/dtos/test_dto.dart';
 import 'store_repository.dart';
 
@@ -25,10 +19,7 @@ class StoreRepositoryImpl implements StoreRepository {
   final _bookDao = GetIt.I.get<BookDao>();
   final _testDao = GetIt.I.get<TestDao>();
   final _partDao = GetIt.I.get<PartDao>();
-  final _partOneDao = GetIt.I.get<PartOneDao>();
-  final _partTwoDao = GetIt.I.get<PartTwoDao>();
-  final _partThreeDao = GetIt.I.get<PartThreeDao>();
-  final _partFourDao = GetIt.I.get<PartFourDao>();
+  final _questionGroupDao = GetIt.I.get<QuestionGroupDao>();
 
   StoreRepositoryImpl();
 
@@ -39,7 +30,6 @@ class StoreRepositoryImpl implements StoreRepository {
 
   @override
   Future<bool> saveABookToDb(BookDto networkBookInfoModel) async {
-    //save bookData to database book list
     bool res = await _bookDao.insert(
         networkBookInfoModel.toHiveObject(), networkBookInfoModel.id);
     if (!res) return Future.value(false);
@@ -53,7 +43,10 @@ class StoreRepositoryImpl implements StoreRepository {
           testNetworkObject.toBusinessModel().toHiveObject(),
           testNetworkObject.id);
       if (!isOk) return Future.value(false);
-      if (!await _savePartsToDb(testNetworkObject.partUrl)) {
+      if (!await _savePartsToDb(testNetworkObject.partsUrl)) {
+        return Future.value(false);
+      }
+      if (!await _saveQuestionToDb(testNetworkObject.questionsUrl)) {
         return Future.value(false);
       }
     }
@@ -67,72 +60,17 @@ class StoreRepositoryImpl implements StoreRepository {
       bool isOk = await _partDao.insert(
           partDto.toBusinessModel().toHiveObject(), partDto.id);
       if (!isOk) return Future.value(false);
-      switch (i) {
-        case 1:
-          if (!await _savePartOneQuestionToDb(partDto.questionsUrl)) {
-            return Future.value(false);
-          }
-          break;
-        case 2:
-          if (!await _savePartTwoQuestionToDb(partDto.questionsUrl)) {
-            return Future.value(false);
-          }
-          break;
-        case 3:
-          if (!await _savePartThreeQuestionToDb(partDto.questionsUrl)) {
-            return Future.value(false);
-          }
-          break;
-        case 4:
-          if (!await _savePartFourQuestionToDb(partDto.questionsUrl)) {
-            return Future.value(false);
-          }
-          break;
-      }
       i++;
     }
     return Future.value(true);
   }
 
-  Future<bool> _savePartOneQuestionToDb(String partOneQuestionUrl) async {
-    List<PartOneDto> partOneDtoList =
-        await _storeApi.getPartOneListNetwork(partOneQuestionUrl);
-    for (final partOneDto in partOneDtoList) {
-      bool isOk = await _partOneDao.insert(
-          partOneDto.toBusinessModel().toHiveObject(), partOneDto.id);
-      if (!isOk) return Future.value(false);
-    }
-    return Future.value(true);
-  }
-
-  Future<bool> _savePartTwoQuestionToDb(String partTwoQuestionUrl) async {
-    List<PartTwoDto> partTwoDtoList =
-        await _storeApi.getPartTwoListNetwork(partTwoQuestionUrl);
-    for (final partTwoDto in partTwoDtoList) {
-      bool isOk = await _partTwoDao.insert(
-          partTwoDto.toBusinessModel().toHiveObject(), partTwoDto.id);
-      if (!isOk) return Future.value(false);
-    }
-    return Future.value(true);
-  }
-
-  Future<bool> _savePartThreeQuestionToDb(String partThreeQuestionUrl) async {
-    List<PartThreeDto> partThreeDtoList =
-        await _storeApi.getPartThreeListNetwork(partThreeQuestionUrl);
-    for (final partThreeDto in partThreeDtoList) {
-      bool isOk = await _partThreeDao.insert(
-          partThreeDto.toBusinessModel().toHiveObject(), partThreeDto.id);
-      if (!isOk) return Future.value(false);
-    }
-    return Future.value(true);
-  }
-
-  Future<bool> _savePartFourQuestionToDb(String partThreeQuestionUrl) async {
-    List<PartFourDto> partFourDtoList =
-        await _storeApi.getPartFourListNetwork(partThreeQuestionUrl);
-    for (final partFourDto in partFourDtoList) {
-      bool isOk = await _partFourDao.insert(
-          partFourDto.toBusinessModel().toHiveObject(), partFourDto.id);
+  Future<bool> _saveQuestionToDb(String questionsJsonFileUrl) async {
+    List<QuestionGroupDto> questionDtos =
+        await _storeApi.getQuestionsNetwork(questionsJsonFileUrl);
+    for (final questionDto in questionDtos) {
+      bool isOk = await _questionGroupDao.insert(
+          questionDto.toBusinessModel().toHiveObject(), questionDto.id);
       if (!isOk) return Future.value(false);
     }
     return Future.value(true);

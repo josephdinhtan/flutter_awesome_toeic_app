@@ -28,6 +28,9 @@ import '../repositories/execute_repository/part_two_repository/part_two_web_repo
 import '../repositories/part_repository/part_mobile_repository_impl.dart';
 import '../repositories/part_repository/part_repository.dart';
 import '../repositories/part_repository/part_web_repository_impl.dart';
+import '../repositories/question_group_repository/question_group_mobile_repository_impl.dart';
+import '../repositories/question_group_repository/question_group_repository.dart';
+import '../repositories/question_group_repository/question_group_web_repository_impl.dart';
 import '../repositories/settings_repository/settings_mobile_repository_impl.dart';
 import '../repositories/settings_repository/settings_repository.dart';
 import '../repositories/settings_repository/settings_web_repository_impl.dart';
@@ -51,6 +54,9 @@ class RepositoryInjection {
         () => kIsWeb ? TestWebRepositoryImpl() : TestMobileRepositoryImpl());
     getIt.registerLazySingleton<PartRepository>(
         () => kIsWeb ? PartWebRepositoryImpl() : PartMobileRepositoryImpl());
+    getIt.registerLazySingleton<QuestionGroupRepository>(() => kIsWeb
+        ? QuestionGroupWebRepositoryImpl()
+        : QuestionGroupMobileRepositoryImpl());
 
     getIt.registerLazySingleton<PartOneRepository>(() =>
         kIsWeb ? PartOneWebRepositoryImpl() : PartOneMobileRepositoryImpl());

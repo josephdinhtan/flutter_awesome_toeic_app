@@ -9,7 +9,6 @@ class PartDto implements BaseDto<PartModel> {
   String id;
   int numOfQuestion;
   int? numOfCorrect;
-  String questionsUrl;
   int ver;
   List<String> questionIds;
 
@@ -18,7 +17,6 @@ class PartDto implements BaseDto<PartModel> {
     required this.id,
     required this.numOfQuestion,
     required this.numOfCorrect,
-    required this.questionsUrl,
     required this.questionIds,
     required this.ver,
   });
@@ -48,7 +46,6 @@ class PartDto implements BaseDto<PartModel> {
       'id': id,
       'num_of_question': numOfQuestion,
       'num_of_correct': numOfCorrect,
-      'questions_url': questionsUrl,
       'question_ids': questionIds,
       'ver': ver,
     };
@@ -61,7 +58,6 @@ class PartDto implements BaseDto<PartModel> {
       numOfQuestion: map['num_of_question'] as int,
       numOfCorrect:
           map['num_of_correct'] != null ? map['num_of_correct'] as int : null,
-      questionsUrl: map['questions_url'] as String,
       ver: map['ver'] as int,
       questionIds: List<String>.from((map['question_ids'] as List<dynamic>)),
     );

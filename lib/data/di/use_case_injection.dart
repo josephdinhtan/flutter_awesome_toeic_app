@@ -10,6 +10,7 @@ import '../../domain/execute_use_cases/get_part_seven_question_list_use_case.dar
 import '../../domain/execute_use_cases/get_part_six_question_list_use_case.dart';
 import '../../domain/execute_use_cases/get_part_three_question_list_use_case.dart';
 import '../../domain/execute_use_cases/get_part_two_question_list_use_case.dart';
+import '../../domain/execute_use_cases/get_question_group_use_case.dart';
 import '../../domain/execute_use_cases/save_question_to_favorite_use_case.dart';
 import '../../domain/get_book_detail_use_case/get_list_book_use_case.dart';
 import '../../domain/get_book_detail_use_case/get_list_part_use_case.dart';
@@ -18,8 +19,8 @@ import '../../domain/get_from_network_use_case/get_store_item_list_use_case.dart
 import '../../domain/question_note_use_case/read_all_question_note_use_case.dart';
 import '../../domain/question_note_use_case/read_question_note_use_case.dart';
 import '../../domain/question_note_use_case/remove_question_note_use_case.dart';
-import '../../domain/save_to_db_use_cases/save_book_to_db_use_case.dart';
 import '../../domain/question_note_use_case/save_question_note_use_case.dart';
+import '../../domain/save_to_db_use_cases/save_book_to_db_use_case.dart';
 import '../../domain/save_to_db_use_cases/update_test_is_downloaded_to_db.dart';
 import '../../domain/user_settings_use_case/get_theme_color_use_case.dart';
 import '../../domain/user_settings_use_case/get_theme_enable_use_case.dart';
@@ -35,6 +36,8 @@ class UseCaseInjection {
         .registerLazySingleton<GetListTestUseCase>(() => GetListTestUseCase());
     GetIt.I
         .registerLazySingleton<GetListPartUseCase>(() => GetListPartUseCase());
+    GetIt.I.registerLazySingleton<GetQuestionGroupListUseCase>(
+        () => GetQuestionGroupListUseCase());
 
     // question note use case
     GetIt.I.registerLazySingleton<SaveQuestionNoteUseCase>(

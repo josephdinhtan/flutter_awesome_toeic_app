@@ -55,6 +55,7 @@ class PartFourScreen extends StatelessWidget {
                             child: const Text('Cancel'),
                           ),
                           message: AnswerSheetPanel(
+                            currentIndex: 0,
                             selectedColor: GetIt.I.get<AppColor>().answerActive,
                             answerColor: GetIt.I.get<AppColor>().answerCorrect,
                             answerSheetData:

@@ -3,18 +3,19 @@ import 'dart:developer';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_toeic_quiz2/core_ui/extensions/extensions.dart';
+import 'package:flutter_toeic_quiz2/data/business_models/part_model.dart';
 
-import '../../../core_ui/constants/app_dimensions.dart';
-import '../../../core_ui/constants/app_colors/app_light_color_impl.dart';
 import '../../../core_utils/global_configuration.dart';
 import '../../../view_model/part_screen_cubit/part_list_cubit.dart';
+import '../../router/app_router.dart';
+import '../../router/screen_arguments.dart';
 import 'widgets/part_item_widget.dart';
 
-final List<Widget> partItems = [];
 const _logTag = "PartScreen";
 
 class PartScreen extends StatelessWidget {
   final String testTitle;
+  List<PartModel> partListModel = [];
 
   PartScreen({Key? key, required this.testTitle}) : super(key: key);
 
@@ -24,7 +25,17 @@ class PartScreen extends StatelessWidget {
 
     return Scaffold(
       floatingActionButton: FloatingActionButton.extended(
-        onPressed: () {},
+        onPressed: () {
+          List<String> questionIdAll = [];
+          for (final partModel in partListModel) {
+            questionIdAll.addAll(partModel.questionIds);
+          }
+          Navigator.pushNamed(context, AppRouter.fromPartType(PartType.part1),
+              arguments: ScreenArguments(
+                  title: "element.title",
+                  id: "element.id",
+                  childIds: questionIdAll));
+        },
         label: Row(
           mainAxisAlignment: MainAxisAlignment.center,
           mainAxisSize: MainAxisSize.min,
@@ -56,18 +67,7 @@ class PartScreen extends StatelessWidget {
             if (logEnable) {
               log('$_logTag build() BlocConsumer state is PartListLoaded');
             }
-            partItems.clear();
-            final partListModel = state.partListModel;
-            for (var element in partListModel) {
-              partItems.add(
-                PartItem(
-                  partModel: element,
-                ),
-              );
-            }
-            partItems.add(const SizedBox(
-              height: 80.0,
-            ));
+            partListModel = List.from(state.partListModel);
           }
         },
         builder: (context, state) {
@@ -84,14 +84,24 @@ class PartScreen extends StatelessWidget {
 
   Widget _buildList() {
     return ListView.builder(
+      physics: const BouncingScrollPhysics(),
       itemBuilder: (context, index) {
         return Padding(
           padding: EdgeInsets.only(
-              left: 4.0, right: 4.0, top: index == 0 ? 4.0 : 0.0),
-          child: partItems[index],
+              left: 4.w, right: 4.w, top: index == 0 ? 4.h : 0.0),
+          child: PartItem(
+              onTap: () {
+                Navigator.pushNamed(context,
+                    AppRouter.fromPartType(partListModel[index].partType),
+                    arguments: ScreenArguments(
+                        title: partListModel[index].title,
+                        id: partListModel[index].id,
+                        childIds: partListModel[index].questionIds));
+              },
+              partModel: partListModel[index]),
         );
       },
-      itemCount: partItems.length,
+      itemCount: partListModel.length,
     );
   }
 }
