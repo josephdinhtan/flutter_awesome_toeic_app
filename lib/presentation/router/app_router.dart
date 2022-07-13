@@ -40,30 +40,12 @@ import '../screens/execute_screen/part_six_screen/part_six_screen.dart';
 const _logTag = "AppRouter";
 
 class AppRouter {
-  static String fromPartType(PartType partType) {
-    switch (partType) {
-      case PartType.part1:
-        return execute;
-      case PartType.part2:
-        return execute;
-      case PartType.part3:
-        return execute;
-      case PartType.part4:
-        return execute;
-      case PartType.part5:
-        return part5Exam;
-      case PartType.part6:
-        return part6Exam;
-      default:
-        return part7Exam;
-    }
-  }
-
   static const String home = '/';
   static const String test = '/tests';
   static const String store = '/store';
   static const String part = '/parts';
   static const String execute = '/execute';
+  static const String practice = '/practice';
   static const String part1Exam = '/part1exam';
   static const String part2Exam = '/part2exam';
   static const String part3Exam = '/part3exam';
@@ -142,6 +124,17 @@ class AppRouter {
         final args = settings.arguments as ScreenArguments;
         if (logEnable) {
           log('$_logTag execute: args.childIds: ${args.childIds}');
+        }
+        return CupertinoPageRoute(
+          builder: (_) => BlocProvider.value(
+            value: _executeCubit..getInitContent(args.childIds),
+            child: ExecuteScreen(appBarTitle: args.title, isFullTest: true),
+          ),
+        );
+      case practice:
+        final args = settings.arguments as ScreenArguments;
+        if (logEnable) {
+          log('$_logTag practice: args.childIds: ${args.childIds}');
         }
         return CupertinoPageRoute(
           builder: (_) => BlocProvider.value(

@@ -27,8 +27,7 @@ class FavoriteItemWidget extends StatelessWidget {
   Widget build(BuildContext context) {
     return GestureDetector(
       onTap: () {
-        Navigator.pushNamed(
-            context, AppRouter.fromPartType(questionNote.partType),
+        Navigator.pushNamed(context, AppRouter.practice,
             arguments: ScreenArguments(
                 title: "Demo question title",
                 id: questionNote.id,

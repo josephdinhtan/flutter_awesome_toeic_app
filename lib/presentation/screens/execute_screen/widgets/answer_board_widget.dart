@@ -129,8 +129,9 @@ class AnswerButtonNeumorphic extends StatelessWidget {
             onPressed: callBack,
             child: Row(
               mainAxisAlignment: MainAxisAlignment.start,
-              crossAxisAlignment: CrossAxisAlignment.start,
+              crossAxisAlignment: CrossAxisAlignment.center,
               children: [
+                SizedBox(width: 16.w),
                 Text(
                   title,
                   style: isSelected.value == id
@@ -146,6 +147,7 @@ class AnswerButtonNeumorphic extends StatelessWidget {
                         : context.labelLarge,
                   ),
                 ),
+                SizedBox(width: 22.w),
               ],
             ),
             backgroundColor: isSelected.value == id
@@ -155,7 +157,7 @@ class AnswerButtonNeumorphic extends StatelessWidget {
         ),
         isCorrectAns
             ? Padding(
-                padding: EdgeInsets.only(right: 8.w),
+                padding: EdgeInsets.only(right: 4.w),
                 child: Icon(
                   Icons.check_circle_rounded,
                   color: GetIt.I.get<AppColor>().answerCorrect,

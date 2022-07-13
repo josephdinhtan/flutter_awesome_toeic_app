@@ -124,6 +124,8 @@ class ExecuteScreenCubit extends Cubit<ExecuteScreenState> {
   void notifyData() {
     List<UserAnswer> userAnswerList = [];
     List<UserAnswer> correctAnswer = [];
+    bool needHideAnsQues = false;
+
     for (final question
         in _questionGroupList[_currentQuestionIndex].questions) {
       if (!_userAnswerMap.containsKey(question.number)) {
@@ -135,7 +137,16 @@ class ExecuteScreenCubit extends Cubit<ExecuteScreenState> {
       userAnswerList.add(_userAnswerMap[question.number]);
       correctAnswer.add(_correctAnsCheckedMap[question.number]);
     }
+    if (_questionGroupList[_currentQuestionIndex].partType == PartType.part1 ||
+        _questionGroupList[_currentQuestionIndex].partType == PartType.part2) {
+      if (_correctAnsCheckedMap[
+              _questionGroupList[_currentQuestionIndex].questions[0].number] ==
+          UserAnswer.notAnswer) {
+        needHideAnsQues = true;
+      }
+    }
     emit(ExecuteContentLoaded(
+        needHideAnsQues: needHideAnsQues,
         note: _questionNoteIndexMap[
             _questionGroupList[_currentQuestionIndex].questions[0].number],
         questionGroupModel: _questionGroupList[_currentQuestionIndex],

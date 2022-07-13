@@ -19,14 +19,18 @@ import 'widgets/answer_sheet_panel.dart';
 import 'widgets/audio_controller_widget.dart';
 import 'widgets/bottom_controller_widget.dart';
 import 'widgets/horizontal_split_view.dart';
+import 'widgets/timer_test_widget.dart';
 
 const _logTag = "ExecuteScreen";
 int _currentQuestionIndex = 0;
 
 class ExecuteScreen extends StatelessWidget {
   final String appBarTitle;
+  final bool isFullTest;
 
-  const ExecuteScreen({Key? key, required this.appBarTitle}) : super(key: key);
+  const ExecuteScreen(
+      {Key? key, required this.appBarTitle, this.isFullTest = false})
+      : super(key: key);
   @override
   Widget build(BuildContext context) {
     double height = MediaQuery.of(context).size.height;
@@ -36,20 +40,27 @@ class ExecuteScreen extends StatelessWidget {
         actions: [
           IconButton(
               onPressed: () {
-                showAnswerSheet(context, width, height);
+                showAnswerSheet(context, isFullTest, width, height);
               },
               icon: const Icon(CupertinoIcons.list_number))
         ],
-        title: BlocBuilder<ExecuteScreenCubit, ExecuteScreenState>(
-          builder: (context, state) {
-            if (state is ExecuteContentLoaded) {
-              return Text(
-                'Part ${state.questionGroupModel.partType.index + 1}: ${numToStr(state.currentQuestionNumber)}/${numToStr(state.questionListSize)}',
-                style: context.titleLarge,
-              );
-            }
-            return const Text('Question: ../..');
-          },
+        title: Row(
+          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+          crossAxisAlignment: CrossAxisAlignment.center,
+          children: [
+            BlocBuilder<ExecuteScreenCubit, ExecuteScreenState>(
+              builder: (context, state) {
+                if (state is ExecuteContentLoaded) {
+                  return Text(
+                    'Part ${state.questionGroupModel.partType.index + 1}: ${numToStr(state.currentQuestionNumber)}/${numToStr(state.questionListSize)}',
+                    style: context.titleLarge,
+                  );
+                }
+                return const Text('Question: ../..');
+              },
+            ),
+            if (isFullTest) TimerTestWidget(timeUp: () {}),
+          ],
         ),
       ),
       body: Center(
@@ -99,6 +110,7 @@ class ExecuteScreen extends StatelessWidget {
                       ),
                     BottomController(
                       note: state.note,
+                      isFullTest: isFullTest,
                       prevPressed: () {
                         BlocProvider.of<ExecuteScreenCubit>(context)
                             .getPrevContent();
@@ -127,7 +139,8 @@ class ExecuteScreen extends StatelessWidget {
     );
   }
 
-  void showAnswerSheet(BuildContext context, double width, double height) {
+  void showAnswerSheet(
+      BuildContext context, bool isFullTest, double width, double height) {
     showCupertinoModalPopup(
         context: context,
         //barrierDismissible: false,
@@ -145,7 +158,7 @@ class ExecuteScreen extends StatelessWidget {
                 onPressed: () {
                   Navigator.pop(context);
                 },
-                child: const Text('Cancel'),
+                child: const Text('Back'),
               ),
               message: AnswerSheetPanel(
                 currentIndex: _currentQuestionIndex,
@@ -167,12 +180,13 @@ class ExecuteScreen extends StatelessWidget {
                 currentHeight: height,
               ),
               actions: <CupertinoDialogAction>[
-                CupertinoDialogAction(
-                  onPressed: () {
-                    Navigator.pop(context);
-                  },
-                  child: const Text('Submit'),
-                ),
+                if (isFullTest)
+                  CupertinoDialogAction(
+                    onPressed: () {
+                      Navigator.pop(context);
+                    },
+                    child: const Text('Submit'),
+                  ),
               ],
             ),
           );
@@ -194,8 +208,7 @@ class ExecuteScreen extends StatelessWidget {
     List<Widget> listWidget = [];
     for (int i = 0; i < questionGroupModel.questions.length; i++) {
       if (i != 0) {
-        listWidget
-            .add(const SizedBox(height: AppDimensions.kPaddingDefaultDouble));
+        listWidget.add(SizedBox(height: 8.h));
       }
       listWidget.add(Row(
         mainAxisAlignment: MainAxisAlignment.start,
@@ -302,7 +315,9 @@ class ExecuteScreen extends StatelessWidget {
                 ),
                 Flexible(
                   child: Text(
-                    state.questionGroupModel.questions[0].questionStr!,
+                    state.needHideAnsQues
+                        ? ''
+                        : state.questionGroupModel.questions[0].questionStr!,
                     style: context.labelLarge!
                         .copyWith(fontWeight: FontWeight.w700),
                     maxLines: 3,
@@ -313,11 +328,17 @@ class ExecuteScreen extends StatelessWidget {
           ),
         ),
         AnswerBoard(
-          textA: state.questionGroupModel.questions[0].answers![0],
-          textB: state.questionGroupModel.questions[0].answers![1],
-          textC: state.questionGroupModel.questions[0].answers![2],
+          textA: state.needHideAnsQues
+              ? ''
+              : state.questionGroupModel.questions[0].answers![0],
+          textB: state.needHideAnsQues
+              ? ''
+              : state.questionGroupModel.questions[0].answers![1],
+          textC: state.needHideAnsQues
+              ? ''
+              : state.questionGroupModel.questions[0].answers![2],
           // need modify to check whether user is clicked the answer or not.
-          correctAns: state.questionGroupModel.questions[0].correctAns.index,
+          correctAns: state.correctAnswer[0].index,
           selectedAns: state.userAnswer[0].index,
           selectChanged: (value) {
             //quizBrain.setSelectedAnswer(value);
@@ -354,12 +375,20 @@ class ExecuteScreen extends StatelessWidget {
           ),
         ),
         AnswerBoard(
-          textA: state.questionGroupModel.questions[0].answers![0],
-          textB: state.questionGroupModel.questions[0].answers![1],
-          textC: state.questionGroupModel.questions[0].answers![2],
-          textD: state.questionGroupModel.questions[0].answers![3],
+          textA: state.needHideAnsQues
+              ? ''
+              : state.questionGroupModel.questions[0].answers![0],
+          textB: state.needHideAnsQues
+              ? ''
+              : state.questionGroupModel.questions[0].answers![1],
+          textC: state.needHideAnsQues
+              ? ''
+              : state.questionGroupModel.questions[0].answers![2],
+          textD: state.needHideAnsQues
+              ? ''
+              : state.questionGroupModel.questions[0].answers![3],
           // need modify to check whether user is clicked the answer or not.
-          correctAns: state.questionGroupModel.questions[0].correctAns.index,
+          correctAns: state.correctAnswer[0].index,
           selectedAns: state.userAnswer[0].index,
           selectChanged: (value) {
             //quizBrain.setSelectedAnswer(value);

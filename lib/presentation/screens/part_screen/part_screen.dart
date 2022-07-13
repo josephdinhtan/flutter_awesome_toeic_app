@@ -30,7 +30,7 @@ class PartScreen extends StatelessWidget {
           for (final partModel in partListModel) {
             questionIdAll.addAll(partModel.questionIds);
           }
-          Navigator.pushNamed(context, AppRouter.fromPartType(PartType.part1),
+          Navigator.pushNamed(context, AppRouter.execute,
               arguments: ScreenArguments(
                   title: "element.title",
                   id: "element.id",
@@ -91,8 +91,7 @@ class PartScreen extends StatelessWidget {
               left: 4.w, right: 4.w, top: index == 0 ? 4.h : 0.0),
           child: PartItem(
               onTap: () {
-                Navigator.pushNamed(context,
-                    AppRouter.fromPartType(partListModel[index].partType),
+                Navigator.pushNamed(context, AppRouter.practice,
                     arguments: ScreenArguments(
                         title: partListModel[index].title,
                         id: partListModel[index].id,

@@ -12,4 +12,13 @@ extension HumanizedDuration on Duration {
     }
     return value;
   }
+
+  String toHumanizedMinutesString() {
+    final _seconds = '${inSeconds % 60}'.padLeft(2, '0');
+    String _minutes = '$inMinutes';
+    if (inMinutes < 10) {
+      _minutes = _minutes.padLeft(2, '0');
+    }
+    return '$_minutes:$_seconds';
+  }
 }

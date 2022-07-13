@@ -55,7 +55,7 @@ class _NeumorphismButtonState extends State<NeumorphismButton> {
               borderRadius: BorderRadius.circular(widget.borderRadius),
             ),
             child: Padding(
-              padding: EdgeInsets.symmetric(horizontal: 16.w, vertical: 8.w),
+              padding: EdgeInsets.symmetric(vertical: 8.w),
               child: widget.child,
             ),
           ),
