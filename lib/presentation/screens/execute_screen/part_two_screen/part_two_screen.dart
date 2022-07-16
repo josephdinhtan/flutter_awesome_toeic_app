@@ -173,7 +173,7 @@ class PartTwoScreen extends StatelessWidget {
                         selectChanged: (value) {
                           //quizBrain.setSelectedAnswer(value);
                           BlocProvider.of<PartTwoCubit>(context)
-                              .userSelectAnswerChange(UserAnswer.values[value]);
+                              .userSelectAnswerChange(Answer.values[value]);
                         },
                       );
                     }

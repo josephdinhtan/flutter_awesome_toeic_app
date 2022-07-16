@@ -18,4 +18,10 @@ class TestWebRepositoryImpl implements TestRepository {
     // nothing to do in web
     return true;
   }
+
+  @override
+  Future<bool> updateActualScoreToDB(String testHiveId, int actualScore) {
+    // TODO: implement updateActualScoreToDB
+    throw UnimplementedError();
+  }
 }

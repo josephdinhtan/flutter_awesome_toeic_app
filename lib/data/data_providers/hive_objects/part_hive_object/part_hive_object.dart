@@ -14,7 +14,7 @@ class PartHiveObject extends HiveObject {
   @HiveField(3)
   int numOfQuestion;
   @HiveField(4)
-  int? numOfCorrect;
+  int numOfCorrect;
   @HiveField(5)
   int ver;
   @HiveField(6)

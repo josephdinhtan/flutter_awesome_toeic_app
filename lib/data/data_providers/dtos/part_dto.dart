@@ -8,7 +8,7 @@ class PartDto implements BaseDto<PartModel> {
   String title;
   String id;
   int numOfQuestion;
-  int? numOfCorrect;
+  int numOfCorrect;
   int ver;
   List<String> questionIds;
 
@@ -57,7 +57,7 @@ class PartDto implements BaseDto<PartModel> {
       id: map['id'] as String,
       numOfQuestion: map['num_of_question'] as int,
       numOfCorrect:
-          map['num_of_correct'] != null ? map['num_of_correct'] as int : null,
+          map['num_of_correct'] != null ? map['num_of_correct'] as int : 0,
       ver: map['ver'] as int,
       questionIds: List<String>.from((map['question_ids'] as List<dynamic>)),
     );

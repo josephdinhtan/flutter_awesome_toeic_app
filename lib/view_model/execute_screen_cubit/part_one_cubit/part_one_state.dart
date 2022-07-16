@@ -12,8 +12,8 @@ class PartOneContentLoaded extends PartOneState {
   final int currentQuestionNumber;
   final int questionListSize;
   final List<String> answers;
-  final UserAnswer userAnswer;
-  final UserAnswer correctAnswer;
+  final Answer userAnswer;
+  final Answer correctAnswer;
   final String audioPath;
   final String picturePath;
   final String? note;

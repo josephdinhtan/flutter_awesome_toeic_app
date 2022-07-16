@@ -5,6 +5,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_toeic_quiz2/data/business_models/part_model.dart';
+import 'package:flutter_toeic_quiz2/view_model/part_screen_cubit/part_list_cubit.dart';
 import 'package:get_it/get_it.dart';
 
 import '../../../../core_ui/constants/app_colors/app_color.dart';
@@ -13,6 +14,7 @@ import '../../../../core_utils/core_utils.dart';
 import '../../../../data/business_models/execute_models/answer_enum.dart';
 import '../../../core_ui/extensions/extensions.dart';
 import '../../../view_model/execute_screen_cubit/execute_screen_cubit.dart';
+import '../../router/app_router.dart';
 import 'components/media_player.dart';
 import 'widgets/answer_board_widget.dart';
 import 'widgets/answer_sheet_panel.dart';
@@ -35,112 +37,191 @@ class ExecuteScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     double height = MediaQuery.of(context).size.height;
     double width = MediaQuery.of(context).size.width;
-    return Scaffold(
-      appBar: AppBar(
-        actions: [
-          IconButton(
-              onPressed: () {
-                showAnswerSheet(context, isFullTest, width, height);
-              },
-              icon: const Icon(CupertinoIcons.list_number))
-        ],
-        title: Row(
-          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-          crossAxisAlignment: CrossAxisAlignment.center,
-          children: [
-            BlocBuilder<ExecuteScreenCubit, ExecuteScreenState>(
+    return WillPopScope(
+      onWillPop: () {
+        if (isFullTest) {
+          showCupertinoModalPopup<void>(
+            context: context,
+            builder: (BuildContext context) => CupertinoAlertDialog(
+              title: const Text('You really want to exit?'),
+              content: const Text(
+                  'Exit in test time will not save your test result.\nIf you want to submit, click to answer sheet top right icon.'),
+              actions: <CupertinoDialogAction>[
+                CupertinoDialogAction(
+                  isDefaultAction: true,
+                  onPressed: () {
+                    Navigator.pop(context);
+                    Navigator.pop(context);
+                  },
+                  child: const Text('OK'),
+                ),
+                CupertinoDialogAction(
+                  isDestructiveAction: true,
+                  onPressed: () {
+                    Navigator.pop(context);
+                  },
+                  child: const Text('Cancel'),
+                )
+              ],
+            ),
+          );
+          return Future.value(false);
+        }
+        return Future.value(true);
+      },
+      child: Scaffold(
+        appBar: AppBar(
+          actions: [
+            IconButton(
+                onPressed: () {
+                  showAnswerSheet(
+                      context: context,
+                      isFullTest: isFullTest,
+                      width: width,
+                      height: height,
+                      submit: () {
+                        showCupertinoModalPopup<void>(
+                          context: context,
+                          builder: (BuildContext popupContext) =>
+                              CupertinoAlertDialog(
+                            title: const Text('Submit?'),
+                            content:
+                                const Text('Submit action will end the test'),
+                            actions: <CupertinoDialogAction>[
+                              CupertinoDialogAction(
+                                isDefaultAction: true,
+                                onPressed: () {
+                                  BlocProvider.of<ExecuteScreenCubit>(context)
+                                      .submitTest();
+                                  Map<PartType, int> mapPartTypeCorrectNum =
+                                      BlocProvider.of<ExecuteScreenCubit>(
+                                              context)
+                                          .getNumOfCorrectEachPart();
+                                  BlocProvider.of<PartListCubit>(context)
+                                      .updateScore(mapPartTypeCorrectNum);
+                                  Navigator.pop(popupContext);
+                                  // save result to DB
+                                  Navigator.pop(context);
+                                },
+                                child: const Text('OK'),
+                              ),
+                              CupertinoDialogAction(
+                                isDestructiveAction: true,
+                                onPressed: () {
+                                  Navigator.pop(popupContext);
+                                },
+                                child: const Text('Cancel'),
+                              )
+                            ],
+                          ),
+                        );
+                      });
+                },
+                icon: const Icon(CupertinoIcons.list_number))
+          ],
+          title: Row(
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            crossAxisAlignment: CrossAxisAlignment.center,
+            children: [
+              BlocBuilder<ExecuteScreenCubit, ExecuteScreenState>(
+                builder: (context, state) {
+                  if (state is ExecuteContentLoaded) {
+                    return Text(
+                      'Part ${state.questionGroupModel.partType.index + 1}: ${numToStr(state.currentQuestionNumber)}/${numToStr(state.questionListSize)}',
+                      style: context.titleLarge,
+                    );
+                  }
+                  return const Text('Question: ../..');
+                },
+              ),
+              if (isFullTest) TimerTestWidget(timeUp: () {}),
+            ],
+          ),
+        ),
+        body: Center(
+          child: SizedBox(
+            width: width > AppDimensions.maxWidthForMobileMode
+                ? AppDimensions.maxWidthForMobileMode
+                : null,
+            child: BlocBuilder<ExecuteScreenCubit, ExecuteScreenState>(
               builder: (context, state) {
                 if (state is ExecuteContentLoaded) {
-                  return Text(
-                    'Part ${state.questionGroupModel.partType.index + 1}: ${numToStr(state.currentQuestionNumber)}/${numToStr(state.questionListSize)}',
-                    style: context.titleLarge,
-                  );
-                }
-                return const Text('Question: ../..');
-              },
-            ),
-            if (isFullTest) TimerTestWidget(timeUp: () {}),
-          ],
-        ),
-      ),
-      body: Center(
-        child: SizedBox(
-          width: width > AppDimensions.maxWidthForMobileMode
-              ? AppDimensions.maxWidthForMobileMode
-              : null,
-          child: BlocBuilder<ExecuteScreenCubit, ExecuteScreenState>(
-            builder: (context, state) {
-              if (state is ExecuteContentLoaded) {
-                _currentQuestionIndex = state.currentQuestionNumber;
-                return Column(
-                  children: [
-                    LinearProgressIndicator(
-                      value:
-                          state.currentQuestionNumber / state.questionListSize,
-                    ),
-                    Expanded(
-                      child: Padding(
-                        padding: const EdgeInsets.symmetric(vertical: 16.0),
-                        child:
-                            BlocBuilder<ExecuteScreenCubit, ExecuteScreenState>(
-                          builder: (context, state) {
-                            if (state is ExecuteContentLoaded) {
-                              return _buildMainContentScreen(state, context);
-                            }
-                            return const Center(
-                              child: Text('Loading ...'),
-                            );
-                          },
+                  _currentQuestionIndex = state.currentQuestionNumber;
+                  return Column(
+                    children: [
+                      LinearProgressIndicator(
+                        value: state.currentQuestionNumber /
+                            state.questionListSize,
+                      ),
+                      Expanded(
+                        child: Padding(
+                          padding: const EdgeInsets.symmetric(vertical: 16.0),
+                          child: BlocBuilder<ExecuteScreenCubit,
+                              ExecuteScreenState>(
+                            builder: (context, state) {
+                              if (state is ExecuteContentLoaded) {
+                                return _buildMainContentScreen(state, context);
+                              }
+                              return const Center(
+                                child: Text('Loading ...'),
+                              );
+                            },
+                          ),
                         ),
                       ),
-                    ),
-                    if (state.questionGroupModel.audioPath != null)
-                      AudioController(
-                        //durationTime: MediaPlayer.instance.getDurationTime(),
-                        changeToDurationCallBack: (timestamp) {
-                          MediaPlayer().seekTo(seconds: timestamp.toInt());
+                      if (state.questionGroupModel.audioPath != null)
+                        AudioController(
+                          //durationTime: MediaPlayer.instance.getDurationTime(),
+                          changeToDurationCallBack: (timestamp) {
+                            MediaPlayer().seekTo(seconds: timestamp.toInt());
+                          },
+                          playCallBack: () {
+                            MediaPlayer().resume();
+                          },
+                          pauseCallBack: () {
+                            MediaPlayer().pause();
+                          },
+                          audioPlayer: MediaPlayer().audioPlayer,
+                        ),
+                      BottomController(
+                        note: state.note,
+                        isFullTest: isFullTest,
+                        prevPressed: () {
+                          BlocProvider.of<ExecuteScreenCubit>(context)
+                              .getPrevContent();
                         },
-                        playCallBack: () {
-                          MediaPlayer().resume();
+                        nextPressed: () {
+                          BlocProvider.of<ExecuteScreenCubit>(context)
+                              .getNextContent();
                         },
-                        pauseCallBack: () {
-                          MediaPlayer().pause();
+                        checkAnsPressed: () {
+                          BlocProvider.of<ExecuteScreenCubit>(context)
+                              .userCheckAnswer();
                         },
-                        audioPlayer: MediaPlayer().audioPlayer,
+                        favoriteAddNoteChange: (note) {
+                          BlocProvider.of<ExecuteScreenCubit>(context)
+                              .saveANoteQuestionIdToDB(note);
+                        },
                       ),
-                    BottomController(
-                      note: state.note,
-                      isFullTest: isFullTest,
-                      prevPressed: () {
-                        BlocProvider.of<ExecuteScreenCubit>(context)
-                            .getPrevContent();
-                      },
-                      nextPressed: () {
-                        BlocProvider.of<ExecuteScreenCubit>(context)
-                            .getNextContent();
-                      },
-                      checkAnsPressed: () {
-                        BlocProvider.of<ExecuteScreenCubit>(context)
-                            .userCheckAnswer();
-                      },
-                      favoriteAddNoteChange: (note) {
-                        BlocProvider.of<ExecuteScreenCubit>(context)
-                            .saveQuestionIdToDB(note);
-                      },
-                    ),
-                  ],
-                );
-              }
-              return const Center();
-            },
+                    ],
+                  );
+                }
+                return const Center();
+              },
+            ),
           ),
         ),
       ),
     );
   }
 
-  void showAnswerSheet(
-      BuildContext context, bool isFullTest, double width, double height) {
+  void showAnswerSheet({
+    required BuildContext context,
+    required bool isFullTest,
+    required double width,
+    required double height,
+    required Function submit,
+  }) {
     showCupertinoModalPopup(
         context: context,
         //barrierDismissible: false,
@@ -184,6 +265,7 @@ class ExecuteScreen extends StatelessWidget {
                   CupertinoDialogAction(
                     onPressed: () {
                       Navigator.pop(context);
+                      submit();
                     },
                     child: const Text('Submit'),
                   ),
@@ -243,7 +325,7 @@ class ExecuteScreen extends StatelessWidget {
         selectedAns: userAnswer[i].index,
         selectChanged: (value) {
           BlocProvider.of<ExecuteScreenCubit>(context).userSelectAnswerChange(
-              questionGroupModel.questions[i].number, UserAnswer.values[value]);
+              questionGroupModel.questions[i].number, Answer.values[value]);
         },
       ));
     }
@@ -344,7 +426,7 @@ class ExecuteScreen extends StatelessWidget {
             //quizBrain.setSelectedAnswer(value);
             BlocProvider.of<ExecuteScreenCubit>(context).userSelectAnswerChange(
                 state.questionGroupModel.questions[0].number,
-                UserAnswer.values[value]);
+                Answer.values[value]);
           },
         )
       ]),
@@ -394,7 +476,7 @@ class ExecuteScreen extends StatelessWidget {
             //quizBrain.setSelectedAnswer(value);
             BlocProvider.of<ExecuteScreenCubit>(context).userSelectAnswerChange(
                 state.questionGroupModel.questions[0].number,
-                UserAnswer.values[value]);
+                Answer.values[value]);
           },
         )
       ]),

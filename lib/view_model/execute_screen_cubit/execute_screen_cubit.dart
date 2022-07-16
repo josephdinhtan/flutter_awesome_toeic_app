@@ -13,6 +13,7 @@ import '../../../domain/question_note_use_case/save_question_note_use_case.dart'
 import '../../../presentation/screens/execute_screen/components/media_player.dart';
 import '../../../presentation/screens/execute_screen/widgets/answer_sheet_panel.dart';
 import '../../domain/execute_use_cases/get_question_group_use_case.dart';
+import '../../domain/execute_use_cases/save_question_group_use_case.dart';
 
 part 'execute_screen_state.dart';
 
@@ -21,22 +22,26 @@ const _logTag = "PartThreeCubit";
 class ExecuteScreenCubit extends Cubit<ExecuteScreenState> {
   ExecuteScreenCubit() : super(ExecuteScreenInitial());
 
-  final useCase = GetIt.I.get<GetQuestionGroupListUseCase>();
+  final getQuestionGroupListUseCase =
+      GetIt.I.get<GetQuestionGroupListUseCase>();
+  final saveQuestionGroupListUseCase =
+      GetIt.I.get<SaveQuestionGroupListUseCase>();
   final saveQuestionNoteUseCase = GetIt.I.get<SaveQuestionNoteUseCase>();
   final readQuestionNoteUseCase = GetIt.I.get<ReadQuestionNoteUseCase>();
 
   late List<QuestionGroupModel> _questionGroupList;
   int _currentQuestionIndex = 0;
   int _questionListSize = 0;
-  final Map _userAnswerMap = <int, UserAnswer>{};
-  final Map _correctAnsCheckedMap = <int, UserAnswer>{};
+  final Map _userAnswerMap = <int, Answer>{};
+  final Map _correctAnsCheckedMap = <int, Answer>{};
   final Map _questionNumberIndexMap = <int, int>{};
   final Map _questionNoteIndexMap = <int, String?>{};
   final List<AnswerSheetModel> _answerSheetModel = [];
 
-  Future<void> getInitContent(List<String> ids) async {
+  Future<void> getInitContent(List<String> ids,
+      {bool isReviewSession = false}) async {
     emit(ExecuteScreenLoading());
-    _questionGroupList = await useCase.perform(ids);
+    _questionGroupList = await getQuestionGroupListUseCase.perform(ids);
     _currentQuestionIndex = 0;
     _questionListSize = _questionGroupList.length;
     _userAnswerMap.clear();
@@ -46,6 +51,12 @@ class ExecuteScreenCubit extends Cubit<ExecuteScreenState> {
     for (int i = 0; i < _questionListSize; i++) {
       for (final question in _questionGroupList[i].questions) {
         _questionNumberIndexMap[question.number] = i;
+        if (isReviewSession) {
+          _correctAnsCheckedMap[question.number] = question.correctAns;
+          _userAnswerMap[question.number] = question.userAnswer;
+        } else {
+          question.userAnswer = Answer.notAnswer;
+        }
       }
       final note =
           await readQuestionNoteUseCase.perform(_questionGroupList[i].id);
@@ -60,6 +71,32 @@ class ExecuteScreenCubit extends Cubit<ExecuteScreenState> {
     if (audioRelativePath == null) return;
     final String audioFullPath = getApplicationDirectory() + audioRelativePath;
     MediaPlayer().playLocal(audioFullPath);
+  }
+
+  void submitTest() {
+    // save test
+    saveQuestionGroupListUseCase.perform(_questionGroupList);
+  }
+
+  Map<PartType, int> getNumOfCorrectEachPart() {
+    Map<PartType, int> mapPartTypeCorrectNum = {
+      PartType.part1: 0,
+      PartType.part2: 0,
+      PartType.part3: 0,
+      PartType.part4: 0,
+      PartType.part5: 0,
+      PartType.part6: 0,
+      PartType.part7: 0,
+    };
+    for (int i = 0; i < _questionListSize; i++) {
+      for (final question in _questionGroupList[i].questions) {
+        if (question.correctAns == question.userAnswer) {
+          mapPartTypeCorrectNum[_questionGroupList[i].partType] =
+              mapPartTypeCorrectNum[_questionGroupList[i].partType]! + 1;
+        }
+      }
+    }
+    return mapPartTypeCorrectNum;
   }
 
   Future<void> getNextContent() async {
@@ -79,7 +116,7 @@ class ExecuteScreenCubit extends Cubit<ExecuteScreenState> {
     notifyData();
   }
 
-  Future<void> saveQuestionIdToDB(String message) async {
+  Future<void> saveANoteQuestionIdToDB(String message) async {
     //_partOneQuestionList[_currentQuestionIndex].id;
     log('$_logTag saveQuestionIdToDB() message: $message');
 
@@ -108,7 +145,7 @@ class ExecuteScreenCubit extends Cubit<ExecuteScreenState> {
         i++) {
       int questionNumber =
           _questionGroupList[_currentQuestionIndex].questions[i].number;
-      _correctAnsCheckedMap[questionNumber] = UserAnswer.values[
+      _correctAnsCheckedMap[questionNumber] = Answer.values[
           _questionGroupList[_currentQuestionIndex]
               .questions[i]
               .correctAns
@@ -117,22 +154,32 @@ class ExecuteScreenCubit extends Cubit<ExecuteScreenState> {
     notifyData();
   }
 
-  void userSelectAnswerChange(int questionNumber, UserAnswer userAnswer) {
+  void userSelectAnswerChange(int questionNumber, Answer userAnswer) {
     _userAnswerMap[questionNumber] = userAnswer;
+    for (int i = 0;
+        i < _questionGroupList[_currentQuestionIndex].questions.length;
+        i++) {
+      if (_questionGroupList[_currentQuestionIndex].questions[i].number ==
+          questionNumber) {
+        _questionGroupList[_currentQuestionIndex].questions[i].userAnswer =
+            userAnswer;
+        break;
+      }
+    }
   }
 
   void notifyData() {
-    List<UserAnswer> userAnswerList = [];
-    List<UserAnswer> correctAnswer = [];
+    List<Answer> userAnswerList = [];
+    List<Answer> correctAnswer = [];
     bool needHideAnsQues = false;
 
     for (final question
         in _questionGroupList[_currentQuestionIndex].questions) {
       if (!_userAnswerMap.containsKey(question.number)) {
-        _userAnswerMap[question.number] = UserAnswer.notAnswer;
+        _userAnswerMap[question.number] = Answer.notAnswer;
       }
       if (!_correctAnsCheckedMap.containsKey(question.number)) {
-        _correctAnsCheckedMap[question.number] = UserAnswer.notAnswer;
+        _correctAnsCheckedMap[question.number] = Answer.notAnswer;
       }
       userAnswerList.add(_userAnswerMap[question.number]);
       correctAnswer.add(_correctAnsCheckedMap[question.number]);
@@ -141,7 +188,7 @@ class ExecuteScreenCubit extends Cubit<ExecuteScreenState> {
         _questionGroupList[_currentQuestionIndex].partType == PartType.part2) {
       if (_correctAnsCheckedMap[
               _questionGroupList[_currentQuestionIndex].questions[0].number] ==
-          UserAnswer.notAnswer) {
+          Answer.notAnswer) {
         needHideAnsQues = true;
       }
     }
@@ -160,14 +207,14 @@ class ExecuteScreenCubit extends Cubit<ExecuteScreenState> {
     _answerSheetModel.clear();
     for (int i = 0; i < _questionGroupList.length; i++) {
       for (int j = 0; j < _questionGroupList[i].questions.length; j++) {
-        UserAnswer? userAns =
+        Answer? userAns =
             _userAnswerMap[_questionGroupList[i].questions[j].number];
-        UserAnswer? correctAns =
+        Answer? correctAns =
             _correctAnsCheckedMap[_questionGroupList[i].questions[j].number];
         int userAnsIdx =
-            userAns == null ? UserAnswer.notAnswer.index : userAns.index;
+            userAns == null ? Answer.notAnswer.index : userAns.index;
         int correctAnsIdx =
-            correctAns == null ? UserAnswer.notAnswer.index : correctAns.index;
+            correctAns == null ? Answer.notAnswer.index : correctAns.index;
         _answerSheetModel.add(AnswerSheetModel(
             questionNumber: _questionGroupList[i].questions[j].number,
             correctAnswerIndex: correctAnsIdx,

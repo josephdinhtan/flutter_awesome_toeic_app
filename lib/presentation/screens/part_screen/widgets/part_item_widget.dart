@@ -4,8 +4,6 @@ import 'package:percent_indicator/percent_indicator.dart';
 import '../../../../core_ui/constants/app_dimensions.dart';
 import '../../../../core_ui/extensions/extensions.dart';
 import '../../../../data/business_models/part_model.dart';
-import '../../../router/app_router.dart';
-import '../../../router/screen_arguments.dart';
 
 List<String> _testDescription = [
   'Photographs',
@@ -42,7 +40,7 @@ class PartItem extends StatelessWidget {
     //double height = MediaQuery.of(context).size.height;
     double width = MediaQuery.of(context).size.width;
     if (partModel.numOfCorrect != null) {
-      correctAns = partModel.numOfCorrect!;
+      correctAns = partModel.numOfCorrect;
     }
     double correctPercent =
         (correctAns * 100 / partModel.numOfQuestion).toDouble() / 100;
@@ -72,11 +70,10 @@ class PartItem extends StatelessWidget {
                               ),
                               margin: EdgeInsets.all(2.w),
                               child: Padding(
-                                padding: EdgeInsets.symmetric(
-                                    horizontal: 12.h, vertical: 12.w),
+                                padding: EdgeInsets.all(12.sp),
                                 child: Icon(
                                     _testIconData[partModel.partType.index],
-                                    size: 15.w,
+                                    size: 15.sp,
                                     color: context.colors.onSecondary),
                               ),
                             ),
@@ -143,14 +140,14 @@ class PartItem extends StatelessWidget {
                           ],
                         ),
                         CircularPercentIndicator(
-                          radius: 45.r,
+                          radius: 45.sp,
                           percent: correctPercent,
                           center: Text(
                             '${(correctPercent * 100).toInt()}%',
                             style: context.labelMedium!
                                 .copyWith(color: context.colors.onSurface),
                           ),
-                          progressColor: context.colors.secondary,
+                          progressColor: context.colors.inversePrimary,
                         ),
                       ],
                     ),

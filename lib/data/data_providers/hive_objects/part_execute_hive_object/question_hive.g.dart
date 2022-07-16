@@ -21,13 +21,14 @@ class QuestionHiveAdapter extends TypeAdapter<QuestionHive> {
       questionStr: fields[1] as String?,
       answers: (fields[2] as List?)?.cast<String>(),
       correctAnsIdx: fields[3] as int,
+      userAnsIdx: fields[4] as int,
     );
   }
 
   @override
   void write(BinaryWriter writer, QuestionHive obj) {
     writer
-      ..writeByte(4)
+      ..writeByte(5)
       ..writeByte(0)
       ..write(obj.number)
       ..writeByte(1)
@@ -35,7 +36,9 @@ class QuestionHiveAdapter extends TypeAdapter<QuestionHive> {
       ..writeByte(2)
       ..write(obj.answers)
       ..writeByte(3)
-      ..write(obj.correctAnsIdx);
+      ..write(obj.correctAnsIdx)
+      ..writeByte(4)
+      ..write(obj.userAnsIdx);
   }
 
   @override

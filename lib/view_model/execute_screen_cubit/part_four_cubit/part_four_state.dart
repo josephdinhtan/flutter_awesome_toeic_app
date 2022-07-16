@@ -11,8 +11,8 @@ class PartFourContentLoaded extends PartFourState {
   final int currentQuestionNumber;
   final int questionListSize;
   final PartFourModel partFourModel;
-  final List<UserAnswer> userAnswer;
-  final List<UserAnswer> correctAnswer;
+  final List<Answer> userAnswer;
+  final List<Answer> correctAnswer;
   final String? note;
 
   PartFourContentLoaded({

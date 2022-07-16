@@ -18,4 +18,12 @@ class TestMobileRepositoryImpl implements TestRepository {
     testModel!.isResourceDownloaded = true;
     return await _dao.insert(testModel.toHiveObject(), testHiveId);
   }
+
+  @override
+  Future<bool> updateActualScoreToDB(String testHiveId, int actualScore) async {
+    final testModel = await _dao.query(testHiveId);
+    if (testModel == null) return false;
+    testModel.actualScore = actualScore;
+    return await _dao.insert(testModel.toHiveObject(), testHiveId);
+  }
 }

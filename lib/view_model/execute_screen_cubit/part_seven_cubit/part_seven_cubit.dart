@@ -27,8 +27,8 @@ class PartSevenCubit extends Cubit<PartSevenState> {
   late List<PartSevenModel> _partSevenQuestionList;
   int _currentQuestionIndex = 0;
   int _questionListSize = 0;
-  final Map _userAnswerMap = <int, UserAnswer>{};
-  final Map _correctAnsCheckedMap = <int, UserAnswer>{};
+  final Map _userAnswerMap = <int, Answer>{};
+  final Map _correctAnsCheckedMap = <int, Answer>{};
   final Map _questionNumberIndexMap = <int, int>{};
   final Map _questionNoteIndexMap = <int, String?>{};
   final List<AnswerSheetModel> _answerSheetModel = [];
@@ -96,26 +96,26 @@ class PartSevenCubit extends Cubit<PartSevenState> {
         i++) {
       int questionNumber =
           _partSevenQuestionList[_currentQuestionIndex].numbers[i];
-      _correctAnsCheckedMap[questionNumber] = UserAnswer.values[
+      _correctAnsCheckedMap[questionNumber] = Answer.values[
           _partSevenQuestionList[_currentQuestionIndex].correctAnswer[i].index];
     }
     notifyData();
   }
 
-  void userSelectAnswerChange(int questionNumber, UserAnswer userAnswer) {
+  void userSelectAnswerChange(int questionNumber, Answer userAnswer) {
     _userAnswerMap[questionNumber] = userAnswer;
   }
 
   void notifyData() {
-    List<UserAnswer> userAnswerList = [];
-    List<UserAnswer> correctAnswer = [];
+    List<Answer> userAnswerList = [];
+    List<Answer> correctAnswer = [];
     for (int questionNumber
         in _partSevenQuestionList[_currentQuestionIndex].numbers) {
       if (!_userAnswerMap.containsKey(questionNumber)) {
-        _userAnswerMap[questionNumber] = UserAnswer.notAnswer;
+        _userAnswerMap[questionNumber] = Answer.notAnswer;
       }
       if (!_correctAnsCheckedMap.containsKey(questionNumber)) {
-        _correctAnsCheckedMap[questionNumber] = UserAnswer.notAnswer;
+        _correctAnsCheckedMap[questionNumber] = Answer.notAnswer;
       }
       userAnswerList.add(_userAnswerMap[questionNumber]);
       correctAnswer.add(_correctAnsCheckedMap[questionNumber]);
@@ -134,14 +134,13 @@ class PartSevenCubit extends Cubit<PartSevenState> {
     _answerSheetModel.clear();
     for (int i = 0; i < _partSevenQuestionList.length; i++) {
       for (int j = 0; j < _partSevenQuestionList[i].numbers.length; j++) {
-        UserAnswer? userAns =
-            _userAnswerMap[_partSevenQuestionList[i].numbers[j]];
-        UserAnswer? correctAns =
+        Answer? userAns = _userAnswerMap[_partSevenQuestionList[i].numbers[j]];
+        Answer? correctAns =
             _correctAnsCheckedMap[_partSevenQuestionList[i].numbers[j]];
         int userAnsIdx =
-            userAns == null ? UserAnswer.notAnswer.index : userAns.index;
+            userAns == null ? Answer.notAnswer.index : userAns.index;
         int correctAnsIdx =
-            correctAns == null ? UserAnswer.notAnswer.index : correctAns.index;
+            correctAns == null ? Answer.notAnswer.index : correctAns.index;
         _answerSheetModel.add(AnswerSheetModel(
             questionNumber: _partSevenQuestionList[i].numbers[j],
             correctAnswerIndex: correctAnsIdx,

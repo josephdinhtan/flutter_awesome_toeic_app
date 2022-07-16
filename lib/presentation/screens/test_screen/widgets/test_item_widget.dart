@@ -18,10 +18,10 @@ const int maxScore = 990;
 class TestItemWidget extends StatefulWidget {
   const TestItemWidget({
     Key? key,
-    required this.testInfoModel,
+    required this.testModel,
   }) : super(key: key);
 
-  final TestModel testInfoModel;
+  final TestModel testModel;
 
   @override
   State<TestItemWidget> createState() => _TestItemWidgetState();
@@ -41,13 +41,13 @@ class _TestItemWidgetState extends State<TestItemWidget> {
       //_downloadController = SimulatedDownloadController(onOpenDownload: () => _openDownload());
 
       _downloadController = DataBaseDownloadController(
-        audioPath: widget.testInfoModel.audioPath,
-        picturePath: widget.testInfoModel.picturePath,
+        audioPath: widget.testModel.audioPath,
+        picturePath: widget.testModel.picturePath,
         onOpenDownload: () => _openDownload(),
-        downloadStatus: widget.testInfoModel.isResourceDownloaded
+        downloadStatus: widget.testModel.isResourceDownloaded
             ? DownloadStatus.downloaded
             : DownloadStatus.notDownloaded,
-        testHiveId: widget.testInfoModel.id,
+        testHiveId: widget.testModel.id,
       );
     }
   }
@@ -55,9 +55,9 @@ class _TestItemWidgetState extends State<TestItemWidget> {
   void _openDownload() {
     Navigator.pushNamed(context, AppRouter.part,
         arguments: ScreenArguments(
-          title: widget.testInfoModel.title,
-          id: widget.testInfoModel.id,
-          childIds: widget.testInfoModel.partIds,
+          title: widget.testModel.title,
+          id: widget.testModel.id,
+          childIds: widget.testModel.partIds,
         ));
   }
 
@@ -87,7 +87,7 @@ class _TestItemWidgetState extends State<TestItemWidget> {
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
                         Text(
-                          widget.testInfoModel.title,
+                          widget.testModel.title,
                           style: context.titleMedium!.copyWith(
                               color: context.colors.primary,
                               fontWeight: FontWeight.w600),
@@ -96,9 +96,9 @@ class _TestItemWidgetState extends State<TestItemWidget> {
                         ),
                         SizedBox(height: 4.h),
                         Text(
-                          widget.testInfoModel.memorySize != ''
-                              ? '${widget.testInfoModel.numOfQuestion} QUESTIONS - ${widget.testInfoModel.memorySize}'
-                              : '${widget.testInfoModel.numOfQuestion} QUESTIONS',
+                          widget.testModel.memorySize != ''
+                              ? '${widget.testModel.numOfQuestion} QUESTIONS - ${widget.testModel.memorySize}'
+                              : '${widget.testModel.numOfQuestion} QUESTIONS',
 
                           style: context.titleSmall!.copyWith(
                             color: context.colors.onBackground,
@@ -127,22 +127,23 @@ class _TestItemWidgetState extends State<TestItemWidget> {
                     )
                   ],
                 ),
-                SizedBox(height: 4.h),
-                if (widget.testInfoModel.isResourceDownloaded &&
-                    widget.testInfoModel.actualScore != null)
+                SizedBox(height: 6.h),
+                if (widget.testModel.isResourceDownloaded &&
+                    widget.testModel.actualScore != null)
                   Row(
                     children: [
                       Container(
-                        decoration: const BoxDecoration(
+                        decoration: BoxDecoration(
                             borderRadius:
-                                BorderRadius.all(Radius.circular(8.0)),
-                            color: Colors.green),
+                                BorderRadius.all(Radius.circular(50.r)),
+                            color: context.colors.surfaceVariant),
                         child: Padding(
                           padding: EdgeInsets.symmetric(
-                              horizontal: 8.w, vertical: 8.h),
+                              horizontal: 10.w, vertical: 4.h),
                           child: Text(
-                            '${widget.testInfoModel.actualScore}/$maxScore',
-                            style: const TextStyle(color: Colors.white),
+                            '${widget.testModel.actualScore}/$maxScore',
+                            style: TextStyle(
+                                color: context.colors.onSurfaceVariant),
                           ),
                         ),
                       ),
@@ -151,9 +152,14 @@ class _TestItemWidgetState extends State<TestItemWidget> {
                         child: Padding(
                           padding: const EdgeInsets.only(
                               left: AppDimensions.kPaddingDefault),
-                          child: LinearProgressIndicator(
-                            value: widget.testInfoModel.actualScore! / maxScore,
-                            backgroundColor: const Color(0xffb7e4c7),
+                          child: ClipRRect(
+                            borderRadius:
+                                BorderRadius.all(Radius.circular(50.r)),
+                            child: LinearProgressIndicator(
+                              value: widget.testModel.actualScore! / maxScore,
+                              color: context.colors.onSurfaceVariant,
+                              backgroundColor: context.colors.surfaceVariant,
+                            ),
                           ),
                         ),
                       )

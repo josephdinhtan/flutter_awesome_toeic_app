@@ -9,7 +9,7 @@ class PartModel implements BaseBusinessModel {
   final String title;
   final String id;
   final int numOfQuestion;
-  final int? numOfCorrect;
+  int numOfCorrect;
   final int ver;
   final List<String> questionIds;
 

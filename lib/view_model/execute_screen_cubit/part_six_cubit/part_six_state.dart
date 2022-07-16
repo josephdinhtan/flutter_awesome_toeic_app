@@ -11,8 +11,8 @@ class PartSixContentLoaded extends PartSixState {
   final int currentQuestionNumber;
   final int questionListSize;
   final PartSixModel partSixModel;
-  final List<UserAnswer> userAnswer;
-  final List<UserAnswer> correctAnswer;
+  final List<Answer> userAnswer;
+  final List<Answer> correctAnswer;
   final String? note;
 
   PartSixContentLoaded({

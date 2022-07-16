@@ -11,8 +11,8 @@ class PartSevenContentLoaded extends PartSevenState {
   final int currentQuestionNumber;
   final int questionListSize;
   final PartSevenModel partSevenModel;
-  final List<UserAnswer> userAnswer;
-  final List<UserAnswer> correctAnswer;
+  final List<Answer> userAnswer;
+  final List<Answer> correctAnswer;
   final String? note;
 
   PartSevenContentLoaded({

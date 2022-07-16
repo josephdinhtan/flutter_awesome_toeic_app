@@ -178,7 +178,7 @@ class PartThreeScreen extends StatelessWidget {
                               BlocProvider.of<PartThreeCubit>(context)
                                   .userSelectAnswerChange(
                                       partThreeModel.numbers[i],
-                                      UserAnswer.values[value]);
+                                      Answer.values[value]);
                             },
                           ));
                         }

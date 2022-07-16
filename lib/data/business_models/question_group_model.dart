@@ -55,12 +55,14 @@ class QuestionModel {
   String? questionStr;
   List<String>? answers;
   Answer correctAns;
+  Answer userAnswer;
 
   QuestionModel({
     required this.number,
     required this.questionStr,
     required this.answers,
     required this.correctAns,
+    required this.userAnswer,
   });
 
   QuestionHive toHiveObject() {
@@ -69,6 +71,7 @@ class QuestionModel {
       correctAnsIdx: correctAns.index,
       answers: answers,
       questionStr: questionStr,
+      userAnsIdx: userAnswer.index,
     );
   }
 
@@ -76,6 +79,7 @@ class QuestionModel {
     return QuestionModel(
       number: hiveObject.number,
       correctAns: Answer.values[hiveObject.correctAnsIdx],
+      userAnswer: Answer.values[hiveObject.userAnsIdx],
       answers: hiveObject.answers,
       questionStr: hiveObject.questionStr,
     );

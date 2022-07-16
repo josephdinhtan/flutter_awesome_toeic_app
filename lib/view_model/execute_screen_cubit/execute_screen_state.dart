@@ -11,8 +11,8 @@ class ExecuteContentLoaded extends ExecuteScreenState {
   final int currentQuestionNumber;
   final int questionListSize;
   final QuestionGroupModel questionGroupModel;
-  final List<UserAnswer> userAnswer;
-  final List<UserAnswer> correctAnswer;
+  final List<Answer> userAnswer;
+  final List<Answer> correctAnswer;
   final String? note;
   final bool needHideAnsQues;
   ExecuteContentLoaded({

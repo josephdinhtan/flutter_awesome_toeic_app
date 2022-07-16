@@ -22,4 +22,10 @@ class PartWebRepositoryImpl implements PartRepository {
     }
     return res;
   }
+
+  @override
+  Future<bool> savePartList(List<PartModel> partModels) {
+    // TODO: implement savePartList
+    throw UnimplementedError();
+  }
 }

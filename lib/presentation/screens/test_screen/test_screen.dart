@@ -26,7 +26,7 @@ class TestScreen extends StatelessWidget {
             testItems.clear();
             for (TestModel testInfo in testListInfo) {
               testItems.add(TestItemWidget(
-                testInfoModel: testInfo,
+                testModel: testInfo,
               ));
             }
             return _buildList();

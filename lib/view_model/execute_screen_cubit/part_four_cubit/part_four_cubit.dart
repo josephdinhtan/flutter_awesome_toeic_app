@@ -29,8 +29,8 @@ class PartFourCubit extends Cubit<PartFourState> {
   late List<PartFourModel> _partFourQuestionList;
   int _currentQuestionIndex = 0;
   int _questionListSize = 0;
-  final Map _userAnswerMap = <int, UserAnswer>{};
-  final Map _correctAnsCheckedMap = <int, UserAnswer>{};
+  final Map _userAnswerMap = <int, Answer>{};
+  final Map _correctAnsCheckedMap = <int, Answer>{};
   final Map _questionNumberIndexMap = <int, int>{};
   final Map _questionNoteIndexMap = <int, String?>{};
   final List<AnswerSheetModel> _answerSheetModel = [];
@@ -104,26 +104,26 @@ class PartFourCubit extends Cubit<PartFourState> {
         i++) {
       int questionNumber =
           _partFourQuestionList[_currentQuestionIndex].numbers[i];
-      _correctAnsCheckedMap[questionNumber] = UserAnswer.values[
+      _correctAnsCheckedMap[questionNumber] = Answer.values[
           _partFourQuestionList[_currentQuestionIndex].correctAns[i].index];
     }
     notifyData();
   }
 
-  void userSelectAnswerChange(int questionNumber, UserAnswer userAnswer) {
+  void userSelectAnswerChange(int questionNumber, Answer userAnswer) {
     _userAnswerMap[questionNumber] = userAnswer;
   }
 
   void notifyData() {
-    List<UserAnswer> userAnswerList = [];
-    List<UserAnswer> correctAnswer = [];
+    List<Answer> userAnswerList = [];
+    List<Answer> correctAnswer = [];
     for (int questionNumber
         in _partFourQuestionList[_currentQuestionIndex].numbers) {
       if (!_userAnswerMap.containsKey(questionNumber)) {
-        _userAnswerMap[questionNumber] = UserAnswer.notAnswer;
+        _userAnswerMap[questionNumber] = Answer.notAnswer;
       }
       if (!_correctAnsCheckedMap.containsKey(questionNumber)) {
-        _correctAnsCheckedMap[questionNumber] = UserAnswer.notAnswer;
+        _correctAnsCheckedMap[questionNumber] = Answer.notAnswer;
       }
       userAnswerList.add(_userAnswerMap[questionNumber]);
       correctAnswer.add(_correctAnsCheckedMap[questionNumber]);
@@ -142,14 +142,13 @@ class PartFourCubit extends Cubit<PartFourState> {
     _answerSheetModel.clear();
     for (int i = 0; i < _partFourQuestionList.length; i++) {
       for (int j = 0; j < _partFourQuestionList[i].numbers.length; j++) {
-        UserAnswer? userAns =
-            _userAnswerMap[_partFourQuestionList[i].numbers[j]];
-        UserAnswer? correctAns =
+        Answer? userAns = _userAnswerMap[_partFourQuestionList[i].numbers[j]];
+        Answer? correctAns =
             _correctAnsCheckedMap[_partFourQuestionList[i].numbers[j]];
         int userAnsIdx =
-            userAns == null ? UserAnswer.notAnswer.index : userAns.index;
+            userAns == null ? Answer.notAnswer.index : userAns.index;
         int correctAnsIdx =
-            correctAns == null ? UserAnswer.notAnswer.index : correctAns.index;
+            correctAns == null ? Answer.notAnswer.index : correctAns.index;
         _answerSheetModel.add(AnswerSheetModel(
             questionNumber: _partFourQuestionList[i].numbers[j],
             correctAnswerIndex: correctAnsIdx,

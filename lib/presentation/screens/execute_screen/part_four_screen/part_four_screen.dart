@@ -176,7 +176,7 @@ class PartFourScreen extends StatelessWidget {
                               BlocProvider.of<PartFourCubit>(context)
                                   .userSelectAnswerChange(
                                       partFourModel.numbers[i],
-                                      UserAnswer.values[value]);
+                                      Answer.values[value]);
                             },
                           ));
                         }

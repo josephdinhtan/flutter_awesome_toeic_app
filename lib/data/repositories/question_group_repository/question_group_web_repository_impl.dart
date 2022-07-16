@@ -12,4 +12,11 @@ class QuestionGroupWebRepositoryImpl implements QuestionGroupRepository {
       List<String> ids) async {
     return await _api.queryAll(ids);
   }
+
+  @override
+  Future<bool> saveQuestionGroupList(
+      List<QuestionGroupModel> questionGroupModelList) {
+    // TODO: implement saveQuestionGroupList
+    throw UnimplementedError();
+  }
 }

@@ -21,7 +21,7 @@ class PartHiveObjectAdapter extends TypeAdapter<PartHiveObject> {
       title: fields[1] as String,
       partType: fields[2] as int,
       numOfQuestion: fields[3] as int,
-      numOfCorrect: fields[4] as int?,
+      numOfCorrect: fields[4] as int,
       ver: fields[5] as int,
       questionIds: (fields[6] as List).cast<String>(),
     );

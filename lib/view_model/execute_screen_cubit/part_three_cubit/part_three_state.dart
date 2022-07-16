@@ -11,8 +11,8 @@ class PartThreeContentLoaded extends PartThreeState {
   final int currentQuestionNumber;
   final int questionListSize;
   final PartThreeModel partThreeModel;
-  final List<UserAnswer> userAnswer;
-  final List<UserAnswer> correctAnswer;
+  final List<Answer> userAnswer;
+  final List<Answer> correctAnswer;
   final String? note;
 
   PartThreeContentLoaded({

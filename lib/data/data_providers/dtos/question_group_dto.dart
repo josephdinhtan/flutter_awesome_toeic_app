@@ -75,6 +75,7 @@ class QuestionDto {
     return QuestionModel(
         number: number,
         correctAns: Answer.values[correctAnsIdx],
+        userAnswer: Answer.notAnswer,
         answers: answers,
         questionStr: questionStr);
   }

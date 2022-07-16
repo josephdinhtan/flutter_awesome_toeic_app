@@ -23,8 +23,8 @@ class PartTwoCubit extends Cubit<PartTwoState> {
   late List<PartTwoModel> _partTwoQuestionList;
   int _currentQuestionIndex = 0;
   int _questionListSize = 0;
-  final Map _userAnswerMap = <int, UserAnswer>{};
-  final Map _correctAnsCheckedMap = <int, UserAnswer>{};
+  final Map _userAnswerMap = <int, Answer>{};
+  final Map _correctAnsCheckedMap = <int, Answer>{};
   final Map _questionNumberIndexMap = <int, int>{};
   final Map _questionNoteIndexMap = <int, String?>{};
   final List<AnswerSheetModel> _answerSheetModel = [];
@@ -62,7 +62,7 @@ class PartTwoCubit extends Cubit<PartTwoState> {
     _notifyData();
   }
 
-  void userSelectAnswerChange(UserAnswer userAnswer) {
+  void userSelectAnswerChange(Answer userAnswer) {
     final int key = _partTwoQuestionList[_currentQuestionIndex].number;
     _userAnswerMap[key] = userAnswer;
   }
@@ -84,7 +84,7 @@ class PartTwoCubit extends Cubit<PartTwoState> {
 
   void userCheckAnswer() {
     final int key = _partTwoQuestionList[_currentQuestionIndex].number;
-    _correctAnsCheckedMap[key] = UserAnswer.values[
+    _correctAnsCheckedMap[key] = Answer.values[
         _partTwoQuestionList[_currentQuestionIndex].correctAnswer.index];
     _notifyData();
   }
@@ -102,12 +102,12 @@ class PartTwoCubit extends Cubit<PartTwoState> {
     final int key = _partTwoQuestionList[_currentQuestionIndex].number;
     bool needHideAns = false;
     if (!_userAnswerMap.containsKey(key)) {
-      _userAnswerMap[key] = UserAnswer.notAnswer;
+      _userAnswerMap[key] = Answer.notAnswer;
     }
     if (!_correctAnsCheckedMap.containsKey(key)) {
-      _correctAnsCheckedMap[key] = UserAnswer.notAnswer;
+      _correctAnsCheckedMap[key] = Answer.notAnswer;
     }
-    if (_correctAnsCheckedMap[key] == UserAnswer.notAnswer) {
+    if (_correctAnsCheckedMap[key] == Answer.notAnswer) {
       needHideAns = true;
     }
     emit(PartTwoContentLoaded(
@@ -130,13 +130,12 @@ class PartTwoCubit extends Cubit<PartTwoState> {
   List<AnswerSheetModel> getAnswerSheetData() {
     _answerSheetModel.clear();
     for (int i = 0; i < _partTwoQuestionList.length; i++) {
-      UserAnswer? userAns = _userAnswerMap[_partTwoQuestionList[i].number];
-      UserAnswer? correctAns =
+      Answer? userAns = _userAnswerMap[_partTwoQuestionList[i].number];
+      Answer? correctAns =
           _correctAnsCheckedMap[_partTwoQuestionList[i].number];
-      int userAnsIdx =
-          userAns == null ? UserAnswer.notAnswer.index : userAns.index;
+      int userAnsIdx = userAns == null ? Answer.notAnswer.index : userAns.index;
       int correctAnsIdx =
-          correctAns == null ? UserAnswer.notAnswer.index : correctAns.index;
+          correctAns == null ? Answer.notAnswer.index : correctAns.index;
       _answerSheetModel.add(AnswerSheetModel(
           questionNumber: _partTwoQuestionList[i].number,
           correctAnswerIndex: correctAnsIdx,

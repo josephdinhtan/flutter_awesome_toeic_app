@@ -183,7 +183,7 @@ class PartSixScreen extends StatelessWidget {
         selectedAns: userAnswer[i].index,
         selectChanged: (value) {
           BlocProvider.of<PartSixCubit>(context).userSelectAnswerChange(
-              partSixModel.numbers[i], UserAnswer.values[value]);
+              partSixModel.numbers[i], Answer.values[value]);
         },
       ));
     }

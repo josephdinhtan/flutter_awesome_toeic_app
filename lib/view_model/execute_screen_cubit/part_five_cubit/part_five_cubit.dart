@@ -25,8 +25,8 @@ class PartFiveCubit extends Cubit<PartFiveState> {
   late List<PartFiveModel> _partFiveQuestionList;
   int _currentQuestionIndex = 0;
   int _questionListSize = 0;
-  final Map _userAnswerMap = <int, UserAnswer>{};
-  final Map _correctAnsCheckedMap = <int, UserAnswer>{};
+  final Map _userAnswerMap = <int, Answer>{};
+  final Map _correctAnsCheckedMap = <int, Answer>{};
   final Map _questionNumberIndexMap = <int, int>{};
   final Map _questionNoteIndexMap = <int, String?>{};
   final List<AnswerSheetModel> _answerSheetModel = [];
@@ -59,7 +59,7 @@ class PartFiveCubit extends Cubit<PartFiveState> {
     notifyData();
   }
 
-  void userSelectAnswerChange(UserAnswer userAnswer) {
+  void userSelectAnswerChange(Answer userAnswer) {
     final int key = _partFiveQuestionList[_currentQuestionIndex].number;
     _userAnswerMap[key] = userAnswer;
   }
@@ -87,7 +87,7 @@ class PartFiveCubit extends Cubit<PartFiveState> {
 
   void userCheckAnswer() {
     int questionNumber = _partFiveQuestionList[_currentQuestionIndex].number;
-    _correctAnsCheckedMap[questionNumber] = UserAnswer.values[
+    _correctAnsCheckedMap[questionNumber] = Answer.values[
         _partFiveQuestionList[_currentQuestionIndex].correctAnswer.index];
     notifyData();
   }
@@ -104,10 +104,10 @@ class PartFiveCubit extends Cubit<PartFiveState> {
   void notifyData() {
     final int key = _partFiveQuestionList[_currentQuestionIndex].number;
     if (!_userAnswerMap.containsKey(key)) {
-      _userAnswerMap[key] = UserAnswer.notAnswer;
+      _userAnswerMap[key] = Answer.notAnswer;
     }
     if (!_correctAnsCheckedMap.containsKey(key)) {
-      _correctAnsCheckedMap[key] = UserAnswer.notAnswer;
+      _correctAnsCheckedMap[key] = Answer.notAnswer;
     }
     emit(PartFiveContentLoaded(
         note: _questionNoteIndexMap[key],
@@ -121,13 +121,12 @@ class PartFiveCubit extends Cubit<PartFiveState> {
   List<AnswerSheetModel> getAnswerSheetData() {
     _answerSheetModel.clear();
     for (int i = 0; i < _partFiveQuestionList.length; i++) {
-      UserAnswer? userAns = _userAnswerMap[_partFiveQuestionList[i].number];
-      UserAnswer? correctAns =
+      Answer? userAns = _userAnswerMap[_partFiveQuestionList[i].number];
+      Answer? correctAns =
           _correctAnsCheckedMap[_partFiveQuestionList[i].number];
-      int userAnsIdx =
-          userAns == null ? UserAnswer.notAnswer.index : userAns.index;
+      int userAnsIdx = userAns == null ? Answer.notAnswer.index : userAns.index;
       int correctAnsIdx =
-          correctAns == null ? UserAnswer.notAnswer.index : correctAns.index;
+          correctAns == null ? Answer.notAnswer.index : correctAns.index;
       _answerSheetModel.add(AnswerSheetModel(
           questionNumber: _partFiveQuestionList[i].number,
           correctAnswerIndex: correctAnsIdx,

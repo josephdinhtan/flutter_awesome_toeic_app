@@ -21,4 +21,13 @@ class PartMobileRepositoryImpl implements PartRepository {
     }
     return res;
   }
+
+  @override
+  Future<bool> savePartList(List<PartModel> partModels) async {
+    for (final partModel in partModels) {
+      final isOk = await _dao.insert(partModel.toHiveObject(), partModel.id);
+      if (!isOk) return false;
+    }
+    return true;
+  }
 }

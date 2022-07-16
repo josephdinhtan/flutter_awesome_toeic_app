@@ -37,12 +37,6 @@ class AnswerSheetPanel extends StatelessWidget {
     _displayList.clear();
     for (AnswerSheetModel answerSheetModel in answerSheetData) {
       _displayList.add(
-        Divider(
-            height: 0.5.h,
-            thickness: 1,
-            color: const Color.fromARGB(40, 129, 129, 129)),
-      );
-      _displayList.add(
         AnswerSheetItem(
             answerColor: answerColor,
             selectedColor: selectedColor,
@@ -68,7 +62,11 @@ class AnswerSheetPanel extends StatelessWidget {
           //     ? 0.7 * maxWidthForMobile
           //     : 0.7 * currentWidth,
           height: 0.7 * currentHeight,
-          child: ListView.builder(
+          child: ListView.separated(
+            separatorBuilder: (context, index) => Divider(
+                height: 0.5.h,
+                thickness: 1,
+                color: const Color.fromARGB(40, 129, 129, 129)),
             controller: _controller,
             physics: const BouncingScrollPhysics(),
             itemBuilder: (context, index) {

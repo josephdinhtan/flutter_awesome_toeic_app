@@ -11,8 +11,8 @@ class PartFiveContentLoaded extends PartFiveState {
   final int currentQuestionNumber;
   final int questionListSize;
   final PartFiveModel partFiveModel;
-  final UserAnswer userAnswer;
-  final UserAnswer correctAnswer;
+  final Answer userAnswer;
+  final Answer correctAnswer;
   final String? note;
 
   PartFiveContentLoaded({

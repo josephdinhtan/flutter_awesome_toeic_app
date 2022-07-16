@@ -13,8 +13,8 @@ class PartTwoContentLoaded extends PartTwoState {
   final int questionListSize;
   final String question;
   final List<String> answers;
-  final UserAnswer userAnswer;
-  final UserAnswer correctAnswer;
+  final Answer userAnswer;
+  final Answer correctAnswer;
   final String audioPath;
   final String? note;
 

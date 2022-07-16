@@ -10,7 +10,7 @@ import '../../data/business_models/part_model.dart';
 
 const _logTag = "GetListPartUseCase";
 
-class GetListPartUseCase implements BaseUseCase<List<PartModel>, List<String>> {
+class GetPartListUseCase implements BaseUseCase<List<PartModel>, List<String>> {
   final repository = GetIt.I.get<PartRepository>();
 
   @override

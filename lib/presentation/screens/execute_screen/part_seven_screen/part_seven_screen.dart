@@ -187,7 +187,7 @@ class PartSevenScreen extends StatelessWidget {
         selectedAns: userAnswer[i].index,
         selectChanged: (value) {
           BlocProvider.of<PartSevenCubit>(context).userSelectAnswerChange(
-              partSevenModel.numbers[i], UserAnswer.values[value]);
+              partSevenModel.numbers[i], Answer.values[value]);
         },
       ));
     }
