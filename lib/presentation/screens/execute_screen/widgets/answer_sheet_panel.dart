@@ -38,6 +38,7 @@ class AnswerSheetPanel extends StatelessWidget {
     for (AnswerSheetModel answerSheetModel in answerSheetData) {
       _displayList.add(
         AnswerSheetItem(
+            have4Answer: answerSheetModel.have4Answer,
             answerColor: answerColor,
             selectedColor: selectedColor,
             questionNumber: answerSheetModel.questionNumber,
@@ -68,7 +69,8 @@ class AnswerSheetPanel extends StatelessWidget {
                 thickness: 1,
                 color: const Color.fromARGB(40, 129, 129, 129)),
             controller: _controller,
-            physics: const BouncingScrollPhysics(),
+            physics: const BouncingScrollPhysics(
+                parent: AlwaysScrollableScrollPhysics()),
             itemBuilder: (context, index) {
               return _displayList[index];
             },
@@ -88,6 +90,7 @@ class AnswerSheetItem extends StatelessWidget {
       required this.answerColor,
       required this.userSelectedAns,
       required this.correctAns,
+      required this.have4Answer,
       this.onPressed})
       : super(key: key);
 
@@ -96,6 +99,7 @@ class AnswerSheetItem extends StatelessWidget {
   int questionNumber;
   Color selectedColor;
   Color answerColor;
+  bool have4Answer;
   Function(int number)? onPressed;
 
   @override
@@ -150,7 +154,8 @@ class AnswerSheetItem extends StatelessWidget {
               AnswerBox(userSelectedAns == 0 || correctAns == 0, 'A', colorA),
               AnswerBox(userSelectedAns == 1 || correctAns == 1, 'B', colorB),
               AnswerBox(userSelectedAns == 2 || correctAns == 2, 'C', colorC),
-              AnswerBox(userSelectedAns == 3 || correctAns == 3, 'D', colorD),
+              AnswerBox(userSelectedAns == 3 || correctAns == 3, 'D', colorD,
+                  isVisible: have4Answer),
             ],
           ),
         ),
@@ -165,11 +170,13 @@ class AnswerBox extends StatelessWidget {
     this.text,
     this.color, {
     Key? key,
+    this.isVisible = true,
   }) : super(key: key);
 
   String text;
   Color color;
   bool isHighLight;
+  bool isVisible;
 
   double sizeBox = 25.w;
 
@@ -179,8 +186,9 @@ class AnswerBox extends StatelessWidget {
       width: sizeBox,
       height: sizeBox,
       decoration: BoxDecoration(
-          color: color,
-          border: Border.all(color: Colors.grey),
+          color: isVisible ? color : Colors.transparent,
+          border:
+              Border.all(color: isVisible ? Colors.grey : Colors.transparent),
           borderRadius: BorderRadius.all(Radius.circular(1000.r))),
       child: Center(
           child: Text(
@@ -188,7 +196,11 @@ class AnswerBox extends StatelessWidget {
         textAlign: TextAlign.center,
         style: TextStyle(
           fontSize: 12.sp,
-          color: isHighLight ? Colors.black : Colors.grey,
+          color: !isVisible
+              ? Colors.transparent
+              : isHighLight
+                  ? Colors.black
+                  : Colors.grey,
         ),
       )),
     );
@@ -199,10 +211,12 @@ class AnswerSheetModel {
   int questionNumber;
   int userSelectedIndex;
   int correctAnswerIndex;
+  bool have4Answer;
 
   AnswerSheetModel({
     required this.questionNumber,
     this.userSelectedIndex = 4, // not answer
     this.correctAnswerIndex = 4, // not answer
+    this.have4Answer = true,
   });
 }

@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_toeic_quiz2/core_ui/extensions/extensions.dart';
 import 'package:material_color_utilities/material_color_utilities.dart';
 
 import '../animations/no_animation_page_transitions_builder.dart';
@@ -64,7 +65,7 @@ class ThemeProvider extends InheritedWidget {
       pageTransitionsTheme: pageTransitionsTheme,
       colorScheme: _colors,
       appBarTheme: appBarTheme(_colors),
-      cardTheme: cardTheme(),
+      cardTheme: cardTheme(_colors),
       listTileTheme: listTileTheme(_colors),
       bottomAppBarTheme: bottomAppBarTheme(_colors),
       bottomNavigationBarTheme: bottomNavigationBarTheme(_colors),
@@ -84,7 +85,7 @@ class ThemeProvider extends InheritedWidget {
       pageTransitionsTheme: pageTransitionsTheme,
       colorScheme: _colors,
       appBarTheme: appBarTheme(_colors),
-      cardTheme: cardTheme(),
+      cardTheme: cardTheme(_colors),
       listTileTheme: listTileTheme(_colors),
       bottomAppBarTheme: bottomAppBarTheme(_colors),
       bottomNavigationBarTheme: bottomNavigationBarTheme(_colors),
@@ -125,32 +126,35 @@ class ThemeProvider extends InheritedWidget {
 
   BottomNavigationBarThemeData bottomNavigationBarTheme(ColorScheme colors) {
     return BottomNavigationBarThemeData(
-      type: BottomNavigationBarType.fixed,
-      backgroundColor: colors.surfaceVariant,
+      type: BottomNavigationBarType.shifting,
+      backgroundColor: colors.surface,
       selectedItemColor: colors.primary,
       unselectedItemColor: colors.onSurfaceVariant,
-      elevation: 0,
-      landscapeLayout: BottomNavigationBarLandscapeLayout.centered,
+      elevation: 1,
+      landscapeLayout: BottomNavigationBarLandscapeLayout.spread,
     );
   }
 
   AppBarTheme appBarTheme(ColorScheme colors) {
     return AppBarTheme(
-      elevation: 0,
+      elevation: 1,
       backgroundColor: colors.surface,
       foregroundColor: colors.onSurface,
     );
   }
 
   ShapeBorder get shapeMedium => RoundedRectangleBorder(
-        borderRadius: BorderRadius.circular(8),
+        borderRadius: BorderRadius.circular(8.r),
       );
 
-  CardTheme cardTheme() {
+  CardTheme cardTheme(ColorScheme colors) {
     return CardTheme(
-      elevation: 0,
+      elevation: 1.0,
       shape: shapeMedium,
       clipBehavior: Clip.antiAlias,
+      color: colors.background,
+      surfaceTintColor: colors.background,
+      //color: colors.surface,
     );
   }
 

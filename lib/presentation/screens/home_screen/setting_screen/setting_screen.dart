@@ -26,6 +26,8 @@ class SettingScreen extends StatelessWidget {
         title: const Text('Settings'),
       ),
       body: SingleChildScrollView(
+        physics: const BouncingScrollPhysics(
+            parent: AlwaysScrollableScrollPhysics()),
         child: Padding(
           padding: EdgeInsets.symmetric(horizontal: 16.w),
           child: Column(

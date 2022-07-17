@@ -34,9 +34,9 @@ class FavoriteItemWidget extends StatelessWidget {
                 childIds: [questionNote.id]));
       },
       child: Card(
-        color: context.colors.surfaceVariant,
+        //color: context.colors.surfaceVariant,
         child: Padding(
-          padding: EdgeInsets.symmetric(horizontal: 8.w, vertical: 4.h),
+          padding: EdgeInsets.symmetric(horizontal: 0.w, vertical: 4.h),
           child: Row(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             crossAxisAlignment: CrossAxisAlignment.center,
@@ -44,6 +44,7 @@ class FavoriteItemWidget extends StatelessWidget {
               Row(
                 crossAxisAlignment: CrossAxisAlignment.center,
                 children: [
+                  SizedBox(width: 8.w),
                   Container(
                     decoration: BoxDecoration(
                       color: context.colors.secondary,

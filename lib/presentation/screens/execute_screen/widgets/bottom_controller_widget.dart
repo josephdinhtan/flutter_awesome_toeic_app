@@ -6,10 +6,13 @@ import 'package:flutter/material.dart';
 import '../../../../core_ui/extensions/extensions.dart';
 import '../../widgets/neumorphism_container.dart';
 
-class BottomController extends StatefulWidget {
+final _iconSize = 28.sp;
+
+class BottomController extends StatelessWidget {
   BottomController({
     Key? key,
     this.note,
+    required this.isUserChecked,
     this.isStandAlone = false,
     this.isFullTest = false,
     required this.checkAnsPressed,
@@ -24,22 +27,9 @@ class BottomController extends StatefulWidget {
   Function(String) favoriteAddNoteChange;
   bool isStandAlone;
   bool isFullTest;
+  bool isUserChecked;
   String? note;
-
-  @override
-  State<BottomController> createState() => _BottomControllerState();
-}
-
-class _BottomControllerState extends State<BottomController> {
-  double iconSize = 26.w;
   String? _note;
-
-  @override
-  void initState() {
-    super.initState();
-    log('tandq init note: ${widget.note}');
-    _note = widget.note;
-  }
 
   void _favoritePressed(BuildContext context) {
     showCupertinoDialog(
@@ -63,12 +53,10 @@ class _BottomControllerState extends State<BottomController> {
               CupertinoDialogAction(
                   child: const Text("SAVE"),
                   onPressed: () {
-                    log('tandq _note: ${widget.note}');
+                    log('tandq _note: ${note}');
                     Navigator.of(context).pop();
-                    widget.favoriteAddNoteChange(_textController.text);
-                    setState(() {
-                      _note = _textController.text;
-                    });
+                    favoriteAddNoteChange(_textController.text);
+                    note = _textController.text;
                   }),
               CupertinoDialogAction(
                   isDestructiveAction: true,
@@ -84,9 +72,11 @@ class _BottomControllerState extends State<BottomController> {
 
   @override
   Widget build(BuildContext context) {
+    log('tandq build note: ${note}');
+    _note = note;
     return NeumorphismContainer(
-      removeShadow: widget.isStandAlone ? false : true,
-      removeBorder: !widget.isStandAlone,
+      removeShadow: isStandAlone ? false : true,
+      removeBorder: !isStandAlone,
       color: context.colors.surfaceVariant,
       child: Padding(
         padding: const EdgeInsets.symmetric(horizontal: 8.0, vertical: 2.0),
@@ -94,8 +84,8 @@ class _BottomControllerState extends State<BottomController> {
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: [
             IconButton(
-              onPressed: widget.prevPressed,
-              iconSize: iconSize,
+              onPressed: prevPressed,
+              iconSize: _iconSize,
               icon: Icon(
                 CupertinoIcons.back,
                 color: Theme.of(context)
@@ -103,11 +93,11 @@ class _BottomControllerState extends State<BottomController> {
                     .unselectedItemColor,
               ),
             ),
-            if (!widget.isFullTest)
+            if (!isFullTest)
               _note != null
                   ? IconButton(
                       onPressed: () => _favoritePressed(context),
-                      iconSize: iconSize,
+                      iconSize: _iconSize,
                       icon: Icon(
                         CupertinoIcons.heart_fill,
                         color: context.colors.tertiary,
@@ -115,7 +105,7 @@ class _BottomControllerState extends State<BottomController> {
                     )
                   : IconButton(
                       onPressed: () => _favoritePressed(context),
-                      iconSize: iconSize,
+                      iconSize: _iconSize,
                       icon: Icon(
                         CupertinoIcons.heart,
                         color: Theme.of(context)
@@ -123,20 +113,25 @@ class _BottomControllerState extends State<BottomController> {
                             .unselectedItemColor,
                       ),
                     ),
-            if (!widget.isFullTest)
+            if (!isFullTest)
               IconButton(
-                onPressed: widget.checkAnsPressed,
-                iconSize: iconSize,
-                icon: Icon(
-                  CupertinoIcons.checkmark_seal,
-                  color: Theme.of(context)
-                      .bottomNavigationBarTheme
-                      .unselectedItemColor,
-                ),
+                onPressed: checkAnsPressed,
+                iconSize: _iconSize,
+                icon: isUserChecked
+                    ? Icon(
+                        CupertinoIcons.checkmark_seal_fill,
+                        color: context.colors.tertiary,
+                      )
+                    : Icon(
+                        CupertinoIcons.checkmark_seal,
+                        color: Theme.of(context)
+                            .bottomNavigationBarTheme
+                            .unselectedItemColor,
+                      ),
               ),
             IconButton(
-              onPressed: widget.nextPressed,
-              iconSize: iconSize,
+              onPressed: nextPressed,
+              iconSize: _iconSize,
               icon: Icon(
                 CupertinoIcons.forward,
                 color: Theme.of(context)

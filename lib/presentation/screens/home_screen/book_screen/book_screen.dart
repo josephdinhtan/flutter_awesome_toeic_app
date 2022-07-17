@@ -1,8 +1,8 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:flutter_toeic_quiz2/core_ui/extensions/extensions.dart';
 
-import '../../../../core_ui/constants/app_dimensions.dart';
 import '../../../../data/business_models/book_model.dart';
 import '../../../../view_model/book_screen_cubit/book_list_cubit.dart';
 import '../../../router/app_router.dart';
@@ -61,19 +61,18 @@ class _BookScreenState extends State<BookScreen> {
   }
 
   Widget _buildList() {
-    return ListView.builder(
-      itemCount: bookItems.length,
+    return ListView.separated(
+      physics:
+          const BouncingScrollPhysics(parent: AlwaysScrollableScrollPhysics()),
+      itemCount: (bookItems.length + 1) + 2,
+      separatorBuilder: (context, index) {
+        return SizedBox(height: 4.h);
+      },
       itemBuilder: (context, index) {
+        if (index == 0) return SizedBox(height: 4.h);
         return Padding(
-          padding: EdgeInsets.only(
-            left: AppDimensions.kPaddingDefault,
-            right: AppDimensions.kPaddingDefault,
-            top: index == 0 ? AppDimensions.kPaddingDefault / 2 : 0.0,
-            bottom: index == bookItems.length - 1
-                ? AppDimensions.kPaddingDefault / 2
-                : 0.0,
-          ),
-          child: bookItems[index],
+          padding: EdgeInsets.symmetric(horizontal: 8.w),
+          child: bookItems[0],
         );
       },
     );

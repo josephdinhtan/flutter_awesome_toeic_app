@@ -5,6 +5,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_toeic_quiz2/data/business_models/part_model.dart';
+import 'package:flutter_toeic_quiz2/view_model/execute_screen_cubit/bottom_control_bar_cubit.dart';
 import 'package:flutter_toeic_quiz2/view_model/part_screen_cubit/part_list_cubit.dart';
 import 'package:get_it/get_it.dart';
 
@@ -14,7 +15,6 @@ import '../../../../core_utils/core_utils.dart';
 import '../../../../data/business_models/execute_models/answer_enum.dart';
 import '../../../core_ui/extensions/extensions.dart';
 import '../../../view_model/execute_screen_cubit/execute_screen_cubit.dart';
-import '../../router/app_router.dart';
 import 'components/media_player.dart';
 import 'widgets/answer_board_widget.dart';
 import 'widgets/answer_sheet_panel.dart';
@@ -134,7 +134,34 @@ class ExecuteScreen extends StatelessWidget {
                   return const Text('Question: ../..');
                 },
               ),
-              if (isFullTest) TimerTestWidget(timeUp: () {}),
+              if (isFullTest)
+                TimerTestWidget(timeUp: () {
+                  BlocProvider.of<ExecuteScreenCubit>(context).submitTest();
+                  Map<PartType, int> mapPartTypeCorrectNum =
+                      BlocProvider.of<ExecuteScreenCubit>(context)
+                          .getNumOfCorrectEachPart();
+                  BlocProvider.of<PartListCubit>(context)
+                      .updateScore(mapPartTypeCorrectNum);
+                  showCupertinoModalPopup<void>(
+                    barrierDismissible: false,
+                    context: context,
+                    builder: (BuildContext popupContext) =>
+                        CupertinoAlertDialog(
+                      title: const Text('Time up'),
+                      content: const Text('Your test has been submitted!'),
+                      actions: <CupertinoDialogAction>[
+                        CupertinoDialogAction(
+                          isDefaultAction: true,
+                          onPressed: () {
+                            Navigator.pop(popupContext);
+                            Navigator.pop(context);
+                          },
+                          child: const Text('OK'),
+                        ),
+                      ],
+                    ),
+                  );
+                }),
             ],
           ),
         ),
@@ -183,24 +210,36 @@ class ExecuteScreen extends StatelessWidget {
                           },
                           audioPlayer: MediaPlayer().audioPlayer,
                         ),
-                      BottomController(
-                        note: state.note,
-                        isFullTest: isFullTest,
-                        prevPressed: () {
-                          BlocProvider.of<ExecuteScreenCubit>(context)
-                              .getPrevContent();
-                        },
-                        nextPressed: () {
-                          BlocProvider.of<ExecuteScreenCubit>(context)
-                              .getNextContent();
-                        },
-                        checkAnsPressed: () {
-                          BlocProvider.of<ExecuteScreenCubit>(context)
-                              .userCheckAnswer();
-                        },
-                        favoriteAddNoteChange: (note) {
-                          BlocProvider.of<ExecuteScreenCubit>(context)
-                              .saveANoteQuestionIdToDB(note);
+                      BlocBuilder<BottomControlBarCubit, BottomControlBarState>(
+                        builder: (context, state) {
+                          return BottomController(
+                            isUserChecked: state is BottomControlBarChange
+                                ? state.userChecked
+                                : false,
+                            note: state is BottomControlBarChange
+                                ? state.note
+                                : null,
+                            isFullTest: isFullTest,
+                            prevPressed: () {
+                              BlocProvider.of<ExecuteScreenCubit>(context)
+                                  .getPrevContent();
+                            },
+                            nextPressed: () {
+                              BlocProvider.of<ExecuteScreenCubit>(context)
+                                  .getNextContent();
+                            },
+                            checkAnsPressed: () {
+                              BlocProvider.of<ExecuteScreenCubit>(context)
+                                  .userCheckAnswer();
+                            },
+                            favoriteAddNoteChange: (note) {
+                              BlocProvider.of<ExecuteScreenCubit>(context)
+                                  .saveANoteQuestionIdToDB(note);
+                              BlocProvider.of<BottomControlBarCubit>(context)
+                                  .questionChange(
+                                      note: note, userChecked: false);
+                            },
+                          );
                         },
                       ),
                     ],
@@ -335,7 +374,8 @@ class ExecuteScreen extends StatelessWidget {
       return HorizontalSplitView(
         color: GetIt.I.get<AppColor>().splitBar,
         up: SingleChildScrollView(
-          physics: const BouncingScrollPhysics(),
+          physics: const BouncingScrollPhysics(
+              parent: AlwaysScrollableScrollPhysics()),
           child: Padding(
             padding: const EdgeInsets.symmetric(horizontal: 16.0),
             child: Center(
@@ -350,7 +390,8 @@ class ExecuteScreen extends StatelessWidget {
           ),
         ),
         bottom: SingleChildScrollView(
-          physics: const BouncingScrollPhysics(),
+          physics: const BouncingScrollPhysics(
+              parent: AlwaysScrollableScrollPhysics()),
           child: Padding(
             padding: const EdgeInsets.symmetric(horizontal: 16.0),
             child: Column(
@@ -363,7 +404,8 @@ class ExecuteScreen extends StatelessWidget {
       );
     }
     return SingleChildScrollView(
-      physics: const BouncingScrollPhysics(),
+      physics:
+          const BouncingScrollPhysics(parent: AlwaysScrollableScrollPhysics()),
       child: Padding(
         padding: const EdgeInsets.symmetric(horizontal: 16.0),
         child: Column(

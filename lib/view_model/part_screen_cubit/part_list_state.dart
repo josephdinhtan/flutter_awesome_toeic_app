@@ -12,10 +12,12 @@ class PartListLoaded extends PartListState {
   int listeningScore;
   int readingScore;
   late int totalScore;
+  bool isFirstTest; // no show score
   PartListLoaded({
     required this.partListModel,
     required this.listeningScore,
     required this.readingScore,
+    required this.isFirstTest,
   }) {
     totalScore = listeningScore + readingScore;
   }

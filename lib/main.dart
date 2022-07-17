@@ -8,10 +8,6 @@ import 'package:path_provider/path_provider.dart';
 import 'app.dart';
 import 'core_utils/core_utils.dart';
 import 'data/data_providers/hive_objects/book_hive_object/book_hive_object.dart';
-import 'data/data_providers/hive_objects/part_execute_hive_object/part_four_hive_object.dart';
-import 'data/data_providers/hive_objects/part_execute_hive_object/part_one_hive_object.dart';
-import 'data/data_providers/hive_objects/part_execute_hive_object/part_three_hive_object.dart';
-import 'data/data_providers/hive_objects/part_execute_hive_object/part_two_hive_object.dart';
 import 'data/data_providers/hive_objects/part_execute_hive_object/question_group_hive.dart';
 import 'data/data_providers/hive_objects/part_execute_hive_object/question_hive.dart';
 import 'data/data_providers/hive_objects/part_execute_hive_object/statement_hive.dart';
@@ -54,10 +50,6 @@ Future<void> globalInitializerForMobile() async {
   Hive.registerAdapter(BookHiveObjectAdapter());
   Hive.registerAdapter(TestHiveObjectAdapter());
   Hive.registerAdapter(PartHiveObjectAdapter());
-  Hive.registerAdapter(PartOneHiveObjectAdapter());
-  Hive.registerAdapter(PartTwoHiveObjectAdapter());
-  Hive.registerAdapter(PartThreeHiveObjectAdapter());
-  Hive.registerAdapter(PartFourHiveObjectAdapter());
   Hive.registerAdapter(QuestionNoteHiveObjectAdapter());
 
   Hive.registerAdapter(QuestionGroupHiveAdapter());

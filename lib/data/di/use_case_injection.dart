@@ -3,19 +3,12 @@ import 'package:get_it/get_it.dart';
 import '../../domain/download_use_case/download_book_cover_use_case.dart';
 import '../../domain/download_use_case/download_test_use_case.dart';
 import '../../domain/download_use_case/test_fetching_data_use_case.dart';
-import '../../domain/execute_use_cases/get_part_five_question_list_use_case.dart';
-import '../../domain/execute_use_cases/get_part_four_question_list_use_case.dart';
-import '../../domain/execute_use_cases/get_part_one_question_list_use_case.dart';
-import '../../domain/execute_use_cases/get_part_seven_question_list_use_case.dart';
-import '../../domain/execute_use_cases/get_part_six_question_list_use_case.dart';
-import '../../domain/execute_use_cases/get_part_three_question_list_use_case.dart';
-import '../../domain/execute_use_cases/get_part_two_question_list_use_case.dart';
 import '../../domain/execute_use_cases/get_question_group_use_case.dart';
 import '../../domain/execute_use_cases/save_question_group_use_case.dart';
 import '../../domain/execute_use_cases/save_question_to_favorite_use_case.dart';
 import '../../domain/get_book_detail_use_case/get_list_book_use_case.dart';
 import '../../domain/get_book_detail_use_case/get_part_list_use_case.dart';
-import '../../domain/get_book_detail_use_case/get_test_list_use_case copy.dart';
+import '../../domain/get_book_detail_use_case/get_test_list_use_case.dart';
 import '../../domain/get_book_detail_use_case/save_score_test_use_case.dart';
 import '../../domain/get_book_detail_use_case/save_part_list_use_case.dart';
 import '../../domain/get_from_network_use_case/get_store_item_list_use_case.dart';
@@ -83,21 +76,6 @@ class UseCaseInjection {
         () => DownloadTestUseCase());
     GetIt.I.registerLazySingleton<TestFetchingDataUseCase>(
         () => TestFetchingDataUseCase());
-
-    GetIt.I.registerLazySingleton<GetPartOneQuestionListUseCase>(
-        () => GetPartOneQuestionListUseCase());
-    GetIt.I.registerLazySingleton<GetPartTwoQuestionListUseCase>(
-        () => GetPartTwoQuestionListUseCase());
-    GetIt.I.registerLazySingleton<GetPartThreeQuestionListUseCase>(
-        () => GetPartThreeQuestionListUseCase());
-    GetIt.I.registerLazySingleton<GetPartFourQuestionListUseCase>(
-        () => GetPartFourQuestionListUseCase());
-    GetIt.I.registerLazySingleton<GetPartFiveQuestionListUseCase>(
-        () => GetPartFiveQuestionListUseCase());
-    GetIt.I.registerLazySingleton<GetPartSixQuestionListUseCase>(
-        () => GetPartSixQuestionListUseCase());
-    GetIt.I.registerLazySingleton<GetPartSevenQuestionListUseCase>(
-        () => GetPartSevenQuestionListUseCase());
     GetIt.I.registerLazySingleton<SaveQuestionToFavoriteUseCase>(
         () => SaveQuestionToFavoriteUseCase());
   }

@@ -2,84 +2,105 @@ import 'package:flutter/material.dart';
 import 'package:flutter_toeic_quiz2/core_ui/extensions/extensions.dart';
 
 class ScorePanel extends StatelessWidget {
-  const ScorePanel({
-    Key? key,
-    required this.listeningScore,
-    required this.readingScore,
-    required this.totalScore,
-    required this.onReviewPressed,
-    required this.onStarFullTestPressed,
-  }) : super(key: key);
+  const ScorePanel(
+      {Key? key,
+      required this.listeningScore,
+      required this.readingScore,
+      required this.totalScore,
+      required this.onReviewPressed,
+      required this.onStarFullTestPressed,
+      required this.showScore})
+      : super(key: key);
 
   final int listeningScore;
   final int readingScore;
   final int totalScore;
   final VoidCallback onReviewPressed;
   final VoidCallback onStarFullTestPressed;
+  final bool showScore;
 
   @override
   Widget build(BuildContext context) {
-    return Column(
-      mainAxisAlignment: MainAxisAlignment.start,
-      crossAxisAlignment: CrossAxisAlignment.center,
-      children: [
-        SizedBox(height: 16.h),
-        Container(
-          decoration: BoxDecoration(
-            color: context.colors.surfaceVariant,
-            shape: BoxShape.circle,
-          ),
-          alignment: Alignment.center,
-          child: Padding(
-            padding: EdgeInsets.all(14.sp),
-            child: Text(
-              '$totalScore',
-              style: context.headlineSmall!
-                  .copyWith(color: context.colors.onSurfaceVariant),
+    if (showScore) {
+      return Column(
+        mainAxisAlignment: MainAxisAlignment.start,
+        crossAxisAlignment: CrossAxisAlignment.center,
+        children: [
+          SizedBox(height: 16.h),
+          Container(
+            decoration: BoxDecoration(
+              color: context.colors.surfaceVariant,
+              shape: BoxShape.circle,
+            ),
+            alignment: Alignment.center,
+            child: Padding(
+              padding: EdgeInsets.all(14.sp),
+              child: Text(
+                '$totalScore',
+                style: context.headlineSmall!
+                    .copyWith(color: context.colors.onSurfaceVariant),
+              ),
             ),
           ),
-        ),
-        SizedBox(height: 16.h),
-        Row(
-          mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-          children: [
-            Column(
-              children: [
-                Text(
-                  'Listening: $listeningScore',
-                  style: context.labelLarge,
-                ),
-                SizedBox(height: 8.h),
-                ElevatedButton(
-                    onPressed: onStarFullTestPressed,
+          SizedBox(height: 16.h),
+          Row(
+            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+            children: [
+              Column(
+                children: [
+                  Text(
+                    'Listening: $listeningScore',
+                    style: context.labelLarge,
+                  ),
+                  SizedBox(height: 8.h),
+                  ElevatedButton(
+                      onPressed: onStarFullTestPressed,
+                      child: Text(
+                        'Start Full Test',
+                        style: context.titleMedium!
+                            .copyWith(color: context.colors.primary),
+                      )),
+                ],
+              ),
+              Column(
+                children: [
+                  Text(
+                    'Reading: $readingScore',
+                    style: context.labelLarge,
+                  ),
+                  SizedBox(height: 8.h),
+                  ElevatedButton(
+                    onPressed: onReviewPressed,
                     child: Text(
-                      'Start Full Test',
+                      'Review',
                       style: context.titleMedium!
                           .copyWith(color: context.colors.primary),
-                    )),
-              ],
-            ),
-            Column(
-              children: [
-                Text(
-                  'Reading: $readingScore',
-                  style: context.labelLarge,
-                ),
-                SizedBox(height: 8.h),
-                ElevatedButton(
-                  onPressed: onReviewPressed,
-                  child: Text(
-                    'Review',
-                    style: context.titleMedium!
-                        .copyWith(color: context.colors.primary),
+                    ),
                   ),
-                ),
-              ],
-            ),
+                ],
+              ),
+            ],
+          ),
+          SizedBox(height: 8.h),
+        ],
+      );
+    } else {
+      return Padding(
+        padding: EdgeInsets.only(top: 16.h),
+        child: Row(
+          mainAxisAlignment: MainAxisAlignment.start,
+          children: [
+            SizedBox(width: 16.w),
+            ElevatedButton(
+                onPressed: onStarFullTestPressed,
+                child: Text(
+                  'Start Full Test',
+                  style: context.titleMedium!
+                      .copyWith(color: context.colors.primary),
+                )),
           ],
         ),
-        SizedBox(height: 8.h),
-      ],
-    );
+      );
+    }
   }
 }

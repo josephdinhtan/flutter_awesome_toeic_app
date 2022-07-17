@@ -37,15 +37,12 @@ class _FavoriteScreenState extends State<FavoriteScreen> {
         crossAxisAlignment: CrossAxisAlignment.center,
         children: [
           SizedBox(height: 8.h),
-          Padding(
-            padding: EdgeInsets.symmetric(horizontal: 8.w),
-            child: PartSelectToggle(
-              partSelectedMapChange: (partSelectedMap) {
-                log('$_logTag partSelectedMap: $partSelectedMap');
-                BlocProvider.of<FavoriteScreenCubit>(context)
-                    .changeViewOption(partSelectedMap);
-              },
-            ),
+          PartSelectToggle(
+            partSelectedMapChange: (partSelectedMap) {
+              log('$_logTag partSelectedMap: $partSelectedMap');
+              BlocProvider.of<FavoriteScreenCubit>(context)
+                  .changeViewOption(partSelectedMap);
+            },
           ),
           SizedBox(height: 8.h),
           Expanded(
@@ -109,50 +106,50 @@ class _FavoriteScreenState extends State<FavoriteScreen> {
       log('$_logTag questionNoteList.length: ${questionNoteList.length}');
     }
     return ListView.builder(
+      physics:
+          const BouncingScrollPhysics(parent: AlwaysScrollableScrollPhysics()),
       key: _keyAnimatedList,
       itemCount: questionNoteList.length,
       itemBuilder: (context, index) {
         if (logEnable) log('$_logTag item index: ${index}');
-        return Padding(
-          padding: EdgeInsets.symmetric(horizontal: 8.w),
-          child: FavoriteItemWidget(
-            questionNote: questionNoteList[index],
-            removeQuestionNote: (questionNote) {
-              showCupertinoDialog(
-                context: context,
-                builder: (BuildContext buildContext) {
-                  return CupertinoAlertDialog(
-                    title: Text(
-                      'Alert',
-                      style: context.labelLarge,
-                    ),
-                    content: Padding(
-                      padding: EdgeInsets.symmetric(vertical: 10.h),
-                      child: Text(
-                        'Do you really want to delete?',
-                        style: context.labelLarge,
-                      ),
-                    ),
-                    actions: [
-                      CupertinoDialogAction(
-                          child: const Text("OK"),
-                          onPressed: () {
-                            Navigator.of(buildContext).pop();
-                            BlocProvider.of<FavoriteScreenCubit>(context)
-                                .removeAt(index);
-                          }),
-                      CupertinoDialogAction(
-                          isDestructiveAction: true,
-                          child: const Text("CANCEL"),
-                          onPressed: () {
-                            Navigator.of(buildContext).pop();
-                          })
-                    ],
-                  );
-                },
-              );
-            },
-          ),
+        return FavoriteItemWidget(
+          questionNote: questionNoteList[index],
+          removeQuestionNote: (questionNote) {
+            showCupertinoDialog(
+              context: context,
+              builder: (BuildContext buildContext) {
+                return CupertinoAlertDialog(
+                  title: Text(
+                    'Alert',
+                    style: context.labelLarge!
+                        .copyWith(fontWeight: FontWeight.w700),
+                  ),
+                  content: Text(
+                    '\n"${questionNote.note}" \n\nDo you want to delete?',
+                    maxLines: 5,
+                    overflow: TextOverflow.clip,
+                    textAlign: TextAlign.center,
+                    style: context.labelLarge,
+                  ),
+                  actions: [
+                    CupertinoDialogAction(
+                        child: const Text("OK"),
+                        onPressed: () {
+                          Navigator.of(buildContext).pop();
+                          BlocProvider.of<FavoriteScreenCubit>(context)
+                              .removeAt(index);
+                        }),
+                    CupertinoDialogAction(
+                        isDestructiveAction: true,
+                        child: const Text("CANCEL"),
+                        onPressed: () {
+                          Navigator.of(buildContext).pop();
+                        })
+                  ],
+                );
+              },
+            );
+          },
         );
       },
     );

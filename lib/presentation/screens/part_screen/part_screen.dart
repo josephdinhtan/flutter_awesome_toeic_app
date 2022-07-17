@@ -23,8 +23,6 @@ class PartScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     //ToeicTest toeicTest = TestHiveApi.instance.getByID(testBoxId);
-    int _listeningCorrectNum = 0;
-    int _readingCorrectNum = 0;
     return WillPopScope(
       onWillPop: () {
         return Future.value(true);
@@ -84,7 +82,7 @@ class PartScreen extends StatelessWidget {
                 );
               }
               return _buildList(
-                showScore: true,
+                showScore: !state.isFirstTest,
                 listeningScore: state.listeningScore,
                 readingScore: state.readingScore,
                 totalScore: state.totalScore,
@@ -106,39 +104,38 @@ class PartScreen extends StatelessWidget {
     required int totalScore,
   }) {
     return ListView.builder(
-      physics: const BouncingScrollPhysics(),
+      physics:
+          const BouncingScrollPhysics(parent: AlwaysScrollableScrollPhysics()),
       itemBuilder: (context, index) {
-        if (showScore) {
-          if (index == 0) {
-            return ScorePanel(
-              listeningScore: listeningScore,
-              readingScore: readingScore,
-              totalScore: totalScore,
-              onReviewPressed: () {
-                List<String> questionIdAll = [];
-                for (final partModel in partListModel) {
-                  questionIdAll.addAll(partModel.questionIds);
-                }
-                Navigator.pushNamed(context, AppRouter.testReview,
-                    arguments: ScreenArguments(
-                        title: "element.title",
-                        id: "element.id",
-                        childIds: questionIdAll));
-              },
-              onStarFullTestPressed: () {
-                List<String> questionIdAll = [];
-                for (final partModel in partListModel) {
-                  questionIdAll.addAll(partModel.questionIds);
-                }
-                Navigator.pushNamed(context, AppRouter.executeTest,
-                    arguments: ScreenArguments(
-                        title: "element.title",
-                        id: "element.id",
-                        childIds: questionIdAll));
-              },
-            );
-          }
-          index -= 1;
+        if (index == 0) {
+          return ScorePanel(
+            showScore: showScore,
+            listeningScore: listeningScore,
+            readingScore: readingScore,
+            totalScore: totalScore,
+            onReviewPressed: () {
+              List<String> questionIdAll = [];
+              for (final partModel in partListModel) {
+                questionIdAll.addAll(partModel.questionIds);
+              }
+              Navigator.pushNamed(context, AppRouter.testReview,
+                  arguments: ScreenArguments(
+                      title: "element.title",
+                      id: "element.id",
+                      childIds: questionIdAll));
+            },
+            onStarFullTestPressed: () {
+              List<String> questionIdAll = [];
+              for (final partModel in partListModel) {
+                questionIdAll.addAll(partModel.questionIds);
+              }
+              Navigator.pushNamed(context, AppRouter.executeTest,
+                  arguments: ScreenArguments(
+                      title: "element.title",
+                      id: "element.id",
+                      childIds: questionIdAll));
+            },
+          );
         }
         return Padding(
           padding: EdgeInsets.only(
@@ -147,11 +144,11 @@ class PartScreen extends StatelessWidget {
               onTap: () {
                 Navigator.pushNamed(context, AppRouter.practice,
                     arguments: ScreenArguments(
-                        title: partListModel[index].title,
-                        id: partListModel[index].id,
-                        childIds: partListModel[index].questionIds));
+                        title: partListModel[index - 1].title,
+                        id: partListModel[index - 1].id,
+                        childIds: partListModel[index - 1].questionIds));
               },
-              partModel: partListModel[index]),
+              partModel: partListModel[index - 1]),
         );
       },
       itemCount: showScore ? partListModel.length + 1 : partListModel.length,

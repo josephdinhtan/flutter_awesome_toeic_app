@@ -2,7 +2,7 @@ import 'package:bloc/bloc.dart';
 import 'package:get_it/get_it.dart';
 
 import '../../data/business_models/test_model.dart';
-import '../../domain/get_book_detail_use_case/get_test_list_use_case copy.dart';
+import '../../domain/get_book_detail_use_case/get_test_list_use_case.dart';
 
 part 'test_list_state.dart';
 
@@ -12,7 +12,6 @@ class TestListCubit extends Cubit<TestListState> {
   List<TestModel> testList = [];
 
   TestListCubit() : super(TestListInitial());
-
   Future<void> getInitContent(List<String> hiveIds) async {
     _hiveIds = hiveIds;
     emit(TestListLoading());
@@ -24,6 +23,16 @@ class TestListCubit extends Cubit<TestListState> {
     } catch (error) {
       emit(Failure());
     }
+  }
+
+  bool isFirstTest(String testId) {
+    for (final testModel in testList) {
+      if (testModel.id == testId) {
+        if (testModel.actualScore == null) return true;
+        return false;
+      }
+    }
+    return false;
   }
 
   Future<void> refresh() async {

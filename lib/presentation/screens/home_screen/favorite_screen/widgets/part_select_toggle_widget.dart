@@ -5,7 +5,8 @@ import 'package:flutter_toeic_quiz2/data/business_models/part_model.dart';
 
 import '../../../../../core_ui/extensions/extensions.dart';
 
-final paddingWidth = 6.w;
+final _paddingWidth = 6.w;
+final _firstPaddingWidth = 16.w;
 
 class PartSelectToggle extends StatefulWidget {
   const PartSelectToggle({super.key, required this.partSelectedMapChange});
@@ -46,12 +47,14 @@ class _PartSelectToggleState extends State<PartSelectToggle> {
   @override
   Widget build(BuildContext context) {
     return SingleChildScrollView(
+      physics:
+          const BouncingScrollPhysics(parent: AlwaysScrollableScrollPhysics()),
       scrollDirection: Axis.horizontal,
       child: Row(
         crossAxisAlignment: CrossAxisAlignment.center,
         mainAxisAlignment: MainAxisAlignment.start,
         children: [
-          SizedBox(width: paddingWidth),
+          SizedBox(width: _firstPaddingWidth),
           PartSelectButton(
               title: 'All',
               initSelectedState: allSelected,
@@ -68,7 +71,7 @@ class _PartSelectToggleState extends State<PartSelectToggle> {
                 updateAllSelectedState();
                 widget.partSelectedMapChange(selectedPartMap);
               }),
-          SizedBox(width: paddingWidth),
+          SizedBox(width: _paddingWidth),
           PartSelectButton(
               title: 'Part 1',
               initSelectedState: selectedPartMap[PartType.part1]!,
@@ -79,7 +82,7 @@ class _PartSelectToggleState extends State<PartSelectToggle> {
                 updateAllSelectedState();
                 widget.partSelectedMapChange(selectedPartMap);
               }),
-          SizedBox(width: paddingWidth),
+          SizedBox(width: _paddingWidth),
           PartSelectButton(
               title: 'Part 2',
               initSelectedState: selectedPartMap[PartType.part2]!,
@@ -90,7 +93,7 @@ class _PartSelectToggleState extends State<PartSelectToggle> {
                 updateAllSelectedState();
                 widget.partSelectedMapChange(selectedPartMap);
               }),
-          SizedBox(width: paddingWidth),
+          SizedBox(width: _paddingWidth),
           PartSelectButton(
               title: 'Part 3',
               initSelectedState: selectedPartMap[PartType.part3]!,
@@ -101,7 +104,7 @@ class _PartSelectToggleState extends State<PartSelectToggle> {
                 updateAllSelectedState();
                 widget.partSelectedMapChange(selectedPartMap);
               }),
-          SizedBox(width: paddingWidth),
+          SizedBox(width: _paddingWidth),
           PartSelectButton(
               title: 'Part 4',
               initSelectedState: selectedPartMap[PartType.part4]!,
@@ -112,7 +115,7 @@ class _PartSelectToggleState extends State<PartSelectToggle> {
                 updateAllSelectedState();
                 widget.partSelectedMapChange(selectedPartMap);
               }),
-          SizedBox(width: paddingWidth),
+          SizedBox(width: _paddingWidth),
           PartSelectButton(
               title: 'Part 5',
               initSelectedState: selectedPartMap[PartType.part5]!,
@@ -123,7 +126,7 @@ class _PartSelectToggleState extends State<PartSelectToggle> {
                 updateAllSelectedState();
                 widget.partSelectedMapChange(selectedPartMap);
               }),
-          SizedBox(width: paddingWidth),
+          SizedBox(width: _paddingWidth),
           PartSelectButton(
               title: 'Part 6',
               initSelectedState: selectedPartMap[PartType.part6]!,
@@ -134,7 +137,7 @@ class _PartSelectToggleState extends State<PartSelectToggle> {
                 updateAllSelectedState();
                 widget.partSelectedMapChange(selectedPartMap);
               }),
-          SizedBox(width: paddingWidth),
+          SizedBox(width: _paddingWidth),
           PartSelectButton(
               title: 'Part 7',
               initSelectedState: selectedPartMap[PartType.part7]!,
@@ -145,7 +148,7 @@ class _PartSelectToggleState extends State<PartSelectToggle> {
                 updateAllSelectedState();
                 widget.partSelectedMapChange(selectedPartMap);
               }),
-          SizedBox(width: paddingWidth),
+          SizedBox(width: _paddingWidth),
         ],
       ),
     );
@@ -189,7 +192,7 @@ class PartSelectButton extends StatelessWidget {
                 if (_isSelected)
                   Icon(Icons.check,
                       size: 12.sp, color: context.colors.onTertiary),
-                if (_isSelected) SizedBox(width: paddingWidth),
+                if (_isSelected) SizedBox(width: _paddingWidth),
                 Text(
                   title,
                   style: context.labelLarge!

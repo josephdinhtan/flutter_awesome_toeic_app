@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:flutter_toeic_quiz2/core_ui/extensions/extensions.dart';
 
 import '../../../data/business_models/test_model.dart';
 import '../../../view_model/test_screen_cubit/test_list_cubit.dart';
@@ -19,8 +20,8 @@ class TestScreen extends StatelessWidget {
       appBar: AppBar(
         title: Text(bookTitle.toUpperCase()),
       ),
-      body: BlocBuilder<TestListCubit, TestListState>(
-        builder: (context, state) {
+      body: BlocConsumer<TestListCubit, TestListState>(
+        listener: (context, state) {
           if (state is TestListLoaded) {
             final testListInfo = state.testListModel;
             testItems.clear();
@@ -29,10 +30,19 @@ class TestScreen extends StatelessWidget {
                 testModel: testInfo,
               ));
             }
+          }
+        },
+        builder: (context, state) {
+          if (state is TestListLoaded) {
             return _buildList();
           }
+          if (state is TestListLoading) {
+            return const Center(
+              child: Text('Test Loading...'),
+            );
+          }
           return const Center(
-            child: Text('Test Loading...'),
+            child: Text('Loaded but no item found.'),
           );
         },
       ),
@@ -40,22 +50,17 @@ class TestScreen extends StatelessWidget {
   }
 
   Widget _buildList() {
-    return Column(
-      children: [
-        Expanded(
-          child: ListView.builder(
-            itemBuilder: (context, index) {
-              return Padding(
-                padding: EdgeInsets.only(
-                    bottom: index == testItems.length - 1 ? 8.0 : 0.0,
-                    top: index == 0 ? 8.0 : 0.0),
-                child: testItems[index],
-              );
-            },
-            itemCount: testItems.length,
-          ),
-        ),
-      ],
+    return ListView.separated(
+      physics:
+          const BouncingScrollPhysics(parent: AlwaysScrollableScrollPhysics()),
+      itemCount: (testItems.length + 1) + 3,
+      separatorBuilder: (context, index) {
+        return SizedBox(height: 4.h);
+      },
+      itemBuilder: (context, index) {
+        if (index == 0) return SizedBox(height: 4.h);
+        return testItems[0];
+      },
     );
   }
 }

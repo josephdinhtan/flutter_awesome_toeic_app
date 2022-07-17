@@ -9,6 +9,7 @@ import '../../../../../data/business_models/book_model.dart';
 import '../../../../router/app_router.dart';
 import '../../../../router/screen_arguments.dart';
 
+// ignore: must_be_immutable
 class BookItemWidget extends StatelessWidget {
   BookItemWidget({
     Key? key,
@@ -40,7 +41,7 @@ class BookItemWidget extends StatelessWidget {
       },
       child: Center(
         child: SizedBox(
-          height: 130.h,
+          height: 130.sp,
           width: width > AppDimensions.maxWidthForMobileMode
               ? AppDimensions.maxWidthForMobileMode
               : null,
@@ -55,15 +56,15 @@ class BookItemWidget extends StatelessWidget {
                   child: Image.file(
                     File(_bookCoverPath),
                     fit: BoxFit.cover,
-                    width: 80.w,
-                    height: 100.h,
+                    width: 80.sp,
+                    height: 100.sp,
                   ),
                 ),
                 SizedBox(
                   width: 8.w,
                 ),
                 SizedBox(
-                  height: 120.h,
+                  height: 120.sp,
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     mainAxisAlignment: MainAxisAlignment.center,
@@ -93,20 +94,11 @@ class BookItemWidget extends StatelessWidget {
                         //     color: Theme.of(context).colorScheme.onSurfaceVariant),
                       ),
                       SizedBox(height: 4.h),
-                      Container(
-                        decoration: BoxDecoration(
-                            color: Colors.black45,
-                            borderRadius:
-                                BorderRadius.all(Radius.circular(5.r))),
-                        child: Padding(
-                          padding: EdgeInsets.all(4.r),
-                          child: Text(
-                            'Toeic practice book',
-                            style: TextStyle(
-                              fontSize: 10.sp,
-                              color: Colors.white,
-                            ),
-                          ),
+                      Text(
+                        'Toeic practice book',
+                        style: TextStyle(
+                          fontSize: 10.sp,
+                          color: context.colors.error,
                         ),
                       ),
                     ],

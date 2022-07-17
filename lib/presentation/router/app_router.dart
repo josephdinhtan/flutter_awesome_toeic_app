@@ -2,6 +2,7 @@ import 'dart:developer';
 
 import 'package:flutter/cupertino.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:flutter_toeic_quiz2/view_model/execute_screen_cubit/bottom_control_bar_cubit.dart';
 import 'package:get_it/get_it.dart';
 
 import '../../core_ui/exceptions/route_exception.dart';
@@ -9,13 +10,6 @@ import '../../core_utils/global_configuration.dart';
 import '../../data/business_models/book_model.dart';
 import '../../view_model/book_screen_cubit/book_list_cubit.dart';
 import '../../view_model/execute_screen_cubit/execute_screen_cubit.dart';
-import '../../view_model/execute_screen_cubit/part_five_cubit/part_five_cubit.dart';
-import '../../view_model/execute_screen_cubit/part_four_cubit/part_four_cubit.dart';
-import '../../view_model/execute_screen_cubit/part_one_cubit/part_one_cubit.dart';
-import '../../view_model/execute_screen_cubit/part_seven_cubit/part_seven_cubit.dart';
-import '../../view_model/execute_screen_cubit/part_six_cubit/part_six_cubit.dart';
-import '../../view_model/execute_screen_cubit/part_three_cubit/part_three_cubit.dart';
-import '../../view_model/execute_screen_cubit/part_two_cubit/part_two_cubit.dart';
 import '../../view_model/favorite_screen_cubit/cubit/favorite_screen_cubit.dart';
 import '../../view_model/part_screen_cubit/part_list_cubit.dart';
 import '../../view_model/settings_screen_cubit/settings_screen_cubit.dart';
@@ -23,13 +17,6 @@ import '../../view_model/store_screen_cubit/store_screen_cubit.dart';
 import '../../view_model/test_screen_cubit/test_download_cubit.dart';
 import '../../view_model/test_screen_cubit/test_list_cubit.dart';
 import '../screens/execute_screen/execute_screen.dart';
-import '../screens/execute_screen/part_five_screen/part_five_screen.dart';
-import '../screens/execute_screen/part_four_screen/part_four_screen.dart';
-import '../screens/execute_screen/part_one_screen/part_one_screen.dart';
-import '../screens/execute_screen/part_seven_screen/part_seven_screen.dart';
-import '../screens/execute_screen/part_six_screen/part_six_screen.dart';
-import '../screens/execute_screen/part_three_screen/part_three_screen.dart';
-import '../screens/execute_screen/part_two_screen/part_two_screen.dart';
 import '../screens/home_screen/home_screen.dart';
 import '../screens/home_screen/store_screen/store_screen.dart';
 import '../screens/part_screen/part_screen.dart';
@@ -63,15 +50,9 @@ class AppRouter {
   final TestDownloadCubit _testDownloadCubit = GetIt.I.get<TestDownloadCubit>();
 
   final ExecuteScreenCubit _executeCubit = GetIt.I.get<ExecuteScreenCubit>();
+  final BottomControlBarCubit _bottomControlBarCubit =
+      GetIt.I.get<BottomControlBarCubit>();
   final PartListCubit _partListCubit = GetIt.I.get<PartListCubit>();
-  final PartOneCubit _partOneCubit = GetIt.I.get<PartOneCubit>();
-  final PartTwoCubit _partTwoCubit = GetIt.I.get<PartTwoCubit>();
-  final PartThreeCubit _partThreeCubit = GetIt.I.get<PartThreeCubit>();
-  final PartFourCubit _partFourCubit = GetIt.I.get<PartFourCubit>();
-  final PartFiveCubit _partFiveCubit = GetIt.I.get<PartFiveCubit>();
-  final PartSixCubit _partSixCubit = GetIt.I.get<PartSixCubit>();
-  final PartSevenCubit _partSevenCubit = GetIt.I.get<PartSevenCubit>();
-
   //AppRouter._();
 
   Route onGenerateRoute(RouteSettings settings) {
@@ -133,8 +114,13 @@ class AppRouter {
           builder: (_) => BlocProvider.value(
             value: _partListCubit,
             child: BlocProvider.value(
-              value: _executeCubit..getInitContent(args.childIds),
-              child: ExecuteScreen(appBarTitle: args.title, isFullTest: true),
+              value: _executeCubit
+                ..getInitContent(args.childIds,
+                    bottomControlBarCubit: _bottomControlBarCubit),
+              child: BlocProvider.value(
+                value: _bottomControlBarCubit,
+                child: ExecuteScreen(appBarTitle: args.title, isFullTest: true),
+              ),
             ),
           ),
         );
@@ -145,8 +131,13 @@ class AppRouter {
         }
         return CupertinoPageRoute(
           builder: (_) => BlocProvider.value(
-            value: _executeCubit..getInitContent(args.childIds),
-            child: ExecuteScreen(appBarTitle: args.title),
+            value: _executeCubit
+              ..getInitContent(args.childIds,
+                  bottomControlBarCubit: _bottomControlBarCubit),
+            child: BlocProvider.value(
+              value: _bottomControlBarCubit,
+              child: ExecuteScreen(appBarTitle: args.title),
+            ),
           ),
         );
       case testReview:
@@ -154,71 +145,13 @@ class AppRouter {
         return CupertinoPageRoute(
           builder: (_) => BlocProvider.value(
             value: _executeCubit
-              ..getInitContent(args.childIds, isReviewSession: true),
-            child: ExecuteScreen(appBarTitle: args.title),
-          ),
-        );
-      default:
-        throw const RouteException('Route not found!');
-    }
-  }
-
-  Route<dynamic> onGeneratePartRoute(RouteSettings settings) {
-    switch (settings.name) {
-      case part1Exam:
-        final args = settings.arguments as ScreenArguments;
-        return CupertinoPageRoute(
-          builder: (_) => BlocProvider.value(
-            value: _partOneCubit..getInitContent(args.childIds),
-            child: PartOneScreen(partTitle: args.title),
-          ),
-        );
-      case part2Exam:
-        final args = settings.arguments as ScreenArguments;
-        return CupertinoPageRoute(
-          builder: (_) => BlocProvider.value(
-            value: _partTwoCubit..getInitContent(args.childIds),
-            child: PartTwoScreen(partTitle: args.title),
-          ),
-        );
-      case part3Exam:
-        final args = settings.arguments as ScreenArguments;
-        return CupertinoPageRoute(
-          builder: (_) => BlocProvider.value(
-            value: _partThreeCubit..getInitContent(args.childIds),
-            child: PartThreeScreen(partTitle: args.title),
-          ),
-        );
-      case part4Exam:
-        final args = settings.arguments as ScreenArguments;
-        return CupertinoPageRoute(
-          builder: (_) => BlocProvider.value(
-            value: _partFourCubit..getInitContent(args.childIds),
-            child: PartFourScreen(partTitle: args.title),
-          ),
-        );
-      case part5Exam:
-        final args = settings.arguments as ScreenArguments;
-        return CupertinoPageRoute(
-          builder: (_) => BlocProvider.value(
-            value: _partFiveCubit..getInitContent(args.childIds),
-            child: PartFiveScreen(partTitle: args.title),
-          ),
-        );
-      case part6Exam:
-        final args = settings.arguments as ScreenArguments;
-        return CupertinoPageRoute(
-          builder: (_) => BlocProvider.value(
-            value: _partSixCubit..getInitContent(args.childIds),
-            child: PartSixScreen(partTitle: args.title),
-          ),
-        );
-      case part7Exam:
-        final args = settings.arguments as ScreenArguments;
-        return CupertinoPageRoute(
-          builder: (_) => BlocProvider.value(
-            value: _partSevenCubit..getInitContent(args.childIds),
-            child: PartSevenScreen(partTitle: args.title),
+              ..getInitContent(args.childIds,
+                  isReviewSession: true,
+                  bottomControlBarCubit: _bottomControlBarCubit),
+            child: BlocProvider.value(
+              value: _bottomControlBarCubit,
+              child: ExecuteScreen(appBarTitle: args.title),
+            ),
           ),
         );
       default:

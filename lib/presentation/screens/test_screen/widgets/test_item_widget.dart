@@ -70,13 +70,9 @@ class _TestItemWidgetState extends State<TestItemWidget> {
             ? AppDimensions.maxWidthForMobileMode
             : null,
         child: Card(
-          margin: EdgeInsets.symmetric(horizontal: 8.w, vertical: 4.h),
+          margin: EdgeInsets.symmetric(horizontal: 8.w),
           child: Padding(
-            padding: const EdgeInsets.only(
-                left: AppDimensions.kPaddingDefaultDouble,
-                right: AppDimensions.kPaddingDefaultDouble,
-                top: AppDimensions.kPaddingDefaultDouble,
-                bottom: AppDimensions.kPaddingDefaultDouble),
+            padding: EdgeInsets.symmetric(horizontal: 12.w, vertical: 8.h),
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [

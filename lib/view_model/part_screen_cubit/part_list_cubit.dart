@@ -26,6 +26,7 @@ class PartListCubit extends Cubit<PartListState> {
   int _readingCorrectNum = 0;
   late String _testId;
   late TestListCubit _testListCubit;
+  late bool _isFirstTest;
 
   PartListCubit() : super(PartListInitial());
 
@@ -36,6 +37,7 @@ class PartListCubit extends Cubit<PartListState> {
     emit(PartListLoading());
     _testId = testId;
     _testListCubit = testListCubit;
+    _isFirstTest = testListCubit.isFirstTest(testId);
     try {
       if (logEnable) log('$_logTag getInitContent(ids) started');
       partList = await getPartListUseCase.perform(partIds);
@@ -53,6 +55,7 @@ class PartListCubit extends Cubit<PartListState> {
         }
       }
       emit(PartListLoaded(
+        isFirstTest: _isFirstTest,
         partListModel: partList,
         listeningScore: calculateListeningScore(_listeningCorrectNum),
         readingScore: calculateReadingScore(_readingCorrectNum),
@@ -80,7 +83,9 @@ class PartListCubit extends Cubit<PartListState> {
     await saveScoreTestUseCase
         .perform([_testId, (listeningScore + readingScore)]);
     _testListCubit.refresh(); // update UI for testscreen
+    _isFirstTest = false;
     emit(PartListLoaded(
+      isFirstTest: _isFirstTest,
       partListModel: partList,
       listeningScore: listeningScore,
       readingScore: readingScore,

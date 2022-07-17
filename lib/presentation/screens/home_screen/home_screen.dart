@@ -5,7 +5,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import '../../../view_model/book_screen_cubit/book_list_cubit.dart';
 import '../../../view_model/favorite_screen_cubit/cubit/favorite_screen_cubit.dart';
 import '../../../view_model/settings_screen_cubit/settings_screen_cubit.dart';
-import 'book_screen/BookScreen.dart';
+import 'book_screen/book_screen.dart';
 import 'favorite_screen/favorite_screen.dart';
 import 'setting_screen/setting_screen.dart';
 

@@ -2,6 +2,7 @@ import 'dart:developer';
 
 import 'package:bloc/bloc.dart';
 import 'package:flutter_toeic_quiz2/data/business_models/question_group_model.dart';
+import 'package:flutter_toeic_quiz2/view_model/execute_screen_cubit/bottom_control_bar_cubit.dart';
 import 'package:get_it/get_it.dart';
 
 import '../../../core_utils/core_utils.dart';
@@ -38,9 +39,13 @@ class ExecuteScreenCubit extends Cubit<ExecuteScreenState> {
   final Map _questionNoteIndexMap = <int, String?>{};
   final List<AnswerSheetModel> _answerSheetModel = [];
 
+  late BottomControlBarCubit _bottomControlBarCubit;
+
   Future<void> getInitContent(List<String> ids,
-      {bool isReviewSession = false}) async {
+      {bool isReviewSession = false,
+      required BottomControlBarCubit bottomControlBarCubit}) async {
     emit(ExecuteScreenLoading());
+    _bottomControlBarCubit = bottomControlBarCubit;
     _questionGroupList = await getQuestionGroupListUseCase.perform(ids);
     _currentQuestionIndex = 0;
     _questionListSize = _questionGroupList.length;
@@ -125,7 +130,7 @@ class ExecuteScreenCubit extends Cubit<ExecuteScreenState> {
 
     final result = await saveQuestionNoteUseCase.perform(
       QuestionNoteModel(
-        partType: PartType.part3,
+        partType: _questionGroupList[_currentQuestionIndex].partType,
         id: _questionGroupList[_currentQuestionIndex].id,
         note: message,
         questionNum:
@@ -201,6 +206,15 @@ class ExecuteScreenCubit extends Cubit<ExecuteScreenState> {
         correctAnswer: correctAnswer,
         questionListSize: _questionListSize,
         currentQuestionNumber: _currentQuestionIndex + 1));
+
+    _bottomControlBarCubit.questionChange(
+        note: _questionNoteIndexMap[
+            _questionGroupList[_currentQuestionIndex].questions[0].number],
+        userChecked: _correctAnsCheckedMap[
+                _questionGroupList[_currentQuestionIndex]
+                    .questions[0]
+                    .number] !=
+            Answer.notAnswer);
   }
 
   List<AnswerSheetModel> getAnswerSheetData() {
@@ -216,6 +230,7 @@ class ExecuteScreenCubit extends Cubit<ExecuteScreenState> {
         int correctAnsIdx =
             correctAns == null ? Answer.notAnswer.index : correctAns.index;
         _answerSheetModel.add(AnswerSheetModel(
+            have4Answer: _questionGroupList[i].partType != PartType.part2,
             questionNumber: _questionGroupList[i].questions[j].number,
             correctAnswerIndex: correctAnsIdx,
             userSelectedIndex: userAnsIdx));

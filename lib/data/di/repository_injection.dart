@@ -4,27 +4,6 @@ import 'package:get_it/get_it.dart';
 import '../repositories/book_repository/book_mobile_repository_impl.dart';
 import '../repositories/book_repository/book_repository.dart';
 import '../repositories/book_repository/book_web_repository_impl.dart';
-import '../repositories/execute_repository/part_five_repository/part_five_mobile_repository_impl.dart';
-import '../repositories/execute_repository/part_five_repository/part_five_repository.dart';
-import '../repositories/execute_repository/part_five_repository/part_five_web_repository_impl.dart';
-import '../repositories/execute_repository/part_four_repository/part_four_mobile_repository_impl.dart';
-import '../repositories/execute_repository/part_four_repository/part_four_repository.dart';
-import '../repositories/execute_repository/part_four_repository/part_four_web_repository_impl.dart';
-import '../repositories/execute_repository/part_one_repository/part_one_mobile_repository_impl.dart';
-import '../repositories/execute_repository/part_one_repository/part_one_repository.dart';
-import '../repositories/execute_repository/part_one_repository/part_one_web_repository_impl.dart';
-import '../repositories/execute_repository/part_seven_repository/part_seven_mobile_repository_impl.dart';
-import '../repositories/execute_repository/part_seven_repository/part_seven_repository.dart';
-import '../repositories/execute_repository/part_seven_repository/part_seven_web_repository_impl.dart';
-import '../repositories/execute_repository/part_six_repository/part_six_mobile_repository_impl.dart';
-import '../repositories/execute_repository/part_six_repository/part_six_repository.dart';
-import '../repositories/execute_repository/part_six_repository/part_six_web_repository_impl.dart';
-import '../repositories/execute_repository/part_three_repository/part_three_mobile_repository_impl.dart';
-import '../repositories/execute_repository/part_three_repository/part_three_repository.dart';
-import '../repositories/execute_repository/part_three_repository/part_three_web_repository_impl.dart';
-import '../repositories/execute_repository/part_two_repository/part_two_mobile_repository_impl.dart';
-import '../repositories/execute_repository/part_two_repository/part_two_repository.dart';
-import '../repositories/execute_repository/part_two_repository/part_two_web_repository_impl.dart';
 import '../repositories/part_repository/part_mobile_repository_impl.dart';
 import '../repositories/part_repository/part_repository.dart';
 import '../repositories/part_repository/part_web_repository_impl.dart';
@@ -57,22 +36,5 @@ class RepositoryInjection {
     getIt.registerLazySingleton<QuestionGroupRepository>(() => kIsWeb
         ? QuestionGroupWebRepositoryImpl()
         : QuestionGroupMobileRepositoryImpl());
-
-    getIt.registerLazySingleton<PartOneRepository>(() =>
-        kIsWeb ? PartOneWebRepositoryImpl() : PartOneMobileRepositoryImpl());
-    getIt.registerLazySingleton<PartTwoRepository>(() =>
-        kIsWeb ? PartTwoWebRepositoryImpl() : PartTwoMobileRepositoryImpl());
-    getIt.registerLazySingleton<PartThreeRepository>(() => kIsWeb
-        ? PartThreeWebRepositoryImpl()
-        : PartThreeMobileRepositoryImpl());
-    getIt.registerLazySingleton<PartFourRepository>(() =>
-        kIsWeb ? PartFourWebRepositoryImpl() : PartFourMobileRepositoryImpl());
-    getIt.registerLazySingleton<PartFiveRepository>(() =>
-        kIsWeb ? PartFiveWebRepositoryImpl() : PartFiveMobileRepositoryImpl());
-    getIt.registerLazySingleton<PartSixRepository>(() =>
-        kIsWeb ? PartSixWebRepositoryImpl() : PartSixMobileRepositoryImpl());
-    getIt.registerLazySingleton<PartSevenRepository>(() => kIsWeb
-        ? PartSevenWebRepositoryImpl()
-        : PartSevenMobileRepositoryImpl());
   }
 }

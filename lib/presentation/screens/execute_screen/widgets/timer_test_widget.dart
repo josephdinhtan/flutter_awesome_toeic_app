@@ -3,7 +3,10 @@ import 'dart:async';
 import 'package:flutter/material.dart';
 import 'package:flutter_toeic_quiz2/core_ui/extensions/extensions.dart';
 
-const initTime = Duration(minutes: 120);
+const initTime = Duration(
+  minutes: 120,
+  seconds: 0,
+);
 
 class TimerTestWidget extends StatefulWidget {
   TimerTestWidget({super.key, required this.timeUp});
