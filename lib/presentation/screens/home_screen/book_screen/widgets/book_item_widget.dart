@@ -41,7 +41,7 @@ class BookItemWidget extends StatelessWidget {
       },
       child: Center(
         child: SizedBox(
-          height: 130.sp,
+          //height: 130.sp,
           width: width > AppDimensions.maxWidthForMobileMode
               ? AppDimensions.maxWidthForMobileMode
               : null,
@@ -50,21 +50,23 @@ class BookItemWidget extends StatelessWidget {
               crossAxisAlignment: CrossAxisAlignment.center,
               mainAxisAlignment: MainAxisAlignment.start,
               children: [
-                SizedBox(width: 16.w),
-                ClipRRect(
-                  borderRadius: BorderRadius.all(Radius.circular(8.r)),
-                  child: Image.file(
-                    File(_bookCoverPath),
-                    fit: BoxFit.cover,
-                    width: 80.sp,
-                    height: 100.sp,
+                SizedBox(width: 8.w),
+                Padding(
+                  padding: EdgeInsets.symmetric(vertical: 8.sp),
+                  child: ClipRRect(
+                    borderRadius: BorderRadius.all(Radius.circular(8.r)),
+                    child: Image.file(
+                      File(_bookCoverPath),
+                      fit: BoxFit.cover,
+                      width: 80.sp,
+                      height: 100.sp,
+                    ),
                   ),
                 ),
                 SizedBox(
                   width: 8.w,
                 ),
                 SizedBox(
-                  height: 120.sp,
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     mainAxisAlignment: MainAxisAlignment.center,
@@ -98,7 +100,7 @@ class BookItemWidget extends StatelessWidget {
                         'Toeic practice book',
                         style: TextStyle(
                           fontSize: 10.sp,
-                          color: context.colors.error,
+                          color: context.colors.tertiary,
                         ),
                       ),
                     ],

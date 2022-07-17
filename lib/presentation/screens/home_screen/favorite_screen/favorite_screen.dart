@@ -100,7 +100,8 @@ class _FavoriteScreenState extends State<FavoriteScreen> {
 
   Widget _buildList(List<QuestionNoteModel>? questionNoteList) {
     if (questionNoteList == null || questionNoteList.isEmpty) {
-      return const Center(child: Text('No items found!'));
+      return const Center(
+          child: Text('Every saved question can be found here!'));
     }
     if (logEnable) {
       log('$_logTag questionNoteList.length: ${questionNoteList.length}');

@@ -4,7 +4,6 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 
 import '../../../core_ui/extensions/extensions.dart';
 import '../../../core_utils/global_configuration.dart';
-import '../../../core_utils/score_calculator.dart';
 import '../../../data/business_models/part_model.dart';
 import '../../../view_model/part_screen_cubit/part_list_cubit.dart';
 import '../../router/app_router.dart';
@@ -151,7 +150,7 @@ class PartScreen extends StatelessWidget {
               partModel: partListModel[index - 1]),
         );
       },
-      itemCount: showScore ? partListModel.length + 1 : partListModel.length,
+      itemCount: partListModel.length + 1,
     );
   }
 }

@@ -153,7 +153,7 @@ class SettingScreen extends StatelessWidget {
                   ),
                 ],
               ),
-              SizedBox(height: 4.h),
+              SizedBox(height: 8.h),
             ],
           ),
         ),

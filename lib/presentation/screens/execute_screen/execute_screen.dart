@@ -70,6 +70,7 @@ class ExecuteScreen extends StatelessWidget {
         return Future.value(true);
       },
       child: Scaffold(
+        resizeToAvoidBottomInset: false,
         appBar: AppBar(
           actions: [
             IconButton(
@@ -183,17 +184,7 @@ class ExecuteScreen extends StatelessWidget {
                       Expanded(
                         child: Padding(
                           padding: const EdgeInsets.symmetric(vertical: 16.0),
-                          child: BlocBuilder<ExecuteScreenCubit,
-                              ExecuteScreenState>(
-                            builder: (context, state) {
-                              if (state is ExecuteContentLoaded) {
-                                return _buildMainContentScreen(state, context);
-                              }
-                              return const Center(
-                                child: Text('Loading ...'),
-                              );
-                            },
-                          ),
+                          child: _buildMainContentScreen(state, context),
                         ),
                       ),
                       if (state.questionGroupModel.audioPath != null)

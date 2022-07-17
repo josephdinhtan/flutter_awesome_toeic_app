@@ -126,12 +126,12 @@ class ThemeProvider extends InheritedWidget {
 
   BottomNavigationBarThemeData bottomNavigationBarTheme(ColorScheme colors) {
     return BottomNavigationBarThemeData(
-      type: BottomNavigationBarType.shifting,
+      type: BottomNavigationBarType.fixed,
       backgroundColor: colors.surface,
       selectedItemColor: colors.primary,
-      unselectedItemColor: colors.onSurfaceVariant,
+      unselectedItemColor: colors.onSurfaceVariant.withOpacity(0.5),
       elevation: 1,
-      landscapeLayout: BottomNavigationBarLandscapeLayout.spread,
+      // landscapeLayout: BottomNavigationBarLandscapeLayout.spread,
     );
   }
 

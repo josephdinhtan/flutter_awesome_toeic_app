@@ -97,9 +97,7 @@ class _AudioControllerState extends State<AudioController> {
                   },
                   icon: Icon(
                     Icons.replay_5_outlined,
-                    color: Theme.of(context)
-                        .bottomNavigationBarTheme
-                        .unselectedItemColor!,
+                    color: context.colors.onSurfaceVariant,
                   ),
                 ),
                 IconButton(
@@ -119,9 +117,7 @@ class _AudioControllerState extends State<AudioController> {
                     isPlaying
                         ? CupertinoIcons.pause_circle
                         : CupertinoIcons.play_circle,
-                    color: Theme.of(context)
-                        .bottomNavigationBarTheme
-                        .unselectedItemColor!,
+                    color: context.colors.onSurfaceVariant,
                   ),
                 ),
                 IconButton(
@@ -141,9 +137,7 @@ class _AudioControllerState extends State<AudioController> {
                   },
                   icon: Icon(
                     Icons.forward_5_outlined,
-                    color: Theme.of(context)
-                        .bottomNavigationBarTheme
-                        .unselectedItemColor!,
+                    color: context.colors.onSurfaceVariant,
                   ),
                 ),
                 const SizedBox(width: 6.0),

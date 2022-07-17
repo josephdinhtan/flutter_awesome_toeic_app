@@ -88,9 +88,7 @@ class BottomController extends StatelessWidget {
               iconSize: _iconSize,
               icon: Icon(
                 CupertinoIcons.back,
-                color: Theme.of(context)
-                    .bottomNavigationBarTheme
-                    .unselectedItemColor,
+                color: context.colors.onSurfaceVariant,
               ),
             ),
             if (!isFullTest)
@@ -108,9 +106,7 @@ class BottomController extends StatelessWidget {
                       iconSize: _iconSize,
                       icon: Icon(
                         CupertinoIcons.heart,
-                        color: Theme.of(context)
-                            .bottomNavigationBarTheme
-                            .unselectedItemColor,
+                        color: context.colors.onSurfaceVariant,
                       ),
                     ),
             if (!isFullTest)
@@ -124,9 +120,7 @@ class BottomController extends StatelessWidget {
                       )
                     : Icon(
                         CupertinoIcons.checkmark_seal,
-                        color: Theme.of(context)
-                            .bottomNavigationBarTheme
-                            .unselectedItemColor,
+                        color: context.colors.onSurfaceVariant,
                       ),
               ),
             IconButton(
@@ -134,9 +128,7 @@ class BottomController extends StatelessWidget {
               iconSize: _iconSize,
               icon: Icon(
                 CupertinoIcons.forward,
-                color: Theme.of(context)
-                    .bottomNavigationBarTheme
-                    .unselectedItemColor,
+                color: context.colors.onSurfaceVariant,
               ),
             )
           ],
