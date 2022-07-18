@@ -75,6 +75,7 @@ class ThemeProvider extends InheritedWidget {
       sliderTheme: sliderTheme(_colors),
       floatingActionButtonTheme: floatingActionButtonTheme(_colors),
       scaffoldBackgroundColor: _colors.background,
+      elevatedButtonTheme: elevatedButtonTheme(_colors),
       useMaterial3: true,
     );
   }
@@ -95,6 +96,7 @@ class ThemeProvider extends InheritedWidget {
       sliderTheme: sliderTheme(_colors),
       floatingActionButtonTheme: floatingActionButtonTheme(_colors),
       scaffoldBackgroundColor: _colors.background,
+      elevatedButtonTheme: elevatedButtonTheme(_colors),
       useMaterial3: true,
     );
   }
@@ -185,5 +187,13 @@ class ThemeProvider extends InheritedWidget {
         ),
       ),
     );
+  }
+
+  ElevatedButtonThemeData elevatedButtonTheme(ColorScheme colors) {
+    return ElevatedButtonThemeData(
+        style: ElevatedButton.styleFrom(
+      padding:
+          EdgeInsets.symmetric(horizontal: 14.w, vertical: 8.h), // and this
+    ));
   }
 }

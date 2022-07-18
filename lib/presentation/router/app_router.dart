@@ -30,7 +30,7 @@ class AppRouter {
   static const String test = '/tests';
   static const String store = '/store';
   static const String part = '/parts';
-  static const String executeTest = '/execute';
+  static const String executeFullTest = '/execute';
   static const String practice = '/practice';
   static const String testReview = '/review';
   static const String part1Exam = '/part1exam';
@@ -95,17 +95,17 @@ class AppRouter {
         if (logEnable) {
           log('$_logTag part: args.childIds: ${args.childIds}');
         }
-        return CupertinoPageRoute(
-          builder: (_) => BlocProvider.value(
-            value: _partListCubit
-              ..getInitContent(
-                  partIds: args.childIds,
-                  testId: args.id,
-                  testListCubit: _testListCubit),
+        return CupertinoPageRoute(builder: (_) {
+          _partListCubit.getInitContent(
+              partIds: args.childIds,
+              testId: args.id,
+              testListCubit: _testListCubit);
+          return BlocProvider.value(
+            value: _partListCubit,
             child: PartScreen(testTitle: args.title),
-          ),
-        );
-      case executeTest:
+          );
+        });
+      case executeFullTest:
         final args = settings.arguments as ScreenArguments;
         if (logEnable) {
           log('$_logTag execute: args.childIds: ${args.childIds}');

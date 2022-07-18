@@ -47,10 +47,10 @@ class _MyAppState extends State<MyApp> {
               final theme = ThemeProvider.of(context);
               return LayoutBuilder(builder: (context, constraints) {
                 return ScreenUtilInit(
-                  // designSize: constraints.isTablet
-                  //     ? const Size(800, 1280)
-                  //     : const Size(360, 690),
-                  designSize: const Size(360, 690),
+                  designSize: constraints.isTablet
+                      ? const Size(800, 1280)
+                      : const Size(360, 690),
+                  //designSize: const Size(360, 690),
                   builder: (BuildContext context, Widget? child) {
                     return MaterialApp(
                       debugShowCheckedModeBanner: false,

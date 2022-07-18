@@ -26,20 +26,59 @@ import 'widgets/timer_test_widget.dart';
 const _logTag = "ExecuteScreen";
 int _currentQuestionIndex = 0;
 
-class ExecuteScreen extends StatelessWidget {
+class ExecuteScreen extends StatefulWidget {
   final String appBarTitle;
   final bool isFullTest;
 
   const ExecuteScreen(
       {Key? key, required this.appBarTitle, this.isFullTest = false})
       : super(key: key);
+
+  @override
+  State<ExecuteScreen> createState() => _ExecuteScreenState();
+}
+
+class _ExecuteScreenState extends State<ExecuteScreen>
+    with WidgetsBindingObserver {
+  @override
+  void initState() {
+    super.initState();
+    WidgetsBinding.instance.addObserver(this);
+  }
+
+  @override
+  void dispose() {
+    WidgetsBinding.instance.removeObserver(this);
+    MediaPlayer().stop();
+    super.dispose();
+  }
+
+  @override
+  void didChangeAppLifecycleState(AppLifecycleState state) {
+    switch (state) {
+      case AppLifecycleState.resumed:
+        // Handle this case
+        break;
+      case AppLifecycleState.inactive:
+        // Handle this case
+        break;
+      case AppLifecycleState.paused:
+        MediaPlayer().pause();
+        break;
+      case AppLifecycleState.detached:
+        // Handle this case
+        break;
+    }
+    super.didChangeAppLifecycleState(state);
+  }
+
   @override
   Widget build(BuildContext context) {
     double height = MediaQuery.of(context).size.height;
     double width = MediaQuery.of(context).size.width;
     return WillPopScope(
       onWillPop: () {
-        if (isFullTest) {
+        if (widget.isFullTest) {
           showCupertinoModalPopup<void>(
             context: context,
             builder: (BuildContext context) => CupertinoAlertDialog(
@@ -77,7 +116,7 @@ class ExecuteScreen extends StatelessWidget {
                 onPressed: () {
                   showAnswerSheet(
                       context: context,
-                      isFullTest: isFullTest,
+                      isFullTest: widget.isFullTest,
                       width: width,
                       height: height,
                       submit: () {
@@ -135,7 +174,7 @@ class ExecuteScreen extends StatelessWidget {
                   return const Text('Question: ../..');
                 },
               ),
-              if (isFullTest)
+              if (widget.isFullTest)
                 TimerTestWidget(timeUp: () {
                   BlocProvider.of<ExecuteScreenCubit>(context).submitTest();
                   Map<PartType, int> mapPartTypeCorrectNum =
@@ -166,80 +205,72 @@ class ExecuteScreen extends StatelessWidget {
             ],
           ),
         ),
-        body: Center(
-          child: SizedBox(
-            width: width > AppDimensions.maxWidthForMobileMode
-                ? AppDimensions.maxWidthForMobileMode
-                : null,
-            child: BlocBuilder<ExecuteScreenCubit, ExecuteScreenState>(
-              builder: (context, state) {
-                if (state is ExecuteContentLoaded) {
-                  _currentQuestionIndex = state.currentQuestionNumber;
-                  return Column(
-                    children: [
-                      LinearProgressIndicator(
-                        value: state.currentQuestionNumber /
-                            state.questionListSize,
-                      ),
-                      Expanded(
-                        child: Padding(
-                          padding: const EdgeInsets.symmetric(vertical: 16.0),
-                          child: _buildMainContentScreen(state, context),
-                        ),
-                      ),
-                      if (state.questionGroupModel.audioPath != null)
-                        AudioController(
-                          //durationTime: MediaPlayer.instance.getDurationTime(),
-                          changeToDurationCallBack: (timestamp) {
-                            MediaPlayer().seekTo(seconds: timestamp.toInt());
-                          },
-                          playCallBack: () {
-                            MediaPlayer().resume();
-                          },
-                          pauseCallBack: () {
-                            MediaPlayer().pause();
-                          },
-                          audioPlayer: MediaPlayer().audioPlayer,
-                        ),
-                      BlocBuilder<BottomControlBarCubit, BottomControlBarState>(
-                        builder: (context, state) {
-                          return BottomController(
-                            isUserChecked: state is BottomControlBarChange
-                                ? state.userChecked
-                                : false,
-                            note: state is BottomControlBarChange
-                                ? state.note
-                                : null,
-                            isFullTest: isFullTest,
-                            prevPressed: () {
-                              BlocProvider.of<ExecuteScreenCubit>(context)
-                                  .getPrevContent();
-                            },
-                            nextPressed: () {
-                              BlocProvider.of<ExecuteScreenCubit>(context)
-                                  .getNextContent();
-                            },
-                            checkAnsPressed: () {
-                              BlocProvider.of<ExecuteScreenCubit>(context)
-                                  .userCheckAnswer();
-                            },
-                            favoriteAddNoteChange: (note) {
-                              BlocProvider.of<ExecuteScreenCubit>(context)
-                                  .saveANoteQuestionIdToDB(note);
-                              BlocProvider.of<BottomControlBarCubit>(context)
-                                  .questionChange(
-                                      note: note, userChecked: false);
-                            },
-                          );
+        body: BlocBuilder<ExecuteScreenCubit, ExecuteScreenState>(
+          builder: (context, state) {
+            if (state is ExecuteContentLoaded) {
+              _currentQuestionIndex = state.currentQuestionNumber;
+              return Column(
+                crossAxisAlignment: CrossAxisAlignment.center,
+                children: [
+                  LinearProgressIndicator(
+                    value: state.currentQuestionNumber / state.questionListSize,
+                  ),
+                  Expanded(
+                    child: Padding(
+                      padding:
+                          EdgeInsets.symmetric(horizontal: 16.w, vertical: 4.h),
+                      child: _buildMainContentScreen(state, context),
+                    ),
+                  ),
+                  if (state.questionGroupModel.audioPath != null)
+                    AudioController(
+                      //durationTime: MediaPlayer.instance.getDurationTime(),
+                      changeToDurationCallBack: (timestamp) {
+                        MediaPlayer().seekTo(seconds: timestamp.toInt());
+                      },
+                      playCallBack: () {
+                        MediaPlayer().resume();
+                      },
+                      pauseCallBack: () {
+                        MediaPlayer().pause();
+                      },
+                      audioPlayer: MediaPlayer().audioPlayer,
+                    ),
+                  BlocBuilder<BottomControlBarCubit, BottomControlBarState>(
+                    builder: (context, state) {
+                      return BottomController(
+                        isUserChecked: state is BottomControlBarChange
+                            ? state.userChecked
+                            : false,
+                        note:
+                            state is BottomControlBarChange ? state.note : null,
+                        isFullTest: widget.isFullTest,
+                        prevPressed: () {
+                          BlocProvider.of<ExecuteScreenCubit>(context)
+                              .getPrevContent();
                         },
-                      ),
-                    ],
-                  );
-                }
-                return const Center();
-              },
-            ),
-          ),
+                        nextPressed: () {
+                          BlocProvider.of<ExecuteScreenCubit>(context)
+                              .getNextContent();
+                        },
+                        checkAnsPressed: () {
+                          BlocProvider.of<ExecuteScreenCubit>(context)
+                              .userCheckAnswer();
+                        },
+                        favoriteAddNoteChange: (note) {
+                          BlocProvider.of<ExecuteScreenCubit>(context)
+                              .saveANoteQuestionIdToDB(note);
+                          BlocProvider.of<BottomControlBarCubit>(context)
+                              .questionChange(note: note, userChecked: false);
+                        },
+                      );
+                    },
+                  ),
+                ],
+              );
+            }
+            return const Center();
+          },
         ),
       ),
     );
@@ -314,6 +345,8 @@ class ExecuteScreen extends StatelessWidget {
     if (state.questionGroupModel.partType == PartType.part1) {
       return _buildPart1ScreenContent(state, context);
     }
+
+    // part 3, part 4
     final questionGroupModel = state.questionGroupModel;
     final correctAnswer = state.correctAnswer;
     final userAnswer = state.userAnswer;
@@ -362,20 +395,19 @@ class ExecuteScreen extends StatelessWidget {
     if (questionGroupModel.picturePath != null) {
       final String pictureFullPath =
           getApplicationDirectory() + questionGroupModel.picturePath!;
+
       return HorizontalSplitView(
         color: GetIt.I.get<AppColor>().splitBar,
         up: SingleChildScrollView(
           physics: const BouncingScrollPhysics(
               parent: AlwaysScrollableScrollPhysics()),
           child: Padding(
-            padding: const EdgeInsets.symmetric(horizontal: 16.0),
-            child: Center(
-              child: ClipRRect(
-                borderRadius: const BorderRadius.all(Radius.circular(8.0)),
-                child: Image.file(
-                  fit: BoxFit.contain,
-                  File(pictureFullPath),
-                ),
+            padding: EdgeInsets.symmetric(horizontal: 16.w, vertical: 8.h),
+            child: ClipRRect(
+              borderRadius: BorderRadius.all(Radius.circular(8.r)),
+              child: Image.file(
+                File(pictureFullPath),
+                fit: BoxFit.contain,
               ),
             ),
           ),
@@ -383,12 +415,9 @@ class ExecuteScreen extends StatelessWidget {
         bottom: SingleChildScrollView(
           physics: const BouncingScrollPhysics(
               parent: AlwaysScrollableScrollPhysics()),
-          child: Padding(
-            padding: const EdgeInsets.symmetric(horizontal: 16.0),
-            child: Column(
-              children: listWidget,
-              crossAxisAlignment: CrossAxisAlignment.start,
-            ),
+          child: Column(
+            children: listWidget,
+            crossAxisAlignment: CrossAxisAlignment.start,
           ),
         ),
         ratio: 0.3,
@@ -397,12 +426,9 @@ class ExecuteScreen extends StatelessWidget {
     return SingleChildScrollView(
       physics:
           const BouncingScrollPhysics(parent: AlwaysScrollableScrollPhysics()),
-      child: Padding(
-        padding: const EdgeInsets.symmetric(horizontal: 16.0),
-        child: Column(
-          children: listWidget,
-          crossAxisAlignment: CrossAxisAlignment.start,
-        ),
+      child: Column(
+        children: listWidget,
+        crossAxisAlignment: CrossAxisAlignment.start,
       ),
     );
   }
@@ -410,9 +436,9 @@ class ExecuteScreen extends StatelessWidget {
   Widget _buildPart2ScreenContent(
       ExecuteContentLoaded state, BuildContext context) {
     log('$_logTag _buildPart2ScreenContent()');
-    return Padding(
-      padding: EdgeInsets.symmetric(horizontal: 16.w),
-      child: Column(children: [
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.center,
+      children: [
         Expanded(
           child: Container(
             alignment: Alignment.centerLeft,
@@ -462,29 +488,26 @@ class ExecuteScreen extends StatelessWidget {
                 Answer.values[value]);
           },
         )
-      ]),
+      ],
     );
   }
 
   Widget _buildPart1ScreenContent(
       ExecuteContentLoaded state, BuildContext context) {
-    log('$_logTag _buildPart2ScreenContent()');
+    log('$_logTag _buildPart1ScreenContent()');
     final String pictureFullPath =
         getApplicationDirectory() + state.questionGroupModel.picturePath!;
-    return Padding(
-      padding: EdgeInsets.symmetric(horizontal: 16.w),
-      child: Column(children: [
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.center,
+      children: [
         Expanded(
           child: Padding(
             padding: EdgeInsets.symmetric(horizontal: 16.w, vertical: 16.h),
-            child: Center(
-              child: ClipRRect(
-                borderRadius: const BorderRadius.all(
-                    Radius.circular(AppDimensions.kCardRadiusDefault)),
-                child: Image.file(
-                  File(pictureFullPath),
-                  fit: BoxFit.contain,
-                ),
+            child: ClipRRect(
+              borderRadius: BorderRadius.all(Radius.circular(8.r)),
+              child: Image.file(
+                File(pictureFullPath),
+                fit: BoxFit.contain,
               ),
             ),
           ),
@@ -512,7 +535,7 @@ class ExecuteScreen extends StatelessWidget {
                 Answer.values[value]);
           },
         )
-      ]),
+      ],
     );
   }
 }

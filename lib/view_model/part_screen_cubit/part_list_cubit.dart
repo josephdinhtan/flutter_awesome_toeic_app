@@ -42,7 +42,7 @@ class PartListCubit extends Cubit<PartListState> {
       if (logEnable) log('$_logTag getInitContent(ids) started');
       partList = await getPartListUseCase.perform(partIds);
       if (logEnable) {
-        log('$PartListCubit getInitContent() done items.length: ${partList.length}');
+        log('$_logTag getInitContent() done items.length: ${partList.length}');
       }
 
       _listeningCorrectNum = 0;

@@ -1,6 +1,7 @@
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/foundation.dart' show kIsWeb;
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:get_it/get_it.dart';
 import 'package:hive/hive.dart';
 import 'package:path_provider/path_provider.dart';
@@ -31,7 +32,7 @@ void main() async {
   final themeModeSetting = await GetIt.I.get<GetThemeEnableUseCase>().perform();
   setApplicationThemeColor(themeColorSetting);
   setApplicationThemeMode(themeModeSetting);
-
+  SystemChrome.setPreferredOrientations([DeviceOrientation.portraitUp]);
   runApp(const MyApp());
 }
 

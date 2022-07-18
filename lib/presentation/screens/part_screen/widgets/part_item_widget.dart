@@ -46,14 +46,15 @@ class PartItem extends StatelessWidget {
         (correctAns * 100 / partModel.numOfQuestion).toDouble() / 100;
     return GestureDetector(
       onTap: onTap,
-      child: Center(
-        child: SizedBox(
-          width: width > AppDimensions.maxWidthForMobileMode
-              ? AppDimensions.maxWidthForMobileMode
-              : null,
+      child: SizedBox(
+        width: width > AppDimensions.maxWidthForMobileMode
+            ? AppDimensions.maxWidthForMobileMode
+            : null,
+        child: Padding(
+          padding: EdgeInsets.symmetric(horizontal: 8.w, vertical: 8.h),
           child: Card(
             child: Padding(
-              padding: const EdgeInsets.all(AppDimensions.kPaddingDefault),
+              padding: EdgeInsets.symmetric(horizontal: 8.w, vertical: 8.h),
               child: Row(
                 children: [
                   Expanded(
@@ -68,7 +69,6 @@ class PartItem extends StatelessWidget {
                                 color: context.colors.secondary,
                                 shape: BoxShape.circle,
                               ),
-                              margin: EdgeInsets.all(2.w),
                               child: Padding(
                                 padding: EdgeInsets.all(12.sp),
                                 child: Icon(
@@ -77,6 +77,7 @@ class PartItem extends StatelessWidget {
                                     color: context.colors.onSecondary),
                               ),
                             ),
+                            SizedBox(width: 4.w),
                             Padding(
                               padding: const EdgeInsets.only(left: 12.0),
                               child: Column(
@@ -140,6 +141,7 @@ class PartItem extends StatelessWidget {
                           ],
                         ),
                         CircularPercentIndicator(
+                          lineWidth: 4.sp,
                           radius: 45.sp,
                           percent: correctPercent,
                           center: Text(

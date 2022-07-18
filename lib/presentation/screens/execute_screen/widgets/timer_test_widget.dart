@@ -8,10 +8,11 @@ const initTime = Duration(
   seconds: 0,
 );
 
+int timeInSecond = 0;
+
 class TimerTestWidget extends StatefulWidget {
   TimerTestWidget({super.key, required this.timeUp});
   final Function() timeUp;
-  late int timeInSecond;
   @override
   State<TimerTestWidget> createState() => _TimerTestWidgetState();
 }
@@ -20,14 +21,14 @@ class _TimerTestWidgetState extends State<TimerTestWidget> {
   @override
   void initState() {
     super.initState();
-    widget.timeInSecond = initTime.inSeconds;
+    timeInSecond = initTime.inSeconds;
     Timer.periodic(
       const Duration(seconds: 1),
       (Timer timer) {
         setState(() {
-          widget.timeInSecond--;
+          timeInSecond--;
         });
-        if (widget.timeInSecond == 0) {
+        if (timeInSecond == 0) {
           widget.timeUp();
           timer.cancel();
         }
@@ -38,7 +39,7 @@ class _TimerTestWidgetState extends State<TimerTestWidget> {
   @override
   Widget build(BuildContext context) {
     String timeDisplay =
-        Duration(seconds: widget.timeInSecond).toHumanizedMinutesString();
+        Duration(seconds: timeInSecond).toHumanizedMinutesString();
     return Text(timeDisplay, style: context.titleMedium);
   }
 }
