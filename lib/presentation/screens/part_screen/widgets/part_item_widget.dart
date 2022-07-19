@@ -51,7 +51,7 @@ class PartItem extends StatelessWidget {
             ? AppDimensions.maxWidthForMobileMode
             : null,
         child: Padding(
-          padding: EdgeInsets.symmetric(horizontal: 8.w, vertical: 8.h),
+          padding: EdgeInsets.symmetric(horizontal: 8.w),
           child: Card(
             child: Padding(
               padding: EdgeInsets.symmetric(horizontal: 8.w, vertical: 8.h),

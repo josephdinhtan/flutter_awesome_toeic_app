@@ -5,6 +5,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_toeic_quiz2/data/business_models/part_model.dart';
+import 'package:flutter_toeic_quiz2/data/business_models/question_group_model.dart';
 import 'package:flutter_toeic_quiz2/view_model/execute_screen_cubit/bottom_control_bar_cubit.dart';
 import 'package:flutter_toeic_quiz2/view_model/part_screen_cubit/part_list_cubit.dart';
 import 'package:get_it/get_it.dart';
@@ -339,13 +340,18 @@ class _ExecuteScreenState extends State<ExecuteScreen>
   Widget _buildMainContentScreen(
       ExecuteContentLoaded state, BuildContext context) {
     log('$_logTag _buildPart2ScreenContent() partType: ${state.questionGroupModel.partType}');
-    if (state.questionGroupModel.partType == PartType.part2) {
-      return _buildPart2ScreenContent(state, context);
+    if (state.questionGroupModel.partType == PartType.part2 ||
+        state.questionGroupModel.partType == PartType.part5) {
+      return _buildPart25ScreenContent(state, context);
     }
     if (state.questionGroupModel.partType == PartType.part1) {
       return _buildPart1ScreenContent(state, context);
     }
+    return _buildPart3467ScreenContent(state, context);
+  }
 
+  Widget _buildPart3467ScreenContent(
+      ExecuteContentLoaded state, BuildContext context) {
     // part 3, part 4
     final questionGroupModel = state.questionGroupModel;
     final correctAnswer = state.correctAnswer;
@@ -392,24 +398,59 @@ class _ExecuteScreenState extends State<ExecuteScreen>
         },
       ));
     }
-    if (questionGroupModel.picturePath != null) {
-      final String pictureFullPath =
-          getApplicationDirectory() + questionGroupModel.picturePath!;
 
+    if (questionGroupModel.picturePath != null ||
+        state.needHideSomething == false) {
       return HorizontalSplitView(
         color: GetIt.I.get<AppColor>().splitBar,
         up: SingleChildScrollView(
           physics: const BouncingScrollPhysics(
               parent: AlwaysScrollableScrollPhysics()),
-          child: Padding(
-            padding: EdgeInsets.symmetric(horizontal: 16.w, vertical: 8.h),
-            child: ClipRRect(
-              borderRadius: BorderRadius.all(Radius.circular(8.r)),
-              child: Image.file(
-                File(pictureFullPath),
-                fit: BoxFit.contain,
-              ),
-            ),
+          child: Column(
+            children: [
+              if (questionGroupModel.picturePath != null)
+                Padding(
+                  padding:
+                      EdgeInsets.symmetric(horizontal: 32.w, vertical: 8.h),
+                  child: Column(
+                    children: [
+                      ClipRRect(
+                        borderRadius: BorderRadius.all(Radius.circular(8.r)),
+                        child: Image.file(
+                          File(getApplicationDirectory() +
+                              questionGroupModel.picturePath!),
+                          fit: BoxFit.contain,
+                        ),
+                      ),
+                      SizedBox(height: 10.h),
+                    ],
+                  ),
+                ),
+              if (!state.needHideSomething)
+                if (state.questionGroupModel.statement != null)
+                  for (final statement in state.questionGroupModel.statement!)
+                    if (statement.statementType == StatementType.text)
+                      Column(
+                        children: [
+                          Text(
+                            statement.content,
+                            style: context.labelLarge,
+                            maxLines: 1000,
+                          ),
+                          SizedBox(height: 10.h),
+                        ],
+                      )
+                    else if (statement.statementType == StatementType.picture)
+                      Column(
+                        children: [
+                          Image.file(
+                            File(getApplicationDirectory() + statement.content),
+                            fit: BoxFit.contain,
+                          ),
+                          SizedBox(height: 10.h),
+                        ],
+                      ),
+            ],
           ),
         ),
         bottom: SingleChildScrollView(
@@ -433,7 +474,7 @@ class _ExecuteScreenState extends State<ExecuteScreen>
     );
   }
 
-  Widget _buildPart2ScreenContent(
+  Widget _buildPart25ScreenContent(
       ExecuteContentLoaded state, BuildContext context) {
     log('$_logTag _buildPart2ScreenContent()');
     return Column(
@@ -456,7 +497,7 @@ class _ExecuteScreenState extends State<ExecuteScreen>
                 ),
                 Flexible(
                   child: Text(
-                    state.needHideAnsQues
+                    state.needHideSomething
                         ? ''
                         : state.questionGroupModel.questions[0].questionStr!,
                     style: context.labelLarge!
@@ -469,15 +510,18 @@ class _ExecuteScreenState extends State<ExecuteScreen>
           ),
         ),
         AnswerBoard(
-          textA: state.needHideAnsQues
+          textA: state.needHideSomething
               ? ''
               : state.questionGroupModel.questions[0].answers![0],
-          textB: state.needHideAnsQues
+          textB: state.needHideSomething
               ? ''
               : state.questionGroupModel.questions[0].answers![1],
-          textC: state.needHideAnsQues
+          textC: state.needHideSomething
               ? ''
               : state.questionGroupModel.questions[0].answers![2],
+          textD: state.questionGroupModel.partType == PartType.part5
+              ? state.questionGroupModel.questions[0].answers![3]
+              : null,
           // need modify to check whether user is clicked the answer or not.
           correctAns: state.correctAnswer[0].index,
           selectedAns: state.userAnswer[0].index,
@@ -513,16 +557,16 @@ class _ExecuteScreenState extends State<ExecuteScreen>
           ),
         ),
         AnswerBoard(
-          textA: state.needHideAnsQues
+          textA: state.needHideSomething
               ? ''
               : state.questionGroupModel.questions[0].answers![0],
-          textB: state.needHideAnsQues
+          textB: state.needHideSomething
               ? ''
               : state.questionGroupModel.questions[0].answers![1],
-          textC: state.needHideAnsQues
+          textC: state.needHideSomething
               ? ''
               : state.questionGroupModel.questions[0].answers![2],
-          textD: state.needHideAnsQues
+          textD: state.needHideSomething
               ? ''
               : state.questionGroupModel.questions[0].answers![3],
           // need modify to check whether user is clicked the answer or not.

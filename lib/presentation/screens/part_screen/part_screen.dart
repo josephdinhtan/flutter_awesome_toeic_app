@@ -102,9 +102,12 @@ class PartScreen extends StatelessWidget {
     required int readingScore,
     required int totalScore,
   }) {
-    return ListView.builder(
+    return ListView.separated(
       physics:
           const BouncingScrollPhysics(parent: AlwaysScrollableScrollPhysics()),
+      separatorBuilder: (context, index) {
+        return SizedBox(height: 4.h);
+      },
       itemBuilder: (context, index) {
         if (index == 0) {
           return ScorePanel(
