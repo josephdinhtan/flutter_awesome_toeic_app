@@ -2,7 +2,9 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_toeic_quiz2/core_ui/extensions/extensions.dart';
 
-List<String> _frequency = ['daily', 'weekly', 'monthly'];
+import 'settings_title.dart';
+
+List<String> _frequency = ['Daily', 'Weekly', 'Monthly'];
 const double _kItemExtent = 32.0;
 
 class NotificationDatePicker extends StatefulWidget {
@@ -35,8 +37,13 @@ class _NotificationDatePickerState extends State<NotificationDatePicker> {
 
   @override
   Widget build(BuildContext context) {
-    return GestureDetector(
-      onTap: () {
+    return SettingsTile(
+      leadingIconData: Icons.date_range,
+      titleText: 'Date',
+      value: Text(widget.initFrequency,
+          style: context.titleMedium!
+              .copyWith(fontWeight: FontWeight.w600, color: Colors.grey)),
+      onPressed: () {
         showCupertinoModalPopup(
             context: context,
             builder: (context) {
@@ -69,32 +76,6 @@ class _NotificationDatePickerState extends State<NotificationDatePicker> {
               );
             });
       },
-      child: Container(
-        color: Colors.transparent,
-        child: Padding(
-          padding: EdgeInsets.symmetric(vertical: 16.h, horizontal: 16.h),
-          child: Row(
-            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-            children: [
-              Text('Frequency', style: context.titleSmall),
-              Row(
-                children: [
-                  Text(
-                    widget.initFrequency,
-                    style: context.labelMedium!.copyWith(color: Colors.grey),
-                  ),
-                  SizedBox(width: 8.w),
-                  Icon(
-                    Icons.arrow_forward_ios,
-                    size: 10.w,
-                    color: Colors.grey,
-                  ),
-                ],
-              )
-            ],
-          ),
-        ),
-      ),
     );
   }
 }

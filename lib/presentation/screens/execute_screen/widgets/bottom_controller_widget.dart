@@ -4,6 +4,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
 import '../../../../core_ui/extensions/extensions.dart';
+import '../../../../core_utils/global_configuration.dart';
 import '../../widgets/neumorphism_container.dart';
 
 final _iconSize = 28.sp;
@@ -77,7 +78,7 @@ class BottomController extends StatelessWidget {
     return NeumorphismContainer(
       removeShadow: isStandAlone ? false : true,
       removeBorder: !isStandAlone,
-      color: context.colors.surfaceVariant,
+      color: context.colors.surfaceVariant.withOpacity(surfaceVariantOpacity),
       child: Padding(
         padding: const EdgeInsets.symmetric(horizontal: 8.0, vertical: 2.0),
         child: Row(

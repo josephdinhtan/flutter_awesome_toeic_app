@@ -18,13 +18,19 @@ class TimerTestWidget extends StatefulWidget {
 }
 
 class _TimerTestWidgetState extends State<TimerTestWidget> {
+  bool _isDispose = false;
   @override
   void initState() {
+    _isDispose = false;
     super.initState();
     timeInSecond = initTime.inSeconds;
     Timer.periodic(
       const Duration(seconds: 1),
       (Timer timer) {
+        if (_isDispose) {
+          timer.cancel();
+          return;
+        }
         setState(() {
           timeInSecond--;
         });
@@ -34,6 +40,12 @@ class _TimerTestWidgetState extends State<TimerTestWidget> {
         }
       },
     );
+  }
+
+  @override
+  void dispose() {
+    _isDispose = true;
+    super.dispose();
   }
 
   @override

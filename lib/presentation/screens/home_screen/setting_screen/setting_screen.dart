@@ -1,6 +1,11 @@
+import 'dart:developer';
+
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_toeic_quiz2/core_ui/extensions/extensions.dart';
+import 'package:flutter_toeic_quiz2/presentation/screens/home_screen/setting_screen/widgets/settings_list.dart';
+import 'package:flutter_toeic_quiz2/presentation/screens/home_screen/setting_screen/widgets/settings_title.dart';
 import 'package:flutter_toeic_quiz2/view_model/settings_screen_cubit/settings_screen_cubit.dart';
 
 import '../../../../core_ui/theme/theme.dart';
@@ -9,12 +14,19 @@ import 'widgets/color_picker.dart';
 import 'widgets/language_picker.dart';
 import 'widgets/notification_date_picker.dart';
 import 'widgets/notification_time_picker.dart';
-import 'widgets/settings_container.dart';
+import 'widgets/settings_section.dart';
 import 'widgets/theme_picker.dart';
 
-class SettingScreen extends StatelessWidget {
+class SettingScreen extends StatefulWidget {
   SettingScreen({Key? key}) : super(key: key);
+
+  @override
+  State<SettingScreen> createState() => _SettingScreenState();
+}
+
+class _SettingScreenState extends State<SettingScreen> {
   bool darkModeEnable = false;
+
   List<bool> isSelected = [false, false, false];
 
   @override
@@ -23,152 +35,75 @@ class SettingScreen extends StatelessWidget {
     isSelected[themeMode.index] = true;
     return Scaffold(
       appBar: AppBar(
-        title: const Text('Settings'),
+        title: Text('Settings'.toUpperCase()),
       ),
-      body: Column(
-        children: [
-          Expanded(
-            child: SingleChildScrollView(
-              physics: const BouncingScrollPhysics(
-                  parent: AlwaysScrollableScrollPhysics()),
-              child: Padding(
-                padding: EdgeInsets.symmetric(horizontal: 16.w),
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.stretch,
-                  mainAxisSize: MainAxisSize.max,
-                  children: [
-                    SizedBox(height: 12.h),
-                    Text('Appearance', style: context.labelMedium),
-                    SizedBox(height: 4.h),
-                    SettingContainer(
-                      children: [
-                        ThemePicker(
-                          themeMode: ThemeProvider.of(context)
-                              .settings
-                              .value
-                              .themeMode,
-                          themeModeChange: (themeMode) {
-                            final themeProvider = ThemeProvider.of(context);
-                            final settings = themeProvider.settings.value;
-                            final newSettings =
-                                settings.copyWith(themeMode: themeMode);
-                            ThemeSettingChange(settings: newSettings)
-                                .dispatch(context);
+      //body: OldSettingsItems(),
+      body: SettingsList(
+        sections: [
+          SettingsSection(
+            title: 'Appearance',
+            titles: [
+              ThemePicker(
+                themeMode: ThemeProvider.of(context).settings.value.themeMode,
+                themeModeChange: (themeMode) {
+                  final themeProvider = ThemeProvider.of(context);
+                  final settings = themeProvider.settings.value;
+                  final newSettings = settings.copyWith(themeMode: themeMode);
+                  ThemeSettingChange(settings: newSettings).dispatch(context);
 
-                            BlocProvider.of<SettingsScreenCubit>(context)
-                                .saveThemeMode(themeMode);
-                          },
-                        ),
-                        ColorPicker(
-                          themeColor: ThemeProvider.of(context)
-                              .settings
-                              .value
-                              .themeColor,
-                          themeColorChange: (themeColor) {
-                            final themeProvider = ThemeProvider.of(context);
-                            final settings = themeProvider.settings.value;
-                            final newSettings =
-                                settings.copyWith(themeColor: themeColor);
-                            ThemeSettingChange(settings: newSettings)
-                                .dispatch(context);
-
-                            BlocProvider.of<SettingsScreenCubit>(context)
-                                .saveThemeColor(themeColor);
-                          },
-                        ),
-                      ],
-                    ),
-                    SizedBox(height: 12.h),
-                    SettingContainer(
-                      children: [
-                        LanguagePicker(
-                          language: 'en',
-                          languageChange: (language) {},
-                        ),
-                      ],
-                    ),
-                    SizedBox(height: 12.h),
-                    Text('Notification', style: context.labelMedium),
-                    SizedBox(height: 4.h),
-                    SettingContainer(
-                      children: [
-                        NotificationDatePicker(
-                            initFrequency: 'daily',
-                            frequencyChange: (frequency) {}),
-                        NotificationTimePicker(
-                            initTime: '8:20', timeChange: (duration) {}),
-                      ],
-                    ),
-                    SizedBox(height: 12.h),
-                    Text('Community', style: context.labelMedium),
-                    SizedBox(height: 4.h),
-                    SettingContainer(
-                      children: [
-                        TextButton.icon(
-                          onPressed: () {},
-                          icon: Padding(
-                            padding: EdgeInsets.only(left: 8.w),
-                            child: Icon(Icons.star_rate_outlined),
-                          ),
-                          label: SizedBox(
-                            width: double.infinity,
-                            child: Text(
-                              'Rate us 5 star', /* style: kTextStyleSettingsH1*/
-                            ),
-                          ),
-                        ),
-                        TextButton.icon(
-                          onPressed: () {},
-                          icon: Padding(
-                            padding: EdgeInsets.only(left: 8.w),
-                            child: Icon(Icons.speaker_notes_rounded),
-                          ),
-                          label: SizedBox(
-                            width: double.infinity,
-                            child: Text(
-                              'Feedback', /*style: kTextStyleSettingsH1*/
-                            ),
-                          ),
-                        ),
-                        TextButton.icon(
-                          onPressed: () {},
-                          icon: Padding(
-                            padding: EdgeInsets.only(left: 8.w),
-                            child: Icon(Icons.share_rounded),
-                          ),
-                          label: SizedBox(
-                            width: double.infinity,
-                            child: Text(
-                              'Share', /* style: kTextStyleSettingsH1*/
-                            ),
-                          ),
-                        ),
-                        Padding(
-                          padding: EdgeInsets.symmetric(horizontal: 32.h),
-                          child: SizedBox(
-                            width: double.infinity,
-                            child: ElevatedButton.icon(
-                              onPressed: () {
-                                // Navigator.push(
-                                //     context,
-                                //     CupertinoPageRoute(
-                                //       builder: (context) => FirebaseScreen(),
-                                //     ));
-                              },
-                              icon: const Icon(Icons.data_saver_off),
-                              label: const Text(
-                                  'Check Server Storage (Admin only)'),
-                            ),
-                          ),
-                        ),
-                      ],
-                    ),
-                    SizedBox(height: 8.h),
-                  ],
-                ),
+                  BlocProvider.of<SettingsScreenCubit>(context)
+                      .saveThemeMode(themeMode);
+                },
               ),
-            ),
+            ],
           ),
+          SettingsSection(
+            title: 'Main Color',
+            titles: [
+              ColorPicker(
+                themeColor: ThemeProvider.of(context).settings.value.themeColor,
+                themeColorChange: (themeColor) {
+                  final themeProvider = ThemeProvider.of(context);
+                  final settings = themeProvider.settings.value;
+                  final newSettings = settings.copyWith(themeColor: themeColor);
+                  ThemeSettingChange(settings: newSettings).dispatch(context);
+
+                  BlocProvider.of<SettingsScreenCubit>(context)
+                      .saveThemeColor(themeColor);
+                },
+              ),
+            ],
+          ),
+          SettingsSection(titles: [
+            LanguagePicker(
+              language: 'En',
+              languageChange: (p0) {},
+            ),
+          ]),
+          SettingsSection(
+            title: 'Notification',
+            titles: [
+              NotificationDatePicker(
+                  initFrequency: 'Daily', frequencyChange: (frequency) {}),
+              NotificationTimePicker(
+                  initTime: '8:20', timeChange: (duration) {}),
+            ],
+          ),
+          SettingsSection(
+            title: 'Community',
+            titles: [
+              SettingsTile(
+                leadingIconData: Icons.star_rate_outlined,
+                titleText: 'Rate us 5 star',
+                onPressed: () {},
+              ),
+              SettingsTile(
+                leadingIconData: Icons.speaker_notes_rounded,
+                titleText: 'Feedback',
+                onPressed: () {},
+              ),
+            ],
+          )
         ],
       ),
     );

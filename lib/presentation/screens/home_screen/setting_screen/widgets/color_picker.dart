@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 
 import '../../../../../core_ui/extensions/extensions.dart';
 import '../../../../../core_ui/theme/theme.dart';
+import 'settings_title.dart';
 
 List<ThemeColor> _themeColorList = [
   ThemeColor(name: 'Grey', color: Colors.grey),
@@ -37,59 +38,37 @@ class _ColorPickerState extends State<ColorPicker> {
 
   @override
   Widget build(BuildContext context) {
-    return GestureDetector(
-      onTap: () {
-        showCupertinoModalPopup(
-            context: context,
-            builder: (context) {
-              return CupertinoActionSheet(
-                cancelButton: CupertinoDialogAction(
-                  /// This parameter indicates the action would perform
-                  /// a destructive action such as delete or exit and turns
-                  /// the action's text color to red.
-                  isDestructiveAction: true,
-                  onPressed: () {
-                    Navigator.pop(context);
-                  },
-                  child: const Text('Cancel'),
-                ),
-                message: ColorPickerPanel(
-                  availableColors: _themeColorList,
-                  initialColor: widget.themeColor.color,
-                  onSelectColor: (value) {
-                    _colorChange(value);
-                  },
-                ),
-              );
-            });
-      },
-      child: Container(
-        color: Colors.transparent,
-        child: Padding(
-          padding: EdgeInsets.symmetric(horizontal: 16.w, vertical: 16.h),
-          child: Row(
-            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-            children: [
-              Text('Color', style: context.titleSmall),
-              Row(
-                children: [
-                  Text(
-                    widget.themeColor.name,
-                    style: context.labelMedium!.copyWith(color: Colors.grey),
+    return SettingsTile(
+        leadingIconData: Icons.color_lens_outlined,
+        titleText: 'Color',
+        value: Text(widget.themeColor.name,
+            style: context.titleMedium!
+                .copyWith(fontWeight: FontWeight.w600, color: Colors.grey)),
+        onPressed: () {
+          showCupertinoModalPopup(
+              context: context,
+              builder: (context) {
+                return CupertinoActionSheet(
+                  cancelButton: CupertinoDialogAction(
+                    /// This parameter indicates the action would perform
+                    /// a destructive action such as delete or exit and turns
+                    /// the action's text color to red.
+                    isDestructiveAction: true,
+                    onPressed: () {
+                      Navigator.pop(context);
+                    },
+                    child: const Text('Cancel'),
                   ),
-                  SizedBox(width: 8.w),
-                  Icon(
-                    Icons.arrow_forward_ios,
-                    size: 10.w,
-                    color: Colors.grey,
+                  message: ColorPickerPanel(
+                    availableColors: _themeColorList,
+                    initialColor: widget.themeColor.color,
+                    onSelectColor: (value) {
+                      _colorChange(value);
+                    },
                   ),
-                ],
-              )
-            ],
-          ),
-        ),
-      ),
-    );
+                );
+              });
+        });
   }
 }
 
@@ -126,6 +105,8 @@ class _ColorPickerPanelState extends State<ColorPickerPanel> {
       height: 100.h,
       child: Center(
         child: ListView.separated(
+          physics: const BouncingScrollPhysics(
+              parent: AlwaysScrollableScrollPhysics()),
           shrinkWrap: true,
           separatorBuilder: (context, index) => SizedBox(width: 12.w),
           scrollDirection: Axis.horizontal,

@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 
 import '../../../../core_ui/constants/app_dimensions.dart';
 import '../../../../core_ui/extensions/extensions.dart';
+import '../../../../core_utils/global_configuration.dart';
 import '../../widgets/neumorphism_container.dart';
 
 class AudioController extends StatefulWidget {
@@ -75,7 +76,7 @@ class _AudioControllerState extends State<AudioController> {
   Widget build(BuildContext context) {
     return NeumorphismContainer(
       removeShadow: true,
-      color: context.colors.surfaceVariant,
+      color: context.colors.surfaceVariant.withOpacity(surfaceVariantOpacity),
       child: Padding(
         padding: EdgeInsets.symmetric(horizontal: 8.w, vertical: 2.h),
         child: Row(

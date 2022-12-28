@@ -5,6 +5,7 @@ import 'package:get_it/get_it.dart';
 import '../../../../core_ui/constants/app_colors/app_color.dart';
 import '../../../../core_ui/constants/app_dimensions.dart';
 import '../../../../core_ui/extensions/extensions.dart';
+import '../../../../core_utils/global_configuration.dart';
 import '../../widgets/neumorphism_button.dart';
 
 class AnswerBoard extends StatelessWidget {
@@ -152,7 +153,10 @@ class AnswerButtonNeumorphic extends StatelessWidget {
             ),
             backgroundColor: isSelected.value == id
                 ? GetIt.I.get<AppColor>().answerActive
-                : Theme.of(context).colorScheme.surfaceVariant,
+                : Theme.of(context)
+                    .colorScheme
+                    .surfaceVariant
+                    .withOpacity(surfaceVariantOpacity),
           ),
         ),
         isCorrectAns

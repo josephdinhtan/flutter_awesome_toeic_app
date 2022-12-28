@@ -2,10 +2,12 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_toeic_quiz2/core_ui/extensions/extensions.dart';
 
-List<String> _languageList = ['vi', 'en'];
+import 'settings_title.dart';
+
+List<String> _languageList = ['Vi', 'En'];
 Map<String, String> flagMap = {
-  'vi': 'assets/images/Flag_of_Vietnam.png',
-  'en': 'assets/images/Flag_of_the_United_Kingdom.png'
+  'Vi': 'assets/images/Flag_of_Vietnam.png',
+  'En': 'assets/images/Flag_of_the_United_Kingdom.png'
 };
 
 class LanguagePicker extends StatefulWidget {
@@ -32,8 +34,13 @@ class _LanguagePickerState extends State<LanguagePicker> {
 
   @override
   Widget build(BuildContext context) {
-    return GestureDetector(
-      onTap: () {
+    return SettingsTile(
+      leadingIconData: Icons.language,
+      titleText: 'Language',
+      value: Text(widget.language,
+          style: context.titleMedium!
+              .copyWith(fontWeight: FontWeight.w600, color: Colors.grey)),
+      onPressed: () {
         showCupertinoModalPopup(
             context: context,
             builder: (context) {
@@ -58,32 +65,6 @@ class _LanguagePickerState extends State<LanguagePicker> {
               );
             });
       },
-      child: Container(
-        color: Colors.transparent,
-        child: Padding(
-          padding: EdgeInsets.symmetric(horizontal: 16.w, vertical: 16.h),
-          child: Row(
-            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-            children: [
-              Text('Language', style: context.titleSmall),
-              Row(
-                children: [
-                  Text(
-                    widget.language,
-                    style: context.labelMedium!.copyWith(color: Colors.grey),
-                  ),
-                  SizedBox(width: 8.w),
-                  Icon(
-                    Icons.arrow_forward_ios,
-                    size: 10.w,
-                    color: Colors.grey,
-                  ),
-                ],
-              )
-            ],
-          ),
-        ),
-      ),
     );
   }
 }

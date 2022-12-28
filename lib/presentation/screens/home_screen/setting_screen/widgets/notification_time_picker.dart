@@ -2,7 +2,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
 import '../../../../../core_ui/extensions/extensions.dart';
-import '../../../../../core_ui/extensions/humanized_duration.dart';
+import 'settings_title.dart';
 
 const double _kItemExtent = 32.0;
 
@@ -36,8 +36,13 @@ class _NotificationTimePickerState extends State<NotificationTimePicker> {
 
   @override
   Widget build(BuildContext context) {
-    return GestureDetector(
-      onTap: () {
+    return SettingsTile(
+      leadingIconData: Icons.access_time,
+      titleText: 'Time',
+      value: Text(widget.initTime,
+          style: context.titleMedium!
+              .copyWith(fontWeight: FontWeight.w600, color: Colors.grey)),
+      onPressed: () {
         showCupertinoModalPopup(
             context: context,
             builder: (context) {
@@ -70,32 +75,6 @@ class _NotificationTimePickerState extends State<NotificationTimePicker> {
               );
             });
       },
-      child: Container(
-        color: Colors.transparent,
-        child: Padding(
-          padding: EdgeInsets.symmetric(vertical: 16.h, horizontal: 16.h),
-          child: Row(
-            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-            children: [
-              Text('Time', style: context.titleSmall),
-              Row(
-                children: [
-                  Text(
-                    widget.initTime,
-                    style: context.labelMedium!.copyWith(color: Colors.grey),
-                  ),
-                  SizedBox(width: 8.w),
-                  Icon(
-                    Icons.arrow_forward_ios,
-                    size: 10.w,
-                    color: Colors.grey,
-                  ),
-                ],
-              )
-            ],
-          ),
-        ),
-      ),
     );
   }
 }

@@ -1,7 +1,9 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:flutter_toeic_quiz2/core_ui/extensions/extensions.dart';
 
+import '../../../core_utils/global_configuration.dart';
 import '../../../view_model/book_screen_cubit/book_list_cubit.dart';
 import '../../../view_model/favorite_screen_cubit/cubit/favorite_screen_cubit.dart';
 import '../../../view_model/settings_screen_cubit/settings_screen_cubit.dart';
@@ -102,6 +104,9 @@ class _HomeScreenState extends State<HomeScreen> {
       ),
       bottomNavigationBar: BottomNavigationBar(
         currentIndex: _currentIndex,
+        elevation: 0,
+        backgroundColor:
+            context.colors.surfaceVariant.withOpacity(surfaceVariantOpacity),
         onTap: (index) {
           setState(() => _currentIndex = index);
           _pageController.jumpToPage(index);
@@ -110,15 +115,17 @@ class _HomeScreenState extends State<HomeScreen> {
           BottomNavigationBarItem(
             label: 'Books',
             icon: Icon(CupertinoIcons.book),
+            activeIcon: Icon(CupertinoIcons.book_fill),
           ),
           BottomNavigationBarItem(
             label: 'Favorite',
             icon: Icon(CupertinoIcons.square_favorites_alt),
+            activeIcon: Icon(CupertinoIcons.square_favorites_alt_fill),
           ),
           BottomNavigationBarItem(
-            label: 'More',
-            icon: Icon(CupertinoIcons.settings),
-          ),
+              label: 'Settings',
+              icon: Icon(CupertinoIcons.settings),
+              activeIcon: Icon(CupertinoIcons.settings)),
         ],
       ),
     );
