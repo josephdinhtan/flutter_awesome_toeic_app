@@ -1,4 +1,4 @@
-package com.example.flutter_toeic_quiz2
+package com.jdt.toeicawesome
 
 import io.flutter.embedding.android.FlutterActivity
 
