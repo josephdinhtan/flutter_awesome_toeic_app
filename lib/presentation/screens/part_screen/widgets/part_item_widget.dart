@@ -56,103 +56,100 @@ class PartItem extends StatelessWidget {
             child: Padding(
               padding: EdgeInsets.symmetric(horizontal: 8.w, vertical: 8.h),
               child: Row(
+                crossAxisAlignment: CrossAxisAlignment.center,
                 children: [
                   Expanded(
                     child: Row(
-                      crossAxisAlignment: CrossAxisAlignment.center,
-                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       children: [
-                        Row(
-                          children: [
-                            Container(
-                              decoration: BoxDecoration(
-                                color: context.colors.secondary,
-                                shape: BoxShape.circle,
-                              ),
-                              child: Padding(
-                                padding: EdgeInsets.all(12.sp),
-                                child: Icon(
-                                    _testIconData[partModel.partType.index],
-                                    size: 15.sp,
-                                    color: context.colors.onSecondary),
-                              ),
-                            ),
-                            SizedBox(width: 4.w),
-                            Padding(
-                              padding: const EdgeInsets.only(left: 12.0),
-                              child: Column(
-                                crossAxisAlignment: CrossAxisAlignment.start,
+                        Container(
+                          decoration: BoxDecoration(
+                            color: context.colors.secondary,
+                            shape: BoxShape.circle,
+                          ),
+                          child: Padding(
+                            padding: EdgeInsets.all(12.sp),
+                            child: Icon(_testIconData[partModel.partType.index],
+                                size: 15.sp, color: context.colors.onSecondary),
+                          ),
+                        ),
+                        SizedBox(width: 12.w),
+                        Expanded(
+                          child: Column(
+                            crossAxisAlignment: CrossAxisAlignment.stretch,
+                            children: [
+                              Row(
                                 children: [
-                                  Row(
-                                    children: [
-                                      Text(
-                                        '${partModel.title}: ',
-                                        style: context.titleMedium!.copyWith(
-                                            color: context.colors.onSurface,
-                                            fontWeight: FontWeight.w600),
-                                      ),
-                                      const SizedBox(width: 2.0),
-                                      Text(
-                                        _testDescription[
-                                            partModel.partType.index],
-                                        style: context.titleSmall!.copyWith(
-                                          color: context.colors.onSurface,
-                                        ),
-                                      ),
-                                    ],
+                                  Text(
+                                    '${partModel.title}: ',
+                                    style: context.titleMedium!.copyWith(
+                                        color: context.colors.onSurface,
+                                        fontWeight: FontWeight.w600),
                                   ),
-                                  const SizedBox(height: 2.0),
-                                  Row(
-                                    children: [
-                                      Text(
-                                        partModel.numOfQuestion < 10
-                                            ? '0${partModel.numOfQuestion}'
-                                            : '${partModel.numOfQuestion}',
-                                        style: context.titleSmall!.copyWith(
-                                          color: context.colors.primary,
-                                        ),
+                                  SizedBox(width: 2.w),
+                                  Flexible(
+                                    flex: 1,
+                                    child: Text(
+                                      _testDescription[
+                                          partModel.partType.index],
+                                      maxLines: 1,
+                                      overflow: TextOverflow.ellipsis,
+                                      style: context.titleMedium!.copyWith(
+                                        color: context.colors.onSurface,
                                       ),
-                                      Text(
-                                        ' question',
-                                        style: context.titleSmall!.copyWith(
-                                          color: context.colors.onSurface,
-                                        ),
-                                      ),
-                                      const SizedBox(width: 12.0),
-                                      Text(
-                                        correctAns < 10
-                                            ? '0$correctAns'
-                                            : '$correctAns',
-                                        style: context.titleSmall!.copyWith(
-                                          color: context.colors.primary,
-                                        ),
-                                      ),
-                                      Text(
-                                        ' Correct',
-                                        style: context.titleSmall!.copyWith(
-                                          color: context.colors.onSurface,
-                                        ),
-                                      ),
-                                    ],
+                                    ),
                                   ),
                                 ],
                               ),
-                            ),
-                          ],
-                        ),
-                        CircularPercentIndicator(
-                          lineWidth: 4.sp,
-                          radius: 45.sp,
-                          percent: correctPercent,
-                          center: Text(
-                            '${(correctPercent * 100).toInt()}%',
-                            style: context.labelMedium!
-                                .copyWith(color: context.colors.onSurface),
+                              SizedBox(height: 2.w),
+                              Row(
+                                children: [
+                                  Text(
+                                    partModel.numOfQuestion < 10
+                                        ? '0${partModel.numOfQuestion}'
+                                        : '${partModel.numOfQuestion}',
+                                    style: context.titleSmall!.copyWith(
+                                      color: context.colors.primary,
+                                    ),
+                                  ),
+                                  Text(
+                                    ' question',
+                                    style: context.titleSmall!.copyWith(
+                                      color: context.colors.onSurface,
+                                    ),
+                                  ),
+                                  SizedBox(width: 12.w),
+                                  Text(
+                                    correctAns < 10
+                                        ? '0$correctAns'
+                                        : '$correctAns',
+                                    style: context.titleSmall!.copyWith(
+                                      color: context.colors.primary,
+                                    ),
+                                  ),
+                                  Text(
+                                    ' Correct',
+                                    style: context.titleSmall!.copyWith(
+                                      color: context.colors.onSurface,
+                                    ),
+                                  ),
+                                ],
+                              ),
+                            ],
                           ),
-                          progressColor: context.colors.inversePrimary,
                         ),
                       ],
                     ),
+                  ),
+                  CircularPercentIndicator(
+                    lineWidth: 4.sp,
+                    radius: 45.sp,
+                    percent: correctPercent,
+                    center: Text(
+                      '${(correctPercent * 100).toInt()}%',
+                      style: context.labelMedium!
+                          .copyWith(color: context.colors.onSurface),
+                    ),
+                    progressColor: context.colors.inversePrimary,
                   ),
                 ],
               ),

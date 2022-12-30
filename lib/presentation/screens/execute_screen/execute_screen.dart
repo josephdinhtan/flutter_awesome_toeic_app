@@ -168,8 +168,9 @@ class _ExecuteScreenState extends State<ExecuteScreen>
                 builder: (context, state) {
                   if (state is ExecuteContentLoaded) {
                     return Text(
-                      'Part ${state.questionGroupModel.partType.index + 1}: ${numToStr(state.currentQuestionNumber)}/${numToStr(state.questionListSize)}',
-                      style: context.titleLarge,
+                      'Part ${state.questionGroupModel.partType.index + 1}: ${numToStr(state.currentQuestionNumber)}/${numToStr(state.questionListSize)}'
+                          .toUpperCase(),
+                      //style: context.titleLarge,
                     );
                   }
                   return const Text('Question: ../..');
@@ -358,8 +359,10 @@ class _ExecuteScreenState extends State<ExecuteScreen>
     final userAnswer = state.userAnswer;
     List<Widget> listWidget = [];
     for (int i = 0; i < questionGroupModel.questions.length; i++) {
-      if (i != 0) {
+      if (i == 0) {
         listWidget.add(SizedBox(height: 8.h));
+      } else {
+        listWidget.add(SizedBox(height: 16.h));
       }
       listWidget.add(Row(
         mainAxisAlignment: MainAxisAlignment.start,
@@ -367,7 +370,7 @@ class _ExecuteScreenState extends State<ExecuteScreen>
         children: [
           Text(
             '${questionGroupModel.questions[i].number}. ',
-            style: context.labelLarge!.copyWith(
+            style: context.titleMedium!.copyWith(
               fontWeight: FontWeight.w700,
             ),
             maxLines: 3,
@@ -375,7 +378,7 @@ class _ExecuteScreenState extends State<ExecuteScreen>
           Flexible(
             child: Text(
               state.questionGroupModel.questions[i].questionStr!,
-              style: context.labelLarge!.copyWith(fontWeight: FontWeight.w700),
+              style: context.titleMedium!.copyWith(fontWeight: FontWeight.w700),
               maxLines: 3,
             ),
           ),
@@ -490,7 +493,7 @@ class _ExecuteScreenState extends State<ExecuteScreen>
                 SizedBox(width: 8.w),
                 Text(
                   '${state.currentQuestionNumber}. ',
-                  style: context.labelLarge!.copyWith(
+                  style: context.titleMedium!.copyWith(
                     fontWeight: FontWeight.w700,
                   ),
                   maxLines: 3,
@@ -500,7 +503,7 @@ class _ExecuteScreenState extends State<ExecuteScreen>
                     state.needHideSomething
                         ? ''
                         : state.questionGroupModel.questions[0].questionStr!,
-                    style: context.labelLarge!
+                    style: context.titleMedium!
                         .copyWith(fontWeight: FontWeight.w700),
                     maxLines: 3,
                   ),
@@ -545,13 +548,15 @@ class _ExecuteScreenState extends State<ExecuteScreen>
       crossAxisAlignment: CrossAxisAlignment.center,
       children: [
         Expanded(
-          child: Padding(
-            padding: EdgeInsets.symmetric(horizontal: 16.w, vertical: 16.h),
-            child: ClipRRect(
-              borderRadius: BorderRadius.all(Radius.circular(8.r)),
-              child: Image.file(
-                File(pictureFullPath),
-                fit: BoxFit.contain,
+          child: Center(
+            child: Padding(
+              padding: EdgeInsets.symmetric(horizontal: 16.w, vertical: 16.h),
+              child: ClipRRect(
+                borderRadius: BorderRadius.all(Radius.circular(8.r)),
+                child: Image.file(
+                  File(pictureFullPath),
+                  fit: BoxFit.contain,
+                ),
               ),
             ),
           ),

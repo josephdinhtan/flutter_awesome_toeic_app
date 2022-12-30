@@ -33,7 +33,7 @@ class BottomController extends StatelessWidget {
   String? _note;
 
   void _favoritePressed(BuildContext context) {
-    showCupertinoDialog(
+    showCupertinoModalPopup(
         builder: (BuildContext buildContext) {
           TextEditingController _textController =
               TextEditingController(text: _note);

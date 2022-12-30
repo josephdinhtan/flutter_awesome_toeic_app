@@ -4,6 +4,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_toeic_quiz2/core_ui/extensions/extensions.dart';
+import 'package:flutter_toeic_quiz2/core_utils/global_configuration.dart';
 import 'package:flutter_toeic_quiz2/presentation/screens/home_screen/setting_screen/widgets/settings_list.dart';
 import 'package:flutter_toeic_quiz2/presentation/screens/home_screen/setting_screen/widgets/settings_title.dart';
 import 'package:flutter_toeic_quiz2/view_model/settings_screen_cubit/settings_screen_cubit.dart';
@@ -100,6 +101,18 @@ class _SettingScreenState extends State<SettingScreen> {
               SettingsTile(
                 leadingIconData: Icons.speaker_notes_rounded,
                 titleText: 'Feedback',
+                onPressed: () {},
+              ),
+            ],
+          ),
+          SettingsSection(
+            titles: [
+              SettingsTile(
+                leadingIconData: Icons.info_outlined,
+                titleText: 'Version',
+                value: Text(appVersion,
+                    style: context.titleMedium!.copyWith(
+                        fontWeight: FontWeight.w600, color: Colors.grey)),
                 onPressed: () {},
               ),
             ],

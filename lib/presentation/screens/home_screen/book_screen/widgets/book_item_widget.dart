@@ -65,43 +65,49 @@ class BookItemWidget extends StatelessWidget {
               SizedBox(
                 width: 8.w,
               ),
-              Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: [
-                  Text(
-                    bookInfoModel.title,
-                    style: context.titleMedium!.copyWith(
-                        color: colors.primary, fontWeight: FontWeight.w600),
-                    // style: AppTextStyles.kOnSurfaceTextPrimary.copyWith(
-                    //     color: Theme.of(context).colorScheme.onSurface),
-                  ),
-                  SizedBox(height: 4.h),
-                  Text(
-                    bookInfoModel.des,
-                    textAlign: TextAlign.start,
-                    overflow: TextOverflow.clip,
-                    style:
-                        context.titleSmall!.copyWith(color: colors.secondary),
-                    maxLines: 1,
-                  ),
-                  SizedBox(height: 4.h),
-                  Text(
-                    '5% 887 M',
-                    style: context.titleSmall!
-                        .copyWith(color: colors.onBackground),
-                    // style: AppTextStyles.kOnSurfaceTextSecondary.copyWith(
-                    //     color: Theme.of(context).colorScheme.onSurfaceVariant),
-                  ),
-                  SizedBox(height: 4.h),
-                  Text(
-                    'Toeic practice book',
-                    style: TextStyle(
-                      fontSize: 10.sp,
-                      color: context.colors.tertiary,
+              Flexible(
+                flex: 1,
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  mainAxisSize: MainAxisSize.min,
+                  children: [
+                    Text(
+                      bookInfoModel.title,
+                      style: context.titleLarge!.copyWith(
+                          color: colors.primary, fontWeight: FontWeight.w600),
+                      // style: AppTextStyles.kOnSurfaceTextPrimary.copyWith(
+                      //     color: Theme.of(context).colorScheme.onSurface),
                     ),
-                  ),
-                ],
+                    SizedBox(height: 4.h),
+                    Text(
+                      bookInfoModel.des,
+                      textAlign: TextAlign.start,
+                      overflow: TextOverflow.clip,
+                      style: context.titleMedium!.copyWith(
+                          color: colors.secondary, fontWeight: FontWeight.w600),
+                      maxLines: 20,
+                    ),
+                    SizedBox(height: 4.h),
+                    Text(
+                      '5% 887 M',
+                      style: context.titleSmall!
+                          .copyWith(color: colors.onBackground),
+                      // style: AppTextStyles.kOnSurfaceTextSecondary.copyWith(
+                      //     color: Theme.of(context).colorScheme.onSurfaceVariant),
+                    ),
+                    SizedBox(height: 4.h),
+                    Text(
+                      'Toeic practice book',
+                      style:
+                          context.titleSmall!.copyWith(color: colors.tertiary),
+                      // style: TextStyle(
+                      //   fontSize: 10.sp,
+                      //   color: context.colors.tertiary,
+                      // ),
+                    ),
+                  ],
+                ),
               ),
             ],
           ),

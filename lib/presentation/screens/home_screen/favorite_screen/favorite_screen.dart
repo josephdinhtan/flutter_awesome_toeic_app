@@ -116,7 +116,7 @@ class _FavoriteScreenState extends State<FavoriteScreen> {
         return FavoriteItemWidget(
           questionNote: questionNoteList[index],
           removeQuestionNote: (questionNote) {
-            showCupertinoDialog(
+            showCupertinoModalPopup(
               context: context,
               builder: (BuildContext buildContext) {
                 return CupertinoAlertDialog(

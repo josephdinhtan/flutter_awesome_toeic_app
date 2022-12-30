@@ -136,16 +136,24 @@ class AnswerButtonNeumorphic extends StatelessWidget {
                 Text(
                   title,
                   style: isSelected.value == id
-                      ? context.labelLarge!.copyWith(color: Colors.black)
-                      : context.labelLarge,
+                      ? context.titleMedium!.copyWith(
+                          color: Colors.black,
+                          fontWeight: FontWeight.w600,
+                        )
+                      : context.titleMedium!
+                          .copyWith(fontWeight: FontWeight.w600),
                 ),
                 Flexible(
                   child: Text(
                     content,
                     maxLines: 3,
                     style: isSelected.value == id
-                        ? context.labelLarge!.copyWith(color: Colors.black)
-                        : context.labelLarge,
+                        ? context.titleMedium!.copyWith(
+                            color: Colors.black,
+                            fontWeight: FontWeight.w600,
+                          )
+                        : context.titleMedium!
+                            .copyWith(fontWeight: FontWeight.w600),
                   ),
                 ),
                 SizedBox(width: 22.w),

@@ -18,7 +18,7 @@ class BookStoreItemWidget extends StatelessWidget {
     return GestureDetector(
       onTap: () {
         showCupertinoModalPopup(
-          barrierDismissible: false,
+          //barrierDismissible: false,
           context: context,
           builder: (BuildContext buildContext) {
             return SizedBox(

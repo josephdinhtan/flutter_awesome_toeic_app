@@ -82,7 +82,7 @@ class _TestItemWidgetState extends State<TestItemWidget> {
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
                       Text(
-                        widget.testModel.title,
+                        widget.testModel.title.toUpperCase(),
                         style: context.titleMedium!.copyWith(
                             color: context.colors.primary,
                             fontWeight: FontWeight.w600),
@@ -92,11 +92,12 @@ class _TestItemWidgetState extends State<TestItemWidget> {
                       SizedBox(height: 4.h),
                       Text(
                         widget.testModel.memorySize != ''
-                            ? '${widget.testModel.numOfQuestion} QUESTIONS - ${widget.testModel.memorySize}'
-                            : '${widget.testModel.numOfQuestion} QUESTIONS',
+                            ? '${widget.testModel.numOfQuestion} Questions - ${widget.testModel.memorySize}'
+                            : '${widget.testModel.numOfQuestion} Questions',
 
-                        style: context.titleSmall!.copyWith(
-                          color: context.colors.onBackground,
+                        style: context.titleMedium!.copyWith(
+                          color: context.colors.onBackground.withOpacity(0.7),
+                          fontWeight: FontWeight.w600,
                         ),
                         // style: AppTextStyles.kOnSurfaceTextSecondary.copyWith(
                         //     color: Theme.of(context)
