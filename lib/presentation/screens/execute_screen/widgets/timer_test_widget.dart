@@ -52,6 +52,6 @@ class _TimerTestWidgetState extends State<TimerTestWidget> {
   Widget build(BuildContext context) {
     String timeDisplay =
         Duration(seconds: timeInSecond).toHumanizedMinutesString();
-    return Text(timeDisplay, style: context.titleMedium);
+    return Text(timeDisplay);
   }
 }

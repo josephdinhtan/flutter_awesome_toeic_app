@@ -39,34 +39,34 @@ class BookStoreItemPopupWidget extends StatelessWidget {
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               SizedBox(height: 16.h),
-              bookNetworkObject.price != ""
-                  ? Text(
-                      bookNetworkObject.price,
-                      style: context.labelLarge!.copyWith(
-                          fontWeight: FontWeight.bold,
-                          fontSize: 18.sp,
-                          color: Colors.grey),
-                    )
-                  : Container(
-                      decoration: BoxDecoration(
-                          color: isBought ? Colors.grey : Colors.green,
-                          borderRadius: BorderRadius.all(Radius.circular(5.r))),
-                      child: Padding(
-                        padding: EdgeInsets.all(4.r),
-                        child: isBought
-                            ? Text(
-                                'You already get it',
-                                style: TextStyle(
-                                    fontSize: 16.sp, color: Colors.white),
-                              )
-                            : Text(
-                                'Free',
-                                style: TextStyle(
-                                    fontSize: 16.sp, color: Colors.white),
-                              ),
-                      ),
-                    ),
-              SizedBox(height: 8.h),
+              // bookNetworkObject.price != ""
+              //     ? Text(
+              //         bookNetworkObject.price,
+              //         style: context.labelLarge!.copyWith(
+              //             fontWeight: FontWeight.bold,
+              //             fontSize: 18.sp,
+              //             color: Colors.grey),
+              //       )
+              //     : Container(
+              //         decoration: BoxDecoration(
+              //             color: isBought ? Colors.grey : Colors.green,
+              //             borderRadius: BorderRadius.all(Radius.circular(5.r))),
+              //         child: Padding(
+              //           padding: EdgeInsets.all(4.r),
+              //           child: isBought
+              //               ? Text(
+              //                   'You already get it',
+              //                   style: TextStyle(
+              //                       fontSize: 16.sp, color: Colors.white),
+              //                 )
+              //               : Text(
+              //                   'Free',
+              //                   style: TextStyle(
+              //                       fontSize: 16.sp, color: Colors.white),
+              //                 ),
+              //         ),
+              //       ),
+              // SizedBox(height: 8.h),
               Text(
                 bookNetworkObject.author,
                 style:

@@ -1,3 +1,6 @@
+import 'dart:ffi';
+
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:get_it/get_it.dart';
@@ -17,6 +20,7 @@ class AnswerBoard extends StatelessWidget {
       this.textB,
       this.textC,
       this.textD,
+      this.des,
       required this.correctAns,
       required this.selectedAns,
       required this.selectChanged})
@@ -26,6 +30,7 @@ class AnswerBoard extends StatelessWidget {
   final String? textB;
   final String? textC;
   final String? textD;
+  String? des;
   final int? correctAns;
   final int selectedAns;
   Function(int value) selectChanged;
@@ -94,6 +99,30 @@ class AnswerBoard extends StatelessWidget {
                       selectChanged(3);
                     }
                   }),
+            if (textD != null)
+              const SizedBox(height: AppDimensions.kSpaceBetweenAnsBox),
+            if (des != null &&
+                des!.isNotEmpty &&
+                correctAns != -1 &&
+                correctAns != 4)
+              Row(
+                crossAxisAlignment: CrossAxisAlignment.center,
+                children: [
+                  Icon(CupertinoIcons.lightbulb_fill,
+                      color: Colors.green, size: 15.sp),
+                  SizedBox(width: 2.w),
+                  Expanded(
+                    child: Text(
+                      des!,
+                      textAlign: TextAlign.start,
+                      style: context.bodyLarge!.copyWith(
+                        color: Colors.green,
+                      ),
+                      maxLines: 100,
+                    ),
+                  ),
+                ],
+              ),
           ],
         );
       },
@@ -133,28 +162,20 @@ class AnswerButtonNeumorphic extends StatelessWidget {
               crossAxisAlignment: CrossAxisAlignment.center,
               children: [
                 SizedBox(width: 16.w),
-                Text(
-                  title,
-                  style: isSelected.value == id
-                      ? context.titleMedium!.copyWith(
-                          color: Colors.black,
-                          fontWeight: FontWeight.w600,
-                        )
-                      : context.titleMedium!
-                          .copyWith(fontWeight: FontWeight.w600),
-                ),
-                Flexible(
-                  child: Text(
-                    content,
-                    maxLines: 3,
+                Text(title,
                     style: isSelected.value == id
-                        ? context.titleMedium!.copyWith(
+                        ? context.bodyLarge!.copyWith(
                             color: Colors.black,
-                            fontWeight: FontWeight.w600,
                           )
-                        : context.titleMedium!
-                            .copyWith(fontWeight: FontWeight.w600),
-                  ),
+                        : context.bodyLarge),
+                Flexible(
+                  child: Text(content,
+                      maxLines: 3,
+                      style: isSelected.value == id
+                          ? context.bodyLarge!.copyWith(
+                              color: Colors.black,
+                            )
+                          : context.bodyLarge),
                 ),
                 SizedBox(width: 22.w),
               ],

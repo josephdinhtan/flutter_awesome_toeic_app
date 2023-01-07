@@ -11,14 +11,14 @@ class QuestionGroupModel extends BaseBusinessModel {
   PartType partType;
   String? audioPath;
   String? picturePath;
-  List<Statement>? statement;
+  List<Statement>? statements;
   List<QuestionModel> questions;
 
   QuestionGroupModel({
     required this.id,
     required this.partType,
     required this.questions,
-    required this.statement,
+    required this.statements,
     required this.audioPath,
     required this.picturePath,
   });
@@ -29,7 +29,7 @@ class QuestionGroupModel extends BaseBusinessModel {
       partTypeIdx: partType.index,
       questions: questions.map((e) => e.toHiveObject()).toList(),
       audioPath: audioPath,
-      statement: statement?.map((e) => e.toHiveObject()).toList(),
+      statement: statements?.map((e) => e.toHiveObject()).toList(),
       picturePath: picturePath,
     );
   }
@@ -43,7 +43,7 @@ class QuestionGroupModel extends BaseBusinessModel {
       questions: hiveObject.questions
           .map((e) => QuestionModel.fromHiveObject(e))
           .toList(),
-      statement: hiveObject.statement
+      statements: hiveObject.statement
           ?.map((e) => Statement.fromHiveObject(e))
           .toList(),
     );
@@ -53,6 +53,7 @@ class QuestionGroupModel extends BaseBusinessModel {
 class QuestionModel {
   int number;
   String? questionStr;
+  String? des;
   List<String>? answers;
   Answer correctAns;
   Answer userAnswer;
@@ -60,6 +61,7 @@ class QuestionModel {
   QuestionModel({
     required this.number,
     required this.questionStr,
+    required this.des,
     required this.answers,
     required this.correctAns,
     required this.userAnswer,
@@ -72,6 +74,7 @@ class QuestionModel {
       answers: answers,
       questionStr: questionStr,
       userAnsIdx: userAnswer.index,
+      des: des,
     );
   }
 
@@ -82,6 +85,7 @@ class QuestionModel {
       userAnswer: Answer.values[hiveObject.userAnsIdx],
       answers: hiveObject.answers,
       questionStr: hiveObject.questionStr,
+      des: hiveObject.des,
     );
   }
 }
@@ -89,15 +93,18 @@ class QuestionModel {
 class Statement {
   StatementType statementType;
   String content;
+  String? des;
   Statement({
     required this.statementType,
     required this.content,
+    required this.des,
   });
 
   StatementHive toHiveObject() {
     return StatementHive(
       statementTypeIdx: statementType.index,
       content: content,
+      des: des,
     );
   }
 
@@ -105,8 +112,9 @@ class Statement {
     return Statement(
       statementType: StatementType.values[hiveObject.statementTypeIdx],
       content: hiveObject.content,
+      des: hiveObject.des,
     );
   }
 }
 
-enum StatementType { text, picture }
+enum StatementType { text, picture, html }

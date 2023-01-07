@@ -4,10 +4,6 @@ import 'dart:io';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:flutter_toeic_quiz2/data/business_models/part_model.dart';
-import 'package:flutter_toeic_quiz2/data/business_models/question_group_model.dart';
-import 'package:flutter_toeic_quiz2/view_model/execute_screen_cubit/bottom_control_bar_cubit.dart';
-import 'package:flutter_toeic_quiz2/view_model/part_screen_cubit/part_list_cubit.dart';
 import 'package:get_it/get_it.dart';
 
 import '../../../../core_ui/constants/app_colors/app_color.dart';
@@ -15,13 +11,19 @@ import '../../../../core_ui/constants/app_dimensions.dart';
 import '../../../../core_utils/core_utils.dart';
 import '../../../../data/business_models/execute_models/answer_enum.dart';
 import '../../../core_ui/extensions/extensions.dart';
+import '../../../data/business_models/part_model.dart';
+import '../../../data/business_models/question_group_model.dart';
+import '../../../view_model/execute_screen_cubit/bottom_control_bar_cubit.dart';
 import '../../../view_model/execute_screen_cubit/execute_screen_cubit.dart';
+import '../../../view_model/part_screen_cubit/part_list_cubit.dart';
 import 'components/media_player.dart';
 import 'widgets/answer_board_widget.dart';
 import 'widgets/answer_sheet_panel.dart';
 import 'widgets/audio_controller_widget.dart';
 import 'widgets/bottom_controller_widget.dart';
+import 'widgets/expansion_panel_explain.dart';
 import 'widgets/horizontal_split_view.dart';
+import 'widgets/html_panel.dart';
 import 'widgets/timer_test_widget.dart';
 
 const _logTag = "ExecuteScreen";
@@ -357,6 +359,8 @@ class _ExecuteScreenState extends State<ExecuteScreen>
     final questionGroupModel = state.questionGroupModel;
     final correctAnswer = state.correctAnswer;
     final userAnswer = state.userAnswer;
+
+    // build Answers list board.
     List<Widget> listWidget = [];
     for (int i = 0; i < questionGroupModel.questions.length; i++) {
       if (i == 0) {
@@ -370,17 +374,14 @@ class _ExecuteScreenState extends State<ExecuteScreen>
         children: [
           Text(
             '${questionGroupModel.questions[i].number}. ',
-            style: context.titleMedium!.copyWith(
+            style: context.bodyLarge!.copyWith(
               fontWeight: FontWeight.w700,
             ),
-            maxLines: 3,
+            maxLines: 30,
           ),
           Flexible(
-            child: Text(
-              state.questionGroupModel.questions[i].questionStr!,
-              style: context.titleMedium!.copyWith(fontWeight: FontWeight.w700),
-              maxLines: 3,
-            ),
+            child: Text(state.questionGroupModel.questions[i].questionStr ?? "",
+                style: context.bodyLarge, maxLines: 30),
           ),
         ],
       ));
@@ -392,6 +393,7 @@ class _ExecuteScreenState extends State<ExecuteScreen>
         textD: questionGroupModel.questions[i].answers!.length > 3
             ? questionGroupModel.questions[i].answers![3]
             : null,
+        des: questionGroupModel.questions[i].des,
         // need modify to check whether user is clicked the answer or not.
         correctAns: correctAnswer[i].index,
         selectedAns: userAnswer[i].index,
@@ -403,7 +405,8 @@ class _ExecuteScreenState extends State<ExecuteScreen>
     }
 
     if (questionGroupModel.picturePath != null ||
-        state.needHideSomething == false) {
+        state.needHidden == false ||
+        state.questionGroupModel.partType.index > PartType.part5.index) {
       return HorizontalSplitView(
         color: GetIt.I.get<AppColor>().splitBar,
         up: SingleChildScrollView(
@@ -429,27 +432,39 @@ class _ExecuteScreenState extends State<ExecuteScreen>
                     ],
                   ),
                 ),
-              if (!state.needHideSomething)
-                if (state.questionGroupModel.statement != null)
-                  for (final statement in state.questionGroupModel.statement!)
+              if (!state.needHidden ||
+                  state.questionGroupModel.partType.index >
+                      PartType.part5.index)
+                if (state.questionGroupModel.statements != null)
+                  for (final statement in state.questionGroupModel.statements!)
                     if (statement.statementType == StatementType.text)
                       Column(
                         children: [
-                          Text(
-                            statement.content,
-                            style: context.labelLarge,
-                            maxLines: 1000,
-                          ),
+                          Text(statement.content,
+                              style: context.bodyLarge, maxLines: 1000),
                           SizedBox(height: 10.h),
                         ],
                       )
                     else if (statement.statementType == StatementType.picture)
                       Column(
+                        crossAxisAlignment: CrossAxisAlignment.stretch,
                         children: [
-                          Image.file(
-                            File(getApplicationDirectory() + statement.content),
-                            fit: BoxFit.contain,
+                          InteractiveViewer(
+                            child: Image.file(
+                              File(getApplicationDirectory() +
+                                  statement.content),
+                              fit: BoxFit.contain,
+                            ),
                           ),
+                          SizedBox(height: 10.h),
+                        ],
+                      )
+                    else if (statement.statementType == StatementType.html)
+                      Column(
+                        crossAxisAlignment: CrossAxisAlignment.stretch,
+                        mainAxisAlignment: MainAxisAlignment.start,
+                        children: [
+                          HtmlPanel(htmlText: statement.content),
                           SizedBox(height: 10.h),
                         ],
                       ),
@@ -460,8 +475,53 @@ class _ExecuteScreenState extends State<ExecuteScreen>
           physics: const BouncingScrollPhysics(
               parent: AlwaysScrollableScrollPhysics()),
           child: Column(
-            children: listWidget,
-            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              if (state.questionGroupModel.statements?[0].des != null &&
+                  state.needHidden == false)
+                ExplainPanel(
+                  title: "Translations",
+                  contents: [
+                    if (state.questionGroupModel.statements != null)
+                      for (final statement
+                          in state.questionGroupModel.statements!)
+                        if (statement.des != null &&
+                            statement.statementType == StatementType.text)
+                          Column(
+                            crossAxisAlignment: CrossAxisAlignment.stretch,
+                            children: [
+                              Text(
+                                statement.des!,
+                                style: context.labelLarge,
+                                maxLines: 1000,
+                              ),
+                              SizedBox(height: 10.h),
+                            ],
+                          )
+                        else if (statement.des != null &&
+                            statement.statementType == StatementType.picture)
+                          Column(
+                            crossAxisAlignment: CrossAxisAlignment.stretch,
+                            children: [
+                              InteractiveViewer(
+                                child: Image.file(
+                                  File(getApplicationDirectory() +
+                                      statement.content),
+                                  fit: BoxFit.contain,
+                                ),
+                              ),
+                              SizedBox(height: 10.h),
+                            ],
+                          )
+                        else if (statement.des != null &&
+                            statement.statementType == StatementType.html)
+                          HtmlPanel(htmlText: statement.des!)
+                  ],
+                ),
+              Column(
+                children: listWidget,
+                crossAxisAlignment: CrossAxisAlignment.start,
+              ),
+            ],
           ),
         ),
         ratio: 0.3,
@@ -486,45 +546,79 @@ class _ExecuteScreenState extends State<ExecuteScreen>
         Expanded(
           child: Container(
             alignment: Alignment.centerLeft,
-            child: Row(
-              mainAxisAlignment: MainAxisAlignment.center,
-              crossAxisAlignment: CrossAxisAlignment.start,
+            child: Column(
+              mainAxisSize: MainAxisSize.min,
               children: [
-                SizedBox(width: 8.w),
-                Text(
-                  '${state.currentQuestionNumber}. ',
-                  style: context.titleMedium!.copyWith(
-                    fontWeight: FontWeight.w700,
-                  ),
-                  maxLines: 3,
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    SizedBox(width: 8.w),
+                    Text(
+                      '${state.currentQuestionNumber}. ',
+                      style: context.titleMedium!.copyWith(
+                        fontWeight: FontWeight.w700,
+                      ),
+                      maxLines: 3,
+                    ),
+                    Flexible(
+                      child: Text(
+                        (state.needHidden &&
+                                state.questionGroupModel.partType ==
+                                    PartType.part2)
+                            ? ''
+                            : state
+                                .questionGroupModel.questions[0].questionStr!,
+                        style: context.bodyLarge,
+                        maxLines: 3,
+                      ),
+                    ),
+                  ],
                 ),
-                Flexible(
-                  child: Text(
-                    state.needHideSomething
-                        ? ''
-                        : state.questionGroupModel.questions[0].questionStr!,
-                    style: context.titleMedium!
-                        .copyWith(fontWeight: FontWeight.w700),
-                    maxLines: 3,
+                SizedBox(height: 8.h),
+                if (state.questionGroupModel.questions[0].des != null &&
+                    state.correctAnswer[0].index != -1 &&
+                    state.correctAnswer[0].index != 4)
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Icon(CupertinoIcons.lightbulb,
+                          color: Colors.green, size: 20.sp),
+                      SizedBox(width: 2.w),
+                      Flexible(
+                        child: Text(
+                          state.questionGroupModel.questions[0].des!,
+                          textAlign: TextAlign.start,
+                          style: context.bodyLarge!.copyWith(
+                            color: Colors.green,
+                          ),
+                          maxLines: 100,
+                        ),
+                      ),
+                    ],
                   ),
-                ),
               ],
             ),
           ),
         ),
         AnswerBoard(
-          textA: state.needHideSomething
+          textA: (state.needHidden &&
+                  state.questionGroupModel.partType == PartType.part2)
               ? ''
               : state.questionGroupModel.questions[0].answers![0],
-          textB: state.needHideSomething
+          textB: (state.needHidden &&
+                  state.questionGroupModel.partType == PartType.part2)
               ? ''
               : state.questionGroupModel.questions[0].answers![1],
-          textC: state.needHideSomething
+          textC: (state.needHidden &&
+                  state.questionGroupModel.partType == PartType.part2)
               ? ''
               : state.questionGroupModel.questions[0].answers![2],
           textD: state.questionGroupModel.partType == PartType.part5
               ? state.questionGroupModel.questions[0].answers![3]
               : null,
+          //des: state.questionGroupModel.questions[0].des,
           // need modify to check whether user is clicked the answer or not.
           correctAns: state.correctAnswer[0].index,
           selectedAns: state.userAnswer[0].index,
@@ -548,32 +642,59 @@ class _ExecuteScreenState extends State<ExecuteScreen>
       crossAxisAlignment: CrossAxisAlignment.center,
       children: [
         Expanded(
-          child: Center(
-            child: Padding(
-              padding: EdgeInsets.symmetric(horizontal: 16.w, vertical: 16.h),
-              child: ClipRRect(
-                borderRadius: BorderRadius.all(Radius.circular(8.r)),
-                child: Image.file(
-                  File(pictureFullPath),
-                  fit: BoxFit.contain,
+          child: Padding(
+            padding: EdgeInsets.symmetric(horizontal: 16.w, vertical: 16.h),
+            child: Column(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                Expanded(
+                  child: ClipRRect(
+                    borderRadius: BorderRadius.all(Radius.circular(8.r)),
+                    child: Image.file(
+                      File(pictureFullPath),
+                      fit: BoxFit.contain,
+                    ),
+                  ),
                 ),
-              ),
+                if (state.questionGroupModel.questions[0].des != null &&
+                    state.correctAnswer[0].index != -1 &&
+                    state.correctAnswer[0].index != 4)
+                  Row(
+                    crossAxisAlignment: CrossAxisAlignment.center,
+                    children: [
+                      Icon(CupertinoIcons.lightbulb,
+                          color: Colors.green, size: 20.sp),
+                      SizedBox(width: 2.w),
+                      Expanded(
+                        child: Text(
+                          state.questionGroupModel.questions[0].des!,
+                          textAlign: TextAlign.start,
+                          style: context.bodyLarge!.copyWith(
+                            color: Colors.green,
+                          ),
+                          maxLines: 100,
+                        ),
+                      ),
+                    ],
+                  ),
+              ],
             ),
           ),
         ),
         AnswerBoard(
-          textA: state.needHideSomething
+          textA: state.needHidden
               ? ''
               : state.questionGroupModel.questions[0].answers![0],
-          textB: state.needHideSomething
+          textB: state.needHidden
               ? ''
               : state.questionGroupModel.questions[0].answers![1],
-          textC: state.needHideSomething
+          textC: state.needHidden
               ? ''
               : state.questionGroupModel.questions[0].answers![2],
-          textD: state.needHideSomething
+          textD: state.needHidden
               ? ''
               : state.questionGroupModel.questions[0].answers![3],
+          //des: state.questionGroupModel.questions[0].des,
           // need modify to check whether user is clicked the answer or not.
           correctAns: state.correctAnswer[0].index,
           selectedAns: state.userAnswer[0].index,

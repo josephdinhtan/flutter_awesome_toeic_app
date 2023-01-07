@@ -37,8 +37,8 @@ class ScorePanel extends StatelessWidget {
               padding: EdgeInsets.all(14.sp),
               child: Text(
                 '$totalScore',
-                style: context.headlineSmall!
-                    .copyWith(color: context.colors.onSurfaceVariant),
+                style: context.titleLarge!.copyWith(
+                    color: context.colors.onSurfaceVariant, fontSize: 24.0),
               ),
             ),
           ),
@@ -50,15 +50,19 @@ class ScorePanel extends StatelessWidget {
                 children: [
                   Text(
                     'Listening: $listeningScore',
-                    style: context.labelLarge,
+                    style: context.titleMedium!.copyWith(
+                      fontWeight: FontWeight.w600,
+                    ),
                   ),
                   SizedBox(height: 8.h),
                   ElevatedButton(
                       onPressed: onStarFullTestPressed,
                       child: Text(
                         'Start Full Test',
-                        style: context.titleMedium!
-                            .copyWith(color: context.colors.primary),
+                        style: context.titleMedium!.copyWith(
+                          color: context.colors.primary,
+                          fontWeight: FontWeight.w600,
+                        ),
                       )),
                 ],
               ),
@@ -66,15 +70,19 @@ class ScorePanel extends StatelessWidget {
                 children: [
                   Text(
                     'Reading: $readingScore',
-                    style: context.labelLarge,
+                    style: context.titleMedium!.copyWith(
+                      fontWeight: FontWeight.w600,
+                    ),
                   ),
                   SizedBox(height: 8.h),
                   ElevatedButton(
                     onPressed: onReviewPressed,
                     child: Text(
                       'Review',
-                      style: context.titleMedium!
-                          .copyWith(color: context.colors.primary),
+                      style: context.titleMedium!.copyWith(
+                        color: context.colors.primary,
+                        fontWeight: FontWeight.w600,
+                      ),
                     ),
                   ),
                 ],
@@ -95,8 +103,10 @@ class ScorePanel extends StatelessWidget {
                 onPressed: onStarFullTestPressed,
                 child: Text(
                   'Start Full Test',
-                  style: context.titleMedium!
-                      .copyWith(color: context.colors.primary),
+                  style: context.titleMedium!.copyWith(
+                    color: context.colors.primary,
+                    fontWeight: FontWeight.w600,
+                  ),
                 )),
           ],
         ),

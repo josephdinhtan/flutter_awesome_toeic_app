@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 
 import '../../../../../core_ui/extensions/extensions.dart';
 import '../../../../../core_utils/global_configuration.dart';
-import 'settings_title.dart';
 
 class SettingsSection extends StatelessWidget {
   SettingsSection({super.key, required this.titles, this.title});

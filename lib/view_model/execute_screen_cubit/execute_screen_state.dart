@@ -14,9 +14,9 @@ class ExecuteContentLoaded extends ExecuteScreenState {
   final List<Answer> userAnswer;
   final List<Answer> correctAnswer;
   final String? note;
-  final bool needHideSomething;
+  final bool needHidden;
   ExecuteContentLoaded({
-    required this.needHideSomething,
+    required this.needHidden,
     required this.currentQuestionNumber,
     required this.questionListSize,
     required this.questionGroupModel,

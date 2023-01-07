@@ -53,13 +53,25 @@ class TestScreen extends StatelessWidget {
     return ListView.separated(
       physics:
           const BouncingScrollPhysics(parent: AlwaysScrollableScrollPhysics()),
-      itemCount: (testItems.length + 1) + 3,
+      itemCount: (testItems.length),
       separatorBuilder: (context, index) {
         return SizedBox(height: 4.h);
       },
       itemBuilder: (context, index) {
-        if (index == 0) return SizedBox(height: 4.h);
-        return testItems[0];
+        if (index == 0) {
+          return Column(
+            children: [
+              SizedBox(height: 4.h),
+              testItems[index],
+            ],
+          );
+        }
+        return Column(
+          children: [
+            testItems[index],
+            if (index == testItems.length) SizedBox(height: 12.h),
+          ],
+        );
       },
     );
   }

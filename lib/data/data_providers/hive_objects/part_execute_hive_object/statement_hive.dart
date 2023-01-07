@@ -8,8 +8,11 @@ class StatementHive extends HiveObject {
   int statementTypeIdx;
   @HiveField(1)
   String content;
+  @HiveField(2)
+  String? des;
   StatementHive({
     required this.statementTypeIdx,
     required this.content,
+    required this.des,
   });
 }

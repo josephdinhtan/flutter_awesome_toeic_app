@@ -21,13 +21,15 @@ class _BookScreenState extends State<BookScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text('BOOKS'.toUpperCase()),
+        title: Text('Home'.toUpperCase()),
         actions: [
           IconButton(
               onPressed: () {
                 Navigator.pushNamed(context, AppRouter.store);
               }, //Icons.shopping_cart_outlined
-              icon: const Icon(CupertinoIcons.cart_badge_plus)),
+              icon: SizedBox(
+                  width: 50.w,
+                  child: const Icon(Icons.file_download_outlined))),
         ],
       ),
       body: BlocConsumer<BookListCubit, BookListState>(
@@ -64,15 +66,31 @@ class _BookScreenState extends State<BookScreen> {
     return ListView.separated(
       physics:
           const BouncingScrollPhysics(parent: AlwaysScrollableScrollPhysics()),
-      itemCount: (bookItems.length + 1) + 2,
+      itemCount: (bookItems.length),
       separatorBuilder: (context, index) {
         return SizedBox(height: 4.h);
       },
       itemBuilder: (context, index) {
-        if (index == 0) return SizedBox(height: 4.h);
-        return Padding(
-          padding: EdgeInsets.symmetric(horizontal: 8.w),
-          child: bookItems[0],
+        if (index == 0) {
+          return Column(
+            children: [
+              SizedBox(height: 4.h),
+              Padding(
+                padding: EdgeInsets.symmetric(horizontal: 8.w),
+                child: bookItems[index],
+              ),
+            ],
+          );
+        }
+
+        return Column(
+          children: [
+            Padding(
+              padding: EdgeInsets.symmetric(horizontal: 8.w),
+              child: bookItems[index],
+            ),
+            if (index == bookItems.length) SizedBox(height: 12.h),
+          ],
         );
       },
     );

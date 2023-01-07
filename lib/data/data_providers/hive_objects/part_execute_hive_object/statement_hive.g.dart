@@ -19,17 +19,20 @@ class StatementHiveAdapter extends TypeAdapter<StatementHive> {
     return StatementHive(
       statementTypeIdx: fields[0] as int,
       content: fields[1] as String,
+      des: fields[2] as String?,
     );
   }
 
   @override
   void write(BinaryWriter writer, StatementHive obj) {
     writer
-      ..writeByte(2)
+      ..writeByte(3)
       ..writeByte(0)
       ..write(obj.statementTypeIdx)
       ..writeByte(1)
-      ..write(obj.content);
+      ..write(obj.content)
+      ..writeByte(2)
+      ..write(obj.des);
   }
 
   @override

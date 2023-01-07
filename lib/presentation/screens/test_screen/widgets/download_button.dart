@@ -96,7 +96,8 @@ class DownloadButton extends StatelessWidget {
           text,
           textAlign: TextAlign.center,
           style: TextStyle(
-              fontSize: 12.sp,
+              fontSize: 14.sp,
+              fontWeight: FontWeight.w600,
               color: Theme.of(context).colorScheme.onSecondary),
         ),
       ),

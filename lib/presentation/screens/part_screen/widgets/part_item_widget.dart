@@ -81,7 +81,7 @@ class PartItem extends StatelessWidget {
                                 children: [
                                   Text(
                                     '${partModel.title}: ',
-                                    style: context.titleMedium!.copyWith(
+                                    style: context.titleLarge!.copyWith(
                                         color: context.colors.onSurface,
                                         fontWeight: FontWeight.w600),
                                   ),
@@ -93,8 +93,9 @@ class PartItem extends StatelessWidget {
                                           partModel.partType.index],
                                       maxLines: 1,
                                       overflow: TextOverflow.ellipsis,
-                                      style: context.titleMedium!.copyWith(
+                                      style: context.titleSmall!.copyWith(
                                         color: context.colors.onSurface,
+                                        fontWeight: FontWeight.w600,
                                       ),
                                     ),
                                   ),
@@ -107,8 +108,9 @@ class PartItem extends StatelessWidget {
                                     partModel.numOfQuestion < 10
                                         ? '0${partModel.numOfQuestion}'
                                         : '${partModel.numOfQuestion}',
-                                    style: context.titleSmall!.copyWith(
+                                    style: context.titleMedium!.copyWith(
                                       color: context.colors.primary,
+                                      fontWeight: FontWeight.w600,
                                     ),
                                   ),
                                   Text(
@@ -122,8 +124,9 @@ class PartItem extends StatelessWidget {
                                     correctAns < 10
                                         ? '0$correctAns'
                                         : '$correctAns',
-                                    style: context.titleSmall!.copyWith(
+                                    style: context.titleMedium!.copyWith(
                                       color: context.colors.primary,
+                                      fontWeight: FontWeight.w600,
                                     ),
                                   ),
                                   Text(

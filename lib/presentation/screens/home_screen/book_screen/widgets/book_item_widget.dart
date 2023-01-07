@@ -89,14 +89,14 @@ class BookItemWidget extends StatelessWidget {
                       maxLines: 20,
                     ),
                     SizedBox(height: 4.h),
-                    Text(
-                      '5% 887 M',
-                      style: context.titleSmall!
-                          .copyWith(color: colors.onBackground),
-                      // style: AppTextStyles.kOnSurfaceTextSecondary.copyWith(
-                      //     color: Theme.of(context).colorScheme.onSurfaceVariant),
-                    ),
-                    SizedBox(height: 4.h),
+                    // Text(
+                    //   '5% 887 M',
+                    //   style: context.titleSmall!
+                    //       .copyWith(color: colors.onBackground),
+                    //   // style: AppTextStyles.kOnSurfaceTextSecondary.copyWith(
+                    //   //     color: Theme.of(context).colorScheme.onSurfaceVariant),
+                    // ),
+                    // SizedBox(height: 4.h),
                     Text(
                       'Toeic practice book',
                       style:

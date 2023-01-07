@@ -189,16 +189,13 @@ class ExecuteScreenCubit extends Cubit<ExecuteScreenState> {
       userAnswerList.add(_userAnswerMap[question.number]);
       correctAnswer.add(_correctAnsCheckedMap[question.number]);
     }
-    if (_questionGroupList[_currentQuestionIndex].partType.index <=
-        PartType.part4.index) {
-      if (_correctAnsCheckedMap[
-              _questionGroupList[_currentQuestionIndex].questions[0].number] ==
-          Answer.notAnswer) {
-        needHideAnsQues = true;
-      }
+    if (_correctAnsCheckedMap[
+            _questionGroupList[_currentQuestionIndex].questions[0].number] ==
+        Answer.notAnswer) {
+      needHideAnsQues = true;
     }
     emit(ExecuteContentLoaded(
-        needHideSomething: needHideAnsQues,
+        needHidden: needHideAnsQues,
         note: _questionNoteIndexMap[
             _questionGroupList[_currentQuestionIndex].questions[0].number],
         questionGroupModel: _questionGroupList[_currentQuestionIndex],

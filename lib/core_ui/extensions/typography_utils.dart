@@ -25,7 +25,8 @@ extension TypographyUtils on BuildContext {
         color: colors.onSurface,
       );
   TextStyle? get titleLarge => textTheme.titleLarge?.copyWith(
-        fontSize: 16.sp,
+        fontSize: 18.sp,
+        fontWeight: FontWeight.w700,
         color: colors.onSurface,
       );
   TextStyle? get titleMedium => textTheme.titleMedium?.copyWith(
@@ -54,6 +55,7 @@ extension TypographyUtils on BuildContext {
       );
   TextStyle? get bodyLarge => textTheme.bodyLarge?.copyWith(
         color: colors.onSurface,
+        fontSize: 14.sp,
       );
   TextStyle? get bodyMedium => textTheme.bodyMedium?.copyWith(
         color: colors.onSurface,

@@ -110,44 +110,53 @@ class PartScreen extends StatelessWidget {
       },
       itemBuilder: (context, index) {
         if (index == 0) {
-          return ScorePanel(
-            showScore: showScore,
-            listeningScore: listeningScore,
-            readingScore: readingScore,
-            totalScore: totalScore,
-            onReviewPressed: () {
-              List<String> questionIdAll = [];
-              for (final partModel in partListModel) {
-                questionIdAll.addAll(partModel.questionIds);
-              }
-              Navigator.pushNamed(context, AppRouter.testReview,
-                  arguments: ScreenArguments(
-                      title: "element.title",
-                      id: "element.id",
-                      childIds: questionIdAll));
-            },
-            onStarFullTestPressed: () {
-              List<String> questionIdAll = [];
-              for (final partModel in partListModel) {
-                questionIdAll.addAll(partModel.questionIds);
-              }
-              Navigator.pushNamed(context, AppRouter.executeFullTest,
-                  arguments: ScreenArguments(
-                      title: "element.title",
-                      id: "element.id",
-                      childIds: questionIdAll));
-            },
+          return Column(
+            children: [
+              ScorePanel(
+                showScore: showScore,
+                listeningScore: listeningScore,
+                readingScore: readingScore,
+                totalScore: totalScore,
+                onReviewPressed: () {
+                  List<String> questionIdAll = [];
+                  for (final partModel in partListModel) {
+                    questionIdAll.addAll(partModel.questionIds);
+                  }
+                  Navigator.pushNamed(context, AppRouter.testReview,
+                      arguments: ScreenArguments(
+                          title: "element.title",
+                          id: "element.id",
+                          childIds: questionIdAll));
+                },
+                onStarFullTestPressed: () {
+                  List<String> questionIdAll = [];
+                  for (final partModel in partListModel) {
+                    questionIdAll.addAll(partModel.questionIds);
+                  }
+                  Navigator.pushNamed(context, AppRouter.executeFullTest,
+                      arguments: ScreenArguments(
+                          title: "element.title",
+                          id: "element.id",
+                          childIds: questionIdAll));
+                },
+              ),
+            ],
           );
         }
-        return PartItem(
-            onTap: () {
-              Navigator.pushNamed(context, AppRouter.practice,
-                  arguments: ScreenArguments(
-                      title: partListModel[index - 1].title,
-                      id: partListModel[index - 1].id,
-                      childIds: partListModel[index - 1].questionIds));
-            },
-            partModel: partListModel[index - 1]);
+        return Column(
+          children: [
+            PartItem(
+                onTap: () {
+                  Navigator.pushNamed(context, AppRouter.practice,
+                      arguments: ScreenArguments(
+                          title: partListModel[index - 1].title,
+                          id: partListModel[index - 1].id,
+                          childIds: partListModel[index - 1].questionIds));
+                },
+                partModel: partListModel[index - 1]),
+            if (index == partListModel.length) SizedBox(height: 12.h),
+          ],
+        );
       },
       itemCount: partListModel.length + 1,
     );

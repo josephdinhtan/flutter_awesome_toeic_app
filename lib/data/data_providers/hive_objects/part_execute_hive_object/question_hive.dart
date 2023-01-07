@@ -15,6 +15,8 @@ class QuestionHive extends HiveObject {
   int correctAnsIdx;
   @HiveField(4)
   int userAnsIdx;
+  @HiveField(5)
+  String? des;
 
   QuestionHive({
     required this.number,
@@ -22,5 +24,6 @@ class QuestionHive extends HiveObject {
     this.answers,
     required this.correctAnsIdx,
     required this.userAnsIdx,
+    required this.des,
   });
 }

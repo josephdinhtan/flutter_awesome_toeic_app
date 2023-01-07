@@ -8,7 +8,7 @@ import '../../../../view_model/store_screen_cubit/store_screen_cubit.dart';
 import 'widgets/book_store_item_widget.dart';
 
 class StoreScreen extends StatelessWidget {
-  StoreScreen({Key? key}) : super(key: key);
+  const StoreScreen({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -44,6 +44,8 @@ class StoreScreen extends StatelessWidget {
               return Padding(
                 padding: const EdgeInsets.all(8.0),
                 child: MasonryGridView.count(
+                  physics: const BouncingScrollPhysics(
+                      parent: AlwaysScrollableScrollPhysics()),
                   itemCount: bookDtoList.length,
                   // extern for display purpose, should remove 4
                   crossAxisCount:

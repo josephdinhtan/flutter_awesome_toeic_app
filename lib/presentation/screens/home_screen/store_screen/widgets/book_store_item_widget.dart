@@ -56,12 +56,12 @@ class BookStoreItemWidget extends StatelessWidget {
                           } else if (state is StoreScreenPopupItemBuying) {
                             return CupertinoDialogAction(
                               onPressed: () {},
-                              child: Text('Buying ...'),
+                              child: Text('Downloading ...'),
                             );
                           } else if (state is StoreScreenPopupItemBuyFail) {
                             return CupertinoDialogAction(
                               onPressed: () {},
-                              child: Text('Buy Fail'),
+                              child: Text('Download Fail'),
                             );
                           } else if (state is StoreScreenPopupItemBought) {
                             return CupertinoDialogAction(

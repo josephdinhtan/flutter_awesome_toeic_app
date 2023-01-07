@@ -101,6 +101,19 @@ class _SettingScreenState extends State<SettingScreen> {
               SettingsTile(
                 leadingIconData: Icons.speaker_notes_rounded,
                 titleText: 'Feedback',
+                value: Text('Developer',
+                    style: context.titleMedium!.copyWith(
+                        fontWeight: FontWeight.w600, color: Colors.grey)),
+                onPressed: () {},
+              ),
+            ],
+          ),
+          SettingsSection(
+            title: 'Remove ads',
+            titles: [
+              SettingsTile(
+                leadingIconData: Icons.coffee,
+                titleText: 'Buy me a coffee',
                 onPressed: () {},
               ),
             ],
@@ -116,7 +129,7 @@ class _SettingScreenState extends State<SettingScreen> {
                 onPressed: () {},
               ),
             ],
-          )
+          ),
         ],
       ),
     );

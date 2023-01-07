@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_toeic_quiz2/core_ui/extensions/extensions.dart';
 
 class HorizontalSplitView extends StatefulWidget {
   final Widget up;
@@ -21,8 +22,8 @@ class HorizontalSplitView extends StatefulWidget {
 }
 
 class _HorizontalSplitViewState extends State<HorizontalSplitView> {
-  final _dividerHeight = 16.0;
-  final _dividerVisiableHeight = 2.0;
+  double _dividerHeight = 24.0;
+  final _dividerVisibleHeight = 2.0;
 
   //from 0-1
   late double _ratio;
@@ -56,14 +57,18 @@ class _HorizontalSplitViewState extends State<HorizontalSplitView> {
               ),
               GestureDetector(
                 behavior: HitTestBehavior.translucent,
-                child: SizedBox(
+                child: Container(
                   height: _dividerHeight,
                   width: constraints.maxWidth,
-                  child: Center(
-                    child: Container(
-                      height: _dividerVisiableHeight,
-                      color: widget.color,
-                    ),
+                  color: Colors.transparent,
+                  child: Column(
+                    mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                    children: [
+                      Container(
+                        height: _dividerVisibleHeight,
+                        color: widget.color,
+                      ),
+                    ],
                   ),
                 ),
                 onPanUpdate: (DragUpdateDetails details) {

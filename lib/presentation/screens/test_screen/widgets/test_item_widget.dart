@@ -83,7 +83,7 @@ class _TestItemWidgetState extends State<TestItemWidget> {
                     children: [
                       Text(
                         widget.testModel.title.toUpperCase(),
-                        style: context.titleMedium!.copyWith(
+                        style: context.titleLarge!.copyWith(
                             color: context.colors.primary,
                             fontWeight: FontWeight.w600),
                         // style: AppTextStyles.kOnSurfaceTextPrimary.copyWith(

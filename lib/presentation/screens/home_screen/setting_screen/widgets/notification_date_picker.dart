@@ -4,7 +4,7 @@ import 'package:flutter_toeic_quiz2/core_ui/extensions/extensions.dart';
 
 import 'settings_title.dart';
 
-List<String> _frequency = ['Daily', 'Weekly', 'Monthly'];
+List<String> _frequency = ['Daily'];
 const double _kItemExtent = 32.0;
 
 class NotificationDatePicker extends StatefulWidget {

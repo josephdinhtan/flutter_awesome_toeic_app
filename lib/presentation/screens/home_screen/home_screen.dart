@@ -113,9 +113,9 @@ class _HomeScreenState extends State<HomeScreen> {
         },
         items: const <BottomNavigationBarItem>[
           BottomNavigationBarItem(
-            label: 'Books',
-            icon: Icon(CupertinoIcons.book),
-            activeIcon: Icon(CupertinoIcons.book_fill),
+            label: 'Home',
+            icon: Icon(CupertinoIcons.home),
+            activeIcon: Icon(CupertinoIcons.home),
           ),
           BottomNavigationBarItem(
             label: 'Favorite',

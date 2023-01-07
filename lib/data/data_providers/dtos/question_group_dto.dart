@@ -11,14 +11,14 @@ class QuestionGroupDto extends BaseDto<QuestionGroupModel> {
   int partTypeIdx;
   String? audioPath;
   String? imagePath;
-  List<StatementDto>? statement;
+  List<StatementDto>? statements;
   List<QuestionDto> questions;
   QuestionGroupDto({
     required this.id,
     required this.partTypeIdx,
     this.audioPath,
     this.imagePath,
-    this.statement,
+    this.statements,
     required this.questions,
   });
 
@@ -30,7 +30,7 @@ class QuestionGroupDto extends BaseDto<QuestionGroupModel> {
         questions: questions.map((e) => e.toQuestionModel()).toList(),
         audioPath: audioPath,
         picturePath: imagePath,
-        statement: statement?.map((e) => e.toStatement()).toList());
+        statements: statements?.map((e) => e.toStatement()).toList());
   }
 
   factory QuestionGroupDto.fromMap(Map<String, dynamic> map, int partTypeIdx) {
@@ -39,9 +39,9 @@ class QuestionGroupDto extends BaseDto<QuestionGroupModel> {
       partTypeIdx: partTypeIdx,
       audioPath: map['audio_url'] != null ? map['audio_url'] as String : null,
       imagePath: map['image_url'] != null ? map['image_url'] as String : null,
-      statement: map['statement'] != null
+      statements: map['statements'] != null
           ? List<StatementDto>.from(
-              (map['statement'] as List<dynamic>).map(
+              (map['statements'] as List<dynamic>).map(
                 (x) => StatementDto.fromMap(x as Map<String, dynamic>),
               ),
             )
@@ -62,6 +62,7 @@ class QuestionGroupDto extends BaseDto<QuestionGroupModel> {
 class QuestionDto {
   int number;
   String? questionStr;
+  String? des;
   List<String>? answers;
   int correctAnsIdx;
   QuestionDto({
@@ -69,25 +70,29 @@ class QuestionDto {
     required this.questionStr,
     required this.answers,
     required this.correctAnsIdx,
+    required this.des,
   });
 
   QuestionModel toQuestionModel() {
     return QuestionModel(
-        number: number,
-        correctAns: Answer.values[correctAnsIdx],
-        userAnswer: Answer.notAnswer,
-        answers: answers,
-        questionStr: questionStr);
+      number: number,
+      correctAns: Answer.values[correctAnsIdx],
+      userAnswer: Answer.notAnswer,
+      answers: answers,
+      questionStr: questionStr,
+      des: des,
+    );
   }
 
   factory QuestionDto.fromMap(Map<String, dynamic> map) {
     return QuestionDto(
       number: map['num'] as int,
-      questionStr: map['question'] != null ? map['question'] as String : null,
+      questionStr: map['question'] as String?,
       answers: map['answers'] != null
           ? List<String>.from((map['answers'] as List<dynamic>))
           : null,
       correctAnsIdx: map['correct'] as int,
+      des: map['des'] as String?,
     );
   }
 
@@ -98,15 +103,18 @@ class QuestionDto {
 class StatementDto {
   int statementTypeIdx;
   String content;
+  String? des;
   StatementDto({
     required this.statementTypeIdx,
     required this.content,
+    required this.des,
   });
 
   Statement toStatement() {
     return Statement(
       statementType: StatementType.values[statementTypeIdx],
       content: content,
+      des: des,
     );
   }
 
@@ -114,6 +122,7 @@ class StatementDto {
     return StatementDto(
       statementTypeIdx: map['type'] as int,
       content: map['content'] as String,
+      des: map['des'] as String?,
     );
   }
 
